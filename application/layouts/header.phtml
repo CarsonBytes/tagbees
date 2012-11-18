@@ -1,0 +1,49 @@
+<?php 
+ $url = $_SERVER['REQUEST_URI'];
+ $filename = basename($url);
+ ?>
+
+<div id="wrapper">
+  <div class="container">
+    <header id="header" class="clearfix">
+      <h1 class="logo"><a href="index.php"><img src="images/logo.jpg" alt="Tagbees" title="Tagbees" /></a></h1>
+      <div class="header_right right">
+        <div class="header_top clearfix"> 
+            <nav class="language">
+                <ul>
+                    <li><a href="#" ><span class="country_flag EF"></span>English</a>
+                        <ul class="div_shadow">
+                            <li><a href="#" ><span class="country_flag CF"></span>Chinese</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+          <div class="date">Thursday, July 05, 2012</div>
+        </div>
+        <div class="header-bottom">
+          <nav class="login_reg">
+            <ul>
+              <li><a href="#login" class="leanModal icon1">Login</a></li>
+              <li><a href="signup.php" class="icon2 register">Register</a></li>
+            </ul>
+          </nav>
+          <nav id="menu">
+            <ul>
+              <li <?php if($filename == 'index.php'){ echo "class='current'";}?>><a href="index.php">Post</a></li>
+              <li><a href="#">Latest</a></li>
+              <li><a href="#">Hot</a></li>
+              <li><a href="#">Red Dots</a></li>
+              <li><a href="#">Green Dots</a></li>
+              <li><a href="#">Sports</a></li>
+              <li><a href="#">MyList</a></li>
+              <li <?php if($filename == 'apps.php'){ echo "class='current'";}?>><a href="apps.php"><strong>apps</strong></a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+  </div>
+</div>
+<div id="login" class="popup_window" style="width:400px;">
+  <?php include("login.php");?>
+</div>

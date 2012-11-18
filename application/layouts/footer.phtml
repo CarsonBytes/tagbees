@@ -1,0 +1,149 @@
+<footer id="footer">
+  <div class="container">
+    <div class="main_footer clearfix">
+      <aside class="footer_left">
+        <div class="footer-logo"><a href="index.php"><img src="images/f-logo.jpg" alt="" /></a></div>
+        <nav class="footer_main_left">
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy & Cookies</a></li>
+          </ul>
+        </nav>
+        <div class="copyRight"><strong>&copy; 2012 tagbees. All rights reserved.</strong></div>
+      </aside>
+      <aside class="footer_right">
+        <section class="footerlinks clearfix">
+          <nav class="attractions">
+            <ul>
+              <li>
+                <h6>Attractions</h6>
+              </li>
+              <li><a href="#">Visit</a></li>
+              <li><a href="#">Arts</a></li>
+              <li><a href="#">Venues & Festivals</a></li>
+              <li><a href="#">Social</a></li>
+            </ul>
+          </nav>
+          <nav class="lifestyle">
+            <ul>
+              <li>
+                <h6>Lifestyle</h6>
+              </li>
+              <li><a href="#">Leisure</a></li>
+              <li><a href="#">Festival</a></li>
+              <li><a href="#">Regions</a></li>
+              <li><a href="#">ECO Charity</a></li>
+              <li><a href="#">Social Service</a></li>
+              <li><a href="#">Perform Art</a></li>
+            </ul>
+          </nav>
+          <nav class="knowledge">
+            <ul>
+              <li>
+                <h6>Knowledge</h6>
+              </li>
+              <li><a href="#">Art & Craft</a></li>
+              <li><a href="#">Culture & Skills</a></li>
+              <li><a href="#">Info Tech Study</a></li>
+              <li><a href="#">Spiritual, Health</a></li>
+              <li><a href="#">Study</a></li>
+            </ul>
+          </nav>
+          <nav class="shop_business">
+            <ul>
+              <li>
+                <h6>Shopping &amp; Business</h6>
+              </li>
+              <li><a href="#">Pets</a></li>
+              <li><a href="#">Pets Service</a></li>
+              <li><a href="#">Festivals & Heritage</a></li>
+              <li><a href="#">Exhibition</a></li>
+              <li><a href="#">Personal And Community</a></li>
+              <li><a href="#">Shopping Promo</a></li>
+              <li><a href="#">Regions</a></li>
+            </ul>
+          </nav>
+        </section>
+        <section class="footerlinks f_gap clearfix">
+          <nav class="attractions">
+            <ul>
+              <li>
+                <h6>Sports & Outdoors</h6>
+              </li>
+              <li><a href="#">Events Competition</a></li>
+              <li><a href="#">Fist Fighting</a></li>
+              <li><a href="#">Ball Games</a></li>
+            </ul>
+          </nav>
+          <nav class="lifestyle">
+            <ul>
+              <li>
+                <h6>Students</h6>
+              </li>
+              <li><a href="#">Secondary School</a></li>
+              <li><a href="#">Primary School</a></li>
+              <li><a href="#">Post Education</a></li>
+              <li><a href="#">Professional Study</a></li>
+            </ul>
+          </nav>
+          <nav class="knowledge">
+            <ul>
+              <li>
+                <h6>Wonderful</h6>
+              </li>
+              <li><a href="#">Social Events</a></li>
+              <li><a href="#">Wonderful</a></li>
+              <li><a href="#">Regions</a></li>
+            </ul>
+          </nav>
+        </section>
+      </aside>
+    </div>
+  </div>
+</footer>
+
+<script class="example" type="text/javascript">
+// Create the tooltips only on document load
+$(document).ready(function()
+{
+    // Make sure to only match links to wikipedia with a rel tag
+    //$('a[href*="tagbess"][rel]').each(function()
+    $('a[href*="#"][data-link]').each(function()
+    {
+        // We make use of the .each() loop to gain access to each element via the "this" keyword...
+        $(this).qtip(
+        {
+            content: {
+                // Set the text to an image HTML string with the correct src URL to the loading image you want to use
+                text: '<img class="throbber" src="images/throbber.gif" alt="Loading..." />',
+                ajax: {
+                    url: $(this).attr('data-link') // Use the rel attribute of each element for the url to load
+                },
+                title: {
+                    text: 'tagbees' + $(this).text(), // Give the tooltip a title using each elements text
+                    button: true
+                }
+            },
+            position: {
+                at: 'bottom center', // Position the tooltip above the link
+                my: 'top center',
+                viewport: $(window), // Keep the tooltip on-screen at all times
+                effect: false // Disable positioning animation
+            },
+            show: {
+                event: 'click',
+                solo: true // Only show one tooltip at a time
+            },
+            hide: 'unfocus',
+            style: {
+                classes: 'ui-tooltip-wiki ui-tooltip-light ui-tooltip-shadow'
+            }
+        })
+    })
+
+    // Make sure it doesn't follow the link when we click it
+    .click(function(event) { event.preventDefault(); });
+});
+</script>
