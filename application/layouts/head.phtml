@@ -399,13 +399,16 @@ jQuery(".more").click(function() {
 jQuery("#morebutton").html('<img src="images/ajax-loader.gif" />');
     jQuery.ajax({
     type: "POST",
-    url: "more_results_ajax.php",
+    url: "<?php echo $this->baseUrl('ajax/feed/load');?>",
     data: "lastmsg="+ msg,
     cache: false,
-    success: function(html){
-    
-    jQuery("#more_updates").append(html);
-    jQuery(".more").remove();
+    success: function(msg){
+    if (msg.result == 1) {
+        jQuery("#more_updates").append(msg.html);
+        jQuery(".more").remove();
+    }else{
+        alert('error. please try again later!')
+    }
   }
 });
     return false;

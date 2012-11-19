@@ -44,6 +44,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         //Zend_Loader::registerAutoload();
     }
     
+    protected function _initModules(){
+        $this->bootstrap("frontController");
+        $front = $this->getResource("frontController");
+        $front->setParam('useDefaultControllerAlways', true);
+        $front->addModuleDirectory(APPLICATION_PATH .'/modules');
+
+        //add the global helper + scripts directory path
+        $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
+        $viewRenderer->initView();
+        $viewRenderer->view->addHelperPath(APPLICATION_PATH .'/views/helpers');
+        $viewRenderer->view->addScriptPath(APPLICATION_PATH .'/views/scripts');
+    }
+    
     protected function _initConfig()
     {
         $config_ini = new Zend_Config($this->getOptions(), true);
