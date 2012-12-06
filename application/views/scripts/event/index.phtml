@@ -1,0 +1,219 @@
+        <nav class="breadcrumb clearfix">
+          <ul>
+            <li>You are here:</li>
+            <li><a href="#">Home</a> &gt;</li>
+            <li><strong>Latest, 3 km from Hong Kong, within 60 days</strong></li>
+          </ul>
+        </nav>
+        <article class="main div_shadow">
+          <section class="post">
+            <section class="details_div clearfix">
+              <header class="d_top">
+                <div class="watched">
+                  <div class="w1"><a href="#"><img src="images/watched_icon.png" alt=""  style="float:right;" /></a><span class="w_con">Watched: 1</span></div>
+                  <div class="w2">256</div>
+                </div>
+                <h3 class="head4">Monumenta - Paris</h3>
+              </header>
+              <section class="main_details clearfix">
+                <article class="d_l">
+                  <table class="d_table">
+                    <tr>
+                      <td><strong>Time:</strong></td>
+                      <td>May 10 - Jun 21 2012 <a href="#" data-link="more_details.php">...</a></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Place:</strong></td>
+                      <td>Avenue Winston Churchill, <br />
+                        Paris, France</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Price:</strong></td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Organizer:</strong></td>
+                      <td>Monumenta City Community</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Getting there:</strong></td>
+                      <td>Monumenta is always<br />
+                        immensely popular, so<br />
+                        be prepared to queue ...</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Tag</strong></td>
+                      <td><a href="#">wahfuralph</a>, <a href="#">carson_ng2323</a>, <a href="#">test</a></td>
+                    </tr>
+                  </table>
+                </article>
+                <div class="d_middle">
+                  <div class="qr_code"> 
+                    <script type="text/javascript" src="js/jquery.uqr.js"></script> 
+                    <script type="text/javascript">
+                        jQuery(function($)
+                        {
+                            jQuery.noConflict();
+                            jQuery('#qr1').uQr({
+                                create: true,
+                                type: 'Tagbees.com',
+                                text: 'tag'
+                            });
+                            
+                        });
+                    </script>
+                    <div class="qrcode" id="qr1"> </div>
+                  </div>
+                  
+                  <div class="alarm clearfix">
+                  
+                    <div  id="alarm">
+                        <ul>                                    
+                            <li class="selected"><a class="leanModal" href="#alarmbox"><img src="images/alarm_bg.png" alt="07:30:00" style="float:right;"/></a></li>
+                        </ul>
+   
+                    </div>
+                  </div>
+                  
+                  <div class="d_time clearfix"><a href="#" class="r_day"><span>17 days</span></a></div>
+                  <div class="edit_cancel"> <a href="#">Edit</a> <a href="#">Cancel</a> </div>
+                </div>
+                <div class="google_map"><img src="images/map.gif" alt="Google Map" /></div>
+              </section>
+              <footer class="social_media clearfix">
+                <div class="share"> 
+                  <!-- AddThis Button BEGIN -->
+                  <div class="addthis_toolbox addthis_default_style "> <a class="addthis_counter addthis_pill_style"></a> </div>
+                  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-504d9e426d8fd861"></script> 
+                  <!-- AddThis Button END --> 
+                </div>
+              </footer>
+              <section class="Imggallery">
+                <div class="slide clearfix">
+                  <div class="slide_div"><img src="images/slide1.jpg" alt=" " /></div>
+                  <div class="slide_div"><img src="images/slide2.jpg" alt=" " /></div>
+                  <div class="slide_div"><img src="images/slide3.jpg" alt=" " /></div>
+                  <div class="slide_div"><img src="images/slide4.jpg" alt=" " /></div>
+                </div>
+                <article class="detail_con">
+                
+                  <p><a href="#" id="dialog_link" class="ui-state-default ui-corner-all">Upload More Images</a></p>
+                  
+                  <div id="dialog" title="Upload Images">
+                    <form id="fileupload" action="server/php/" method="POST" enctype="multipart/form-data">
+                      <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                      <div class="row fileupload-buttonbar">
+                        <div class="span7"> 
+                          <!-- The fileinput-button span is used to style the file input field as button --> 
+                          <span class="btn btn-success fileinput-button"> <i class="icon-plus icon-white"></i> <span>Add files...</span>
+                          <input type="file" name="files[]" multiple>
+                          </span>
+                          <button type="submit" class="btn btn-primary start"> <i class="icon-upload icon-white"></i> <span>Start upload</span> </button>
+                          <button type="reset" class="btn btn-warning cancel"> <i class="icon-ban-circle icon-white"></i> <span>Cancel upload</span> </button>
+                          <button type="button" class="btn btn-danger delete"> <i class="icon-trash icon-white"></i> <span>Delete</span> </button>
+                          <input type="checkbox" class="toggle">
+                        </div>
+                        <!-- The global progress information -->
+                        <div class="span5 fileupload-progress fade"> 
+                          <!-- The global progress bar -->
+                          <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                          </div>
+                          <!-- The extended global progress information -->
+                          <div class="progress-extended">&nbsp;</div>
+                        </div>
+                      </div>
+                      <!-- The loading indicator is shown during file processing -->
+                      <div class="fileupload-loading"></div>
+                      <br>
+                      <!-- The table listing the files available for upload/download -->
+                      <table role="presentation" class="table table-striped">
+                        <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+                        </tbody>
+                      </table>
+                    </form>
+                  </div>
+                <script id="template-upload" type="text/x-tmpl">
+                {% for (var i=0, file; file=o.files[i]; i++) { %}
+                    <tr class="template-upload fade">
+                    <td><input type="checkbox"></td>
+                        <td class="preview"><span class="fade"></span></td>
+                        <td class="name"><span>{%=file.name%}</span></td>
+                        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+                        {% if (file.error) { %}
+                            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+                        {% } else if (o.files.valid && !i) { %}
+                            <td>
+                                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+                            </td>
+                            <td class="start">{% if (!o.options.autoUpload) { %}
+                                <button class="btn btn-primary">
+                                    <i class="icon-upload icon-white"></i>
+                                    <span>{%=locale.fileupload.start%}</span>
+                                </button>
+                            {% } %}</td>
+                        {% } else { %}
+                            <td colspan="2"></td>
+                        {% } %}
+                        <td class="cancel">{% if (!i) { %}
+                            <button class="btn btn-warning">
+                                <i class="icon-ban-circle icon-white"></i>
+                                <span>{%=locale.fileupload.cancel%}</span>
+                            </button>
+                        {% } %}</td>
+                    </tr>
+                {% } %}
+                </script> 
+                <script id="template-download" type="text/x-tmpl">
+                            {% for (var i=0, file; file=o.files[i]; i++) { %}
+                                <tr class="template-download fade">
+                                    {% if (file.error) { %}
+                                    <td><input type="checkbox"></td>
+                                        <td></td>
+                                        <td class="name"><span>{%=file.name%}</span></td>
+                                        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+                                        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+                                    {% } else { %}
+                                    <td><input type="checkbox"></td>
+                                        <td class="preview">{% if (file.thumbnail_url) { %}
+                                            <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+                                        {% } %}</td>
+                                        <td class="name">
+                                            <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+                                        </td>
+                                        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+                                        <td colspan="2"></td>
+                                    {% } %}
+                                    <td class="delete">
+                                        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                                            <i class="icon-trash icon-white"></i>
+                                            <span>{%=locale.fileupload.destroy%}</span>
+                                        </button>
+                                        <input type="checkbox" name="delete" value="1">
+                                    </td>
+                                </tr>
+                            {% } %}
+                </script>
+                  <p>Each year Paris' Grand Palais asks an internationally acclaimed artist to create an artwork exhibition - called Monumenta - to grace its ornate glass nave. It's an aptly named installation, as the 'monumental' works need to fill a 35m-high space.</p>
+                  <p>In 2012, Monumenta is dedicated to French, abstract minimalist artist Daniel Buren, famed for his use of stripes.Monumenta is always immensely popular, so be prepared to queue.</p>
+                  <footer class="tag_r"><strong>Submitted by:</strong> <a href="#">Mac Slocum</a> | <a href="#">16 days ago</a></footer>
+                </article>
+                <?php /* ?>
+                 <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0];
+                  if (d.getElementById(id)) return;
+                  js = d.createElement(s); js.id = id;
+                  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                  fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+                
+                <div class="fb-comments" data-href="http://10.0.0.122/tagbees/event.php" data-num-posts="5" data-width="640"></div>
+                 * 
+                 */php?>
+                
+              </section>
+            </section>
+          </section>
+        </article>
+ 

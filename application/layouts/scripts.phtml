@@ -1,0 +1,402 @@
+<?php //just incase there are external js like google map js
+        //echo $this->HeadScript() ?>
+<?php $this->minifyHeadScript()->captureStart()?>
+      jQuery(function($){
+        $.ajaxSetup({
+            type: "POST",
+            dataType:"json",
+            error:function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown);
+                console.log(textStatus);
+            }
+        })
+      })
+<?php $this->minifyHeadScript()->captureEnd() ?>
+
+<script type="text/javascript">
+   jQuery(function($){
+        $('.watcher_close').click(function(){           
+            $("#positionable1").hide();
+        }); 
+        $(".event_icon").click(function() {     
+            var target = $(this);
+        
+            $("#positionable1").show();
+            $("#positionable1").dialog("widget").position({
+               my: 'left',
+               at: 'right',
+               of: target
+            });
+        });
+        
+    });
+</script>
+
+<?php echo $this->partial('partials/bookmark/js/common.phtml')?>
+
+<script type='text/javascript'>
+
+var current = null;
+
+function showresponddiv(messagedivid){
+    var id = messagedivid.replace("message-", "respond-"),
+        div = document.getElementById(id);
+
+    // hide previous one
+    if(current && current != div) {
+        current.style.display =  'none';
+    }   
+
+    if (div.style.display=="none"){
+        div.style.display="inline";
+        current = div;
+    } 
+    else {
+        div.style.display="none";
+    }
+}
+
+
+jQuery(function($){
+    $('.close').click(function () {
+                $('.popup').hide();
+            }); 
+});
+
+</script>
+
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/javascript.js')?>"> </script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/custom-form-elements.js')?>"> </script>
+<script type="text/javascript">
+    jQuery(function($){  
+        $(".tab_content").hide();
+        $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+        $(".tab_content:first").show(); //Show first tab content
+        
+        //On Click Event
+        $("ul.tabs li").click(function() {
+            $("ul.tabs li").removeClass("active"); //Remove any "active" class
+            $(this).addClass("active"); //Add "active" class to selected tab
+            $(".tab_content").hide(); //Hide all tab content
+            var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+            $(activeTab).fadeIn(); //Fade in the active content
+            return false;
+        });
+        
+        $(".said_content").hide(); //Hide all content
+        $("ul.home_tab li:first").addClass("active").show(); //Activate first tab
+        $(".said_content:first").show(); //Show first tab content
+        
+        //On Click Event
+        $("ul.home_tab li").click(function() {
+            $("ul.home_tab li").removeClass("active"); //Remove any "active" class
+            $(this).addClass("active"); //Add "active" class to selected tab
+            $(".said_content").hide(); //Hide all tab content
+            var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+            $(activeTab).fadeIn(); //Fade in the active content
+            return false;
+        });
+    
+    });
+    
+    </script>
+<script type="text/javascript">
+
+jQuery(function($){
+    if($("#match_location_check").attr("checked")=="checked")
+    {
+        $('.map_location').show();  
+    }
+    else
+    {
+        $('.map_location').hide();
+    }
+
+ $("#match-location").click(function(){
+    if($("#match_location_check").attr("checked")=="checked")
+    {
+        $('.map_location').show();  
+    }
+    else
+    {
+        $('.map_location').hide();
+    }
+ });
+ 
+ });
+ </script>
+ 
+ <script type="text/javascript">
+jQuery(function($){
+    
+    var date= new Date(); 
+            $( "#start_datepicker" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat:'yy-mm-dd'
+            });
+                //$( "#end_datepicker" ).val(curdate)
+            $( "#end_datepicker" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat:'yy-mm-dd'
+            });
+});
+
+</script>
+ <script type="text/javascript">
+jQuery(function($){
+    
+    var date= new Date(); 
+            $( "#start-date" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat:'yy-mm-dd'
+            });
+                //$( "#end_datepicker" ).val(curdate)
+            $( "#end-date" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat:'yy-mm-dd'
+            });
+});
+
+</script>
+
+ <script type="text/javascript">
+
+jQuery(function($){
+        $('#start_datepicker').datepicker('disable');
+        $('#end_datepicker').datepicker('disable');
+        
+        
+ $("#event_date").click(function(){
+    if($("#event_date_check").attr("checked")=="checked")
+    {
+        $('#start_datepicker').datepicker('disable');
+        $('#end_datepicker').datepicker('disable');
+    }
+    else
+    {
+        $('#start_datepicker').datepicker('enable');
+        $('#end_datepicker').datepicker('enable');
+    }
+ });
+ 
+ });
+ </script>
+ 
+
+<script type="text/javascript">
+    jQuery(function($){
+    
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 100) {
+            $('.scrollup').fadeIn();
+        } else {
+            $('.scrollup').fadeOut();
+        }
+    }); 
+    
+    $('.scrollup').click(function(){
+        $("html, body").animate({ scrollTop: 110 }, 600);
+        return false;
+    });
+
+});
+</script>
+
+<script type="text/javascript">
+jQuery(function($){
+    $('.all_div li:first-child a').addClass('active');
+    $('.all_div a').click(function (event) {
+        var divname= this.name;
+        $("#"+divname).show("slow").siblings().hide("slow");
+        if( $(this).is('.active') ) {
+             $(this).removeClass( "active" );
+        }
+        else {
+            $( ".all_div a.active" ).removeClass( "active" );
+            $(this).addClass( "active" );
+        }
+    });
+
+    $('.timeZoneTime, #addToCategoryDiv, #addTag, .addTumblrDiv').hide();
+    $('.timeZone').click( function(){
+        $('.timeZoneTime').slideToggle();
+    })
+    $('#addToCategory').click( function(){
+        $('#addToCategoryDiv').slideDown();
+        $('#addToCategory').addClass('chose_active');
+    })
+    $('#tagConfirm, #tagCancel').click( function(){
+        $('#addToCategoryDiv').slideUp();
+        $('#addToCategory').removeClass('chose_active');
+    })
+    $('.chooseTag').click(function(){
+        $('#addTag').slideDown();
+        $('.chooseTag').addClass('chose_active');
+    })
+    $('#tagConfirm1, #tagCancel1').click( function(){
+        $('#addTag').slideUp();
+        $('.chooseTag').removeClass('chose_active');
+    })
+    $('#addTumblr').click(function(){
+        $('.addTumblrDiv').slideToggle();
+    })
+    $('#close').click(function(){
+        $(this).parent().hide('slow');
+    });
+    $('.dblink').click(function() {
+        return false;
+    }).dblclick(function() {
+        window.location = this.href;
+        return false;
+    });
+    $('#changeInput').click(function() {
+         $('.changetxt').val('').focus();
+     });
+
+});
+
+$(function() {
+    $( "#mapWrapper" ).hide();
+    $(".showMap").toggle(function (){
+        $(".showMap").text("Hide Map").stop();
+        $( "#mapWrapper" ).slideDown("slow");
+    }, function(){
+       $(".showMap").text("Show Map").stop();
+       $( "#mapWrapper" ).slideUp("slow");
+    });
+    
+    $(".show_hide_map").toggle(function (){
+        $(".show_hide_map").text("Place Hide Map").stop();
+        $( ".event_map" ).slideUp("slow");
+    }, function(){
+       $(".show_hide_map").text("Place Show Map").stop();
+       $( ".event_map" ).slideDown("slow");
+    });
+    
+    $(".show_hide_map1").toggle(function (){
+        $(".show_hide_map1").text("Place Hide Map").stop();
+        $( ".event_map1" ).slideUp("slow");
+    }, function(){
+       $(".show_hide_map1").text("Place Show Map").stop();
+       $( ".event_map1" ).slideDown("slow");
+    });
+    
+    $(".settingMap").toggle(function (){
+        $(".settingMap").text("Show Map").stop();
+        $( "#settingMapDiv" ).slideUp("slow");
+    }, function(){
+       $(".settingMap").text("Hide Map").stop();
+       $( "#settingMapDiv" ).slideDown("slow");
+    });
+    $('.avatar_div li').click(function(){
+        $('.avatar_div li').removeClass('active')
+        $(this).toggleClass('active');
+    });
+    
+});
+
+</script> 
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.leanModal.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.leanModal1.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.leanModal2.min.js')?>"></script>
+<script type="text/javascript">
+    jQuery(function($) {
+        $('a[class*=leanModal]').leanModal({ top :80, closeButton: ".modal_close, .close_window" });       
+    });
+</script>
+<script type="text/javascript">
+    jQuery(function($) {
+        $('a[class*=leanModal1]').leanModal1({ top :100, closeButton: ".window_close, .confirm_close" });      
+    });
+</script>
+<script type="text/javascript">
+    jQuery(function($) {
+        $('a[class*=leanModal2]').leanModal1({ top :100, closeButton: ".window_close1" });     
+    });
+</script>
+
+<script type='text/javascript'>
+jQuery(function($){
+var link = jQuery(".day_input, .day_input1");
+jQuery("#all_days").on("change", function() {
+    if(this.checked) {
+        link.attr("disabled", "disabled");
+    } else {
+        link.removeAttr("disabled");
+    }
+});
+var link1 = jQuery(".time_input, .time_input1");
+jQuery("#time-spec").on("change", function() {
+    if(this.checked) {
+        link1.attr("disabled", "disabled");
+    } else {
+        link1.removeAttr("disabled");
+    }
+});
+});
+</script>
+
+<script type="text/javascript">
+jQuery(function($){
+
+jQuery(".more").click(function() {
+   var element = jQuery(this);
+   var msg = element.attr("id");
+   
+jQuery("#morebutton").html('<img src="images/ajax-loader.gif" />');
+    jQuery.ajax({
+    type: "POST",
+    url: "<?php echo $this->baseUrl('ajax/feed/load');?>",
+    data: "lastmsg="+ msg,
+    cache: false,
+    success: function(msg){
+    if (msg.result == 1) {
+        jQuery("#more_updates").append(msg.html);
+        jQuery(".more").remove();
+    }else{
+        alert('error. please try again later!')
+    }
+  }
+});
+    return false;
+    });
+
+});
+</script>
+
+<!-- dialog box -->
+<script type="text/javascript">
+            jQuery(function($){
+
+                // Dialog
+                jQuery('#dialog').dialog({
+                    autoOpen: false,
+                    width: 700,
+                    buttons: {
+                        "Ok": function() {
+                            jQuery(this).dialog("close");
+                        },
+                        "Cancel": function() {
+                            jQuery(this).dialog("close");
+                        }
+                    }
+                });
+
+                // Dialog Link
+                jQuery('#dialog_link').click(function(){
+                    jQuery('#dialog').dialog('open');
+                    return false;
+                });
+
+                //hover states on the static widgets
+                jQuery('#dialog_link, ul#icons li').hover(
+                    function() { jQuery(this).addClass('ui-state-hover'); },
+                    function() { jQuery(this).removeClass('ui-state-hover'); }
+                );
+
+            });
+</script>

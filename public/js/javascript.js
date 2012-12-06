@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(function($) {
 	 
 	//ACCORDION BUTTON ACTION (ON CLICK DO THE FOLLOWING)
 	$('.accordion_button').click(function() {
@@ -43,7 +43,7 @@ $(document).ready(function() {
 
 });
 
-$(document).ready(function(){
+jQuery(function($){
 	
 $('.accordion_content1').hide(); 
 $('.accordion_button1:first').addClass('active').next().show();
@@ -99,7 +99,7 @@ $('#prev3').click( function(){
 });
 
 
-$(document).ready(function() {
+jQuery(function($) {
 	 
 	//ACCORDION BUTTON ACTION (ON CLICK DO THE FOLLOWING)
 	$('.accordion_button2').click(function() {

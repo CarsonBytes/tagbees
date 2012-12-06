@@ -60,7 +60,7 @@ table {border-spacing:0; border:0;width:100%;
 /*table { border-collapse:collapse; border-spacing:0;}*/
 hr { display:block; height:1px; border:0; border-top:1px solid #cccccc; margin:1em 0; padding:0;}
 input, select { vertical-align:middle; font-size:13px;}
-.clearfix:after, .positionable:after{clear:both;content:".";display:block;font-size:0;height:0;line-height:0;visibility:hidden}
+.clearfix:after/*, .positionable:after*/{clear:both;content:".";display:block;font-size:0;height:0;line-height:0;visibility:hidden}
 .clearfix{zoom:1}
 
 #wrapper{ background:url(../images/main_bg.jpg) repeat-x bottom center @white-color; position:relative; z-index:5;}
@@ -406,7 +406,7 @@ input, select { vertical-align:middle; font-size:13px;}
     li .star_gold{  background-position:0 0;}
 }
 .watcher_event{ padding-bottom:15px;}
-.asaid_popup{ position:absolute; top:0; left:290px; width:450px; z-index:10; .border-radius(5px); cursor:auto;}
+/*.asaid_popup{ position:absolute; top:0; left:290px; width:450px; z-index:10; .border-radius(5px); cursor:auto;}*/
 .asaid_popup_main{ background:url(../images/pop_bg.jpg) repeat-x top left #fff; margin: 5px; padding: 15px; .border-radius(5px); position:relative;}
 .event_links .asaid_popup_main{
     .tag_top ul, .watcher_form ul{ padding-top:0;} 
@@ -819,12 +819,39 @@ input:disabled{ background:#EBEBE4;}
 .ui-widget-header{ color:#fff;}
 .ui-state-default{ color:#000;}
 
-
+/*
 div.positionable {
 		position: absolute;
 		display: block;
 		right: 0;
 		bottom: 0;
+}*/
+
+.bookmark_box_trigger {
+  .border-radius (5px);
+  //position: absolute;
+  //z-index:  10; 
+  width:400px;
+  //height:650px;
+  //right: 0;
+  //top: 10px;
+  //display:none;
+  max-width: 400px;
+}
+
+.event_box_trigger {
+  
+}
+
+.watcher_icon {
+  cursor: pointer;
+  display: block;
+  float: right;
+}
+
+.hidden_tip {
+  display: block;
+  visibility: hidden;
 }
 
 .alarm_pop a{ color:@color;

@@ -1,0 +1,46 @@
+<script type="text/javascript">
+   jQuery(function($){
+        
+        $('.watcher_icon').each(function()
+        {
+            // We make use of the .each() loop to gain access to each element via the "this" keyword...
+            $(this).qtip(
+            {
+                content: {
+                    // Set the text to an image HTML string with the correct src URL to the loading image you want to use
+                    text: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
+                    ajax: {
+                        url: '<?php echo $this->baseUrl('ajax/bookmark/open_box_trigger')?>', //$(this).attr('rel') // Use the rel attribute of each element for the url to load
+                        type: 'POST',
+                        success: function(data, status) {
+                            this.set('content.text', $( "#movieTemplate" ).tmpl( data.movies ));
+                        },
+                        dataType: 'json',
+                        once: false
+                    },
+                    title: {
+                        text: 'Bookmark details',// - ' + $(this).text(), // Give the tooltip a title using each elements text
+                        button: true
+                    }
+                },
+                position: {
+                    at: 'bottom center', 
+                    my: 'top left',
+                    viewport: $(window), // Keep the tooltip on-screen at all times
+                    //effect: false // Disable positioning animation
+                },
+                show: {
+                    event: 'click',
+                    solo: true // Only show one tooltip at a time
+                },
+                hide: 'unfocus',
+                style: {
+                    def:false,
+                    //classes: 'qtip-wiki qtip-light qtip-shadow'
+                    classes: 'ui-tooltip-green bookmark_box_trigger ui-tooltip-shadow'
+                }
+            })
+        })
+    });
+</script>
+<?php echo $this->partial('partials/bookmark/js/template/box_trigger.phtml')?>

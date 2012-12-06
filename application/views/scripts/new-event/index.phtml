@@ -1,0 +1,272 @@
+      <nav class="breadcrumb clearfix">
+        <ul>
+        <li>You are here:</li>
+        <li><a href="#">Home</a> &gt;</li>
+        <li><strong>New Event</strong></li>
+        </ul>
+        </nav>
+        <article class="main div_shadow">
+          <section class="mainevent"> 
+            <h1>Post An Event</h1>
+            <section class="event_div event_form">
+              <div class="eventtype">
+                <div class="e_type_div">
+                  <label>Event Type</label>
+                  <div class="allevent">
+                    <div class="all_div clearfix">
+                      <ul>
+                      <li><a href="JavaScript:void(1);" class="all_e_div allgap"> 
+                        <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/>
+                        <h6>Public Event</h6>
+                      </a></li>
+                      <li><a href="JavaScript:void(2);" class="all_e_div allgap"> 
+                        <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/>
+                        <h6>Private Event</h6>
+                      </a></li>
+                      <li><a href="JavaScript:void(3);" class="all_e_div"> 
+                        <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/>
+                        <h6>Attraction</h6>
+                      </a></li>
+                      </ul>
+                    </div>
+<div>                    
+<div id="div1">
+<p>For events either you are the representative of the organizer or the information supplier of an event organized for the public.</p>
+</div>
+
+<div id="div2" style="display:none">
+<p>For events either you are the representative of the organizer or the information supplier of an event organized for the Private.</p>
+</div>
+
+<div id="div3" style="display:none">
+<p>For events either you are the representative of the organizer or the information supplier of an event organized for the Attraction.</p>
+</div>
+
+</div>
+                    
+                    
+                  </div>
+                </div>
+                <div class="f_div">
+                  <label>Event Name</label>
+                  <input type="text" value="Enter the event title here" class="full" onclick="if(this.value == 'Enter the event title here'){this.value='';}" onblur="if(this.value==''){this.value='Enter the event title here'};" />
+                </div>
+                <div class="f_div">
+                  <label class="show_hide_map">Place Show Map</label>
+                  <input type="text" value="Enter the venue here" class="full" onclick="if(this.value == 'Enter the venue here'){this.value='';}" onblur="if(this.value==''){this.value='Enter the venue here'};" />
+                </div>
+                <div class="f_div event_map">
+                  <label>&nbsp;</label>
+                  <div class="f_map"><img src="<?php echo $this->baseUrl('images/map-form.gif')?>" alt=" " /></div>
+                </div>
+                <div class="f_div">
+                  <label>Period</label>
+                  <div class="f_div1">
+                    <!--<input type="checkbox" id="all_days" name="mycheckbox1" /> -->
+                    <!--<input type="checkbox" class="styled" id="all_days" name="mycheckbox1" /> -->
+                    <label class="l-a" for="all_days"><input type="checkbox" id="all_days" class="input-right" />All Days</label>
+                  </div>
+                  <div class="f_div1 f_div2">
+                    
+                    <!--<input type="checkbox" class="styled" id="time-range" name="mycheckbox2" /> -->
+                    <label class="l-a" for="time-spec"> <input type="checkbox" id="time-spec"  class="input-right"/> Not time specific</label>
+                  </div>
+                </div>
+                <div class="f_div">
+                  <label>&nbsp;</label>
+                  <div class="f_c_r">If the no specific date / time range box is checked, the date range / time range will
+                    be disable.</div>
+                </div>
+                <div class="f_div">
+                  <label>Date From</label>
+                  <input type="text" class="smallInput day_input" id="start-date" value="start date" onclick="if(this.value == 'start date'){this.value='';}" onblur="if(this.value==''){this.value='start date'};" />
+                  <label class="l-a1"><strong>To</strong></label>
+                  <input type="text" value="end date" class="smallInput day_input1" id="end-date" onclick="if(this.value == 'end date'){this.value='';}" onblur="if(this.value==''){this.value='end date'};" />
+                  &nbsp;
+                  <label class="l-a1"><strong>From</strong></label>
+                  <input type="text" value="start time" class="smallInput time_input" onclick="if(this.value == 'start time'){this.value='';}" onblur="if(this.value==''){this.value='start time'};" />
+                  <label class="l-a1"><strong>To</strong></label>
+                  <input type="text" value="end time" class="smallInput time_input1" onclick="if(this.value == 'end time'){this.value='';}" onblur="if(this.value==''){this.value='end time'};" />
+                  <label class="l-a2 timeZone" ><strong>Time Zone</strong></label>
+                </div>
+                <div class="f_div timeZoneTime">
+                  <label>Time Zone</label>
+                  <select class="middleSel">
+                    <option>Hong Kong</option>
+                  </select>
+                  <input type="text" value="Hong Kong (+08:00)" class="middle2" />
+                </div>
+              </div>
+              <div class="event_div2">
+                <div class="eventtype clearfix">
+                  <div class="f_div">
+                    <label>&nbsp;</label>
+                    <div class="f_c_r">The following fields are optional but we strongly recommend you to provide</div>
+                  </div>
+                  <div class="f_div">
+                    <label>Category</label>
+                    <a href="javascript:void(0)" class="choose" id="addToCategory">Choose the right category to increase better exposure opportunities</a>
+                    </div>
+                    <div class="category_tag clearfix" id="addToCategoryDiv">
+                        <div class="mainhead">Add a category</div>
+                        <div class="eventSlide add_category_div">
+                                <p>Choose a category for the event. If no category is selected, an Unclassified category will be assigned.</p>
+                                <div class="div_category">
+                                <select multiple="multiple" size="8" class="auto_select">
+                                    <option>Lifestyle</option>
+                                    <option>Knowledge</option>
+                                    <option>Shopping & Business</option>
+                                    <option>Sports & Outdoors</option>
+                                    <option selected="selected">Students</option>
+                                    <option>Wonderful</option>
+                                    <option>------------------------------------</option>
+                                    <option>Visit</option>
+                                    <option>Arts</option>
+                                    <option>Venues & Festivals</option>
+                                    <option>Social</option>
+                                    <option>Lifestyle</option>
+                                    <option>Knowledge</option>
+                                    <option>Shopping & Business</option>
+                                    <option>Sports & Outdoors</option>
+                                    <option>Students</option>
+                                    <option>Wonderful</option>
+                                    <option>------------------------------------</option>
+                                    <option>Visit</option>
+                                    <option>Arts</option>
+                                    <option>Venues & Festivals</option>
+                                    <option>Social</option>
+                                </select>
+                                <select multiple="multiple" size="8" class="auto_select">
+                                    <option>Leisure</option>
+                                    <option>Festival</option>
+                                    <option>Regions</option>
+                                    <option selected="selected">ECO Charity</option>
+                                    <option>Social Service</option>
+                                    <option>Perform Art</option>
+                                    <option>Unclassified</option>
+                                </select>
+                                <select multiple="multiple" size="8" class="auto_select">
+                                    <option>Sightseeing</option>
+                                    <option selected="selected">Eco Experience</option>
+                                    <option>Mountaineering</option>
+                                    <option>Landmark</option>
+                                    <option>Ecological</option>
+                                    <option>Biking</option>
+                                    <option>Seasonal</option>
+                                    <option>Barnbecue Camping</option>
+                                    <option>Farms Parks</option>
+                                    <option>Country Parks</option>
+                                </select>
+                                </div>
+                                <div class="div_center">
+                                  <input type="submit" value="Confirm" class="submit1" id="tagConfirm" />
+                                  <input type="submit" value="Cancel" class="submit2" id="tagCancel" />
+                                </div>
+                        </div>
+            </div>
+                  <div class="f_div">
+                    <label for="description">Description</label>
+                    <textarea class="full" rows="4" id="description" onclick="if(this.value == 'Enter your description here'){this.value='';}" onblur="if(this.value==''){this.value='Enter your description here'};" >Enter your description here</textarea>
+                  </div>
+                  <div class="f_div">
+                    <label>Price</label>
+                    <div class="f_div1">
+                      <input type="checkbox" id="price-free" onclick="$(this).is(':checked') && $('#priceFree').slideDown('slow') || $('#priceFree').slideUp('slow');" />
+                      <label class="l-a" for="price-free">Is it free?</label>
+                    </div>
+                    
+                  </div>
+                  <div id="priceFree" class="f_div" style="display:none;">
+                  <label>Range</label>
+                  <input type="text" class="smallInput" value="min" onclick="if(this.value == 'min'){this.value='';}" onblur="if(this.value==''){this.value='min'};">
+                  <label class="l-a1"><strong>To</strong></label>
+                  <input type="text" class="smallInput" value="max" onclick="if(this.value == 'max'){this.value='';}" onblur="if(this.value==''){this.value='max'};">
+                  &nbsp;
+                  <label class="l-a1"><strong>The highest and lowest prices</strong></label>
+                    </div>
+                  <div class="f_div">
+                    <label>Tags</label>
+                    <a href="javascript:void(0)" class="choose chooseTag">Add tags to personalize your event exposure</a>
+                    </div>
+                    <div class="category_tag clearfix" id="addTag">
+                        <div class="mainhead">Add tags</div>
+                        <div class="eventSlide add_category_div">
+                                <div class="f_div">
+                                    <select><option>Hot Group</option></select><label>Filter by</label><input type="text" value="Use a keyword to filter out unwanted tags" class="middle2" onclick="if(this.value == 'Use a keyword to filter out unwanted tags'){this.value='';}" onblur="if(this.value==''){this.value='Use a keyword to filter out unwanted tags'};" >
+                                    <nav class="all_selected right">
+                                        <ul>
+                                            <li><a href="#">All</a></li>
+                                            <li><a href="#">Selected</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="div_category">
+                                <select multiple="multiple" size="8" class="category_select">
+                                    <option>pollution</option>
+                                    <option>ecology</option>
+                                    <option>green</option>
+                                    <option selected="selected">environmental</option>
+                                    <option>clean</option>
+                                    <option>acid</option>
+                                    <option>addition</option>
+                                    <option>agricultural</option>
+                                </select>
+                                <select multiple="multiple" size="8" class="category_select">
+                                    <option>atmosphere</option>
+                                    <option>chemical</option>
+                                    <option>coal</option>
+                                    <option>combustion</option>
+                                    <option selected="selected">control</option>
+                                    <option>detrimental</option>
+                                    <option>disposal</option>
+                                    <option>effects</option>
+                                </select>
+                                <select multiple="multiple" size="8" class="category_select">
+                                    <option>following</option>
+                                    <option>gases</option>
+                                    <option selected="selected">harmful</option>
+                                    <option>health</option>
+                                    <option>human</option>
+                                    <option>industrial</option>
+                                    <option>introduction</option>
+                                    <option>land</option>
+                                </select>
+                                <select multiple="multiple" size="8" class="category_select">
+                                    <option>smoke</option>
+                                    <option>smoker</option>
+                                    <option selected="selected">soil</option>
+                                    <option>solid</option>
+                                    <option>urban</option>
+                                    <option>used</option>
+                                    <option>waste</option>
+                                    <option>water</option>
+                                </select>
+                                </div>
+                                <div class="f_div">
+                                    <label><strong>New Tags</strong></label><input type="text" class="middle1" value="Enter new tags here and separate them with commas">
+                                </div>
+                                
+                                <div class="div_center">
+                                  <input type="submit" value="Confirm" class="submit1" id="tagConfirm1" />
+                                  <input type="submit" value="Cancel" class="submit2" id="tagCancel1" />
+                                </div>
+
+                        </div>
+            </div>
+                </div>
+                
+              </div>
+              <div class="eventtype">
+                <div class="f_div"></div>
+                <div class="f_div">
+                  <label>&nbsp;</label>
+                  <input type="submit" value="Save" class="submit1" id="eventSave" />
+                  <input type="submit" value="Post" class="submit2" id="eventPost" />
+                  <input type="submit" value="More Details" class="submit3" />
+                  
+                </div>
+              </div>
+            </section>
+          </section>
+        </article>
+ 

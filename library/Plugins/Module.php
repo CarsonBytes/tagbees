@@ -7,10 +7,12 @@ class Plugins_Module extends Zend_Controller_Plugin_Abstract
     public function preDispatch(Zend_Controller_Request_Abstract $request)
     {
 		$module = $request->getModuleName();
-		$controller = $request->getControllerName();
+        $controller = $request->getControllerName();
+        $action = $request->getActionName();
 	    $layout = Zend_Layout::getMvcInstance();
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getExistingHelper('viewRenderer');
-		
+        
+        Zend_Registry::set('request', $request);
 		
 		//echo '<pre>';var_dump($module);echo '</pre>';die();
 	    
@@ -29,9 +31,15 @@ class Plugins_Module extends Zend_Controller_Plugin_Abstract
 				exit(0);
 			}else{
 				$layout->disableLayout();
-	            if ($controller != 'dialog') $viewRenderer->setNeverRender(true);
+	            //if ($controller != 'dialog') $viewRenderer->setNeverRender(true);
 			}
-		}
+		}else{
+            if (!$request->isXmlHttpRequest()){
+                $layout->setLayout('1-col-left');
+            }else{
+                $layout->disableLayout();
+            }
+        }
 	}
 }
 

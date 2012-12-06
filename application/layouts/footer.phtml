@@ -2,7 +2,7 @@
   <div class="container">
     <div class="main_footer clearfix">
       <aside class="footer_left">
-        <div class="footer-logo"><a href="index.php"><img src="images/f-logo.jpg" alt="" /></a></div>
+        <div class="footer-logo"><a href="index.php"><img src="<?php echo $this->baseUrl('images/f-logo.jpg')?>" alt="" /></a></div>
         <nav class="footer_main_left">
           <ul>
             <li><a href="#">About Us</a></li>
@@ -106,7 +106,7 @@
 
 <script class="example" type="text/javascript">
 // Create the tooltips only on document load
-$(document).ready(function()
+jQuery(function($)
 {
     // Make sure to only match links to wikipedia with a rel tag
     //$('a[href*="tagbess"][rel]').each(function()

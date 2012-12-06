@@ -426,7 +426,7 @@ text-decoration : none;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
 border : #fbd850 solid 1px;
-background : url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x #ffffff;
+background : url(ui-lightness/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x #ffffff;
 font-weight : bold;
 color : #eb8f00;
 }
@@ -439,7 +439,7 @@ outline : none;
 }
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
 border : #fed22f solid 1px;
-background : url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) top left repeat-x #ffe45c;
+background : url(ui-lightness/images/ui-bg_highlight-soft_75_ffe45c_1x100.png) top left repeat-x #ffe45c;
 color : #363636;
 }
 .ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
@@ -447,7 +447,7 @@ color : #363636;
 }
 .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
 border : #cd0a0a solid 1px;
-background : url(images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat #b81900;
+background : url(ui-lightness/images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat #b81900;
 color : #ffffff;
 }
 .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a {
@@ -470,28 +470,28 @@ background-image : none;
 .ui-icon {
 width : 16px;
 height : 16px;
-background-image : url(images/ui-icons_222222_256x240.png);
+background-image : url(ui-lightness/images/ui-icons_222222_256x240.png);
 }
 .ui-widget-content .ui-icon {
-background-image : url(images/ui-icons_222222_256x240.png);
+background-image : url(ui-lightness/images/ui-icons_222222_256x240.png);
 }
 .ui-widget-header .ui-icon {
-background-image : url(images/ui-icons_ffffff_256x240.png);
+background-image : url(ui-lightness/images/ui-icons_ffffff_256x240.png);
 }
 .ui-state-default .ui-icon {
-background-image : url(images/ui-icons_ef8c08_256x240.png);
+background-image : url(ui-lightness/images/ui-icons_ef8c08_256x240.png);
 }
 .ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
-background-image : url(images/ui-icons_ef8c08_256x240.png);
+background-image : url(ui-lightness/images/ui-icons_ef8c08_256x240.png);
 }
 .ui-state-active .ui-icon {
-background-image : url(images/ui-icons_ef8c08_256x240.png);
+background-image : url(ui-lightness/images/ui-icons_ef8c08_256x240.png);
 }
 .ui-state-highlight .ui-icon {
-background-image : url(images/ui-icons_228ef1_256x240.png);
+background-image : url(ui-lightness/images/ui-icons_228ef1_256x240.png);
 }
 .ui-state-error .ui-icon, .ui-state-error-text .ui-icon {
-background-image : url(images/ui-icons_ffd27a_256x240.png);
+background-image : url(ui-lightness/images/ui-icons_ffd27a_256x240.png);
 }
 .ui-icon-carat-1-n {
 background-position : 0% 0%;
