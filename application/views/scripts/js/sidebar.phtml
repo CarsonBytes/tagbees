@@ -1,0 +1,117 @@
+<script type="text/javascript">
+    jQuery(function($) {
+        
+        //expand accordions        
+        var accordion_expand_handler = function() {
+            var accordion = $(this).parents('.accordion');
+            if (accordion.data('expanded') == 0) {
+                $(this).addClass('on');
+                accordion.find('.accordion_content').slideDown('fast');
+                accordion.data('expanded', 1);
+            } else {
+                $(this).removeClass('on');
+                accordion.find('.accordion_content').slideUp('fast');
+                accordion.data('expanded', 0);
+            }
+        };
+        var accordion_init_expand_handler = function(){
+            var accordion = $(this).parents('.accordion');
+            if (accordion.data('expanded') == 1) {
+                $(this).addClass('on');
+                accordion.find('.accordion_content').show();
+            } else {
+                $(this).removeClass('on');
+                accordion.find('.accordion_content').hide();
+            }
+        }
+        $('.shown_categories .accordion_button').bind('click', accordion_expand_handler);
+        $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
+
+        //change arrow during accordion mouseover and mouseout 
+        $('.accordion_button').mouseover(function() {
+            $(this).addClass('over');
+        }).mouseout(function() {
+            $(this).removeClass('over');                                        
+        });
+        
+        // click to trigger edit list order mode
+        $('body').on('click', '.edit_list_order', function() {
+            if ($(this).data('flag') == 0) {
+                $('#category_tab .shown_categories .movable').show();
+                $(this).data('flag', 1).text('finish editing!');
+                $('.shown_categories .accordion_button').unbind('click', accordion_expand_handler).addClass('editing');
+                $('.hidden_categories').addClass('editing');
+                $('.accordion_content').hide();
+                $('.shown_categories .accordions').sortable({
+                    handle : ".movable",
+                    placeholder : "ui-state-highlight tab_placeholder"
+                }).sortable("enable");
+            } else {
+                $('.hidden_categories').removeClass('editing');
+                $('#category_tab .shown_categories .movable').hide();
+                $(this).data('flag', 0).text('edit list order...');
+                $(".accordions").sortable("disable").enableSelection();
+                $('.shown_categories .accordion_button').bind('click', accordion_expand_handler).removeClass('editing');
+                $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
+            }
+            return false;
+        });
+
+        //show/hide toggle
+        $('body').on('click', '.hide_toggle', function() {
+            var element = $(this).parents('.accordion');
+            if ($(this).data('flag') == 1) {
+                element.appendTo($('.hidden_categories .accordions'));
+                $('#category_tab .hidden_categories .movable').css('display', 'none');
+                $(this).text('Show');
+                $(this).data('flag', 0);
+            } else {
+                element.appendTo($('.shown_categories .accordions'));
+                $('#category_tab .shown_categories .movable').css('display', 'block');
+                $(this).text('Hide');
+                $(this).data('flag', 1);
+            }
+            return false;
+        });
+        
+        //defining daterange below search bar...
+        var today = new Date();
+        var end_date = new Date();
+        end_date.setDate(end_date.getDate()+30);
+        
+        $('#begin_date, #end_date').datepicker({ dateFormat: 'yy-mm-dd' });
+        $('#begin_date').datepicker("setDate", $.datepicker.formatDate('yy-mm-dd', today));
+        $('#end_date').datepicker("setDate", $.datepicker.formatDate('yy-mm-dd', end_date));
+        
+        var check_all_day = function(){
+            if ($('#is_all_day').is(':checked')) {
+                $('#begin_date').datepicker('disable');
+                $('#end_date').datepicker('disable');
+            } else {
+                $('#begin_date').datepicker('enable');
+                $('#end_date').datepicker('enable');
+            }
+        };
+        check_all_day();
+        $('body').on('change', '#is_all_day', function() {check_all_day()});
+
+        
+        //tuning date range (no reversed date range)
+        var sidebar_dates = $('#begin_date, #end_date').datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function( selectedDate ) {
+                var option = this.id == "begin_date" ? "minDate" : "maxDate",
+                    instance = $( this ).data( "datepicker" ),
+                    date = $.datepicker.parseDate(
+                        instance.settings.dateFormat ||
+                        $.datepicker._defaults.dateFormat,
+                        selectedDate, instance.settings );
+                sidebar_dates.not( this ).datepicker( "option", option, date );
+            },
+        });
+        
+    }); 
+</script>
+<?php //echo $this->partial('js/template/filter/confirm_location_remove.phtml') ?>

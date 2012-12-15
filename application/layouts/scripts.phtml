@@ -1,5 +1,8 @@
 <?php //just incase there are external js like google map js
         //echo $this->HeadScript() ?>
+
+<?php echo $this->partial('js/common.phtml')?>
+
 <?php $this->minifyHeadScript()->captureStart()?>
       jQuery(function($){
         $.ajaxSetup({
@@ -31,8 +34,6 @@
         
     });
 </script>
-
-<?php echo $this->partial('partials/bookmark/js/common.phtml')?>
 
 <script type='text/javascript'>
 
@@ -100,34 +101,9 @@ jQuery(function($){
     });
     
     </script>
-<script type="text/javascript">
-
-jQuery(function($){
-    if($("#match_location_check").attr("checked")=="checked")
-    {
-        $('.map_location').show();  
-    }
-    else
-    {
-        $('.map_location').hide();
-    }
-
- $("#match-location").click(function(){
-    if($("#match_location_check").attr("checked")=="checked")
-    {
-        $('.map_location').show();  
-    }
-    else
-    {
-        $('.map_location').hide();
-    }
- });
- 
- });
- </script>
  
  <script type="text/javascript">
-jQuery(function($){
+/*jQuery(function($){
     
     var date= new Date(); 
             $( "#start_datepicker" ).datepicker({
@@ -141,50 +117,9 @@ jQuery(function($){
             changeYear: true,
             dateFormat:'yy-mm-dd'
             });
-});
+});*/
 
 </script>
- <script type="text/javascript">
-jQuery(function($){
-    
-    var date= new Date(); 
-            $( "#start-date" ).datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat:'yy-mm-dd'
-            });
-                //$( "#end_datepicker" ).val(curdate)
-            $( "#end-date" ).datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat:'yy-mm-dd'
-            });
-});
-
-</script>
-
- <script type="text/javascript">
-
-jQuery(function($){
-        $('#start_datepicker').datepicker('disable');
-        $('#end_datepicker').datepicker('disable');
-        
-        
- $("#event_date").click(function(){
-    if($("#event_date_check").attr("checked")=="checked")
-    {
-        $('#start_datepicker').datepicker('disable');
-        $('#end_datepicker').datepicker('disable');
-    }
-    else
-    {
-        $('#start_datepicker').datepicker('enable');
-        $('#end_datepicker').datepicker('enable');
-    }
- });
- 
- });
- </script>
  
 
 <script type="text/javascript">

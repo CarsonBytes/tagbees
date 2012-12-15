@@ -1,14 +1,22 @@
 <div id="wrapper">
   <div class="container">
     <header id="header" class="clearfix">
-      <h1 class="logo"><a href="index.php"><img src="<?php echo $this->baseUrl('images/logo.jpg')?>" alt="Tagbees" title="Tagbees" /></a></h1>
+      <h1 class="logo"><a href="<?php echo $this->baseUrl(''); ?>"><img src="<?php echo $this->baseUrl('images/logo.jpg')?>" alt="Tagbees" title="Tagbees" /></a></h1>
       <div class="header_right right">
         <div class="header_top clearfix"> 
+            <?php 
+                $languages =  Zend_Registry::get('config')->languages->toArray();
+                $enabled = Common::getSiteDisplayLang();
+            ?>
             <nav class="language">
                 <ul>
-                    <li><a href="#" ><span class="country_flag EF"></span>English</a>
+                    <li><a href="#" ><span class="country_flag <?php echo $enabled?>"></span><?php echo $languages[$enabled];?></a>
                         <ul class="div_shadow">
-                            <li><a href="#" ><span class="country_flag CF"></span>Chinese</a></li>
+                            <?php foreach($languages as $key => $value){
+                                if ($key != $enabled){ ?>
+                            <li><a href="#" ><span class="country_flag <?php echo $key?>"></span><?php echo $value;?><input type="hidden" name="languageCode" value="<?php echo $key ?>" /></a></li>
+                                <?php }
+                            } ?>
                         </ul>
                     </li>
                 </ul>
@@ -16,12 +24,35 @@
           <div class="date">Thursday, July 05, 2012</div>
         </div>
         <div class="header-bottom">
-          <nav class="login_reg">
-            <ul>
-              <li><a href="#login" class="leanModal icon1">Login</a></li>
-              <li><a href="<?php echo $this->baseUrl('auth/signup')?>" class="icon2 register">Register</a></li>
+              <nav class="login_reg">
+                <ul>
+          <?php if (Zend_Auth::getInstance()->hasIdentity()) { ?>
+            <li><a href="#" class=""><strong>Hello, Tagbees</strong></a>
+                <ul>
+                  <li>
+                    <div class="login_div div_shadow" id="loginForm">
+                      <div class="proficient_member"> <img src="images/image.jpg" alt="Proficient Member">
+                        <div class="pro_div">
+                          <h6>Proficient Member</h6>
+                          <p>Join: 2010-7-18<br />
+                            Residence: Moon<br />
+                            Posts : Very regular<br />
+                            Role: Publisher</p>
+                        </div>
+                        <div class="pro-bottom"> <a href="<?php echo $this->baseUrl('settings');?>">My Settings</a><br />
+                          <a href="<?php echo $this->baseUrl('auth/logout');?>" class="logout"><strong>Logout</strong></a> </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+          <?php }else{?>
+                  <li><a href="<?php echo $this->baseUrl('auth/login');?>" class="login dialog_link">Login</a></li>
+                  <li><a href="<?php echo $this->baseUrl('auth/signup')?>" class="icon2 register">Register</a></li>
+          <?php } ?>
             </ul>
           </nav>
+          
           <nav id="menu">
             <ul>
               <li <?php if(Zend_Registry::get('request')->getControllerName() == 'new-event'){ echo "class='current'";}?>><a href="<?php echo $this->baseUrl('new-event');?>">Post</a></li>
@@ -38,7 +69,4 @@
       </div>
     </header>
   </div>
-</div>
-<div id="login" class="popup_window" style="width:400px;">
-      <?php echo $this->partial('partials/popup/login.phtml'); ?>
 </div>

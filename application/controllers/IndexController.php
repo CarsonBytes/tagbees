@@ -28,8 +28,16 @@
  */
 class IndexController extends Zend_Controller_Action
 {
+    public function init()
+    {
+        $this->view->headTitle('Tagbees');
+    }
     public function indexAction()
     {
-        // action body
+        Common::getSession()->nav=array(
+            'Home' => '/',
+            //'Latest, 3km from Hong Kong, within 60 days' => null
+        );
+        
     }
 }

@@ -1,0 +1,55 @@
+<?php echo $this->partial('js/filter.phtml')
+?>
+    <div class="filter_div clearfix">
+        <div class="sort_by">
+            <span><strong>Sort by :</strong></span>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">New</a>
+                    </li>
+                    <li>
+                        |
+                    </li>
+                    <li class="current">
+                        <a href="#">Hot</a>
+                    </li>
+                    <li>
+                        |
+                    </li>
+                    <li>
+                        <a href="#">Ending Soon</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <input type="checkbox" class="pretty_checkable" id="is_match_interest" name="is_match_interest" data-label="Match Interest" />
+        <input type="checkbox"  class="pretty_checkable" id="is_match_location"  name="is_match_location" data-label="Match Location"  />
+        <a href="#" class="showMap"><strong>Show Map</strong></a>
+        <a href="#"><strong>Refresh</strong></a>
+    </div>
+    <article class="map_location clearfix" style="display:none;">
+        <h3 class="radius_amt" ><?php echo $this -> translate("within %1\$s km of %2\$s", '<span id="filter_radius">0.5</span>', '<span id="of"> Tai Lam, Hong Kong</span>'); ?></h3>
+        <div class="radius_amt" style="display:inline"></div>
+        <?php /*<div class="map_distance">
+             <div class="mapgap"></div>
+             <img src="images/map_icon.png" alt=" " class="loc_change" />
+             </div> */
+ ?>
+        <div id="radius_slider"></div>
+        <div class="loc_right">
+            <input type="text" name="filter_location" value="" />
+            <a href="#" id="geo_locate"><img src="images/location_icon.png" class="l_icon" /></a>
+            <select id="saved_locations" class="selectBoxIt" name="saved_locations">
+                <option value="Saved location">Saved location...</option>
+              <option value="a jQuery Plugin">a jQuery Plugin</option>
+              <option value="a Select Box Replacement">a Select Box Replacement</option>
+              <option value="a Stateful UI Widget">a Stateful UI Widget</option>
+            </select>
+            <a href="#" class="dialog_link save_location"><img src="images/save.gif" alt=" " /></a>
+            <a href="#" class="dialog_link manage_location"><img src="images/setting.gif" alt=" " /></a>
+        </div>
+    </article>
+    <section class="Location" id="mapWrapper">
+        <article> <img src="images/map2.gif" alt=" "> </article>
+      </section>

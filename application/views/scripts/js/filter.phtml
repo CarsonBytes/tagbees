@@ -1,0 +1,154 @@
+<script type="text/javascript">
+var today = new Date();
+var end_date=new Date();
+end_date.setDate(end_date.getDate()+60);
+var default_feed_options = {
+    <?php foreach(Zend_Registry::get('config')->filter->user_para->toArray() as $key => $value){
+        echo $key . ' : ' . $value . ', ';
+    }
+    ?>
+    q : '',
+    begin_date : $.datepicker.formatDate('yy-mm-dd', today),
+    end_date : $.datepicker.formatDate('yy-mm-dd', end_date)
+};
+
+var feed_options = {};
+var maxDistance = <?php echo Zend_Registry::get('config')->filter->max_distance ?>;
+var minDistance = <?php echo Zend_Registry::get('config')->filter->min_distance ?>;
+   jQuery(function($){
+        $('.map_location .save_location').qtip({
+        content: {
+            text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
+            ajax: {
+                url: '<?php echo $this->baseUrl('ajax/filter/open_save_location')?>',
+                success: function(data, status) {
+                    if (data.result == 'false'){
+                        this.set('content.text', 'saved failed! Please try again later.');
+                    } else {
+                        this.set('content.text', $( "#save_location" ).tmpl());
+                    }
+                    $('input.location_name').watermark("<?php echo $this->translate('Type your saved location here...') ?>");
+                }
+            },
+            title: {
+                text: 'Save this Location'
+            }
+        },
+        show: {
+            event: 'click',
+            modal: {
+                on: true
+            }
+        },
+        position: {
+            my: 'center',
+            at: 'center',
+            target: $(window)
+        },
+        style: 'qtip-light qtip-rounded'
+    });
+    $('.map_location .manage_location').qtip({
+        content: {
+            text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
+            ajax: {
+                url: '<?php echo $this->baseUrl('ajax/filter/open_manage_location')?>',
+                success: function(data, status) {
+                    if (data.result == 'false'){
+                        this.set('content.text', 'Error occured! Please try again later.');
+                    } else {
+                        this.set('content.text', $( "#manage_location" ).tmpl());
+                    }
+                }
+            },
+            title: {
+                text: 'Manage Location'
+            }
+        },
+        show: {
+            event: 'click',
+            modal: {
+                on: true
+            }
+        },
+        position: {
+            my: 'center',
+            at: 'center',
+            target: $(window)
+        },
+        style: 'qtip-light qtip-rounded'
+    });
+    <?php /*$('.confirm_location_remove').qtip({
+        content: {
+            text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
+            ajax: {
+                url: '<?php echo $this->baseUrl('ajax/filter/open_confirm_location_remove')?>',
+                success: function(data, status) {
+                    if (data.result == 'false'){
+                        this.set('content.text', 'Error occured! Please try again later.');
+                    } else {
+                        this.set('content.text', $( "#confirm_location_remove" ).tmpl());
+                    }
+                }
+            },
+            title: {
+                text: 'Confirm Location Deletion?'
+            }
+        },
+        show: {
+            event: 'click',
+            modal: {
+                on: true,
+                effect: false
+            }
+        },
+        position: {
+            my: 'center',
+            at: 'center',
+            target: $(window)
+        },
+        style: {
+            def:false,
+            classes: 'qtip-light qtip-rounded'
+        }
+    }); <?php */ ?>
+    $( "#radius_slider" ).slider({
+        range: "min",
+        //value:feed_options['radius'],
+        step: 0.01,
+        min: minDistance,
+        max: maxDistance,
+        slide: function( event, ui ) {
+            $( ".radius_amt span#filter_radius" ).text( ui.value );
+            
+        },
+        change: function( event, ui ) {
+            /*$( ".radius_amt span#filter_radius" ).text( ui.value );
+            if ($("#map").is(":visible")){
+                distanceWidget.set('distance',ui.value);
+                radiusWidget.bindTo('center', distanceWidget, 'position');
+                map.fitBounds(radiusWidget.get('bounds'));
+            }
+          feed_options['radius'] = ui.value;
+          updateUrlParam('radius', ui.value);
+          refreshFeed();*/
+        }
+    });
+    
+    //checking match location...
+    var checkMatchLocation = function(){
+        if($("#is_match_location").attr("checked")=="checked")
+        {
+            $('.map_location').show();  
+        }
+        else
+        {
+            $('.map_location').hide();
+        }
+    }
+    checkMatchLocation();
+    $('body').on('change', '#is_match_location', function() {checkMatchLocation()});
+});
+</script>
+<?php echo $this->partial('js/template/filter/save_location.phtml')?>
+<?php echo $this->partial('js/template/filter/manage_location.phtml')?>
+<?php //echo $this->partial('js/template/filter/confirm_location_remove.phtml')?>

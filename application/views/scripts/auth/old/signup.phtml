@@ -1,0 +1,182 @@
+<?php
+if ($this->result==1){
+		$loginUrl = $this->url(array('controller'=>'auth','action' => 'login'));
+		//print_r($this->result);
+		echo '<p>You have successfully signed up. Please <a href="'.$loginUrl.'">login</a>.</p>';
+}else{
+	if (is_array($this->result))
+		foreach($this->result as $key=>$value){
+			?><p>Please check your <?php echo $key; ?> field: <br />
+			<?php
+			foreach($value as $key2=>$value2){
+			?>
+			<?php echo $value2?></p>
+			<?php
+			}
+		}
+?>
+<?php echo $this->partial('breadcrumbs.phtml'); ?>
+<script type="text/javascript">
+    jQuery(function($){
+        loadCookieToForm();
+    })
+</script>
+<div class="settings auth signup">
+	<h2><?php echo $this->translate('Signup')?></h2>
+	<p><?php echo $this->translate('Sign up with Tagbees.com')?></p>
+	<p><?php echo $this->translate("Give us a few details in the form below and you'll enjoy the benefits straight away.")?></p>
+	<div class="section">
+		<div class="content">
+			<form method="post" action="<?php echo $this->baseUrl('auth/signup')?>" id="user_signup">
+				<?php
+				$options=array(
+					array(
+						'title'=>'Male',
+						'value'=>'M'
+					),
+					array(
+						'title'=>'Female',
+						'value'=>'F'
+					)
+				);
+				echo $this->partial('partials/input/dropdown.phtml',array('default'=>'M','required'=>true,'title'=>'Gender','name'=>'gender','options'=>$options));
+
+				?>
+                <?php echo $this->partial('partials/input/text.phtml',array('is_privacy_enabled'=>false,'required'=>false,'title'=>'Display name','name'=>'display_name')); ?>
+
+                <?php echo $this->partial('partials/input/text.phtml',array('is_privacy_enabled'=>false,'required'=>true,'title'=>'Email','name'=>'email')); ?>
+
+                <?php echo $this->partial('partials/input/text.phtml',array('is_privacy_enabled'=>false,'required'=>true,'title'=>'Login name','name'=>'username')); ?>
+
+                <?php echo $this->partial('partials/input/password.phtml',array('required'=>true,'title'=>'Password','name'=>'password')); ?>
+
+				<?php echo $this->partial('partials/input/password.phtml',array('required'=>true,'title'=>'Confirmed Password','name'=>'confirmed_password')); ?>
+<?php /* ?>
+				<div class="Row">
+				    <span class="colLabel"><?php echo $this->translate('Verification Code'); ?>*</span>
+						<span class="colEntryRight">
+								<div style="margin-bottom:10px;" id="captchadiv"></div>
+						</span>
+				</div>
+ <?php */ ?>
+				<div class="clearFix" ></div>
+				<p><?php echo $this->translate("By clicking 'Sign Me Up', you confirm that you have read and understood our privacy policy and terms and conditions.")?></p>
+				<div class="btnSet">
+					<input type="submit" value="<?php echo $this->translate('Register')?>" />
+				</div>
+			</form>
+			<p class="auth_question"><?php echo $this->translate('Already registered? '); ?><a class="ajax_load" href="<?php echo $this->baseUrl('auth/login'); ?>"><?php echo $this->translate('click here'); ?></a>
+				<?php /*?><br /><?php echo $this->translate('Forgot password?'); ?>
+				<a class="ajax_load" href="<?php echo $this->baseUrl('auth/index'); ?>"><?php echo $this->translate('click here'); ?></a></p><?php */ ?>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
+	<script type="text/javascript">
+    <?php /*function showRecaptcha() {
+        Recaptcha.create("<?php echo Zend_Registry::get('config_ini')->recaptcha->publicKey ?>", 'captchadiv', {
+            tabindex: 1,
+            theme: "clean",
+            callback: Recaptcha.focus_response_field
+        });
+      }
+     * 
+     */?>
+
+	jQuery(function($){
+		<?php /*showRecaptcha(); */ ?>
+		jQuery.validator.addMethod("noSpace", function(value, element) {
+		  return value.indexOf(" ") < 0 && value != "";
+		}, "This field should not contain space.");
+
+	    $("#user_signup").validate({
+           onkeyup: false,
+           onclick: false,
+           //onfocusout: false,
+			rules: {
+				username: {
+					required: true,
+					minlength: 4,
+		      		noSpace: true,
+					remote:{
+						url: "<?php echo $this->baseUrl('ajax/form/username_validate')?>",
+				        type: "POST"
+					}
+				},
+				<?php /*recaptcha_response_field:{
+					required: true,
+                    remote:{
+                        url: "<?php echo $this->baseUrl('ajax/form/user_recaptcha_validate')?>",
+                        type: "POST",
+                        data: {
+                          recaptcha_challenge_field: function() {
+                            return $("[name='recaptcha_challenge_field']").val();
+                          }
+                        }
+                    }
+				},*/?>
+				email: {
+					required: true,
+					email: true,
+					remote:{
+						url: "<?php echo $this->baseUrl('ajax/form/user_email_validate')?>",
+				        type: "POST"
+					}
+				},
+				password: {
+					required: true,
+					minlength: 6
+				},
+				confirmed_password: {
+	                required: true,
+	                equalTo: "#password"
+		        }
+			}
+		});
+		$("#user_signup").submit(function(){
+            saveFormCookie();
+            //return false;
+		})
+	});
+	
+	
+    var form_data = {};
+    function saveFormCookie(){
+        console.log('saveFormCookie')
+        form_data =  $.extend(form_data,$('#user_signup').serializeObject());
+        var exclusion = ['password','confirmed_password', 'recaptcha_challenge_field', 'recaptcha_response_field'];
+        jQuery.each(exclusion, function(index, value){
+            delete form_data[value];
+        })
+        console.log(form_data);
+        console.log(JSON.stringify(form_data));
+        $.cookie('user_signup', JSON.stringify(form_data), {path: '/'});
+    }
+    function loadCookieToForm(){
+        if ($.cookie('user_signup') != '' && $.cookie('user_signup') != null){
+            console.log($.cookie('user_signup'))
+            form_data = JSON.parse($.cookie('user_signup'));
+    
+            console.log(form_data);
+    
+            $('form#user_signup input,form#user_signup textarea,form#user_signup select').each(function(){
+                if ($(this).prop('name').length && $(this).prop('name') in form_data){
+                    if (form_data[$(this).prop('name')]!=''){
+                        if ($(this).hasClass('checkBox')){
+                            console.log($(this));
+                            $(this).prop('checked','checked');
+                        }else if ($(this).get(0).tagName == "SELECT"){
+                           $(this).find('option[value="'+form_data[$(this).prop('name')]+'"]').attr('selected', 'selected');   
+                        }else if ($(this).prop('value')==''){
+                            $(this).val(form_data[$(this).prop('name')].replace('+',' ')); // to convert php cookie '+' to space
+                        }
+                    }
+                }
+            });
+        }
+    }
+	</script>
+	<?php //$this->minifyHeadScript()->captureEnd() ?>
+<?php } ?>
+

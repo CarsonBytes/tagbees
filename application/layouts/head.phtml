@@ -1,19 +1,25 @@
+<?php //echo '<pre>';var_dump(Common::getSession()->user);echo '</pre>'; ?>
 <head>
     <?php echo $this->headTitle(); ?>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="<?php echo $this->baseUrl('favicon.ico'); ?>" rel="shortcut icon" />
 <?php echo $this->minifyHeadLink()
-    ->appendStylesheet('tooltip.css')
-    ->appendStylesheet('jquery.qtip.min.css')
-    ->appendStylesheet('ui-lightness/jquery-ui-1.8.23.custom.css');
+    //->appendStylesheet('tooltip.css')
+    //->appendStylesheet('bootstrap.css')
+    ->appendStylesheet('jquery.qtip.css')
+    ->appendStylesheet('ui-lightness/jquery-ui-1.9.2.custom.css')
+    //->appendStylesheet('jquery.selectBoxIt.css')
+    ->appendStylesheet('prettyCheckable.css');
 ?>
 
 <?php $this->minifyHeadScript()
     ->prependFile('jquery-ui-1.8.23.custom.min.js')
     ->prependFile('jquery-1.8.3.min.js')
-    ->appendFile('jquery.qtip.min.js')
     ->appendFile('jquery.tmpl.min.js')
-    ->appendFile('jquery.hiddenposition.1.1.min.js');
+    ->appendFile('jquery.qtip.min.js')
+    ->appendFile('jquery.watermark.js')
+    ->appendFile('prettyCheckable.js');
+    //->appendFile('jquery.selectBoxIt.js');
 
     if (Zend_Registry::get('config_ini')->server->online==1){
         echo $this->minifyHeadScript();
@@ -38,5 +44,76 @@
         }
         </style>
     <![endif]-->
+    
+<!-- qtip box -->
+<script type="text/javascript">
+   jQuery(function($){
+        $.fn.qtip.defaults = $.extend(true, {}, $.fn.qtip.defaults, {
+            overwrite: true,
+            content: {
+                text: true,
+                attr: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
+                ajax: {
+                    type: 'POST',
+                    dataType: 'json',
+                    //url: $(this).attr('rel'),
+                    once: false,
+                    loading: false
+                },
+                title: {
+                    button: true
+                }
+            },
+            events: {
+                visible: function(event, api) {
+                    // Grab the tooltip element from the API
+                    var tooltip = api.elements.tooltip
+                    // ...and here's the extra event binds
+                    tooltip.bind('tooltipshow', function(event, api) {
+                        $.watermark.showAll();
+                    })
+                    
+                }
+            },
+            show: {
+                event: 'click',
+                solo: true, // Only show one tooltip at a time
+                delay: 0,
+                effect: false
+            },
+            hide: {
+                event: 'unfocus'
+            }
+            <?php /*
+            ,position: {
+                at: 'bottom center', 
+                my: 'top left',
+                viewport: $(window), // Keep the tooltip on-screen at all times
+                //effect: false // Disable positioning animation
+            }, 
+            ,style: {
+                def:false,
+                //classes: 'qtip-wiki qtip-light qtip-shadow'
+                classes: 'ui-tooltip-green ui-tooltip-shadow'
+            }*/ ?>
+        })
+        
+        $.watermark.options = {
+          className: 'watermark'
+        };
+         
+        $('input.pretty_checkable').prettyCheckable({
+            color: 'red'
+        });
+        $('.prettycheckbox').disableSelection();
+          
+        /*
+         * not sure why it's not working
+         $.datepicker.setDefaults({
+           dateFormat: 'yy-mm-dd'
+        });*/
+       
+    });
 
+</script>
 </head>

@@ -15,11 +15,12 @@ class Ajax_BookmarkController extends Zend_Controller_Action
     }
     
     public function openBoxTriggerAction(){
+        /*
         $array = array();
-        $array['movies'] = array();
-        $array['movies'][]=array(
-        );
-        $this->_helper->json($array);
+                $array['movies'] = array();
+                $array['movies'][]=array(
+                );*/
+        $this->_helper->json(array());
     }
 
 }

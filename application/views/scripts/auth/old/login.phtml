@@ -1,0 +1,59 @@
+<?php echo $this->partial('breadcrumbs.phtml'); ?>
+<style>
+    a.button {
+        width: 251px;
+        height: 42px;
+        display: inline-block;
+        cursor:pointer;
+    }
+    a.button.facebook {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -1px;
+    }
+    a.button.facebook:hover {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -44px;
+    }
+    a.button.facebook:active {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -87px;
+    }
+    a.button.twitter {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -130px;
+    }
+    a.button.twitter:hover {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -173px;
+    }
+    a.button.twitter:active {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -216px;
+    }
+    a.button.google {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -259px;
+    }
+    a.button.google:hover {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -302px;
+    }
+    a.button.google:active {
+        background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -345px;
+    }
+
+</style>
+<div class="settings auth login">
+	<h2><?php echo $this->translate('Login')?></h2>
+	<div class="section">
+		<div class="content">
+			<p style="margin-bottom:10px;"><?php echo $this->errorMessage; ?></p>
+			<form method="post" action="<?php echo $this->baseUrl('auth/login')?>" id="login">
+				<?php echo $this->partial('partials/input/text.phtml',array('is_privacy_enabled'=>false,'required'=>true,'title'=>'Username','name'=>'username')); ?>
+				<?php echo $this->partial('partials/input/password.phtml',array('required'=>true,'title'=>'Password','name'=>'password','have_value'=>false)); ?>
+				<div class="btnSet">
+					<input type="submit" id="btn_login" value="<?php echo $this->translate('Login')?>"/> <?php /*?><span style="margin-right: 10px;">Or</span> <button class="btnFacebook" type="button"></button><?php */?>
+				</div>
+			</form>
+
+            <a href="<?php echo $this->googleAuthUrl ?>" class="button google"></a>
+            <a href="<?php echo $this->facebookAuthUrl ?>" class="button facebook"></a>
+            <a href="<?php echo $this->twitterAuthUrl ?>" class="button twitter"></a>
+			<p class="auth_question"><?php echo $this->translate("Don't have an account? "); ?><a class="ajax_load" href="<?php echo $this->baseUrl('auth/signup'); ?>"><?php echo $this->translate('Join Now'); ?></a>
+				<br /><?php echo $this->translate('Forgot password?'); ?>
+				<a class="ajax_load" href="<?php echo $this->baseUrl('auth/forgot_password'); ?>"><?php echo $this->translate('Click here'); ?></a></p>
+		</div>
+	</div>
+</div>

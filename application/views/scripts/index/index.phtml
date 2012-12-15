@@ -1,83 +1,24 @@
-    <nav class="breadcrumb clearfix">
-        <ul>
-            <li>You are here:</li>
-            <li><a href="#"><strong>Home</strong></a> &gt;</li>
-        </ul>
-    </nav>
-      <article class="main div_shadow">
-      <div class="sort_map clearfix">
-        <div class="sortby"><span><strong>Sort by :</strong></span>
-          <nav>
-            <ul>
-              <li><a href="#">New</a></li>
-              <li>|</li>
-              <li class="current"><a href="#">Hot</a></li>
-              <li>|</li>
-              <li><a href="#">Ending Soon</a></li>
-            </ul>
-          </nav>
-        </div>
-        <nav class="location_div">
-          <ul>
-            <li>
-              <input type="checkbox" id="match-interest" />
-              <label for="match-interest">Match Interest</label></li>
-            <li>
-              
-              <label for="match_location_check" id="match-location">
-              <input type="checkbox" id="match_location_check"  name="match_location_check"  />Match Location</label></li>
-            <li><a href="#" class="showMap"><strong>Show Map</strong></a></li>
-            <li><a href="#"><strong>Refresh</strong></a></li>
-          </ul>
-        </nav>
-      
-      </div>
-      <article class="map_location clearfix">
-         
-              <h3>within 19 km of Tai Lam, Hong Kong</h3>
-              <div class="map_distance">
-                <div class="mapgap"></div>
-                <img src="images/map_icon.png" alt=" " class="loc_change" /> </div>
-              <div class="loc_right">
-                <input type="text" value="Enter a location" />
-                <img src="images/location_icon.png" alt=" " class="l_icon" />
-                <select>
-                  <option>Saved location</option>
-                </select>
-                <a href="#savelocation" class="leanModal save"><img src="images/save.gif" alt=" " /></a> 
-                <a href="#locations-management" class="leanModal setting"><img src="images/setting.gif" alt=" " /></a> </div>
-            </article>
-      <section class="Location" id="mapWrapper">
-        
-        <article> <img src="images/map2.gif" alt=" "> </article>
-      </section>
-      <section class="post" id="more_updates">
-                <?php
-                    echo $this->partial('partials/feed.phtml',
-                        array(
-                            //'feed'=>$this->feed,
-                            //'category_tags'=>$this->category_tags
-                        ));
-            ?>
+<?php //echo $this->partial('breadcrumbs.phtml'); ?>
+<article class="main div_shadow">
+    <?php echo $this -> partial('partials/filter.phtml'); ?>
+
+    <section class="post" id="more_updates">
+        <?php
+        echo $this -> partial('partials/feed.phtml', array(
+        //'feed'=>$this->feed,
+        //'category_tags'=>$this->category_tags
+        ));
+        ?>
         <div class="more" id="morebutton" >
-            <a class="more" title="more" href="javascript:void(0);" > More &gt;  </a> 
+            <a class="more" title="more" href="javascript:void(0);" > More &gt; </a>
         </div>
-      </section>
-      
-        </article>
-      
-    <div id="savelocation" class="popup_window" style="width:450px;">
-      <?php echo $this->partial('partials/popup/savelocation.phtml'); ?>
-    </div>
-    <div id="locations-management" class="popup_window" style="width:500px;">
-      <?php echo $this->partial('partials/popup/locations_management.phtml'); ?>
-    </div>
-    <div id="simple_personal_event" class="popup_window" style="width:480px;">
-      <?php echo $this->partial('partials/popup/simple_personal_event.phtml'); ?>
-    </div>
-    <div id="remove" class="popup_window" style="width:450px;">
-      <?php echo $this->partial('partials/popup/confirmation_box.phtml'); ?>
-    </div>
-    <div id="morebox" class="popup_window" style="width:450px;">
-      <?php echo $this->partial('partials/popup/more.phtml'); ?>
-    </div>
+    </section>
+
+</article>
+<?php /*
+<div id="simple_personal_event" class="popup_window" style="width:480px;">
+    <?php echo $this -> partial('partials/popup/simple_personal_event.phtml'); ?>
+</div>
+<div id="morebox" class="popup_window" style="width:450px;">
+    <?php echo $this -> partial('partials/popup/more.phtml'); ?>
+</div>*/?>

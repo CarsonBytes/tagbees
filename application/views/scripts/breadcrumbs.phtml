@@ -1,0 +1,34 @@
+<?php /*<nav class="breadcrumb clearfix">
+    <ul>
+        <li>
+            You are here:
+        </li>
+        <li>
+            <a href="#"><strong>Home</strong></a> &gt;
+        </li>
+        <li>
+            <strong>Login</strong>
+        </li>
+    </ul>
+</nav>
+*/?>
+<nav class="breadcrumb clearfix">
+    <?php //echo $this->translate('You are in: ');?>
+    <ul>
+    <?php
+    $i=1;
+    foreach(Common::getSession()->nav as $key => $value){
+    	if ($value!=null){
+    ?>
+        <li><a href="<?php echo $this->baseUrl($this->translate($value))?>"><?php echo $this->translate($key)?></a></li>
+    <?php }else{ ?>
+    	<li><strong><?php echo $this->translate($key)?></strong></li>
+    <?php }
+    	if($i < count(Common::getSession()->nav)){
+    		echo '<span class="separator"> > </span>';
+    	}
+    	$i++;
+    }
+    ?>    
+    </ul>
+</nav>

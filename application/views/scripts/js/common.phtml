@@ -1,0 +1,107 @@
+<script type="text/javascript">
+   jQuery(function($){
+        $('body').on('click', '.dialog_link' , function(ev) {
+            ev.preventDefault();
+        });
+        $('body').on('click','.language ul ul li',function(){
+            $.ajax({
+              type: "POST",
+              url: "<?php echo $this->baseUrl('ajax/language/switch') ?>",
+                data: {
+                    display_lang:$(this).find('input').val()
+                },
+              success: function(msg){
+                if(msg['result']==true){
+                    window.location.hash = ''; //if you want to reload with an empty hash
+                    window.location.reload(true); //reload the page and bypass the cache
+                    window.location.replace($(location).attr('href'));
+                }else{
+                    alert('Unkown error occured. Please try again later.')
+                }
+                },
+                dataType:'json'
+            });
+            return false;
+        })
+        $('.login').qtip({
+            content: {
+                text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
+                ajax: {
+                    url: '<?php echo $this->baseUrl('ajax/auth/open_login_box')?>',
+                    success: function(data, status) {
+                        if (data.result == 'false'){
+                            this.set('content.text', 'already loginned!');
+                        } else {
+                            this.set('content.text', $( "#login" ).tmpl(data.data));
+                        }
+                        $('input.username').watermark("<?php echo $this->translate('Username') ?>");
+                        $('input.password').watermark("<?php echo $this->translate('Password') ?>");
+                    },
+                    once: true,
+                    loading: true
+                },
+                title: {
+                    text: 'Login'
+                }
+            },
+            show: {
+                event: 'click',
+                modal: {
+                    on: true
+                }
+            },
+            position: {
+                my: 'center',
+                at: 'center',
+                target: $(window)
+            },
+            style: {
+                def:false,
+                classes: 'qtip-light qtip-rounded login_dialog'
+            }
+        });
+        
+        $('body').on('click', '.watcher_icon' , function() {
+            $(this).qtip(
+            {
+                //overwrite: false, 
+                content: {
+                    text: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
+                    ajax: {
+                        url: '<?php echo $this->baseUrl('ajax/bookmark/open_box_trigger')?>', 
+                        success: function(data, status) {
+                            this.set('content.text', $( "#movieTemplate" ).tmpl());
+                        }
+                    },
+                    title: {
+                        text: 'Bookmark details'
+                    }
+                },
+                position: {
+                    at: 'bottom center', 
+                    my: 'top right',
+                    target: $(this)
+                },
+                show: {
+                     ready: true
+                },
+                style: {
+                    def:false,
+                    classes: 'qtip-light bookmark_box_trigger qtip-shadow'
+                }
+            })
+        })
+        $('input.username').watermark("<?php echo $this->translate('Username') ?>");
+        $('input.password').watermark("<?php echo $this->translate('Password') ?>");
+        $('input.keyword_text').watermark("<?php echo $this->translate('Enter keyword...') ?>");
+        $('.loc_right input').watermark("<?php echo $this->translate('Enter a location...') ?>");
+       /*$("select.selectBoxIt").selectBoxIt({
+          showEffect: "fadeIn",
+          showEffectSpeed: 100,
+          hideEffect: "fadeOut",
+          hideEffectSpeed: 100
+       });*/
+      });
+</script>
+<?php echo $this->partial('js/template/auth/login.phtml')?>
+<?php echo $this->partial('js/template/bookmark/box_trigger.phtml')?>

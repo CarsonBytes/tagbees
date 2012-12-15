@@ -135,7 +135,7 @@ class Ajax_FeedController extends Zend_Controller_Action
                 for ($i=1;$i<=$this->params['level'];$i++){
                     $tree[]=$result[$this->params['cat'.$i]]['id'];
                     $string.='/'.$this->params['cat'.$i];
-                    $_SESSION['nav'][$result[$this->params['cat'.$i]]['name']]='/tree'.$string;
+                    Common::getSession()->nav[$result[$this->params['cat'.$i]]['name']]='/tree'.$string;
                 }
     
                 Zend_Registry::set('tree_ref', $tree);
