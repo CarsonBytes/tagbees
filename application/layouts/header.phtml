@@ -27,7 +27,7 @@
               <nav class="login_reg">
                 <ul>
           <?php if (Zend_Auth::getInstance()->hasIdentity()) { ?>
-            <li><a href="#" class=""><strong>Hello, Tagbees</strong></a>
+            <li><a href="#" class=""><strong>Hello, <?php echo Common::getSession()->user->name?></strong></a>
                 <ul>
                   <li>
                     <div class="login_div div_shadow" id="loginForm">
@@ -48,7 +48,7 @@
               </li>
           <?php }else{?>
                   <li><a href="<?php echo $this->baseUrl('auth/login');?>" class="login dialog_link">Login</a></li>
-                  <li><a href="<?php echo $this->baseUrl('auth/signup')?>" class="icon2 register">Register</a></li>
+                  <?php /*<li><a href="<?php echo $this->baseUrl('auth/signup')?>" class="icon2 register">Register</a></li>*/?>
           <?php } ?>
             </ul>
           </nav>

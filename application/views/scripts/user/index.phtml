@@ -1,17 +1,11 @@
-      <nav class="breadcrumb clearfix">
-        <ul>
-        <li>You are here:</li>
-        <li><a href="#">Home</a> &gt;</li>
-        <li><a href="#">User tagjoseph</a> &gt;</li>
-        <li><strong>Bookmarked Events</strong></li>
-        </ul>
-        </nav>
+<?php echo $this->partial('breadcrumbs.phtml'); ?>
+<?php echo $this -> partial('js/user.phtml'); ?>
         <article class="main div_shadow">
           <section class="mainevent">
             <h1>My Profile</h1>
             <div class="myprofile profile_form clearfix">
               <div class="profileLeft">
-                <div class="all_e_div"><img src="images/man.gif" alt=""/></div>
+                <div class="all_e_div"><img src="<?php echo $this->baseUrl('images/man.gif')?>" alt=""/></div>
                 <a href="#uploadThumbnail" class="upload leanModal">Upload an image</a></div>
               <div class="profile_right">
                 <div class="activity">
@@ -42,9 +36,9 @@
           </section>
           <nav class="righttab">
             <ul class="tabs">
-              <li><a href="#mypublish"><img src="images/icon12.png" alt="Category" /></a></li>
-              <li><a href="#myinterest"><img src="images/icon13.png" alt="Category" /></a></li>
-              <li><a href="#mywatchlist"><img src="images/icon14.png" alt="Category" /></a></li>
+              <li><a href="#mypublish"><img src="<?php echo $this->baseUrl('images/icon12.png')?>" alt="Category" /></a></li>
+              <li><a href="#myinterest"><img src="<?php echo $this->baseUrl('images/icon13.png')?>" alt="Category" /></a></li>
+              <li><a href="#mywatchlist"><img src="<?php echo $this->baseUrl('images/icon14.png')?>" alt="Category" /></a></li>
             </ul>
           </nav>
           <section class="tab_container">
@@ -55,7 +49,7 @@
                 <article class="post_content clearfix">
                   <header>
                     <div class="watched">
-                      <div class="w1"><a class="watcher_icon"><img src="images/watched_icon.png" alt=" " /></a><span class="w_con">Watched: 1</span></div>
+                      <div class="w1"><a class="watcher_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " /></a><span class="w_con">Watched: 1</span></div>
                       <div class="w2">256</div>
                        <div class="positionable asaid_popup" id="watcher_able1" style="display:none;"> 
                         <div class="popup_bor watcher_gap">
@@ -69,7 +63,7 @@
                     <a href="#" class="remain_time r_day"><span>17 days</span></a>
                     <h3 class="head3">What we love about Andy Griffith...</h3>
                   </header>
-                  <div class="post_left"><img src="images/p1.jpg" alt=" " /></div>
+                  <div class="post_left"><img src="<?php echo $this->baseUrl('images/p1.jpg')?>" alt=" " /></div>
                   <div class="post_right">
                     <header class="tag_top taggap clearfix">
                       <ul>
@@ -90,13 +84,13 @@
                 <article class="post_content clearfix">
                   <header>
                     <div class="watched">
-                      <div class="w1"><a href="#"><img src="images/watched_icon.png" alt=" " /></a><span class="w_con">Watched: 5</span></div>
+                      <div class="w1"><a href="#"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " /></a><span class="w_con">Watched: 5</span></div>
                       <div class="w2">318</div>
                     </div>
                     <a href="#" class="remain_time soon"><span>Soon</span></a>
                     <h3 class="head3">Cycling: Greipel wins fourth stage</h3>
                   </header>
-                  <div class="post_left"><img src="images/p2.jpg" alt=" " /></div>
+                  <div class="post_left"><img src="<?php echo $this->baseUrl('images/p2.jpg')?>" alt=" " /></div>
                   <div class="post_right">
                     <header class="tag_top taggap clearfix">
                       <ul>
@@ -117,13 +111,13 @@
                 <article class="post_content clearfix">
                   <header>
                     <div class="watched">
-                      <div class="w1"><a href="#"><img src="images/watched_icon.png" alt=" " /></a><span class="w_con">Watched: 3</span></div>
+                      <div class="w1"><a href="#"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " /></a><span class="w_con">Watched: 3</span></div>
                       <div class="w2">234</div>
                     </div>
                     <a href="#" class="remain_time expired"><span>Expired</span></a>
                     <h3 class="head3">ECB expected to cut rates to new....</h3>
                   </header>
-                  <div class="post_left"><img src="images/p3.jpg" alt=" " /></div>
+                  <div class="post_left"><img src="<?php echo $this->baseUrl('images/p3.jpg')?>" alt=" " /></div>
                   <div class="post_right">
                     <header class="tag_top taggap clearfix">
                       <ul>

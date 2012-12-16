@@ -440,9 +440,7 @@ class AuthController extends Zend_Controller_Action
         
         $userData = $userService->getUserDataByUsername($username,Zend_Db::FETCH_OBJ);
         $objAuth->getStorage()->write( $userData );
-        
-        $session = new Zend_Session_Namespace('Default');
-        $session->user = $userData;
+        Common::getSession()->user = $userData;
         
         
         if (Common::getSession()->redirect!='' && isset(Common::getSession()->redirect)){
