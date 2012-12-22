@@ -522,7 +522,7 @@ input{ .bordered; border-right:none; .border-radius(4px 4px 4px 4px); color:@asi
     label.place_res{ width:118px; margin-left:-12px;}
     label.l-a, label.l-a1, label.l-a2, label.l-a3{ width:auto; font-weight:normal;}
     label.l-a{ /*padding-top:0; */padding-right:5px;}
-    label.l-a1{ padding-left:6px; padding-right:6px;}
+    label.l-a1{ padding-left:3px; padding-right:3px;}
     label.l-a2{ padding-right:0;}
 	label.l-a3{ padding-left:0; padding-right:6px;}
     input, textarea, select{ border:1px solid #e0e0e0; .white-background; font-family:Arial, Helvetica, sans-serif; font-size:13px; .border-radius(4px); }
@@ -535,7 +535,9 @@ input{ .bordered; border-right:none; .border-radius(4px 4px 4px 4px); color:@asi
     input.middle2{ width:150px;}
     input.c-gap{ margin-right:10px; margin-top:1px;}
     input.time-gap{ margin-left:59px;}
-    input.smallInput{ width:51px;}
+    /*input.smallInput{ width:51px;}*/
+    .date_input{width:70px;text-align:center;}
+    .time_input{width:70px;text-align:center;}
     input.m-input{ width:110px; padding:2px 5px;}
     select{  padding:2px; height:25px;}
     select.auto_select{ height:auto; width:190px;} 
@@ -543,13 +545,18 @@ input{ .bordered; border-right:none; .border-radius(4px 4px 4px 4px); color:@asi
     .category_optgroup{ height:auto; width:190px; float:left;}
     select.smallSel{ width:85px;}
     select.smallSel1{ width:209px;}
-    select.middleSel{ width:247px;}
+    select.middleSel{ /*width:247px;*/}
     input[type="checkbox"], input[type="radio"]{ width:auto; height:auto; border:none; background:none; padding:0;}
     input[type="submit"]{ .border-radius(6px); padding: 3px 13px 6px; font-size:13px; font-weight:bold; width:auto; height:auto; cursor:pointer; border:1px solid @white-color; margin:0 10px;}
     input.submit1, input.submit4{ .yellow-gradient; color:@color;}
     input.submit2{ .black-gradient; color:@white-color;}
     input.submit3{ background:url(../images/btn_bg2.gif) repeat-x left top #c4c4c4; color:@color;} 
-	.input-right{ margin-right:5px;}   
+    .input-right{ margin-right:5px;}   
+    .timezone_trigger{}
+    .timezone_input {display:none;
+  	  .city{width:242px;}
+  	  .country{width:189px;margin:3px 5px 0 0;}
+  	}
 }
 .show_hide_map{ cursor:pointer;}
 .settingMap{ cursor:pointer; font-weight:bold !important;}
@@ -601,13 +608,15 @@ input:disabled{ background:#EBEBE4;}
 
 /********************************************************************************/
 
-.myprofile{ background:#f2f2f2; .border-radius(4px); padding:21px 19px 30px;}
-.profileLeft{ float:left; width:135px;}
-.upload{ .black-gradient; font-weight:bold; color:@white-color !important; display:inline-block; text-align:center; padding:2px 0 3px; text-decoration:none; .border-radius(4px); width:100%; margin-top:3px;
-    &:link { .black-gradient; color:@white-color;}
-    &:hover{ .yellow-gradient; color:@black-color !important;}
-    &:active{ background:#000;  color:@white-color !important;}
+.myprofile{ background:#f2f2f2; .border-radius(4px); padding:21px 19px 30px;
+  .upload_user_thumbnail{ .black-gradient; font-weight:bold; color:@white-color !important; display:inline-block; text-align:center; padding:2px 0 3px; text-decoration:none; .border-radius(4px); width:100%; margin-top:3px;
+      &:link { .black-gradient; color:@white-color;}
+      &:hover{ .yellow-gradient; color:@black-color !important;}
+      &:active{ background:#000;  color:@white-color !important;}
+  }
 }
+.upload_thumbnail{width:439px;}
+.profileLeft{ float:left; width:135px;}
 .profile_right{ float:right; width:454px; position:relative;
     h6{ font-size:14px;}
     p{ padding-top:8px;}

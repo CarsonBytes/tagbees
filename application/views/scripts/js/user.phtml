@@ -1,4 +1,39 @@
 <script type="text/javascript">
-    jQuery(function($) {
-    }); 
+   jQuery(function($){
+        $('.upload_user_thumbnail').qtip({
+            content: {
+                text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
+                ajax: {
+                    url: '<?php echo $this->baseUrl('ajax/user/open_upload_thumbnail')?>',
+                    success: function(data, status) {
+                        if (data.result == 'false'){
+                            this.set('content.text', 'saved failed! Please try again later.');
+                        } else {
+                            this.set('content.text', $( "#upload_user_thumbnail" ).tmpl());
+                        }
+                        $('.avatar_div li').click(function(){
+                            $('.avatar_div li').removeClass('active')
+                            $(this).toggleClass('active');
+                        });
+                    }
+                },
+                title: {
+                    text: 'Upload User Thumbnail'
+                }
+            },
+            show: {
+                event: 'click',
+                modal: {
+                    on: true
+                }
+            },
+            position: {
+                my: 'center',
+                at: 'center',
+                target: $(window)
+            },
+            style: 'qtip-light qtip-rounded'
+        });
+    });
 </script>
+<?php echo $this->partial('js/template/user/upload_thumbnail.phtml') ?>

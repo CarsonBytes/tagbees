@@ -1,15 +1,15 @@
 <?php echo $this -> partial('js/sidebar.phtml'); ?>
 <aside id="sidebar" class="left">
     <section class="search_field clearfix">
-        <input class="keyword_text" type="text" style=""  class="keyword"/>
+        <input class="keyword_text" type="text" style=""/>
         <input class="keyword_submit" type="submit"  value=""/>
     </section>
     <section class="date_search clearfix">
         <input type="checkbox" checked="checked" class="pretty_checkable" id="is_all_day" name="is_all_day" data-label="All day" />
         <div class="text from">From</div>
-        <input type="text" name="begin_date" id="begin_date"/>
+        <input type="text" name="search_begin_date" id="search_begin_date"/>
         <div class="text to">To</div> 
-        <input type="text" name="end_date" id="end_date"/>
+        <input type="text" name="search_end_date" id="search_end_date"/>
     </section>
     <section class="tab_div div_shadow div_gap">
         <nav class="tab_link clearfix">

@@ -58,7 +58,10 @@
                     dataType: 'json',
                     //url: $(this).attr('rel'),
                     once: false,
-                    loading: false
+                    loading: false,
+                    error:function(){
+                        alert( jqXHR.responseText);
+                    }
                 },
                 title: {
                     button: true

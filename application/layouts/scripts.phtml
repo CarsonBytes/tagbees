@@ -136,10 +136,6 @@ jQuery(function($){
         }
     });
 
-    $('.timeZoneTime, #addToCategoryDiv, #addTag, .addTumblrDiv').hide();
-    $('.timeZone').click( function(){
-        $('.timeZoneTime').slideToggle();
-    })
     $('#addToCategory').click( function(){
         $('#addToCategoryDiv').slideDown();
         $('#addToCategory').addClass('chose_active');
@@ -206,10 +202,6 @@ $(function() {
     }, function(){
        $(".settingMap").text("Hide Map").stop();
        $( "#settingMapDiv" ).slideDown("slow");
-    });
-    $('.avatar_div li').click(function(){
-        $('.avatar_div li').removeClass('active')
-        $(this).toggleClass('active');
     });
     
 });

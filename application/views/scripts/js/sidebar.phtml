@@ -31,7 +31,7 @@
         $('.accordion_button').mouseover(function() {
             $(this).addClass('over');
         }).mouseout(function() {
-            $(this).removeClass('over');                                        
+            $(this).removeClass('over');
         });
         
         // click to trigger edit list order mode
@@ -79,17 +79,17 @@
         var end_date = new Date();
         end_date.setDate(end_date.getDate()+30);
         
-        $('#begin_date, #end_date').datepicker({ dateFormat: 'yy-mm-dd' });
-        $('#begin_date').datepicker("setDate", $.datepicker.formatDate('yy-mm-dd', today));
-        $('#end_date').datepicker("setDate", $.datepicker.formatDate('yy-mm-dd', end_date));
+        $('#search_begin_date, #search_end_date').datepicker({ dateFormat: 'dd/mm/yy' });
+        $('#search_begin_date').datepicker("setDate", $.datepicker.formatDate('dd/mm/yy', today));
+        $('#search_end_date').datepicker("setDate", $.datepicker.formatDate('dd/mm/yy', end_date));
         
         var check_all_day = function(){
             if ($('#is_all_day').is(':checked')) {
-                $('#begin_date').datepicker('disable');
-                $('#end_date').datepicker('disable');
+                $('#search_begin_date').datepicker('disable');
+                $('#search_end_date').datepicker('disable');
             } else {
-                $('#begin_date').datepicker('enable');
-                $('#end_date').datepicker('enable');
+                $('#search_begin_date').datepicker('enable');
+                $('#search_end_date').datepicker('enable');
             }
         };
         check_all_day();
@@ -97,12 +97,12 @@
 
         
         //tuning date range (no reversed date range)
-        var sidebar_dates = $('#begin_date, #end_date').datepicker({
+        var sidebar_dates = $('#search_begin_date, #search_end_date').datepicker({
             defaultDate: "+1w",
             changeMonth: true,
             changeYear: true,
             onSelect: function( selectedDate ) {
-                var option = this.id == "begin_date" ? "minDate" : "maxDate",
+                var option = this.id == "search_begin_date" ? "minDate" : "maxDate",
                     instance = $( this ).data( "datepicker" ),
                     date = $.datepicker.parseDate(
                         instance.settings.dateFormat ||

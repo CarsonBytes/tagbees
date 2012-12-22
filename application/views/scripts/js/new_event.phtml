@@ -1,0 +1,32 @@
+<script type="text/javascript">
+   jQuery(function($){
+        $('#event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
+        $('#event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
+        $('#event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
+        $('#event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
+        
+        //tuning date range (no reversed date range)
+        var sidebar_dates = $('#event_begin_date, #event_end_date').datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function( selectedDate ) {
+                var option = this.id == "event_begin_date" ? "minDate" : "maxDate",
+                    instance = $( this ).data( "datepicker" ),
+                    date = $.datepicker.parseDate(
+                        instance.settings.dateFormat ||
+                        $.datepicker._defaults.dateFormat,
+                        selectedDate, instance.settings );
+                sidebar_dates.not( this ).datepicker( "option", option, date );
+            },
+        });
+        
+        $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
+        $('body').on('click','.timezone_trigger',function(){
+            console.log('test');
+            $('.timezone_input ').slideToggle();
+            return false;
+        });
+    });
+</script>
+<?php //echo $this->partial('js/template/user/upload_thumbnail.phtml') ?>

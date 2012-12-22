@@ -3,14 +3,6 @@
 class Ajax_FilterController extends Zend_Controller_Action
 {
 	private $params;
-    public function init()
-    {
-		if(!$this->getRequest()->isPost()){
-			exit(0);
-		}else{
-			$this->params=$this->_request->getPost();
-		}
-    }
     public function openSaveLocationAction(){
         $array = array();
         if (Zend_Auth::getInstance()->hasIdentity()){
@@ -48,6 +40,7 @@ class Ajax_FilterController extends Zend_Controller_Action
     }
     
     public function saveLocationAction(){
+        $this->params=$this->_request->getPost();
         $filterService=new Service_Filter();
         $result=$filterService->save(
             $this->params['name'], 
@@ -59,6 +52,7 @@ class Ajax_FilterController extends Zend_Controller_Action
         $this->_helper->json(array('result'=>$result));
     }
     public function deleteLocationAction(){
+        $this->params=$this->_request->getPost();
         $filterService=new Service_Filter();
         $result=$filterService->delete(
             $this->params['name']
