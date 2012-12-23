@@ -2,7 +2,7 @@
 <?php echo $this -> partial('js/user.phtml'); ?>
         <article class="main div_shadow">
           <section class="mainevent">
-            <h1>My Profile</h1>
+            <h1><?php echo $this->username?></h1>
             <div class="myprofile profile_form clearfix">
               <div class="profileLeft">
                 <div class="all_e_div"><img src="<?php echo $this->baseUrl('images/man.gif')?>" alt=""/></div>
