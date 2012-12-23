@@ -1,0 +1,55 @@
+<script id="simple_personal_event" type="text/x-jquery-tmpl">
+        <section class="simple_personal_event_form watcher_details_inner">
+            <div class="watcher_form gap_top">
+                <ul>
+                    <li>
+                        <input type="text" class="title" name="title"/>
+                    </li>
+                    <li>
+                        <input type="text" class="date_input" id="popup_simple_event_begin_date" />
+                        <label class="l-a1"><strong>-</strong></label>
+                        <input type="text" class="date_input" id="popup_simple_event_end_date" />
+                        &nbsp;
+                        <?php //<label class="l-a1"><strong>From</strong></label> ?>
+                        <input id="popup_simple_event_begin_time" type="text" class="time_input"  />
+                        <label class="l-a1"><strong>-</strong></label>
+                        <input id="popup_simple_event_end_time" type="text" class=" time_input" />
+                        <a class="l-a2 timezone_trigger" href="#">Time Zone</a>
+                        <?php /*
+                        <input type="text" value="" id="popup_simple_event_begin_date" name="begin_date" class="date_input begin_date d_input" />
+                        <input type="text" value="" name="begin_time" class="begin_time t_input" />
+                        - &nbsp;
+                        <input type="text" value="" id="popup_simple_event_end_date" name="end_date" class="date_input end_date d_input" />
+                        <input type="text" value="" name="end_time" class="end_time t_input" />
+                         */?>
+                    </li>
+                    <li>
+                        <textarea name="description" class="description" rows="5"></textarea>
+                    </li>
+                </ul>
+            </div>
+            <div class="watcher_form watcher_tag_inner watch_bor">
+                <ul>
+                    <li>
+                        <label class="tag_label">Tag</label>
+                        <select>
+                            <option>Select a group</option>
+                        </select>
+                    </li>
+                    <li>
+                        <footer class="tag_l">
+                            <strong>Tags:</strong><a href="#">Tag1</a> | <a href="#">Taaag1</a> | <a href="#">Taaaaag1</a> | <a href="#">Taaaag1</a> | <a href="#">Taaaaag1</a> | <a href="#">Taaag1</a> | <a href="#">Tagaa1</a> | <a href="#">Taaaaag1</a> | <a href="#">Tag1</a> | <a href="#">Tagaggg1</a> | <a href="#">Tagsaggg1</a>
+                        </footer>
+                    </li>
+                    <li>
+                        <textarea class="description" rows="5"></textarea>
+                    </li>
+                    <li class="none">
+                        <input type="submit" value="Save" class="submit1" />
+                        <input type="submit" value="Cancel" class="submit2 close_window" />
+                    </li>
+                </ul>
+            </div>
+        </section>
+</script>
+

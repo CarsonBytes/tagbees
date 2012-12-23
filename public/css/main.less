@@ -475,6 +475,7 @@ input{ .bordered; border-right:none; .border-radius(4px 4px 4px 4px); color:@asi
 .showMap{ font-weight:bold;}
 
 
+
 /**************************** SHOWMAP PAGE**************************************************/
 
 .Location{ border:1px solid #cfcfcf; padding:3px;}
@@ -859,6 +860,19 @@ input:disabled{ background:#EBEBE4;}
 	left: 0; 
 }
 
+.simple_personal_event_form{
+  width:411px;
+  .timezone_trigger{}
+  .timezone_input {display:none;
+    .city{width:242px;}
+    .country{width:189px;margin:3px 5px 0 0;}
+  }
+  .date_input{width:70px;text-align:center;}
+  .time_input{width:70px;text-align:center;}
+    label{ padding: 0;}
+  label.l-a, label.l-a1, label.l-a2, label.l-a3{ width:auto; font-weight:normal;}
+  label.l-a{ /*padding-top:0; */padding-right:5px;}
+}
 
 /***************************** tooltip *************************************************/
 .ui-tooltip-wiki{
