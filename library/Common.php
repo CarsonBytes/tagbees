@@ -20,9 +20,9 @@ class Common{
 	    return Common::getSession()->last_visited_url;
 	}*/
 
-	/*public static function config(){
-		return new Zend_Config(require APPLICATION_PATH . '/config.php');
-	}*/
+	public static function config(){
+		return new Zend_Config(require APPLICATION_PATH . '/configs/config.php');
+	}
 
 	//mainly for datetime mysql input
 	public static function spaceToNull($data){
@@ -435,17 +435,19 @@ class Common{
         }
 	}
 
-	public static function nl2p($string){
+	/*public static function nl2p($string){
 		return str_replace("\n", "</p>\n<p>", '<p>'.$string.'</p>');
-	}
+	}*/
     
     public static function getSiteDisplayLang(){
+        
+        // to be revamped, currently we just support chinese and english....
         if (isset(Common::getSession()->user->display_lang) && strncmp(Common::getSession()->user->display_lang, 'zh', 2) == 0) {
-            $display_lang = 'zh-hk'; // for all chinese languages of loginned users
+            $display_lang = 'zh-hk'; // for loginned users choosing chinese before
         } else if (isset(Common::getSession()->display_lang) && strncmp(Common::getSession()->display_lang, 'zh', 2) == 0) {
-            $display_lang = 'zh-hk'; // for all chinese languages of not loginned users
+            $display_lang = 'zh-hk'; // for not loginned users choosing chinese before
         } else{
-            $display_lang = 'en'; // for other non-chinese languages
+            $display_lang = 'en'; // default language
         }
         return $display_lang;
     }
@@ -455,15 +457,15 @@ class Common{
      * @para
      * placeholder type can be no_profile_pic, not_found_pic, event_default_thumbnail
      */
-    public static function getUploadedImageUrl( $image_filename = NULL, $placeholder_type = 'default'){
+    public static function getUploadedImageUrl( $image_filename = NULL, $placeholder_type = 'event'){
         if ($image_filename != NULL) {
-            $image_upload_path = Zend_Registry::get('config_ini')->uploader->uploads->destination . $image_filename;
+            $image_upload_path = Zend_Registry::get('config')->upload_paths->$placeholder_type->pic . $image_filename;
             if (file_exists($image_upload_path)) {
                 //echo "Die Datei $filename existiert";
                 return Common::changePathToURL($image_upload_path); 
             }
         }
-        return  Common::changePathToURL(Zend_Registry::get('config_ini')->placeholder_image->$placeholder_type);
+        return  Common::changePathToURL(Zend_Registry::get('config')->pics->sys->not_found);
     }
 
     public static function setCookie($key, $value){

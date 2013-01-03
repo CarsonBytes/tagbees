@@ -53,7 +53,7 @@ ul, li{ list-style:none;}
 blockquote, q { quotes:none; }
 blockquote:before, blockquote:after, q:before, q:after { content:''; content:none;}
 del { text-decoration: line-through;}
-abbr[title], dfn[title] { border-bottom:1px dotted; cursor:help;}
+/*abbr[title], dfn[title] { border-bottom:1px dotted; cursor:help;}*/
 table {border-spacing:0; border:0;width:100%;
  tr td{padding:0;vertical-align:middle;}  
 }
@@ -305,27 +305,33 @@ input{ .bordered; border-right:none; .border-radius(4px 4px 4px 4px); color:@asi
 // li{ line-height:13px; margin-left:21px;}
 }*/
 .post{ padding:0 8px 0 9px;
-  h3{ font-size:22px; font-weight:normal; color:#2f3031;}
+  a.head{ font-size:22px; font-weight:normal; color:#2f3031;display:inline-block; text-decoration:none;
+    &:link {color:@main-blue;}
+    &:hover{color:#f0bc05;}
+    &:active {color:@color;}
+  }
   p{ line-height:17px; padding-top:13px; }
 }
 .post_content{ padding:15px 0 40px 0; background:url(../images/post_bg.gif) repeat-x bottom left; position:relative;}
 .post_left{ width:143px; float:left;
   img{ border:10px solid #f2f2f2;}
 }
-.post_right{ width:474px; float:right;}
-.taggap{ border-bottom:1px solid #e8e8e8; padding-bottom:8px;}
-.tag_top{ color:@color; 
-  ul{ margin-left:-3px;}
-  li{ float:left; color:@color; padding:0 3px;}
-  a{ display:inline-block; color:@main-blue; text-decoration:none;
-    &:link {color:@main-blue;}
-    &:hover{color:#f0bc05;}
-    &:active {color:@color;}
+.post_right{ width:474px; float:right;
+  .tag_top{ color:@color; 
+    ul{ margin-left:-3px;}
+    li{ float:left; color:@color; padding:0 3px;}
+    a{ display:inline-block; color:@main-blue; text-decoration:none;
+      &:link {color:@main-blue;}
+      &:hover{color:#f0bc05;}
+      &:active {color:@color;}
+    }
+    .place{max-width:150px;}
   }
-}
-.tag_bottom{ padding-top:25px;
-    a{ padding:0 3px;}
-    
+  .taggap{ border-bottom:1px solid #e8e8e8; padding-bottom:8px;}
+  .tag_bottom{ padding-top:25px;
+      a{ padding:0 3px;}
+      
+  }
 }
 .tag_l{ color:#4d4d4d;
   a{ color:#4d4d4d; text-decoration:none;
@@ -970,7 +976,7 @@ input:disabled{ background:#EBEBE4;}
 }
 /*******************************************************************************/
 
-#dialog_link{ .yellow-gradient; .border-radius(4px); margin-top:10px; display:inline-block;}
+/*#dialog_link{ .yellow-gradient; .border-radius(4px); margin-top:10px; display:inline-block;}*/
 .ui-widget-header, .ui-state-default{ .yellow-gradient; .border-radius(4px); font-weight:bold; border: 3px solid #f4b70b;}
 .ui-widget-header{ color:#fff;}
 .ui-state-default{ color:#000;}

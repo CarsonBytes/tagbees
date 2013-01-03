@@ -6,7 +6,7 @@
             <div class="myprofile profile_form clearfix">
               <div class="profileLeft">
                 <div class="all_e_div"><img src="<?php echo $this->baseUrl('images/man.gif')?>" alt=""/></div>
-                <a href="#" class="dialog_link upload_user_thumbnail">Upload an image</a></div>
+                <a href="#" class="upload_user_thumbnail">Upload an image</a></div>
               <div class="profile_right">
                 <div class="activity">
                   <div class="active_div"></div>
@@ -43,100 +43,17 @@
           </nav>
           <section class="tab_container">
             <section id="mypublish" class="tab_content">
-              <h1 class="heading1">My Publish</h1>              
+              <h1 class="heading1">Activities</h1>              
               
               <section class="post" id="more_updates">
-                <article class="post_content clearfix">
-                  <header>
-                    <div class="watched">
-                      <div class="w1"><a class="watcher_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " /></a><span class="w_con">Watched: 1</span></div>
-                      <div class="w2">256</div>
-                       <div class="positionable asaid_popup" id="watcher_able1" style="display:none;"> 
-                        <div class="popup_bor watcher_gap">
-                        <div class="asaid_popup_main">                
-                            <a title="Close" class="right_watcher_close" href="#">X</a>
-                            <?php include("watcher_detail.php");?>
-                           </div>
-                        </div>
-                      </div>
-                    </div>
-                    <a href="#" class="remain_time r_day"><span>17 days</span></a>
-                    <h3 class="head3">What we love about Andy Griffith...</h3>
-                  </header>
-                  <div class="post_left"><img src="<?php echo $this->baseUrl('images/p1.jpg')?>" alt=" " /></div>
-                  <div class="post_right">
-                    <header class="tag_top taggap clearfix">
-                      <ul>
-                        <li><a href="#"><strong>Music &amp; Dance</strong></a></li>
-                        <li>|</li>
-                        <li>start: Dec 23, 2012</li>
-                        <li>|</li>
-                        <li>place:<a href="#">Grand City Hall</a></li>
-                      </ul>
-                    </header>
-                    <p>Music is the soul of the cosmos. It is found everywhere from the rustling of the trees, to the playful streams to the pitter-patter of the raindrops. Indian music in particular, is one of the oldest and finest forms of human passions like agony, ecstasy, sorrow, hope, desire etc. Indian music has strong connections.</p>
-                    <footer class="tag_bottom">
-                      <div class="tag_l left"><strong>Tags:</strong><a href="#">Music</a>|<a href="#">Dance</a></div>
-                      <div class="tag_r right"><a href="#">by Mac Slocum</a>|<a href="#">16 days ago</a></div>
-                    </footer>
-                  </div>
-                </article>
-                <article class="post_content clearfix">
-                  <header>
-                    <div class="watched">
-                      <div class="w1"><a href="#"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " /></a><span class="w_con">Watched: 5</span></div>
-                      <div class="w2">318</div>
-                    </div>
-                    <a href="#" class="remain_time soon"><span>Soon</span></a>
-                    <h3 class="head3">Cycling: Greipel wins fourth stage</h3>
-                  </header>
-                  <div class="post_left"><img src="<?php echo $this->baseUrl('images/p2.jpg')?>" alt=" " /></div>
-                  <div class="post_right">
-                    <header class="tag_top taggap clearfix">
-                      <ul>
-                        <li><a href="#"><strong>Sports &amp; Outdoors</strong></a></li>
-                        <li>|</li>
-                        <li>start: Dec 23, 2012</li>
-                        <li>|</li>
-                        <li>place:<a href="#">Grand City Hall</a></li>
-                      </ul>
-                    </header>
-                    <p>Music is the soul of the cosmos. It is found everywhere from the rustling of the trees, to the playful streams to the pitter-patter of the raindrops. Indian music in particular, is one of the oldest and finest forms of human passions like agony, ecstasy, sorrow, hope, desire etc. Indian music has strong connections.</p>
-                    <footer class="tag_bottom">
-                      <div class="tag_l left"><strong>Tags:</strong><a href="#">Music</a>|<a href="#">Dance</a></div>
-                      <div class="tag_r right"><a href="#">by Mac Slocum</a>|<a href="#">13 days ago</a></div>
-                    </footer>
-                  </div>
-                </article>
-                <article class="post_content clearfix">
-                  <header>
-                    <div class="watched">
-                      <div class="w1"><a href="#"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " /></a><span class="w_con">Watched: 3</span></div>
-                      <div class="w2">234</div>
-                    </div>
-                    <a href="#" class="remain_time expired"><span>Expired</span></a>
-                    <h3 class="head3">ECB expected to cut rates to new....</h3>
-                  </header>
-                  <div class="post_left"><img src="<?php echo $this->baseUrl('images/p3.jpg')?>" alt=" " /></div>
-                  <div class="post_right">
-                    <header class="tag_top taggap clearfix">
-                      <ul>
-                        <li><a href="#"><strong>Shopping &amp; Business</strong></a></li>
-                        <li>|</li>
-                        <li>start: Dec 23, 2012</li>
-                        <li>|</li>
-                        <li>place:<a href="#">Grand City Hall</a></li>
-                      </ul>
-                    </header>
-                    <p>Music is the soul of the cosmos. It is found everywhere from the rustling of the trees, to the playful streams to the pitter-patter of the raindrops. Indian music in particular, is one of the oldest and finest forms of human passions like agony, ecstasy, sorrow, hope, desire etc. Indian music has strong connections.</p>
-                    <footer class="tag_bottom">
-                      <div class="tag_l left"><strong>Tags:</strong><a href="#">Music</a>|<a href="#">Dance</a></div>
-                      <div class="tag_r right"><a href="#">by Mac Slocum</a>|<a href="#">10 days ago</a></div>
-                    </footer>
-                  </div>
-                </article>
-                   <div class="more" id="morebutton" >
-                        <a title="more" href="javascript:void(0);" > More &gt;  </a> 
+                    <?php
+                    echo $this -> partial('partials/feed.phtml', array(
+                    //'feed'=>$this->feed,
+                    //'category_tags'=>$this->category_tags
+                    ));
+                    ?>
+                    <div class="more" id="morebutton" >
+                        <a class="more" title="more" href="javascript:void(0);" > More &gt; </a>
                     </div>
                 </section>
             </section>

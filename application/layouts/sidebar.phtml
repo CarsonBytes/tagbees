@@ -1,16 +1,22 @@
 <?php echo $this -> partial('js/sidebar.phtml'); ?>
 <aside id="sidebar" class="left">
-    <section class="search_field clearfix">
-        <input class="keyword_text" type="text" style=""/>
-        <input class="keyword_submit" type="submit"  value=""/>
-    </section>
-    <section class="date_search clearfix">
-        <input type="checkbox" checked="checked" class="pretty_checkable" id="is_all_day" name="is_all_day" data-label="All day" />
-        <div class="text from">From</div>
-        <input type="text" name="search_begin_date" id="search_begin_date"/>
-        <div class="text to">To</div> 
-        <input type="text" name="search_end_date" id="search_end_date"/>
-    </section>
+    <form id="feed_search" name="search" class="search">
+        <section class="search_field clearfix">
+            <input class="keyword_text feed_filter_input" name="q" type="text" style=""/>
+            <input class="keyword_submit" type="submit"  value=""/>
+        </section>
+        <section class="date_search clearfix">
+            <input type="checkbox" checked="checked" class="pretty_checkable feed_filter_input" name="is_all_time" data-label="All day" />
+            <div class="text from">
+                From
+            </div>
+            <input type="text" name="begin_date" class="feed_filter_input" id="search_begin_date"/>
+            <div class="text to">
+                To
+            </div>
+            <input type="text" name="end_date" class="feed_filter_input" id="search_end_date"/>
+        </section>
+    </form>
     <section class="tab_div div_shadow div_gap">
         <nav class="tab_link clearfix">
             <ul class="home_tab">
@@ -211,80 +217,81 @@
                 <section class="hidden_categories">
                     <ul class="accordions">
                         <?php /*<li class="accordion">
-                             <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon7.png')?>" alt=" " />Visit
-                            </div>
-                            <div class="accordion_content">
-                                <div class="accordion_button2">
-                                    ECO Charity
-                                </div>
-                                <div class="accordion_button2">
-                                    Social Service
-                                </div>
-                                <div class="accordion_button2">
-                                    Perform Art
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion">
-                            <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon8.png')?>" alt=" " />Arts
-                            </div>
-                            <div class="accordion_content">
-                                <div class="accordion_button2">
-                                    ECO Charity
-                                </div>
-                                <div class="accordion_button2">
-                                    Social Service
-                                </div>
-                                <div class="accordion_button2">
-                                    Perform Art
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion">
-                            <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon9.png')?>" alt=" " />Venues &amp; Festivals
-                            </div>
-                            <div class="accordion_content">
-                                <div class="accordion_button2">
-                                    ECO Charity
-                                </div>
-                                <div class="accordion_button2">
-                                    Social Service
-                                </div>
-                                <div class="accordion_button2">
-                                    Perform Art
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion">
-                            <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon10.png')?>" alt=" " />Sports
-                            </div>
-                            <div class="accordion_content">
-                                <div class="accordion_button2">
-                                    ECO Charity
-                                </div>
-                                <div class="accordion_button2">
-                                    Social Service
-                                </div>
-                                <div class="accordion_button2">
-                                    Perform Art
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion">
-                            <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon11.png')?>" alt=" " />Unclassified
-                            </div>
-                            <div class="accordion_content">
-                                <div class="accordion_button2">
-                                    ECO Charity
-                                </div>
-                                <div class="accordion_button2">
-                                    Social Service
-                                </div>
-                                <div class="accordion_button2">
-                                    Perform Art
-                                </div>
-                            </div>
-                        </li>*/ ?>
+                         <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon7.png')?>" alt=" " />Visit
+                         </div>
+                         <div class="accordion_content">
+                         <div class="accordion_button2">
+                         ECO Charity
+                         </div>
+                         <div class="accordion_button2">
+                         Social Service
+                         </div>
+                         <div class="accordion_button2">
+                         Perform Art
+                         </div>
+                         </div>
+                         </li>
+                         <li class="accordion">
+                         <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon8.png')?>" alt=" " />Arts
+                         </div>
+                         <div class="accordion_content">
+                         <div class="accordion_button2">
+                         ECO Charity
+                         </div>
+                         <div class="accordion_button2">
+                         Social Service
+                         </div>
+                         <div class="accordion_button2">
+                         Perform Art
+                         </div>
+                         </div>
+                         </li>
+                         <li class="accordion">
+                         <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon9.png')?>" alt=" " />Venues &amp; Festivals
+                         </div>
+                         <div class="accordion_content">
+                         <div class="accordion_button2">
+                         ECO Charity
+                         </div>
+                         <div class="accordion_button2">
+                         Social Service
+                         </div>
+                         <div class="accordion_button2">
+                         Perform Art
+                         </div>
+                         </div>
+                         </li>
+                         <li class="accordion">
+                         <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon10.png')?>" alt=" " />Sports
+                         </div>
+                         <div class="accordion_content">
+                         <div class="accordion_button2">
+                         ECO Charity
+                         </div>
+                         <div class="accordion_button2">
+                         Social Service
+                         </div>
+                         <div class="accordion_button2">
+                         Perform Art
+                         </div>
+                         </div>
+                         </li>
+                         <li class="accordion">
+                         <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon11.png')?>" alt=" " />Unclassified
+                         </div>
+                         <div class="accordion_content">
+                         <div class="accordion_button2">
+                         ECO Charity
+                         </div>
+                         <div class="accordion_button2">
+                         Social Service
+                         </div>
+                         <div class="accordion_button2">
+                         Perform Art
+                         </div>
+                         </div>
+                         </li>*/
+                        ?>
                     </ul>
                 </section>
             </section>
@@ -385,7 +392,7 @@
                 </nav>
                 <div class="event_head clearfix">
                     <h4>Event Reminder</h4>
-                    <a href="#" class="more_dot">....</a><a class="dialog_link simple_personal_event add" href="#"></a>
+                    <a href="#" class="more_dot">....</a><a class="simple_personal_event add" href="#"></a>
                     <select class="alltime">
                         <option>All time</option>
                     </select>

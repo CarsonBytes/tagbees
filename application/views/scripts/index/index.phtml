@@ -3,22 +3,12 @@
     <?php echo $this -> partial('partials/filter.phtml'); ?>
 
     <section class="post" id="more_updates">
-        <?php
-        echo $this -> partial('partials/feed.phtml', array(
-        //'feed'=>$this->feed,
-        //'category_tags'=>$this->category_tags
-        ));
-        ?>
+        <div class="feeds"></div>
         <div class="more" id="morebutton" >
             <a class="more" title="more" href="javascript:void(0);" > More &gt; </a>
         </div>
     </section>
 
 </article>
-<?php /*
-<div id="simple_personal_event" class="popup_window" style="width:480px;">
-    <?php echo $this -> partial('partials/popup/simple_personal_event.phtml'); ?>
-</div>
-<div id="morebox" class="popup_window" style="width:450px;">
-    <?php echo $this -> partial('partials/popup/more.phtml'); ?>
-</div>*/?>
+
+<?php echo $this -> partial('js/feed/index.phtml', array('feed' => $this -> feed)); ?>

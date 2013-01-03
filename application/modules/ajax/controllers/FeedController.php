@@ -93,9 +93,9 @@ class Ajax_FeedController extends Zend_Controller_Action
             $this->view->tag=$tag['item'];
             $feedService=new Service_Feed();
             
-            $feed_options = array('tag_id'=>$tag['item']->id);
-            if (isset($this->params['last_id'])) $feed_options['last_id'] = $this->params['last_id'];
-            $feed = $feedService->getFeed($feed_options);
+            $feed_para = array('tag_id'=>$tag['item']->id);
+            if (isset($this->params['last_id'])) $feed_para['last_id'] = $this->params['last_id'];
+            $feed = $feedService->getFeed($feed_para);
             
             $this->view->feed=$feed['final_feed_result'];
             $this->view->category_tags=$feed['category_tags'];
@@ -142,11 +142,11 @@ class Ajax_FeedController extends Zend_Controller_Action
                 
                 $this->view->result=1;
             
-                $feed_options = array('tree'=>$tree);
-                if (isset($this->params['last_id'])) $feed_options['last_id'] = $this->params['last_id'];
+                $feed_para = array('tree'=>$tree);
+                if (isset($this->params['last_id'])) $feed_para['last_id'] = $this->params['last_id'];
                 
                 $feedService=new Service_Feed();
-                $feed=$feedService->getFeed($feed_options);
+                $feed=$feedService->getFeed($feed_para);
                 
                 $this->view->feed=$feed['final_feed_result'];
                 $this->view->category_tags=$feed['category_tags'];

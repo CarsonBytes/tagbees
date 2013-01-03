@@ -281,9 +281,12 @@ class AuthController extends Zend_Controller_Action
         } else if( $this->getRequest()->isPost() ) {
             $data=$this->getRequest()->getPost();
     
-            $authAdapter=$this->getAuthAdapter();
-    
-            $authAdapter->setIdentity( $data['username'] )
+            $authAdapter= new Zend_Auth_Adapter_DbTable(Zend_Db_Table::getDefaultAdapter());
+            $authAdapter->setTableName('user')
+                        ->setIdentityColumn('username')
+                        ->setCredentialColumn('password')
+                        ->setCredentialTreatment('MD5(?)')
+                        ->setIdentity( $data['username'] )
                         ->setCredential( $data['password']);
     
             $objAuth = Zend_Auth::getInstance();
@@ -307,14 +310,6 @@ class AuthController extends Zend_Controller_Action
     {
         $this->signUserOut();
         $this->_redirect('');
-    }
-    private function getAuthAdapter(){
-        $authAdapter= new Zend_Auth_Adapter_DbTable(Zend_Db_Table::getDefaultAdapter());
-        $authAdapter->setTableName('user')
-                    ->setIdentityColumn('username')
-                    ->setCredentialColumn('password')
-                    ->setCredentialTreatment('MD5(?)');
-        return $authAdapter;
     }
     public function forgotPasswordAction(){
         Common::getSession()->nav=array(

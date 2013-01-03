@@ -1,21 +1,9 @@
 <script type="text/javascript">
-var today = new Date();
-var end_date=new Date();
-end_date.setDate(end_date.getDate()+60);
-var default_feed_options = {
-    <?php foreach(Zend_Registry::get('config')->filter->user_para->toArray() as $key => $value){
-        echo $key . ' : ' . $value . ', ';
-    }
-    ?>
-    q : '',
-    begin_date : $.datepicker.formatDate('yy-mm-dd', today),
-    end_date : $.datepicker.formatDate('yy-mm-dd', end_date)
-};
 
-var feed_options = {};
-var maxDistance = <?php echo Zend_Registry::get('config')->filter->max_distance ?>;
-var minDistance = <?php echo Zend_Registry::get('config')->filter->min_distance ?>;
-   jQuery(function($){
+var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max_distance ?>;
+var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;
+
+jQuery(function($){
         $('.map_location .save_location').qtip({
         content: {
             text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
@@ -113,7 +101,7 @@ var minDistance = <?php echo Zend_Registry::get('config')->filter->min_distance 
     }); <?php */ ?>
     $( "#radius_slider" ).slider({
         range: "min",
-        //value:feed_options['radius'],
+        //value:feed_para['radius'],
         step: 0.01,
         min: minDistance,
         max: maxDistance,
@@ -128,7 +116,7 @@ var minDistance = <?php echo Zend_Registry::get('config')->filter->min_distance 
                 radiusWidget.bindTo('center', distanceWidget, 'position');
                 map.fitBounds(radiusWidget.get('bounds'));
             }
-          feed_options['radius'] = ui.value;
+          feed_para['radius'] = ui.value;
           updateUrlParam('radius', ui.value);
           refreshFeed();*/
         }
@@ -147,8 +135,14 @@ var minDistance = <?php echo Zend_Registry::get('config')->filter->min_distance 
     }
     checkMatchLocation();
     $('body').on('change', '#is_match_location', function() {checkMatchLocation()});
+    
+    //show after all events are attached esp. pretty checkable takes effect...
+    $('.filter_div').show();
 });
 </script>
+<?php if (Zend_Registry::get('config_ini')->server->online==1){
+    echo $this->partial('js/filter/map.phtml');
+} ?>
 <?php echo $this->partial('js/template/filter/save_location.phtml')?>
 <?php echo $this->partial('js/template/filter/manage_location.phtml')?>
 <?php //echo $this->partial('js/template/filter/confirm_location_remove.phtml')?>

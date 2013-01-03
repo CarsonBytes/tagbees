@@ -1,31 +1,4 @@
 <?php
-/**
- * Zend Framework
- *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Cloud
- * @subpackage examples
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- */
-
-/**
- * @category   Zend
- * @package    Zend_Cloud
- * @subpackage examples
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- */
 class IndexController extends Zend_Controller_Action
 {
     public function init()
@@ -35,9 +8,20 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         Common::getSession()->nav=array(
-            'Home' => '/',
+            'Home' => null,
             //'Latest, 3km from Hong Kong, within 60 days' => null
         );
+        
+        if (Zend_Auth::getInstance()->hasIdentity()){
+            $locationService=new Service_Location();
+            Common::getSession()->user_saved_location=$locationService->getSavedLocations();
+        }
+        
+        $feedService=new Service_Feed();
+        $feed=$feedService->getFeed();
+        //echo '<pre>';var_dump($feed);echo '</pre>';
+        $this->view->feed = json_encode($feed);
+        //$this->view->feed = json_encode($feed[0]);
         
     }
 }

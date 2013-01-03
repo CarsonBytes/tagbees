@@ -1,0 +1,253 @@
+<?php
+if (isset($_SESSION['display_lang'])){
+    if ($_SESSION['display_lang']=='zh-hk')$language='zh-tw';
+    else $language=$_SESSION['display_lang'];
+}else{
+    $language='en';
+}?>
+
+<script type="text/javascript">
+var bounds;
+var markersArray = [];
+var map;
+var distanceWidget;
+var geocodeTimer;
+var profileMarkers = [];
+var home_icon='<?php echo $this->baseUrl('images/home.png')?>';
+var infoWindow;
+
+
+function initMapAndAutoComplete() {
+  var mapDiv = document.getElementById('feed_filter_map');
+  map = new google.maps.Map(mapDiv, {
+    center: new google.maps.LatLng(feed_para['lat'], feed_para['lng']),
+    zoom: 8,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    zoomControl:true,
+    scrollwheel: false
+  });
+  
+  if (feed_para['is_match_location'] == 1) {
+      initDistanceWidget();
+    }
+
+    var input = document.getElementById('locate_somewhere');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+          var place = autocomplete.getPlace();
+            if (feed_para['is_match_location'] == 1) { 
+                distanceWidget.set('position',place.geometry.location);
+            }
+            updatePositionByDraggingMarker();
+            if (feed_para['is_match_location'] == 1) { 
+                map.fitBounds(distanceWidget.get('bounds'));
+            }
+        });
+
+  //carson
+    if (feed_para['is_match_location'] == 1) { 
+        reverseGeocodePosition();
+        map.fitBounds(distanceWidget.get('bounds'));
+        updateRadiusFromMapDistance() ;
+    }
+  
+  infoWindow = new google.maps.InfoWindow({
+    maxWidth: 500
+  });
+  
+<?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+  refreshMarkers();
+<?php } ?>
+}
+
+function refreshMarkers() {
+  <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+      deleteOverlays();
+      addMarker(map_markers_data);
+  <?php } ?>
+}
+
+function initDistanceWidget() {
+  distanceWidget = new DistanceWidget({
+    map: map,
+    distance: feed_para['radius'], // Starting distance in km.
+    maxDistance: maxDistance, //Carson
+    minDistance: minDistance, //Carson
+    color: '#000000',
+    activeColor: '#5599bb',
+    sizerIcon: new google.maps.MarkerImage('<?php echo $this->baseUrl('images/map/resize-off.png') ?>'),
+    activeSizerIcon: new google.maps.MarkerImage('<?php echo $this->baseUrl('images/map/resize.png') ?>')
+  });
+}
+
+function setGeocodeTriggerTimer() {
+  if (geocodeTimer) {
+    window.clearTimeout(geocodeTimer);
+  }
+
+  // Throttle the geo query so we don't hit the limit
+  geocodeTimer = window.setTimeout(function() {
+    reverseGeocodePosition();
+  }, 200);
+}
+
+function updatePositionByDraggingMarker() {
+  setGeocodeTriggerTimer();
+  
+  // Carson
+  feed_para['lat']=distanceWidget.get('position').lat();
+  feed_para['lng']=distanceWidget.get('position').lng();
+  updateUrlParam('lat',feed_para['lat']);
+  updateUrlParam('lng',feed_para['lng']);
+  refreshFeed();
+  $(".user_saved_location_list option[value='last']").prop("selected","selected");
+  //map.fitBounds(radiusWidget.get('bounds'));
+}
+
+function loadPosition(lat, lng) {
+  setGeocodeTriggerTimer();
+  
+  // Carson
+  refreshFeed(); //done in loadRadius event
+  distanceWidget.set('position',new google.maps.LatLng(lat, lng));
+  map.fitBounds(radiusWidget.get('bounds'));
+}
+function updateRadiusFromMapDistance() {
+  var distance = distanceWidget.get('distance');
+  var new_radius = Number(distance.toString().match(/^\d+(?:\.\d{0,2})?/));
+  if (feed_para['radius'] != new_radius){
+      feed_para['radius']=Number(distance.toString().match(/^\d+(?:\.\d{0,2})?/));
+      $( "#localised_radius" ).slider( "option", "value", feed_para['radius'] );
+      //$('#dist').html(distance.toFixed(2));
+  }
+}
+
+function reverseGeocodePosition() {
+  var pos = distanceWidget.get('position');
+  var geocoder = new google.maps.Geocoder();
+  geocoder.geocode({'location': pos,'language':'<?php echo $language; ?>'}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      if (results[1]) {
+        $('#of').html(results[1].formatted_address);
+        return;
+      }
+    }
+
+    $('#of').html('somewhere');
+  });
+}
+function addMarker(json) {
+  var location, marker, data_array, x;
+  infoWindow = new google.maps.InfoWindow({
+    maxWidth: 500
+  });
+  for (x in json){
+    data_array = [];
+    if (typeof json[x].lat != 'undefined' && typeof json[x].lng != 'undefined'){
+        data_array.push(json[x]);
+        jQuery( "#info-window-tmpl" ).tmpl( data_array ).appendTo('#info-window');
+        location = new google.maps.LatLng(json[x].lat,json[x].lng);
+        marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            html: jQuery( "#info-window" ).html()
+        });
+        jQuery( "#info-window" ).empty();
+        
+        google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(this.html);
+            //infoWindow.setOptions({maxWidth:900});
+            infoWindow.open(map, this);
+        });
+        
+        markersArray.push(marker);
+    }
+  }
+}
+
+// Deletes all markers in the array by removing references to them
+function deleteOverlays() {
+  if (markersArray) {
+    for (i in markersArray) {
+      markersArray[i].setMap(null);
+    }
+    markersArray.length = 0;
+  }
+}
+
+
+//place auto complete
+function codeAddress(){
+    if (feed_para['is_show_map']==0){
+        jQuery('#map-wrapper').toggle(0);
+        initMapAndAutoComplete();
+        feed_para['is_show_map']=1;
+        $('.feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
+    }
+    var place = jQuery("input[name='locate_somewhere']").val();
+    geocodePosition(place);
+}
+function handle_geolocation_query(position){
+    if (feed_para['is_show_map']==0){
+        jQuery('#map-wrapper').toggle(0);
+        initMapAndAutoComplete();
+        feed_para['is_show_map']=1;
+        $('..feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
+    }
+    feed_para['lat']=position.coords.latitude;
+    feed_para['lng']=position.coords.longitude;
+    updateUrlParam('lat',feed_para['lat']);
+    updateUrlParam('lng',feed_para['lng']);
+    loadPosition(feed_para['lat'], feed_para['lng']);
+    $(".user_saved_location_list option[value='last']").prop("selected","selected");
+}
+function handle_errors(error)
+{
+    $('#feed-settings-page .location_settings').toggle();
+    switch(error.code)
+    {
+        case error.PERMISSION_DENIED: alert("Please enable geo location function in your device and try again.");
+        break;
+
+        case error.POSITION_UNAVAILABLE: alert("Current position could not be detected.");
+        break;
+
+        case error.TIMEOUT: alert("Retrieving position timed out.");
+        break;
+
+        default: alert("Unknown error.");
+        break;
+    }
+}
+
+function loadRadius(value) {
+  $( "#localised_radius" ).slider( "option", "value", value.toFixed(2) );
+}
+
+jQuery(function($){
+    if ($('.stream').length && typeof page_type !='undefined')
+        initMapAndAutoComplete();
+})
+
+var merged;
+function getEventThumbnailUrl(data){
+    merged = jQuery.merge(data.images['main'], data.images['general']);
+    if (!jQuery.isEmptyObject(merged)){
+        var x;
+        for (x in merged){
+            if (typeof merged[x]['url'] == 'string' && merged[x]['url'] != ''){
+                return merged[x]['url'];
+            } 
+        }
+    }
+    return '<?php echo Common::getUploadedImageUrl(NULL, 'event_default_pic'); ?>';
+}
+</script>
+<script id="info-window-tmpl" type="text/x-jquery-tmpl">
+        <img src="${getEventThumbnailUrl($data)}" width="100" style="float:left;margin:5px;" />
+        <h1>${name}</h1>
+        <p>${description}</p>
+        <button onclick="jQuery('.Post').css('background','none');jQuery('#item_${id}').css('background','#E8FFF7');goToByScroll('item_${id}');">go to the feed</button>
+</script>
+<div id="info-window" style="display:none;"></div>

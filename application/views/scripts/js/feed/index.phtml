@@ -1,0 +1,279 @@
+<script type="text/javascript">
+    var feeds = jQuery.parseJSON('<?php echo $this->feed ?>');
+    jQuery(function($){
+        $( "#feed_index_item" ).tmpl(feeds.data,
+          {
+              getMainPicTitle: function(){
+                  var img_is_main_pics =this.data.img_is_main_pics.split(',');
+                  var img_descriptions =this.data.img_descriptions.split(',');
+                  for( index in img_is_main_pics){
+                      if (img_is_main_pics[index] == 1){
+                          return img_descriptions[index];
+                      }
+                  }
+              },
+              getMainPicURL: function(){
+                  var img_is_main_pics =this.data.img_is_main_pics.split(',');
+                  var img_filenames =this.data.img_filenames.split(',');
+                  for( index in img_is_main_pics){
+                      if (img_is_main_pics[index] == 1){
+                          return '<?php echo $this->baseUrl('uploads');?>/'+img_filenames[index];
+                      }
+                  }
+                  return '<?php echo Common::changePathToURL(Common::config()->pics->event->public);?>';
+              },
+              getMainCatName: function(){
+                  var main_cat_ids = this.data.tree_ids.main;
+                  var keys = $.keys(main_cat_ids);
+                  return feeds.category_tags[main_cat_ids[keys[keys.length-1]]]['name'];
+              },
+              getMainCatURL: function(){
+                  var main_cat_ids = this.data.tree_ids.main;
+                  var url = [];
+                  for (index in main_cat_ids){
+                      url.push(feeds.category_tags[main_cat_ids[index]]['slug_name']);
+                  }
+                  url = url.join('/');
+                  return '<?php echo $this->baseUrl('tree');?>/'+url;
+              },
+              urldecode: function() {
+                 //console.log(this.data);
+                if (typeof arguments[0] == 'string') 
+                    return decodeURIComponent((arguments[0]+'').replace(/\+/g, '%20')).replace('\n','<br />');
+                else return '';
+              },
+              formatMysqlDate: function() { 
+                  if (typeof arguments[0] == 'string') 
+                    return $.datepicker.formatDate('dd M yy', mysqlTimeStampToDate(arguments[0]));
+              },
+              tagHTML: function() {
+                  var tag_slug_names =this.data.tag_slug_names.split(',');
+                  var tag_names =this.data.tag_names.split(',');
+                  var tag_types =this.data.tag_types.split(',');
+                  var html = [];
+                  for( index in tag_slug_names){
+                    if (tag_names[index]!='' && tag_slug_names[index]!='' && tag_slug_names[index]!='')
+                        html.push('<a href="<?php echo $this->baseUrl();?>/'+tag_types[index]+'/'+tag_slug_names[index]+'">'+tag_names[index]+'</a>');
+                  }
+                  return html.join(', ');
+              }
+          } 
+        ).appendTo( ".post .feeds");
+        
+        $("abbr.timeago").timeago();
+        
+        $(".tag_top .place").dotdotdot({
+                wrap : 'word',
+                height: 16
+        }).qtip({
+            content: {
+                text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
+            },
+            position: {
+                my: 'top left',
+                at: 'bottom right', // Stick it at the top left of our element
+                viewport: $(window), // Keep it within the window boundaries...
+                adjust: { method: 'shift' } // ...by shifting it, not flipping as is default!
+            },
+            show: 'click', // Show on click
+            hide: 'unfocus', // Hide it when the element loses focus
+            style: {
+                classes: 'qtip-googlemap qtip-shadow',
+                width: 200 // Keep the tooltip a set width.. in our case 200px!
+            },
+            events: {
+                render : function(event, api)
+                {
+                    var tooltip = $(this),
+     
+                    // Setup the map container and append it to the tooltip
+                    container = $('<div style="width:200px; height:200px;"></div>')
+                        .appendTo(api.elements.content.empty());
+                        
+     
+                    // Temporarily show the tooltip so we don't get rendering bugs in GMaps
+                    tooltip.show();
+     
+                    // Create map object as api attribute for later use
+                    api.map = new google.maps.Map(container[0], {
+                        zoom: 12, // Close zoom!
+                        mapTypeId: google.maps.MapTypeId.ROADMAP // Use the classic roadmap
+                    });
+     
+                    // Hide the tooltip again now we're done
+                    tooltip.hide();
+                },
+                show: function(event, api)
+                {
+                    // Grab the map reference and target
+                    var map = api.map,
+                        target = api.elements.target,
+                        coords, latlong, map, marker, info;
+     
+                    // Parse coordinates of event target
+                    coords = target.attr('data-coord').split(',');
+     
+                    // Setup lat/long coordinates
+                    latlong = new google.maps.LatLng(parseFloat(coords[0]), parseFloat(coords[1]));
+     
+                    // Create marker at the new location and center map there
+                    marker = new google.maps.Marker({
+                        position: latlong,
+                        map: map,
+                        title: target.attr('alt') // Use the alt attribute of the target for the marker title
+                    });
+                    map.setCenter(latlong);
+                }
+            }
+        });;
+        
+        $(".post_right p").dotdotdot({
+                wrap : 'letter',
+                height: 80
+        });
+        
+        $(".direction-arrow").each( function(){
+            var direction=$(this).attr('class').replace('direction-arrow ','');
+            if (direction!=''){
+                $(this).css('display','inline-block');
+                $(this).rotate(parseInt(direction));
+            }else{
+                //$(this).css('display','none');
+            }
+        })
+        
+    });
+    (function($) {
+      $.timeago = function(timestamp) {
+        if (timestamp instanceof Date) {
+          return inWords(timestamp);
+        } else if (typeof timestamp === "string") {
+          return inWords($.timeago.parse(timestamp));
+        } else {
+          return inWords($.timeago.datetime(timestamp));
+        }
+      };
+      var $t = $.timeago;
+    
+      $.extend($.timeago, {
+        settings: {
+          refreshMillis: 60000,
+          allowFuture: false,
+          strings: {
+            prefixAgo: null,
+            prefixFromNow: null,
+            suffixAgo: "<?php echo $this->translate(' ago')?>",
+            suffixFromNow: "<?php echo $this->translate('from now')?>",
+            seconds: "<?php echo $this->translate('just before')?>",
+            minute: "<?php echo $this->translate('about a minute')?>",
+            minutes: "<?php echo $this->translate('%d minutes')?>",
+            hour: "<?php echo $this->translate('about an hour')?>",
+            hours: "<?php echo $this->translate('about %d hours')?>",
+            day: "<?php echo $this->translate('a day')?>",
+            days: "<?php echo $this->translate('%d days')?>",
+            month: "<?php echo $this->translate('about a month')?>",
+            months: "<?php echo $this->translate('%d months')?>",
+            year: "<?php echo $this->translate('about a year')?>",
+            years: "<?php echo $this->translate('%d years')?>",
+            numbers: []
+          }
+        },
+        inWords: function(distanceMillis) {
+            var $l = this.settings.strings;
+            var prefix = $l.prefixAgo;
+            var suffix = $l.suffixAgo;
+            if (this.settings.allowFuture) {
+              if (distanceMillis < 0) {
+                prefix = $l.prefixFromNow;
+                suffix = $l.suffixFromNow;
+              }
+            }
+    
+            var seconds = Math.abs(distanceMillis) / 1000;
+            var minutes = seconds / 60;
+            var hours = minutes / 60;
+            var days = hours / 24;
+            var years = days / 365;
+    
+            function substitute(stringOrFunction, number) {
+              var string = $.isFunction(stringOrFunction) ? stringOrFunction(number, distanceMillis) : stringOrFunction;
+              var value = ($l.numbers && $l.numbers[number]) || number;
+              return string.replace(/%d/i, value);
+            }
+    
+            var words = seconds < 45 && substitute($l.seconds, Math.round(seconds)) ||
+              seconds < 90 && substitute($l.minute, 1) ||
+              minutes < 45 && substitute($l.minutes, Math.round(minutes)) ||
+              minutes < 90 && substitute($l.hour, 1) ||
+              hours < 24 && substitute($l.hours, Math.round(hours)) ||
+              hours < 48 && substitute($l.day, 1) ||
+              days < 30 && substitute($l.days, Math.floor(days)) ||
+              days < 60 && substitute($l.month, 1) ||
+              days < 365 && substitute($l.months, Math.floor(days / 30)) ||
+              years < 2 && substitute($l.year, 1) ||
+              substitute($l.years, Math.floor(years));
+    
+            return $.trim([prefix, words, suffix].join(""));
+          },
+          parse: function(iso8601) {
+            var s = $.trim(iso8601);
+            s = s.replace(/\.\d\d\d+/,""); // remove milliseconds
+            s = s.replace(/-/,"/").replace(/-/,"/");
+            s = s.replace(/T/," ").replace(/Z/," UTC");
+            s = s.replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
+            return new Date(s);
+          },
+          datetime: function(elem) {
+            // jQuery's `is()` doesn't play well with HTML5 in IE
+            var isTime = $(elem).get(0).tagName.toLowerCase() === "time"; // $(elem).is("time");
+            var iso8601 = isTime ? $(elem).attr("datetime") : $(elem).attr("title");
+            return $t.parse(iso8601);
+          }
+        });
+    
+        $.fn.timeago = function() {
+          var self = this;
+          self.each(refresh);
+    
+          var $s = $t.settings;
+          if ($s.refreshMillis > 0) {
+            setInterval(function() { self.each(refresh); }, $s.refreshMillis);
+          }
+          return self;
+        };
+    
+        function refresh() {
+          var data = prepareData(this);
+          if (!isNaN(data.datetime)) {
+            $(this).text(inWords(data.datetime));
+          }
+          return this;
+        }
+    
+        function prepareData(element) {
+          element = $(element);
+          if (!element.data("timeago")) {
+            element.data("timeago", { datetime: $t.datetime(element) });
+            var text = $.trim(element.text());
+            if (text.length > 0) {
+              element.attr("title", text);
+            }
+          }
+          return element.data("timeago");
+        }
+    
+        function inWords(date) {
+          return $t.inWords(distance(date));
+        }
+    
+        function distance(date) {
+          return (new Date().getTime() - date.getTime());
+        }
+    
+        // fix for IE6 suckage
+        document.createElement("abbr");
+        document.createElement("time");
+    }(jQuery));
+</script>
+<?php echo $this->partial('js/feeds.phtml') ?>
+<?php echo $this->partial('js/template/feed/index_item.phtml') ?>

@@ -18,7 +18,11 @@
     ->appendFile('jquery.tmpl.min.js')
     ->appendFile('jquery.qtip.min.js')
     ->appendFile('jquery.watermark.js')
-    ->appendFile('prettyCheckable.js');
+    ->appendFile('prettyCheckable.js')
+    ->appendFile('jquery.dotdotdot-1.5.3.js')
+    ->appendFile('jQueryRotate.2.2.js')
+    ->appendFile('jquery.validate.js')
+    ->appendFile('jquery.address-1.5.min.js');
     //->appendFile('jquery.selectBoxIt.js');
 
     if (Zend_Registry::get('config_ini')->server->online==1){
@@ -45,9 +49,20 @@
         </style>
     <![endif]-->
     
+<?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&amp;region=hk&amp;language=<?php echo Common::getSiteDisplayLang();?>" type="text/javascript"></script>
+<?php } ?>
 <!-- qtip box -->
 <script type="text/javascript">
    jQuery(function($){
+        <?php if (APPLICATION_ENV == 'production'){
+            ?>
+            // hack for disabling console.log... 
+                console = console || {};
+                console.log = function(){};
+            <?php 
+            }
+        ?>
         $.fn.qtip.defaults = $.extend(true, {}, $.fn.qtip.defaults, {
             overwrite: true,
             content: {
@@ -115,6 +130,10 @@
          $.datepicker.setDefaults({
            dateFormat: 'yy-mm-dd'
         });*/
+       
+        $('body').on('click', '[data-hasqtip]' , function(ev) {
+            ev.preventDefault();
+        });
        
     });
 
