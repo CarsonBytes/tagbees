@@ -40,8 +40,8 @@ function updateFilterByChangedInput(selector){
 }
 
 function updateSortByInput(value){
-    $('.sort_by nav ul li').removeClass('current');
-    $('.sort_by nav ul li[data-value="'+value+'"]').addClass('current');
+    $('nav.sort_by ul li').removeClass('current');
+    $('nav.sort_by ul li[data-value="'+value+'"]').addClass('current');
     $('.feed_filter_input[name="sort_by"]').val(value);
 }
 
@@ -106,6 +106,24 @@ jQuery(function($){
             target: $(window)
         },
         style: 'qtip-light qtip-rounded'
+    });
+    $('input[name="is_match_interest"]+ label').qtip({
+        content: {
+            text: 'Please login to let us find your interest.',
+            title: {
+                button: false
+            }
+        },
+        position: {
+            my: 'bottom center',
+            at: 'top center'
+        },
+        show: {
+            event: 'mouseenter', delay: 100
+        },
+        hide: {
+            event: 'mouseout'
+        }
     });
     <?php /*$('.confirm_location_remove').qtip({
         content: {
@@ -181,7 +199,7 @@ jQuery(function($){
     //show after all events are attached esp. pretty checkable takes effect...
     $('.filter_div').show();
     
-    $('body').on('click','.sort_by nav ul li', function(){
+    $('body').on('click','.sort_by ul li', function(){
         updateSortByInput($(this).data('value'));
         addChangedFeedInputName($('.feed_filter_input[name="sort_by"]'));
         if (validateSidebarSearchInputs()){
@@ -233,7 +251,7 @@ jQuery(function($){
     //when user clicks load more
     .on("click",'.more_div',function() {
         feed_para.last_id = $('.feeds > article:last').data("id");
-        refreshFeed('index');
+        refreshFeed('index', true);
         return false;
     });
 });

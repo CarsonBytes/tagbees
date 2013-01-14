@@ -104,11 +104,7 @@ function refreshFeed(type, more_flag){
                 },
                 success: function(response){
                     if ($.isEmptyObject(response.data)){
-                        //var content = [{'error' : '<?php echo $this->translate('There is no more to load.')?>'}] ;
-                        //showFlashMessages(content);
-                        $('.post .feeds').html('<p>No results. Please loosen the filters</p>');
-                        $(".more_div .more").hide();
-                        $(".more_div .loading").hide();
+                        hideMoreButton(more_flag);
                     } else {
                 <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
                         if (!map_markers_data) var map_markers_data = [];
@@ -121,6 +117,16 @@ function refreshFeed(type, more_flag){
                 }
         });
     };
+}
+
+function hideMoreButton(more_flag){
+    //var content = [{'error' : '<?php echo $this->translate('There is no more to load.')?>'}] ;
+    //showFlashMessages(content);
+    $(".more_div .more").hide();
+    $(".more_div .loading").hide();
+    var text = '<p>No results. Please loosen the filters</p>';
+    if (more_flag) $(".post .feeds").append(text);
+    else $(".post .feeds").html(text);
 }
 
 <?php // update url parameters from feed_para ?>

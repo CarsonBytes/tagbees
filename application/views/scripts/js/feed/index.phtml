@@ -64,15 +64,16 @@
                   }
               } 
         );
-        //decide if the more button is needed
-        if (feeds_html.length < <?php echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
-            $('.more_div').hide();
+        if (more_flag) feeds_html.appendTo( ".post .feeds");
+        else $(".post .feeds").html(feeds_html);
+        
+        //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
+        if (feeds_html.length < <?php echo Zend_Registry::get('config')->filter->user_para->rpp ?> && !more_flag){
+            hideMoreButton(more_flag);
         }else{
             $('.more_div .loading').hide();
             $('.more_div .more').show();
         }
-        if (more_flag) feeds_html.appendTo( ".post .feeds");
-        else $(".post .feeds").html(feeds_html);
         
         $("abbr.timeago").timeago();
         
