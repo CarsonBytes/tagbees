@@ -247,33 +247,6 @@ jQuery("#time-spec").on("change", function() {
 });
 </script>
 
-<script type="text/javascript">
-jQuery(function($){
-
-jQuery(".more").click(function() {
-   var element = jQuery(this);
-   var msg = element.attr("id");
-   
-jQuery("#morebutton").html('<img src="images/ajax-loader.gif" />');
-    jQuery.ajax({
-    type: "POST",
-    url: "<?php echo $this->baseUrl('ajax/feed/load');?>",
-    data: "lastmsg="+ msg,
-    cache: false,
-    success: function(msg){
-    if (msg.result == 1) {
-        jQuery("#more_updates").append(msg.html);
-        jQuery(".more").remove();
-    }else{
-        alert('error. please try again later!')
-    }
-  }
-});
-    return false;
-    });
-
-});
-</script>
 
 <!-- dialog box -->
 <script type="text/javascript">

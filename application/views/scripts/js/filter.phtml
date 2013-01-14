@@ -3,8 +3,50 @@
 var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max_distance ?>;
 var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;
 
+
+// prepare to fetch new feed based on updated filter input
+function updateFilterByChangedInput(selector){
+    if (validateSidebarSearchInputs()){
+         if (selector.is('.feed_filter_input[name="is_match_location"]')){
+            jQuery( ".radius_amt span#filter_radius" ).text( jQuery( "#radius_slider" ).slider( "option", "value" ));
+            if (jQuery('.feed_filter_input[name="is_match_location"]').is(':checked')){
+                jQuery( ".match_location_set" ).css('display','block');
+                $('#locate_somewhere').prop('disabled',false);
+                initDistanceWidget();
+            }else{
+                jQuery( ".match_location_set" ).hide();
+                $('#locate_somewhere').prop('disabled',true);
+                distanceWidget.set('map', null);
+            }
+        } else if (selector.is('.feed_filter_input[name="is_show_map"]')) {
+            <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+                    $('#map-wrapper').toggle();
+                    initMapAndAutoComplete();
+                    return true;
+            <?php } else { ?>
+                var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
+                showFlashMessages(content);
+            <?php } ?>
+        }
+    <?php if (! Zend_Auth::getInstance()->hasIdentity()) { ?>
+        else if (selector.is('.feed_filter_input[name="is_match_interest"]')) {
+            var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
+            showFlashMessages(content);
+            selector.prop('checked',false);
+            return false;
+        }
+    <?php } ?>
+    }
+}
+
+function updateSortByInput(value){
+    $('.sort_by nav ul li').removeClass('current');
+    $('.sort_by nav ul li[data-value="'+value+'"]').addClass('current');
+    $('.feed_filter_input[name="sort_by"]').val(value);
+}
+
 jQuery(function($){
-        $('.map_location .save_location').qtip({
+        $('.match_location_set .save_location').qtip({
         content: {
             text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
             ajax: {
@@ -35,7 +77,7 @@ jQuery(function($){
         },
         style: 'qtip-light qtip-rounded'
     });
-    $('.map_location .manage_location').qtip({
+    $('.match_location_set .manage_location').qtip({
         content: {
             text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
             ajax: {
@@ -126,11 +168,11 @@ jQuery(function($){
     var checkMatchLocation = function(){
         if($("#is_match_location").attr("checked")=="checked")
         {
-            $('.map_location').show();  
+            $('.match_location_set').show();  
         }
         else
         {
-            $('.map_location').hide();
+            $('.match_location_set').hide();
         }
     }
     checkMatchLocation();
@@ -138,7 +180,64 @@ jQuery(function($){
     
     //show after all events are attached esp. pretty checkable takes effect...
     $('.filter_div').show();
+    
+    $('body').on('click','.sort_by nav ul li', function(){
+        updateSortByInput($(this).data('value'));
+        addChangedFeedInputName($('.feed_filter_input[name="sort_by"]'));
+        if (validateSidebarSearchInputs()){
+            for( key in changed_feed_input_names){
+                updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+            }
+            refreshFeed('index');
+        }
+    }).on('change','.feed_filter_input[name="is_match_interest"]', function(){
+        <?php /*if (empty($_SESSION['user'])) { ?>
+            var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
+            showFlashMessages(content);
+            $(this).removeAttr('checked');
+            console.log($(this).parent('.prettycheckbox').find('a'))
+            var element = $(this).parent('.prettycheckbox').find('a');
+            element.delay(1000).removeClass('checked');
+        <?php }else{ ?>
+            addChangedFeedInputName($('.feed_filter_input[name="is_match_interest"]'));
+            if (validateSidebarSearchInputs()){
+                for( key in changed_feed_input_names){
+                    updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+                }
+                refreshFeed('index');
+            }
+        <?php }*/ ?>
+    }).on('change','.feed_filter_input[name="is_match_location"]', function(){
+        addChangedFeedInputName($('.feed_filter_input[name="is_match_location"]'));
+        if (validateSidebarSearchInputs()){
+            for( key in changed_feed_input_names){
+                updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+            }
+            refreshFeed('index');
+        }
+    }).on('click','.showMap', function(){
+        var input = $('.feed_filter_input[name="is_show_map"]')
+        if(input.is(':checked')){
+            input.removeProp('checked','checked');
+        }else{
+            input.prop('checked','checked');
+        }
+        addChangedFeedInputName($('.feed_filter_input[name="is_show_map"]'));
+        if (validateSidebarSearchInputs()){
+            for( key in changed_feed_input_names){
+                updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+            }
+            refreshFeed('index');
+        }
+    })
+    //when user clicks load more
+    .on("click",'.more_div',function() {
+        feed_para.last_id = $('.feeds > article:last').data("id");
+        refreshFeed('index');
+        return false;
+    });
 });
+
 </script>
 <?php if (Zend_Registry::get('config_ini')->server->online==1){
     echo $this->partial('js/filter/map.phtml');

@@ -528,7 +528,7 @@
 	}
 	function debug( d, m )
 	{
-		if ( !d )
+		/*if ( !d )
 		{
 			return false;
 		}
@@ -544,7 +544,7 @@
 		if ( window.console && window.console.log )
 		{
 			window.console.log( m );
-		}
+		}*/
 		return false;
 	}
 	

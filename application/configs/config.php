@@ -14,7 +14,7 @@ return array(
             'lat' =>22.4,
             'lng' =>114.1,
             'radius' =>18,
-            'rpp' => 10,
+            'rpp' => 3,
             'q'=>null,
             'user_id'=>null,
             'tag_id'=>null,

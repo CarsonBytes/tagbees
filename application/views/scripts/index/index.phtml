@@ -1,14 +1,15 @@
+<?php echo $this -> partial('js/feed/index.phtml', array('feed' => $this -> feed)); ?>
 <?php //echo $this->partial('breadcrumbs.phtml'); ?>
 <article class="main div_shadow">
     <?php echo $this -> partial('partials/filter.phtml'); ?>
 
     <section class="post" id="more_updates">
         <div class="feeds"></div>
-        <div class="more" id="morebutton" >
-            <a class="more" title="more" href="javascript:void(0);" > More &gt; </a>
+        <div class="more_div">
+            <a style="display:none;" class="more" href="#"> More &gt; </a>
+            <img style="display:none;" class="loading" src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
         </div>
     </section>
 
 </article>
 
-<?php echo $this -> partial('js/feed/index.phtml', array('feed' => $this -> feed)); ?>

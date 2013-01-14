@@ -19,9 +19,7 @@ class IndexController extends Zend_Controller_Action
         
         $feedService=new Service_Feed();
         $feed=$feedService->getFeed();
-        //echo '<pre>';var_dump($feed);echo '</pre>';
         $this->view->feed = json_encode($feed);
-        //$this->view->feed = json_encode($feed[0]);
         
     }
 }

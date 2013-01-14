@@ -39,7 +39,7 @@ class Service_Feed{
      *  $q='',
      *  $begin_date='',
      *  $end_date='',
-     *  $all_time=1,
+     *  $is_all_time=1,
      *  $rpp=20,
      *  $last_id=''
      * @params $sys_para
@@ -53,13 +53,14 @@ class Service_Feed{
         
         if ($user_para == array()){
             // init default value
+            $user_para = Zend_Registry::get('config')->filter->user_para->toArray();
+            
+        } else {
             if (!isset($user_para['rpp'])) $user_para['rpp'] =  Zend_Registry::get('config')->filter->user_para->rpp;
             if (isset($user_para['is_match_location'])) {
                 if (!isset($user_para['lat'])) $user_para['lat'] =  Zend_Registry::get('config')->filter->user_para->lat;
                 if (!isset($user_para['lng'])) $user_para['lng'] =  Zend_Registry::get('config')->filter->user_para->lng;
             }
-        } else {
-            $user_para = Zend_Registry::get('config')->filter->user_para->toArray();
         }
         //get general feed sql query and feed interest ids of the logined user
 			$is_load_feed = true;	
@@ -83,7 +84,7 @@ class Service_Feed{
 					}
 				//}
 			}
-		
+             
 		if ($is_load_feed){
 			$select_cols=array('*');
 			
@@ -113,10 +114,6 @@ class Service_Feed{
             // get item images
             $imageService=new Service_Image();
             $this->feed_query = $imageService->getJoinQuery($this->feed_query, 'f.id');
-            // we should rewrite this as we no longer put the user thumbnail urls to image table
-			// add image thumbnails
-			//$imageService=new Service_Image();
-			//$this->feed_query=$imageService->getJoinQuery($this->feed_query,'f.submitter_id', false);
 	
 			$bookmarkService=new Service_Bookmark();
 			$this->feed_query=$bookmarkService->getBookmarkCountQuery($this->feed_query,'f');
@@ -125,19 +122,19 @@ class Service_Feed{
 				$this->feed_query=$bookmarkService->getSelfIsBookmarkQuery($this->feed_query,'f');
 			}
 	
+            //limit radius
 			if (
 			     isset($user_para['is_match_location']) && $user_para['is_match_location'] == 1 
 			     && isset($user_para['radius']) && is_numeric($user_para['radius'])
              ){
 				$this->feed_query->having('distance < '.$user_para['radius']);
 			}
-	
-			if (isset($user_para['is_match_interest']) && is_numeric($user_para['is_match_interest'])){
+	           
+            //match interest
+			if (isset($user_para['is_match_interest']) && is_numeric($user_para['is_match_interest']) && $related_ids != array()){
 				$this->feed_query->where('i.id in (?)',$related_ids);
 			}
 	
-			//echo $user_para['sort_by'];
-			//exit();
 			// feed type ordering and where clause preparation
 			if (isset($user_para['sort_by']) && $user_para['sort_by']==1){
 				//hot
@@ -193,9 +190,8 @@ class Service_Feed{
 			}else{
 				$this->feed_query->where("f.status = 1");
 			}
-
 			// keyword filtering
-			if (isset($user_para['q'])){
+			if (isset($user_para['q']) && trim($user_para['q']!='')){
 				$terms_select=$this->db->select();
 				$terms_select->where("f.name LIKE ?", '%'.$user_para['q'].'%')
 					->orWhere("f.description LIKE ?", '%'.$user_para['q'].'%')
@@ -244,25 +240,28 @@ class Service_Feed{
 			}
 
 			//date range
-			if (isset($user_para['all_time']) && $user_para['all_time']!=1){
+			if (isset($user_para['is_all_time']) && $user_para['is_all_time']!=1){
 				$date_select=$this->db->select();
 				$i=0;
-				if(isset($user_para['begin_date'])){
-					$i++;
-					$date_select->where(" DATEDIFF((f.end_datetime),?)>=0", $user_para['begin_date']);
-				}
-                if(isset($user_para['end_date'])){
+                $is_begin_date_specified = isset($user_para['begin_date']) && trim($user_para['begin_date']) !='';
+                $is_end_date_specified = isset($user_para['end_date']) && trim($user_para['end_date']) !='';
+                
+                if($is_begin_date_specified){
+                    $i++;
+                    $date_select->where("DATEDIFF((f.end_datetime),?)>=0", $user_para['begin_date']);
+                }
+                if($is_end_date_specified){
                     $i++;
                     $date_select->where("DATEDIFF((f.begin_datetime),?)<=0",  $user_para['end_date']);
                 }
-				if ($i!=0)$this->feed_query->where(join(" ",$date_select->getPart(Zend_Db_Select::WHERE)));
+				if($i>0)$this->feed_query->where(join(" ",$date_select->getPart(Zend_Db_Select::WHERE)));
 			}
 
 			//in case it is user / tag profile feed
-			if (isset($user_para['user_id'])){
+			if (isset($user_para['user_id']) && $user_para['user_id'] !=''){
 					//user profile!
 					$this->feed_query->where("f.submitter_id = ?", intval($user_id));
-			}else if (isset($user_para['tag_id'])){
+			}else if (isset($user_para['tag_id']) && $user_para['tag_id'] !=''){
 					//tag profile!
 					$tagService=new Service_Tag();
 					$this->feed_query=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', $user_para['tag_id']);

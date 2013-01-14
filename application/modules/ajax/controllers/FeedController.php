@@ -25,21 +25,10 @@ class Ajax_FeedController extends Zend_Controller_Action
     public function refreshAction()
     {
         $array = array();
-        
-	    $registry = Zend_Registry::getInstance();
+        //echo '<pre>';var_dump($this->params);echo '</pre>';die();
 		$feedService=new Service_Feed();
 		$feed=$feedService->getFeed($this->params);
-		$array['json']=$this->view->feed=$feed['final_feed_result']; // to show map markers
-		$this->view->category_tags=$feed['category_tags'];
-        
-        if (!empty($this->view->feed)) {
-            $this->view->addScriptPath(APPLICATION_PATH . "/views/scripts/");
-            $array['html'] = $this->view->render('partials/feed_refresh.phtml'); // to render plain html
-            $array['result'] = 1;
-            $this->_helper->json($array);
-        } else {
-            $this->_helper->json(array('result'=>0));
-        }
+        $this->_helper->json($feed);
     }
 
     public function loadMoreUserActivitiesAction() {

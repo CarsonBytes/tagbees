@@ -3,58 +3,80 @@
     <?php echo $this->headTitle(); ?>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="<?php echo $this->baseUrl('favicon.ico'); ?>" rel="shortcut icon" />
-<?php echo $this->minifyHeadLink()
-    //->appendStylesheet('tooltip.css')
-    //->appendStylesheet('bootstrap.css')
-    ->appendStylesheet('jquery.qtip.css')
-    ->appendStylesheet('ui-lightness/jquery-ui-1.9.2.custom.css')
-    //->appendStylesheet('jquery.selectBoxIt.css')
-    ->appendStylesheet('prettyCheckable.css');
-?>
-
-<?php $this->minifyHeadScript()
-    ->prependFile('jquery-ui-1.8.23.custom.min.js')
-    ->prependFile('jquery-1.8.3.min.js')
-    ->appendFile('jquery.tmpl.min.js')
-    ->appendFile('jquery.qtip.min.js')
-    ->appendFile('jquery.watermark.js')
-    ->appendFile('prettyCheckable.js')
-    ->appendFile('jquery.dotdotdot-1.5.3.js')
-    ->appendFile('jQueryRotate.2.2.js')
-    ->appendFile('jquery.validate.js')
-    ->appendFile('jquery.address-1.5.min.js');
-    //->appendFile('jquery.selectBoxIt.js');
-
-    if (Zend_Registry::get('config_ini')->server->online==1){
-        echo $this->minifyHeadScript();
-    }else{
-        echo $this->minifyHeadScript();
-    }
-?>
-            
-    <link href="<?php echo $this->baseUrl('css/main.less')?>" rel="stylesheet/less" type="text/css" media="all">
-    <script type="text/javascript" src="<?php echo $this->baseUrl('js/less-1.3.0.min.js')?>"> </script>
-<!-- Internet Explorer HTML5 enabling code: -->
-<!--[if IE]>
-        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-        <script src="http://ie7-js.googlecode.com/svn/version/2.1%28beta4%29/ie7-squish.js"></script>
-
-        <link href="<?php echo $this->baseUrl('css/ie.css')?>" rel="stylesheet" type="text/css" media="all">
-        <style type="text/css">
-        .clear {
-          zoom: 1;
-          display: block;
-        }
-        </style>
-    <![endif]-->
+    <?php echo $this->minifyHeadLink()
+        //->appendStylesheet('tooltip.css')
+        //->appendStylesheet('bootstrap.css')
+        ->appendStylesheet('normalize.css')
+        ->appendStylesheet('jquery.qtip.css')
+        ->appendStylesheet('ui-lightness/jquery-ui-1.9.2.custom.css');
+    ?>
     
-<?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&amp;region=hk&amp;language=<?php echo Common::getSiteDisplayLang();?>" type="text/javascript"></script>
-<?php } ?>
+    <?php $this->minifyHeadScript()
+        ->prependFile('jquery-ui-1.8.23.custom.min.js')
+        ->prependFile('jquery-1.8.3.min.js')
+        ->appendFile('jquery.tmpl.min.js')
+        ->appendFile('jquery.qtip.min.js')
+        ->appendFile('jquery.watermark.js')
+        ->appendFile('jquery.dotdotdot-1.5.3.js')
+        ->appendFile('jQueryRotate.2.2.js')
+        ->appendFile('jquery.validate.js')
+        ->appendFile('jquery.address-1.5.min.js')
+        ->appendFile('jquery.lazyload.js');
+    
+        if (Zend_Registry::get('config_ini')->server->online==1){
+            echo $this->minifyHeadScript();
+        }else{
+            echo $this->minifyHeadScript();
+        }
+    ?>
+    <link href="<?php echo $this->baseUrl('css/main.less')?>" rel="stylesheet/less" type="text/css" media="all">
+    <link href="<?php echo $this->baseUrl('css/wittysparks_checkbox_radio.css')?>"  rel="stylesheet" type="text/css" >
+    <script type="text/javascript" src="<?php echo $this->baseUrl('js/less-1.3.0.min.js')?>"> </script>
+    <!-- Internet Explorer HTML5 enabling code: -->
+    <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+            <script src="http://ie7-js.googlecode.com/svn/version/2.1%28beta4%29/ie7-squish.js"></script>
+    
+            <link href="<?php echo $this->baseUrl('css/ie.css')?>" rel="stylesheet" type="text/css" media="all">
+            <style type="text/css">
+            .clear {
+              zoom: 1;
+              display: block;
+            }
+            </style>
+        <![endif]-->
+    <!--[if (gte IE 6)&(lte IE 8)]>
+      <script type="text/javascript" src="<?php echo $this->baseUrl('js/selectivizr-min.js')?>"></script>
+    <![endif]--> 
+
+    <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+        <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&amp;region=hk&amp;language=<?php echo Common::getSiteDisplayLang();?>" type="text/javascript"></script>
+    <?php } ?>
 <!-- qtip box -->
 <script type="text/javascript">
+    var flash_messages = jQuery.parseJSON('<?php echo json_encode(Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->getMessages()) ?>');
+
    jQuery(function($){
+        if (flash_messages != []){
+            showFlashMessages(flash_messages);
+        }
+        jQuery.address
+            .crawlable(1)
+            <?php if ($this->baseUrl()!='/'){?>
+            .state('<?php echo $this->baseUrl()?>')
+            <?php }?>
+            .init(function(event) {
+            });
+        $.ajaxSetup({
+            type: "POST",
+            dataType:"json",
+            error:function(jqXHR, textStatus, errorThrown){
+                //console.log(errorThrown);
+                //console.log(textStatus);
+            },
+            cache: true
+        })
         <?php if (APPLICATION_ENV == 'production'){
             ?>
             // hack for disabling console.log... 
@@ -119,23 +141,27 @@
         $.watermark.options = {
           className: 'watermark'
         };
-         
-        $('input.pretty_checkable').prettyCheckable({
-            color: 'red'
-        });
-        $('.prettycheckbox').disableSelection();
+        
+        $('input[type="checkbox"]+ label').disableSelection();
           
-        /*
-         * not sure why it's not working
+       //not sure why it's not working
          $.datepicker.setDefaults({
            dateFormat: 'yy-mm-dd'
-        });*/
+        });
        
         $('body').on('click', '[data-hasqtip]' , function(ev) {
             ev.preventDefault();
         });
-       
+        
+        $("img.lazy").lazyload({
+        });
     });
-
+    
+    //begin date and end date for sidebar and feed para
+    var today = new Date();
+    var end_date = new Date();
+    end_date.setDate(today.getDate()+60);
+    
+    var map_markers_data = [];
 </script>
 </head>

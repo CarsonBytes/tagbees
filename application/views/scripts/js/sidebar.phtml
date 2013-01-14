@@ -1,5 +1,33 @@
 <script type="text/javascript">
     jQuery(function($) {
+        var check_all_day = function(){
+            if ($('#feed_search input[name="is_all_time"]').is(':checked')) {
+                $('#feed_search input[name="begin_date"]').datepicker('disable');
+                $('#feed_search input[name="end_date"]').datepicker('disable');
+            } else {
+                $('#feed_search input[name="begin_date"]').datepicker('enable');
+                $('#feed_search input[name="end_date"]').datepicker('enable');
+            }
+        };
+        check_all_day();
+        $('body').on('change', '#feed_search input[name="is_all_time"]', function() {check_all_day()});
+
+        
+        //tuning date range (no reversed date range)
+        var sidebar_dates = $('#feed_search input[name="begin_date"], #feed_search input[name="end_date"]').datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function( selectedDate ) {
+                var option = this.name == "begin_date" ? "minDate" : "maxDate",
+                    instance = $( this ).data( "datepicker" ),
+                    date = $.datepicker.parseDate(
+                        instance.settings.dateFormat ||
+                        $.datepicker._defaults.dateFormat,
+                        selectedDate, instance.settings );
+                sidebar_dates.not( this ).datepicker( "option", option, date );
+            }
+        });
         
         //expand accordions        
         var accordion_expand_handler = function() {
@@ -74,44 +102,6 @@
             return false;
         });
         
-        //defining daterange below search bar...
-        var today = new Date();
-        var end_date = new Date();
-        end_date.setDate(end_date.getDate()+30);
-        
-        $('#search_begin_date, #search_end_date').datepicker({ dateFormat: 'dd/mm/yy' });
-        $('#search_begin_date').datepicker("setDate", $.datepicker.formatDate('dd/mm/yy', today));
-        $('#search_end_date').datepicker("setDate", $.datepicker.formatDate('dd/mm/yy', end_date));
-        
-        var check_all_day = function(){
-            if ($('#is_all_day').is(':checked')) {
-                $('#search_begin_date').datepicker('disable');
-                $('#search_end_date').datepicker('disable');
-            } else {
-                $('#search_begin_date').datepicker('enable');
-                $('#search_end_date').datepicker('enable');
-            }
-        };
-        check_all_day();
-        $('body').on('change', '#is_all_day', function() {check_all_day()});
-
-        
-        //tuning date range (no reversed date range)
-        var sidebar_dates = $('#search_begin_date, #search_end_date').datepicker({
-            defaultDate: "+1w",
-            changeMonth: true,
-            changeYear: true,
-            onSelect: function( selectedDate ) {
-                var option = this.id == "search_begin_date" ? "minDate" : "maxDate",
-                    instance = $( this ).data( "datepicker" ),
-                    date = $.datepicker.parseDate(
-                        instance.settings.dateFormat ||
-                        $.datepicker._defaults.dateFormat,
-                        selectedDate, instance.settings );
-                sidebar_dates.not( this ).datepicker( "option", option, date );
-            },
-        });
-        
         //popup for simple personal events
         $('#sidebar .event_head .simple_personal_event').qtip({
             content: {
@@ -143,7 +133,7 @@
                                             $.datepicker._defaults.dateFormat,
                                             selectedDate, instance.settings );
                                     sidebar_dates.not( this ).datepicker( "option", option, date );
-                                },
+                                }
                             });
                         }
                     }

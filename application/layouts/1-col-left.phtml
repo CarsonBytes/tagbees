@@ -2,6 +2,15 @@
 <html lang="en">
     <?php echo $this->render('head.phtml') ?>
 <body>
+    <div class="flash_messages">
+    </div>
+    <script id="flash_message_tmpl" type="text/x-jquery-tmpl">
+        <div class="flash_message">
+            <span>${getFlashMessageType($data)}:${getFlashMessageHtml($data)}</span> 
+            <a href="#" class="close">dismiss</a>
+            <img class="close" src="<?php echo $this->baseUrl('images/close.jpg');?>"></div>
+        </div>
+    </script>
     <?php echo $this->render('header.phtml') ?>
     <div id="main_wrapper">
       <div class="container">

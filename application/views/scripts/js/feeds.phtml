@@ -1,7 +1,4 @@
 <script type="text/javascript">
-var today = new Date();
-var end_date=new Date();
-end_date.setDate(end_date.getDate()+60);
 var default_feed_para = jQuery.parseJSON('<?php echo json_encode(Zend_Registry::get('config')->filter->user_para->toArray()) ?>');
     default_feed_para['q'] = '';
     default_feed_para['begin_date'] = $.datepicker.formatDate('yy-mm-dd', today);
@@ -24,103 +21,24 @@ var feed_search_form = $("#feed_search").validate({
 });
 
 var feed_refreshing = false;
-var map_markers_data;
 
-jQuery(function($){
-    if ($('.feeds').length) initFeed();
-    $('body')
-        <?php // event that the submit button is needed to be clicked before searching, e.g. search field ?>
-        .on('change keyup', '#feed_search input[name="q"], #feed_search input[name="is_all_time"], #feed_search input[name="begin_date"], #feed_search input[name="end_date"]', function(){
-                console.log(changed_feed_input_names)
-            if ($.inArray($(this).prop('name'),changed_feed_input_names) == -1)changed_feed_input_names.push($(this).prop('name'));
-                console.log(changed_feed_input_names)
-        })
-        .on('click', '#feed_search input[type="submit"]', function(e){
-            e.preventDefault();
-            if (feed_refreshing) return false;
-            if (feed_search_form.form()){
-                for( key in changed_feed_input_names){
-                    updateVariableAndUrlParameterFromFeedOptionInput($('*[name="'+changed_feed_input_names[key]+'"]'));
-                }
-                refreshFeed();
-            } else {
-                var content = [{'error' : 'please correct the input first before searching.'}] ;
-                showFlashMessages(content);
-                return false;
-            }
-        })//update user feed action
-        .on('click', '.feed_filter_input[name="is_show_map"], a.feed_type_link, .feed_filter_input[name="is_match_interest"], .feed_filter_input[name="is_match_location"], #refresh_feed', function(e){
-            if (feed_refreshing) return false;
-            if ($(this).is('a.feed_type_link'))  e.preventDefault();
-            if (!$.isEmptyObject(changed_feed_input_names)) {
-                if (feed_search_form.form()){
-                    for( key in changed_feed_input_names){
-                        updateVariableAndUrlParameterFromFeedOptionInput($('#'+changed_feed_input_names[key]));
-                    }
-                    changed_feed_input_names = [];
-                } else {
-                    var content = [{'error' : 'please correct the input first before searching.'}] ;
-                    showFlashMessages(content);
-                    return false;
-                }
-            }
-            else if ($(this).is('.feed_filter_input[name="is_match_location"]')){
-                jQuery( ".radius_amt span#filter_radius" ).text( jQuery( "#radius_slider" ).slider( "option", "value" ));
-                if (jQuery('.feed_filter_input[name="is_match_location"]').is(':checked')){
-                    jQuery( ".match_location_set" ).css('display','block');
-                    $('#locate_somewhere').prop('disabled',false);
-                    initDistanceWidget();
-                }else{
-                    jQuery( ".match_location_set" ).hide();
-                    $('#locate_somewhere').prop('disabled',true);
-                    distanceWidget.set('map', null);
-                }
-            } 
-            <?php if (empty($_SESSION['user'])) { ?>
-                else if ($(this).is('.feed_filter_input[name="is_match_interest"]')) {
-                    var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
-                    showFlashMessages(content);
-                    $(this).prop('checked',false);
-                    return false;
-                }
-            <?php } ?>
-            updateVariableAndUrlParameterFromFeedOptionInput($(this));   
-            
-            // refresh feed is not needed for showing map
-            if ($(this).is('.feed_filter_input[name="is_show_map"]')) {
-                <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                        $('#map-wrapper').toggle();
-                        initMapAndAutoComplete();
-                        return true;
-                <?php } else { ?>
-                    var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
-                    showFlashMessages(content);
-                <?php } ?>
-            }
-            refreshFeed();
-        })
-        //when user clicks load more
-        .on("click",'.load_more',function() {
-            /item_(\d+)/.exec($('.stream > .Post:last').prop("id"));
-            var data = clone(feed_para, {'last_id':RegExp.$1});
-            loadMoreFeeds('<?php echo $this->baseUrl('ajax/feed/refresh') ?>', data);
-            return false;
-        });
-       
-});
+function addChangedFeedInputName(element){
+    if ($.inArray(element.prop('name'),changed_feed_input_names) == -1)changed_feed_input_names.push(element.prop('name'));
+}
 
+function validateSidebarSearchInputs(){
+    if (feed_search_form.form()){
+        return true;
+    } else {
+        var content = [{'error' : 'please correct the input first before searching.'}] ;
+        showFlashMessages(content);
+        return false;
+    }
+}
 
 function initFeed(){ 
-    for (key in default_feed_para){
-        var value = getURLParameterValue(key);
-        if (isFeedParameterValid(key, value) && value != ""){
-            feed_para[key] = value;
-            updateUrlParam(key, value);
-        } else {
-            feed_para[key] = default_feed_para[key];
-        }
-    }
-    updateFeedOptionInputsFromVariables();
+    updateVariablesFromUrlParams();
+    updateFeedInputsFromVariables();
     
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
         initMapAndAutoComplete();
@@ -145,11 +63,8 @@ function initFeed(){
             }
           feed_para['radius'] = ui.value;
           updateUrlParam('radius', ui.value);
-          //refreshFeed();
         }
     });
-    
-    //refreshFeed();
 }
 
 function isFeedParameterValid(key, value){
@@ -170,52 +85,47 @@ function isFeedParameterValid(key, value){
     }
     return false;
 }
-function refreshFeed(){
-    jQuery('.stream').fadeIn("medium");
-    $('.loading.feed').show();
-    $('#dynamic_link').hide();
-    $('#dynamic_link_click').show();
-    if (is_url_updated) $.address.update();
+function refreshFeed(type, more_flag){
+    if(typeof type == 'undefined') var type = 'index';
+    if(typeof more_flag == 'undefined') var more_flag = false;
+    if (!more_flag) {
+        $.address.update();
+        feed_para.last_id = null;
+    }
     if(!feed_refreshing){
-        //feed_refreshing=true;
         jQuery.ajax({
-                type: "POST",
                 url: "<?php echo $this->baseUrl('ajax/feed/refresh') ?>",
                 data: feed_para,
-                success: function(msg){
-                        if (msg['result'] == 0){
-                            var content = [{'error' : '<?php echo $this->translate('No results.')?>'}] ;
-                            showFlashMessages(content);
-                            jQuery('.load_more').hide();
-                            jQuery('.stream').html('');
-                        } else {
-                            jQuery('.load_more').css('display','block');
-                        }
-                        
-        <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                        map_markers_data = msg['json'];
-                        refreshMarkers();
-        <?php } ?>
-                        
-                        
-                        jQuery('.stream').html(msg['html']);
-                        jQuery('.pagination').html(msg['pagination']);
-    
-                        toggleSortByInput();
-                        attachFeedItemEvents();
-        
-                        $('.loading.feed').hide();
-                        feed_refreshing=false;
+                beforeSend:  function() {
+                    if (more_flag) {
+                        $(".more_div .loading").show();
+                        $(".more_div .more").hide();
+                    }
                 },
-            dataType:'json'
+                success: function(response){
+                    if ($.isEmptyObject(response.data)){
+                        //var content = [{'error' : '<?php echo $this->translate('There is no more to load.')?>'}] ;
+                        //showFlashMessages(content);
+                        $('.post .feeds').html('<p>No results. Please loosen the filters</p>');
+                        $(".more_div .more").hide();
+                        $(".more_div .loading").hide();
+                    } else {
+                <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+                        if (!map_markers_data) var map_markers_data = [];
+                        map_markers_data.push = response.data;
+                        refreshMarkers();
+                <?php } ?>
+                        if (type == 'index') renderIndexFeeds(response.data, more_flag);
+                    }
+                    return true;
+                }
         });
     };
 }
 
 <?php // update url parameters from feed_para ?>
-var is_url_updated = false;
 function updateUrlParam(key,value, to_be_updated){
-    if (typeof to_be_updated == 'undefined') var to_be_updated = false;
+    if (!to_be_updated) var to_be_updated = false;
     if (value === false){
         $.address.parameter(key, false);
     } else {
@@ -223,14 +133,24 @@ function updateUrlParam(key,value, to_be_updated){
     }
     if (to_be_updated) {
         $.address.update();
-        is_url_updated = false;
-    } else {
-        is_url_updated = true;
+    }
+}
+
+<?php //update variables from url parameters ?>
+function updateVariablesFromUrlParams(){
+    for (key in default_feed_para){
+        var value = getURLParameterValue(key);
+        if (isFeedParameterValid(key, value) && value != ""){
+            feed_para[key] = value;
+            updateUrlParam(key, value);
+        } else {
+            feed_para[key] = default_feed_para[key];
+        }
     }
 }
 
 <?php //update feed option inputs from feed_para ?>
-function updateFeedOptionInputsFromVariables(){
+function updateFeedInputsFromVariables(){
     for (key in feed_para){
         if (key == 'is_match_interest' || key == 'is_match_location' || key == 'is_all_time' || key == 'is_show_map'){
             if (feed_para[key] == 1) {
@@ -247,11 +167,11 @@ function updateFeedOptionInputsFromVariables(){
                 }
             }
         } else if (key == 'sort_by'){
-            toggleSortByInput();
-        } else if (key == 'q') {
-            jQuery('form.search .entryEditSearch').val(feed_para[key]);    
+            updateSortByInput(feed_para[key]);
+        } else if (key == 'q') { 
         } else if (key == 'radius') {
-            jQuery( '.feed_filter_input[name="radius"]' ).text(feed_para[key]);
+            $('.feed_filter_input[name="'+key+'"]').val(feed_para[key]);
+            $('#filter_radius').text(feed_para[key]);
         } else if (key == 'begin_date' || key == 'end_date') {
             $('.feed_filter_input[name="'+key+'"]').datepicker("setDate", feed_para[key] );
         }
@@ -268,72 +188,49 @@ function updateFeedOptionInputsFromVariables(){
     }
 }
 
-function toggleSortByInput() {
+function updateVariableAndUrlParamFromFeedInput(element){
+    if (element.is('.feed_filter_input[name="is_match_interest"]') || element.is('.feed_filter_input[name="is_match_location"]') || element.is('.feed_filter_input[name="is_all_time"]') || element.is('.feed_filter_input[name="is_show_map"]')){
+        var value = element.is(':checked') ? 1 : 0;
+        feed_para[element.prop('name')] = value;
+        updateUrlParam(element.prop('name'), value);
+        if (element.is('.feed_filter_input[name="is_all_time"]')){
+            updateUrlParam('is_all_time', value);
+            if (value == 1){
+                feed_para['begin_date'] = null;
+                feed_para['end_date'] = null;
+                updateUrlParam('begin_date', false);
+                updateUrlParam('end_date', false);
+            } else{
+                feed_para['begin_date'] = $('.feed_filter_input[name="begin_date"]').val();
+                feed_para['end_date'] = $('.feed_filter_input[name="end_date"]').val();
+                updateUrlParam('begin_date', $('.feed_filter_input[name="begin_date"]').val());
+                updateUrlParam('end_date', $('.feed_filter_input[name="end_date"]').val());
+            }
+        }
+    } else if (element.is('.feed_filter_input[name="sort_by"]') || element.is('.feed_filter_input[name="q"]') || element.is('.feed_filter_input[name="begin_date"]') || element.is('*[name="end_date"]')){
+        feed_para[element.prop('name')] = element.val();
+        updateUrlParam(element.prop('name'), element.val());
+    }
 }
 
-function updateVariableAndUrlParameterFromFeedOptionInput(element){
-        if (element.is('.feed_filter_input[name="is_match_interest"]') || element.is('.feed_filter_input[name="is_match_location"]') || element.is('.feed_filter_input[name="is_all_time"]') || element.is('.feed_filter_input[name="is_show_map"]')){
-            var value = element.is(':checked') ? 1 : 0;
-            feed_para[element.prop('name')] = value;
-            if (element.is('.feed_filter_input[name="is_show_map"]')){
-                updateUrlParam('is_show_map', value, true);
-            } else if (element.is('.feed_filter_input[name="is_all_time"]')){
-                updateUrlParam('is_all_time', value);
-                if (value == 1){
-                    feed_para['begin_date'] = null;
-                    feed_para['end_date'] = null;
-                    updateUrlParam('begin_date', false);
-                    updateUrlParam('end_date', false);
-                } else{
-                    feed_para['begin_date'] = $('.feed_filter_input[name="begin_date"]').val();
-                    feed_para['end_date'] = $('.feed_filter_input[name="end_date"]').val();
-                    updateUrlParam('begin_date', $('.feed_filter_input[name="begin_date"]').val());
-                    updateUrlParam('end_date', $('.feed_filter_input[name="end_date"]').val());
+jQuery(function($){
+    $.address.autoUpdate(false);
+    if ($('.feeds').length) initFeed();
+    $('body')
+        <?php // event that the submit button is needed to be clicked before searching, e.g. search field ?>
+        .on('change keyup', '#feed_search input[name="q"], #feed_search input[name="is_all_time"], #feed_search input[name="begin_date"], #feed_search input[name="end_date"]', function(){
+            addChangedFeedInputName($(this));
+        })
+        .on('click', '#feed_search input[type="submit"]', function(e){
+            e.preventDefault();
+            if (feed_refreshing) return false;
+            if (validateSidebarSearchInputs()){
+                for( key in changed_feed_input_names){
+                    updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
                 }
             }
-        } else if (element.is('.feed_filter_input[name="sort_by"]')){
-            feed_para['sort_by'] = element.val();
-            updateUrlParam('sort_by', element.val());
-        } else if (element.is('.feed_filter_input[name="q"]')) {
-            feed_para['q'] = element.val();    
-            updateUrlParam('q', element.val());
-        } else if (element.is('.feed_filter_input[name="begin_date"]') || element.is('*[name="end_date"]')) {
-            feed_para[element.prop('name')] = element.val();
-            updateUrlParam(element.prop('name'), element.val());
-        }
-}
-
-function loadMoreFeeds(url, data){
-    jQuery.ajax({
-        type: "POST",
-        url: url,
-        data: data, 
-        beforeSend:  function() {
-            jQuery('a.load_more').html('<img src="<?php echo $this->baseUrl('images/loading_more.gif') ?>" />');//Loading image during the Ajax Request
-        },
-        success: function(msg){//html = the server response html code
-             jQuery('a.load_more').html('<?php echo $this->translate('load more')?>');
-            if (msg['result'] == 0){
-                var content = [{'error' : '<?php echo $this->translate('There is no more to load.')?>'}] ;
-                showFlashMessages(content);
-                jQuery('a.load_more').hide();
-            } else {
-                jQuery('.hidden_stream').html(msg['html']);
-                jQuery(".stream").append(jQuery('.hidden_stream').fadeIn(400));
-                
-        <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                map_markers_data.push = msg['json'];
-                refreshMarkers();
-        <?php } ?>
-        
-                attachFeedItemEvents();
-                jQuery(".stream .hidden_stream").delay(400).queue(function(){
-                      jQuery(this).children().unwrap();
-                })
-                jQuery('#more').after('<div class="hidden_stream" style="display:none;"></div>')
-            }
-            return true;
-        }
-    });     
-}
+            refreshFeed('index');
+        });
+       
+});
 </script>

@@ -1,5 +1,5 @@
 <script id="feed_index_item" type="text/x-jquery-tmpl">
-    <article class="post_content clearfix">
+    <article data-id="${id}" class="post_content clearfix">
         <header>
             <div class="watched">
                 <div class="w1">
@@ -13,7 +13,7 @@
         </header>
         <div class="post_left">
             <a href="<?php echo $this->baseUrl('event');?>/${slug_name}">
-                <img width="135" alt="${$item.getMainPicTitle()}" src="${$item.getMainPicURL()}" />
+                <img class="lazy" width="135" alt="${$item.getMainPicTitle()}" src="${$item.getMainPicURL()}" />
             </a>
         </div>
         <div class="post_right">

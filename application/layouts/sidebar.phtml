@@ -1,20 +1,21 @@
-<?php echo $this -> partial('js/sidebar.phtml'); ?>
+<?php echo $this -> partial('js/sidebar.phtml');  ?>
 <aside id="sidebar" class="left">
     <form id="feed_search" name="search" class="search">
         <section class="search_field clearfix">
-            <input class="keyword_text feed_filter_input" name="q" type="text" style=""/>
+            <input class="keyword_text feed_filter_input" name="q" type="text" value="<?php echo isset($_GET['q']) ? $_GET['q'] : ''?>"/>
             <input class="keyword_submit" type="submit"  value=""/>
         </section>
         <section class="date_search clearfix">
-            <input type="checkbox" checked="checked" class="pretty_checkable feed_filter_input" name="is_all_time" data-label="All day" />
+            <?php $is_all_time = ((isset($_GET['is_all_time']) && ($_GET['is_all_time']==1))||(!isset($_GET['is_all_time']))) ? 1 : 0; ?>
+            <input class="feed_filter_input" type="checkbox" <?php if ($is_all_time){?>checked="checked"<?php } ?> name="is_all_time" id="feed_is_all_time" /> <label for="feed_is_all_time" class="checkbox ">All Time</label>
             <div class="text from">
                 From
             </div>
-            <input type="text" name="begin_date" class="feed_filter_input" id="search_begin_date"/>
+            <input type="text" name="begin_date" class="feed_filter_input" value="<?php echo isset($_GET['begin_date']) ? $_GET['begin_date'] : ''; ?>"/>
             <div class="text to">
                 To
             </div>
-            <input type="text" name="end_date" class="feed_filter_input" id="search_end_date"/>
+            <input type="text" name="end_date" class="feed_filter_input" value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>"/>
         </section>
     </form>
     <section class="tab_div div_shadow div_gap">
