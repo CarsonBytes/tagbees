@@ -1,7 +1,7 @@
 <?php
-if (isset($_SESSION['display_lang'])){
-    if ($_SESSION['display_lang']=='zh-hk')$language='zh-tw';
-    else $language=$_SESSION['display_lang'];
+if (isset(Common::getSession()->user_signup->display_lang)){
+    if (Common::getSession()->user_signup->display_lang=='zh-hk')$language='zh-tw';
+    else $language=Common::getSession()->user_signup->display_lang;
 }else{
     $language='en';
 }?>
@@ -13,7 +13,7 @@ var map;
 var distanceWidget;
 var geocodeTimer;
 var profileMarkers = [];
-var home_icon='<?php echo $this->baseUrl('images/home.png')?>';
+var home_icon='<?php echo $this->baseUrl('images/map/home.png')?>';
 var infoWindow;
 
 
@@ -36,6 +36,12 @@ function initMapAndAutoComplete() {
     autocomplete.bindTo('bounds', map);
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
           var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                var content = [{'error' : 'Your input place was not found. please correct the input.'}] ;
+                showFlashMessages(content);
+                // Inform the user that a place was not found and return.
+                return;
+            }
             if (feed_para['is_match_location'] == 1) { 
                 distanceWidget.set('position',place.geometry.location);
             }
@@ -180,7 +186,7 @@ function deleteOverlays() {
 //place auto complete
 function codeAddress(){
     if (feed_para['is_show_map']==0){
-        jQuery('#map-wrapper').toggle(0);
+        jQuery('#map_wrapper').toggle(0);
         initMapAndAutoComplete();
         feed_para['is_show_map']=1;
         $('.feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
@@ -190,7 +196,7 @@ function codeAddress(){
 }
 function handle_geolocation_query(position){
     if (feed_para['is_show_map']==0){
-        jQuery('#map-wrapper').toggle(0);
+        jQuery('#map_wrapper').toggle(0);
         initMapAndAutoComplete();
         feed_para['is_show_map']=1;
         $('..feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');

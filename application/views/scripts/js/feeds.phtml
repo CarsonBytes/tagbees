@@ -166,7 +166,7 @@ function updateFeedInputsFromVariables(){
             }
             if (key == 'is_show_map'){
                 if (feed_para[key] == 1){
-                   $('#map-wrapper').show();
+                   $('#map_wrapper').show();
                     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
                         initMapAndAutoComplete();
                     <?php } ?>
@@ -182,10 +182,12 @@ function updateFeedInputsFromVariables(){
             $('.feed_filter_input[name="'+key+'"]').datepicker("setDate", feed_para[key] );
         }
     }
+    console.log(feed_para['is_match_location']);
     if (feed_para['is_match_location']==1){
-        jQuery('.match_location_set').css('display','block');
+    console.log('here');
+        jQuery('.match_location_set').show();
     } else {
-        jQuery('.match_location_set').css('display','none');
+        jQuery('.match_location_set').hide();
     }
     if (feed_para['is_all_time']==1){
         jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').prop('disabled','disabled');
@@ -195,7 +197,7 @@ function updateFeedInputsFromVariables(){
 }
 
 function updateVariableAndUrlParamFromFeedInput(element){
-    if (element.is('.feed_filter_input[name="is_match_interest"]') || element.is('.feed_filter_input[name="is_match_location"]') || element.is('.feed_filter_input[name="is_all_time"]') || element.is('.feed_filter_input[name="is_show_map"]')){
+    if (element.is('.feed_filter_input[name="is_match_interest"]') || element.is('.feed_filter_input[name="is_match_location"]') || element.is('.feed_filter_input[name="is_all_time"]')){
         var value = element.is(':checked') ? 1 : 0;
         feed_para[element.prop('name')] = value;
         updateUrlParam(element.prop('name'), value);
@@ -213,9 +215,13 @@ function updateVariableAndUrlParamFromFeedInput(element){
                 updateUrlParam('end_date', $('.feed_filter_input[name="end_date"]').val());
             }
         }
-    } else if (element.is('.feed_filter_input[name="sort_by"]') || element.is('.feed_filter_input[name="q"]') || element.is('.feed_filter_input[name="begin_date"]') || element.is('*[name="end_date"]')){
+    } else if (element.is('.feed_filter_input[name="sort_by"]') || element.is('.feed_filter_input[name="q"]') || element.is('.feed_filter_input[name="begin_date"]') || element.is('.feed_filter_input[name="end_date"]')){
         feed_para[element.prop('name')] = element.val();
         updateUrlParam(element.prop('name'), element.val());
+    } else if (element.is('.feed_filter_input[name="is_show_map"]')){ // this doesn't load the feed again so url needs to update instantly
+        feed_para[element.prop('name')] = element.val();
+        updateUrlParam(element.prop('name'), element.val(), true);
+        
     }
 }
 

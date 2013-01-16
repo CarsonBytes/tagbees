@@ -1,46 +1,54 @@
 <?php echo $this->partial('js/filter.phtml')?>
-<form action="" id="feed_filter" name="feed_filter" class="search">
-    <section style="display:none;" class="filter_div clearfix">
+
+<?php $sort_by = (isset($_GET['sort_by']) && ($_GET['sort_by']==0||$_GET['sort_by']==1||$_GET['sort_by']==2)) ? $_GET['sort_by'] : Zend_Registry::get('config')->filter->user_para->sort_by;
+    $is_match_interest = (isset($_GET['is_match_interest']) && ($_GET['is_match_interest']==0||$_GET['is_match_interest']==1)) ? $_GET['is_match_interest'] : Zend_Registry::get('config')->filter->user_para->is_match_interest;
+    $is_match_location = (isset($_GET['is_match_location']) && ($_GET['is_match_location']==0||$_GET['is_match_location']==1)) ? $_GET['is_match_location'] : Zend_Registry::get('config')->filter->user_para->is_match_location;
+    $is_show_map = (isset($_GET['is_show_map']) && ($_GET['is_show_map']==0||$_GET['is_show_map']==1)) ? $_GET['is_show_map'] : Zend_Registry::get('config')->filter->user_para->is_show_map;
+    $radius = isset($_GET['radius']) && (is_numeric($_GET['radius'])) ? $_GET['radius'] : Zend_Registry::get('config')->filter->user_para->radius;
+    $lat = isset($_GET['lat']) && (is_numeric($_GET['lat'])) ? $_GET['lat'] : Zend_Registry::get('config')->filter->user_para->lat;
+    $lng = isset($_GET['lng']) && (is_numeric($_GET['lng'])) ? $_GET['lng'] : Zend_Registry::get('config')->filter->user_para->lat;
+?>
+
+<?php /*<form action="" id="feed_filter" name="feed_filter" class="search"> */ ?>
+    <section class="filter_div clearfix">
         <nav class="sort_by">
             <div class="title">Sort by :</div>
             <ul>
-                <li data-value="0">New<input type="hidden" value="0"/></li>
-                <li class="current" data-value="1">Hot</li>
-                <li class="last" data-value="2">Ending Soon<input type="hidden" value="2"/></li>
+                <li class="<?php if ($sort_by==0){ ?>current<?php } ?>" data-value="0">New</li>
+                <li class="<?php if ($sort_by==1){ ?>current<?php } ?>" data-value="1">Hot</li>
+                <li class="last <?php if ($sort_by==2){ ?>current<?php } ?>" data-value="2">Ending Soon</li>
             </ul>
         </nav>
-        <input type="hidden" class="feed_filter_input" name="sort_by" value=""/>
+        <input type="hidden" class="feed_filter_input" name="sort_by" value="<?php echo $sort_by ?>"/>
         
-        <input type="checkbox" <?php if (Zend_Auth::getInstance()->hasIdentity() && isset($_GET['is_match_interest']) && $_GET['is_match_interest']==1) {?>checked="checked" <?php } ?> name="is_match_interest" id="feed_is_match_interest" <?php if (!Zend_Auth::getInstance()->hasIdentity()) { ?> disabled="disabled"<?php } ?>/> <label for="feed_is_match_interest">Match Interest</label>
-        <input type="checkbox" <?php if (isset($_GET['is_match_location']) && $_GET['is_match_location']==1) {?>checked="checked" <?php } ?> name="is_match_location" id="feed_is_match_location" /> <label for="feed_is_match_location">Match Location</label>
-        <a href="#" class="showMap"><strong>Show Map</strong></a>
-        <input type="hidden" class="feed_filter_input" name="is_show_map" value=""/>
+        <input class="feed_filter_input" type="checkbox" <?php if (Zend_Auth::getInstance()->hasIdentity() && isset($_GET['is_match_interest']) && $_GET['is_match_interest']==1) {?>checked="checked" <?php } ?> name="is_match_interest" id="feed_is_match_interest" <?php if (!Zend_Auth::getInstance()->hasIdentity()) { ?> disabled="disabled"<?php } ?>/> <label for="feed_is_match_interest">Match Interest</label>
+        <input class="feed_filter_input" type="checkbox" <?php if (isset($_GET['is_match_location']) && $_GET['is_match_location']==1) {?>checked="checked" <?php } ?> name="is_match_location" id="feed_is_match_location" /> <label for="feed_is_match_location">Match Location</label>
+        <a href="#" class="showMap"><strong><?php echo ($is_show_map != 1) ? 'Show Map' : 'Hide Map' ?></strong></a>
+        <input type="hidden" class="feed_filter_input" name="is_show_map" value="<?php echo $is_show_map ?>"/>
         <a href="#"><strong>Refresh</strong></a>
     </section>
     <section style="display:none;" class="match_location_set clearfix" style="display:none;">
-        <h3 class="radius_amt" ><?php echo $this -> translate("within %1\$s km of %2\$s", '<span id="filter_radius">0.5</span>', '<span id="of"> Tai Lam, Hong Kong</span>'); ?></h3>
+        <h3 class="radius_amt" ><?php echo $this -> translate("within %1\$s km of %2\$s", '<span id="filter_radius">'.$radius.'</span>', '<span id="of"> Tai Lam, Hong Kong</span>'); ?></h3>
         <div class="radius_amt" style="display:inline"></div>
         <div id="radius_slider"></div>
-        <input type="hidden" class="feed_filter_input" name="radius" value="0.5"/>
+        <input type="hidden" class="feed_filter_input" name="radius" value="<?php echo $radius ?>"/>
         <div class="loc_right">
         <input id="locate_somewhere" type="text" name="locate_somewhere" value="" />
-            <a href="#" id="geo_locate"><img src="images/location_icon.png" class="l_icon" alt="geo locate..." /></a>
+            <a href="#" id="geo_locate"><img src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." /></a>
             <select id="saved_locations" class="selectBoxIt" name="saved_locations">
                 <option value="Saved location">Saved location...</option>
                 <option value="a jQuery Plugin">a jQuery Plugin</option> 
                 <option value="a Select Box Replacement">a Select Box Replacement</option>
                 <option value="a Stateful UI Widget">a Stateful UI Widget</option>
             </select>
-            <a href="#" class="save_location"><img src="images/save.gif" alt=" " /></a>
-            <a href="#" class="manage_location"><img src="images/setting.gif" alt=" " /></a>
+            <a href="#" class="save_location"><img src="<?php echo $this->baseUrl('images/save.gif')?>" alt=" " /></a>
+            <a href="#" class="manage_location"><img src="<?php echo $this->baseUrl('images/setting.gif')?>" alt=" " /></a>
         </div>
     </section>
-    <section style="display:none;" class="Location" id="mapWrapper">
-        <input type="hidden" class="feed_filter_input" name="lat" value=""/>
-        <input type="hidden" class="feed_filter_input" name="lng" value=""/>
+    <section style="display:none;width:100%;height:300px;border:1px solid black" id="map_wrapper">
+        <input type="hidden" class="feed_filter_input" name="lat" value="<?php echo $lat ?>"/>
+        <input type="hidden" class="feed_filter_input" name="lng" value="<?php echo $lng ?>"/>
         <?php //<article> <img src="images/map2.gif" alt=" "> </article> ?>
-        <div class="map-wrapper" style="width:100%;height:300px;display:none;border:1px solid black" >
-            <div id="feed_filter_map"></div>
-        </div>
+        <div id="feed_filter_map" style="height: 300px;width: 100%;background-color: #E5E3DF;overflow: hidden;position: relative;"></div>
       </section>
-  </form>
+  <?php //</form> ?>

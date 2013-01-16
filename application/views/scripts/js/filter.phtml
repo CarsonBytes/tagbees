@@ -20,7 +20,11 @@ function updateFilterByChangedInput(selector){
             }
         } else if (selector.is('.feed_filter_input[name="is_show_map"]')) {
             <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                    $('#map-wrapper').toggle();
+                    if (selector.val() == 1) {
+                        $('#map_wrapper').show();
+                    } else {
+                        $('#map_wrapper').hide();
+                    }
                     initMapAndAutoComplete();
                     return true;
             <?php } else { ?>
@@ -182,22 +186,7 @@ jQuery(function($){
         }
     });
     
-    //checking match location...
-    var checkMatchLocation = function(){
-        if($("#is_match_location").attr("checked")=="checked")
-        {
-            $('.match_location_set').show();  
-        }
-        else
-        {
-            $('.match_location_set').hide();
-        }
-    }
-    checkMatchLocation();
-    $('body').on('change', '#is_match_location', function() {checkMatchLocation()});
-    
     //show after all events are attached esp. pretty checkable takes effect...
-    $('.filter_div').show();
     
     $('body').on('click','.sort_by ul li', function(){
         updateSortByInput($(this).data('value'));
@@ -209,7 +198,7 @@ jQuery(function($){
             refreshFeed('index');
         }
     }).on('change','.feed_filter_input[name="is_match_interest"]', function(){
-        <?php /*if (empty($_SESSION['user'])) { ?>
+        <?php if (empty($_SESSION['user'])) { ?>
             var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
             showFlashMessages(content);
             $(this).removeAttr('checked');
@@ -224,8 +213,13 @@ jQuery(function($){
                 }
                 refreshFeed('index');
             }
-        <?php }*/ ?>
+        <?php } ?>
     }).on('change','.feed_filter_input[name="is_match_location"]', function(){
+        if ($(this).is(':checked')){
+            jQuery('.match_location_set').css('display','block');
+        } else {
+            jQuery('.match_location_set').css('display','none');
+        }
         addChangedFeedInputName($('.feed_filter_input[name="is_match_location"]'));
         if (validateSidebarSearchInputs()){
             for( key in changed_feed_input_names){
@@ -233,20 +227,25 @@ jQuery(function($){
             }
             refreshFeed('index');
         }
-    }).on('click','.showMap', function(){
-        var input = $('.feed_filter_input[name="is_show_map"]')
-        if(input.is(':checked')){
-            input.removeProp('checked','checked');
-        }else{
-            input.prop('checked','checked');
-        }
-        addChangedFeedInputName($('.feed_filter_input[name="is_show_map"]'));
-        if (validateSidebarSearchInputs()){
-            for( key in changed_feed_input_names){
-                updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+    }).on('click','.showMap', function(e){
+        e.preventDefault();
+        <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+            var input = $('.feed_filter_input[name="is_show_map"]')
+            if(input.prop('value') == 1){
+                $(".showMap").text("Show Map").stop();
+                $( "#map_wrapper" ).slideUp("slow");
+                input.val(0);
+            }else{
+                $(".showMap").text("Hide Map").stop();
+                $( "#map_wrapper" ).slideDown("slow");
+                initMapAndAutoComplete();
+                input.val(1);
             }
-            refreshFeed('index');
-        }
+            updateVariableAndUrlParamFromFeedInput(input);
+        <?php } else { ?>
+            var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
+            showFlashMessages(content);
+        <?php } ?>
     })
     //when user clicks load more
     .on("click",'.more_div',function() {
