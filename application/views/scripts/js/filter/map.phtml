@@ -15,43 +15,65 @@ var geocodeTimer;
 var profileMarkers = [];
 var home_icon='<?php echo $this->baseUrl('images/map/home.png')?>';
 var infoWindow;
+var autocomplete;
 
+// autocomplete init + customization when hitting enter, the first result should be queried
+jQuery(function($){
+    var pac_input = document.getElementById('locate_somewhere');
+    autocomplete = new google.maps.places.Autocomplete(pac_input);
+    autocomplete.bindTo('bounds', map);
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        updateFilterMapByPlace(autocomplete.getPlace());
+    });
+    (function pacSelectFirst(input) {
+        // store the original event binding function
+        var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
+    
+        function addEventListenerWrapper(type, listener) {
+            // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected,
+            // and then trigger the original listener.
+            if (type == "keydown") {
+                var orig_listener = listener;
+                listener = function(event) {
+                    var suggestion_selected = $(".pac-item.pac-selected").length > 0;
+                    if (event.which == 13 && !suggestion_selected) {
+                        var simulated_downarrow = $.Event("keydown", {
+                            keyCode: 40,
+                            which: 40
+                        });
+                        orig_listener.apply(input, [simulated_downarrow]);
+                    }
+    
+                    orig_listener.apply(input, [event]);
+                };
+            }
+    
+            _addEventListener.apply(input, [type, listener]);
+        }
+    
+        input.addEventListener = addEventListenerWrapper;
+        input.attachEvent = addEventListenerWrapper;
+    
+        var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+    
+    })(pac_input);
+});
 
-function initMapAndAutoComplete() {
+function initMap() {
   var mapDiv = document.getElementById('feed_filter_map');
-  map = new google.maps.Map(mapDiv, {
-    center: new google.maps.LatLng(feed_para['lat'], feed_para['lng']),
-    zoom: 8,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    zoomControl:true,
-    scrollwheel: false
-  });
+      map = new google.maps.Map(mapDiv, {
+        center: new google.maps.LatLng(feed_para['lat'], feed_para['lng']),
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoomControl:true,
+        scrollwheel: false
+      });
   
-  if (feed_para['is_match_location'] == 1) {
+    if (feed_para['is_match_location'] == 1) {
       initDistanceWidget();
     }
 
-    var input = document.getElementById('locate_somewhere');
-    var autocomplete = new google.maps.places.Autocomplete(input);
-    autocomplete.bindTo('bounds', map);
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-          var place = autocomplete.getPlace();
-            if (!place.geometry) {
-                var content = [{'error' : 'Your input place was not found. please correct the input.'}] ;
-                showFlashMessages(content);
-                // Inform the user that a place was not found and return.
-                return;
-            }
-            if (feed_para['is_match_location'] == 1) { 
-                distanceWidget.set('position',place.geometry.location);
-            }
-            updatePositionByDraggingMarker();
-            if (feed_para['is_match_location'] == 1) { 
-                map.fitBounds(distanceWidget.get('bounds'));
-            }
-        });
-
-  //carson
     if (feed_para['is_match_location'] == 1) { 
         reverseGeocodePosition();
         map.fitBounds(distanceWidget.get('bounds'));
@@ -124,8 +146,7 @@ function updateRadiusFromMapDistance() {
   var new_radius = Number(distance.toString().match(/^\d+(?:\.\d{0,2})?/));
   if (feed_para['radius'] != new_radius){
       feed_para['radius']=Number(distance.toString().match(/^\d+(?:\.\d{0,2})?/));
-      $( "#localised_radius" ).slider( "option", "value", feed_para['radius'] );
-      //$('#dist').html(distance.toFixed(2));
+      loadRadius(feed_para['radius']);
   }
 }
 
@@ -143,6 +164,8 @@ function reverseGeocodePosition() {
     $('#of').html('somewhere');
   });
 }
+
+
 function addMarker(json) {
   var location, marker, data_array, x;
   infoWindow = new google.maps.InfoWindow({
@@ -184,20 +207,32 @@ function deleteOverlays() {
 
 
 //place auto complete
-function codeAddress(){
-    if (feed_para['is_show_map']==0){
-        jQuery('#map_wrapper').toggle(0);
-        initMapAndAutoComplete();
-        feed_para['is_show_map']=1;
-        $('.feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
+function selectFirstResult() {
+    var firstResult = $(".pac-container .pac-item:first").text();
+        $("#locate_somewhere").val(firstResult);
+        updateFilterMapByPlace(autocomplete.getPlace());
+ }
+ // para should be google api's geometry.location object
+function updateFilterMapByPlace(place){
+    if (!place.geometry) {
+        //var content = [{'error' : 'Your input place was not found. please correct the input.'}] ;
+        //showFlashMessages(content);
+        // Inform the user that a place was not found and return.
+        return false;
     }
-    var place = jQuery("input[name='locate_somewhere']").val();
-    geocodePosition(place);
+    if (feed_para['is_match_location'] == 1) { 
+        if (typeof distanceWidget == 'undefined') initDistanceWidget();
+        distanceWidget.set('position',place.geometry.location);
+    }
+    updatePositionByDraggingMarker();
+    if (feed_para['is_match_location'] == 1) { 
+        map.fitBounds(distanceWidget.get('bounds'));
+    }
 }
 function handle_geolocation_query(position){
     if (feed_para['is_show_map']==0){
         jQuery('#map_wrapper').toggle(0);
-        initMapAndAutoComplete();
+        initMap();
         feed_para['is_show_map']=1;
         $('..feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
     }
@@ -228,12 +263,12 @@ function handle_errors(error)
 }
 
 function loadRadius(value) {
-  $( "#localised_radius" ).slider( "option", "value", value.toFixed(2) );
+  $( "#radius_slider" ).slider( "option", "value", value.toFixed(2) );
 }
 
 jQuery(function($){
     if ($('.stream').length && typeof page_type !='undefined')
-        initMapAndAutoComplete();
+        initMap();
 })
 
 var merged;

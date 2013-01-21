@@ -116,7 +116,6 @@ RadiusWidget.prototype.addSizer_ = function() {
 
   google.maps.event.addListener(sizer, 'dragend', function() {
     me.set('active', false);
-
     //Carson
     updateRadiusFromMapDistance();
   });

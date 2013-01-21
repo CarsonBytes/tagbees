@@ -3,7 +3,7 @@
 var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max_distance ?>;
 var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;
 
-
+<?php /*
 // prepare to fetch new feed based on updated filter input
 function updateFilterByChangedInput(selector){
     if (validateSidebarSearchInputs()){
@@ -25,7 +25,7 @@ function updateFilterByChangedInput(selector){
                     } else {
                         $('#map_wrapper').hide();
                     }
-                    initMapAndAutoComplete();
+                    initMap();
                     return true;
             <?php } else { ?>
                 var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
@@ -42,7 +42,7 @@ function updateFilterByChangedInput(selector){
     <?php } ?>
     }
 }
-
+*/ ?>
 function updateSortByInput(value){
     $('nav.sort_by ul li').removeClass('current');
     $('nav.sort_by ul li[data-value="'+value+'"]').addClass('current');
@@ -171,18 +171,17 @@ jQuery(function($){
         max: maxDistance,
         slide: function( event, ui ) {
             $( ".radius_amt span#filter_radius" ).text( ui.value );
-            
         },
         change: function( event, ui ) {
-            /*$( ".radius_amt span#filter_radius" ).text( ui.value );
-            if ($("#map").is(":visible")){
+            $( ".radius_amt span#filter_radius" ).text( ui.value );
+            if ($("#feed_filter_map").is(":visible")){
                 distanceWidget.set('distance',ui.value);
                 radiusWidget.bindTo('center', distanceWidget, 'position');
                 map.fitBounds(radiusWidget.get('bounds'));
             }
           feed_para['radius'] = ui.value;
           updateUrlParam('radius', ui.value);
-          refreshFeed();*/
+          refreshFeed();
         }
     });
     
@@ -217,8 +216,10 @@ jQuery(function($){
     }).on('change','.feed_filter_input[name="is_match_location"]', function(){
         if ($(this).is(':checked')){
             jQuery('.match_location_set').css('display','block');
+            initDistanceWidget();
         } else {
             jQuery('.match_location_set').css('display','none');
+            distanceWidget.set('map', null);
         }
         addChangedFeedInputName($('.feed_filter_input[name="is_match_location"]'));
         if (validateSidebarSearchInputs()){
@@ -238,7 +239,7 @@ jQuery(function($){
             }else{
                 $(".showMap").text("Hide Map").stop();
                 $( "#map_wrapper" ).slideDown("slow");
-                initMapAndAutoComplete();
+                initMap();
                 input.val(1);
             }
             updateVariableAndUrlParamFromFeedInput(input);

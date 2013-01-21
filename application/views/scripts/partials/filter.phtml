@@ -34,7 +34,7 @@
         <input type="hidden" class="feed_filter_input" name="radius" value="<?php echo $radius ?>"/>
         <div class="loc_right">
         <input id="locate_somewhere" type="text" name="locate_somewhere" value="" />
-            <a href="#" id="geo_locate"><img src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." /></a>
+            <img id="geo_locate" onclick="navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors);return false;" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
             <select id="saved_locations" class="selectBoxIt" name="saved_locations">
                 <option value="Saved location">Saved location...</option>
                 <option value="a jQuery Plugin">a jQuery Plugin</option> 

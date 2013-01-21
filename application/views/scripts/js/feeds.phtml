@@ -41,7 +41,7 @@ function initFeed(){
     updateFeedInputsFromVariables();
     
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-        initMapAndAutoComplete();
+        initMap();
     <?php } ?>
     
     $( "#radius_slider" ).slider({
@@ -93,6 +93,7 @@ function refreshFeed(type, more_flag){
         feed_para.last_id = null;
     }
     if(!feed_refreshing){
+        feed_refreshing = true;
         jQuery.ajax({
                 url: "<?php echo $this->baseUrl('ajax/feed/refresh') ?>",
                 data: feed_para,
@@ -113,6 +114,7 @@ function refreshFeed(type, more_flag){
                 <?php } ?>
                         if (type == 'index') renderIndexFeeds(response.data, more_flag);
                     }
+                    feed_refreshing = false;
                     return true;
                 }
         });
@@ -168,7 +170,7 @@ function updateFeedInputsFromVariables(){
                 if (feed_para[key] == 1){
                    $('#map_wrapper').show();
                     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                        initMapAndAutoComplete();
+                        initMap();
                     <?php } ?>
                 }
             }
@@ -182,9 +184,7 @@ function updateFeedInputsFromVariables(){
             $('.feed_filter_input[name="'+key+'"]').datepicker("setDate", feed_para[key] );
         }
     }
-    console.log(feed_para['is_match_location']);
     if (feed_para['is_match_location']==1){
-    console.log('here');
         jQuery('.match_location_set').show();
     } else {
         jQuery('.match_location_set').hide();
