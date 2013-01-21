@@ -1,7 +1,7 @@
 <script type="text/javascript">
     var init_feeds = jQuery.parseJSON('<?php echo $this->feed ?>');
     jQuery(function($){
-        renderIndexFeeds(init_feeds.data);
+        renderIndexFeeds(init_feeds.data, false);
     });
     function renderIndexFeeds(data, more_flag){
         if (typeof more_flag == 'undefined') var more_flag=false;
@@ -36,7 +36,13 @@
                       var main_cat_ids = this.data.tree_ids.main;
                       var url = [];
                       for (index in main_cat_ids){
-                          url.push(init_feeds.category_tags[main_cat_ids[index]]['slug_name']);
+                        if (typeof init_feeds.category_tags[main_cat_ids[index]] != 'undefined'){
+                            url.push(init_feeds.category_tags[main_cat_ids[index]]['slug_name']);
+                        }else {
+                            //unknown error: init_feeds.category_tags[main_cat_ids[index]] can be undefined...
+                            alert('Error occured, please refresh the page.');
+                            return '';
+                        }
                       }
                       url = url.join('/');
                       return '<?php echo $this->baseUrl('tree');?>/'+url;
@@ -68,7 +74,7 @@
         else $(".post .feeds").html(feeds_html);
         
         //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
-        if (feeds_html.length < <?php echo Zend_Registry::get('config')->filter->user_para->rpp ?> && !more_flag){
+        if (feeds_html.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
             hideMoreButton(more_flag);
         }else{
             $('.more_div .loading').hide();

@@ -26,7 +26,7 @@
         <div class="header-bottom">
               <nav class="login_reg">
                 <ul>
-          <?php if (Zend_Auth::getInstance()->hasIdentity()) { ?>
+          <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
             <li><a href="#" class=""><strong>Hello, <?php echo Common::getSession()->user->name?></strong></a>
                 <ul>
                   <li>

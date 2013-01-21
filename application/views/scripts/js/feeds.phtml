@@ -93,6 +93,7 @@ function refreshFeed(type, more_flag){
         feed_para.last_id = null;
     }
     if(!feed_refreshing){
+        $('.loading.feed').show();
         feed_refreshing = true;
         jQuery.ajax({
                 url: "<?php echo $this->baseUrl('ajax/feed/refresh') ?>",
@@ -115,6 +116,7 @@ function refreshFeed(type, more_flag){
                         if (type == 'index') renderIndexFeeds(response.data, more_flag);
                     }
                     feed_refreshing = false;
+                    $('.loading.feed').hide();
                     return true;
                 }
         });

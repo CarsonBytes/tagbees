@@ -50,20 +50,9 @@ function updateSortByInput(value){
 }
 
 jQuery(function($){
-        $('.match_location_set .save_location').qtip({
+    $('.match_location_set .save_location').qtip({
         content: {
-            text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
-            ajax: {
-                url: '<?php echo $this->baseUrl('ajax/filter/open_save_location')?>',
-                success: function(data, status) {
-                    if (data.result == 'false'){
-                        this.set('content.text', 'saved failed! Please try again later.');
-                    } else {
-                        this.set('content.text', $( "#save_location" ).tmpl());
-                    }
-                    $('input.location_name').watermark("<?php echo $this->translate('Type your saved location here...') ?>");
-                }
-            },
+            text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
             title: {
                 text: 'Save this Location'
             }
@@ -79,7 +68,17 @@ jQuery(function($){
             at: 'center',
             target: $(window)
         },
-        style: 'qtip-light qtip-rounded'
+        style: 'qtip-light qtip-rounded',
+        events: {
+            render : function(event, api)
+            {
+                var html = $( "#save_location" ).tmpl([{'location':$('#of').text()}]);
+                html.appendTo(api.elements.content.empty());
+            },
+            show : function(event, api){
+                setTimeout(function() { $('.qtip input.location_name').focus().select(); }, 50);
+            }
+        }
     });
     $('.match_location_set .manage_location').qtip({
         content: {
@@ -163,6 +162,7 @@ jQuery(function($){
             classes: 'qtip-light qtip-rounded'
         }
     }); <?php */ ?>
+    
     $( "#radius_slider" ).slider({
         range: "min",
         //value:feed_para['radius'],
@@ -180,7 +180,9 @@ jQuery(function($){
                 map.fitBounds(radiusWidget.get('bounds'));
             }
           feed_para['radius'] = ui.value;
-          updateUrlParam('radius', ui.value);
+          updateUrlParam('radius', feed_para['radius']);
+          updateUrlParam('lat', feed_para['lat']);
+          updateUrlParam('lng', feed_para['lng']);
           refreshFeed();
         }
     });
@@ -201,7 +203,6 @@ jQuery(function($){
             var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
             showFlashMessages(content);
             $(this).removeAttr('checked');
-            console.log($(this).parent('.prettycheckbox').find('a'))
             var element = $(this).parent('.prettycheckbox').find('a');
             element.delay(1000).removeClass('checked');
         <?php }else{ ?>
@@ -247,6 +248,11 @@ jQuery(function($){
             var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
             showFlashMessages(content);
         <?php } ?>
+    }).on('click','#refresh_feed', function(){
+        if (feed_refreshing) return false;
+        refreshFeed('index');
+        changed_feed_input_names = []; // reset changed variables in search form
+        return false;
     })
     //when user clicks load more
     .on("click",'.more_div',function() {

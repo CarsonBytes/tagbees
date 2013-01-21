@@ -25,7 +25,8 @@
         <input class="feed_filter_input" type="checkbox" <?php if (isset($_GET['is_match_location']) && $_GET['is_match_location']==1) {?>checked="checked" <?php } ?> name="is_match_location" id="feed_is_match_location" /> <label for="feed_is_match_location">Match Location</label>
         <a href="#" class="showMap"><strong><?php echo ($is_show_map != 1) ? 'Show Map' : 'Hide Map' ?></strong></a>
         <input type="hidden" class="feed_filter_input" name="is_show_map" value="<?php echo $is_show_map ?>"/>
-        <a href="#"><strong>Refresh</strong></a>
+        <a id="refresh_feed" href="#"><strong>Refresh</strong></a>
+        <img alt="loading..." class="loading feed" src="<?php echo $this->baseUrl('images/loading.gif') ?>" />
     </section>
     <section style="display:none;" class="match_location_set clearfix" style="display:none;">
         <h3 class="radius_amt" ><?php echo $this -> translate("within %1\$s km of %2\$s", '<span id="filter_radius">'.$radius.'</span>', '<span id="of"> Tai Lam, Hong Kong</span>'); ?></h3>

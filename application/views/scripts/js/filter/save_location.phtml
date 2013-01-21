@@ -1,0 +1,69 @@
+<script type="text/javascript">
+    function renderSaveLocation(location){
+        if (typeof location == 'undefined') var location='';
+        var data={0:{'location':location}};
+        return feeds_html = $( "#save_location" ).tmpl(data);
+    }
+    $(".tag_top .place").qtip({
+        content: {
+            text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>'
+        },
+        position: {
+            my: 'top left',
+            at: 'bottom right', // Stick it at the top left of our element
+            viewport: $(window), // Keep it within the window boundaries...
+            adjust: { method: 'shift' } // ...by shifting it, not flipping as is default!
+        },
+        show: 'click', // Show on click
+        hide: 'unfocus', // Hide it when the element loses focus
+        style: {
+            classes: 'qtip-googlemap qtip-shadow',
+            width: 200 // Keep the tooltip a set width.. in our case 200px!
+        },
+        events: {
+            render : function(event, api)
+            {
+                var tooltip = $(this),
+ 
+                // Setup the map container and append it to the tooltip
+                container = $('<div style="width:200px; height:200px;"></div>')
+                    .appendTo(api.elements.content.empty());
+                    
+ 
+                // Temporarily show the tooltip so we don't get rendering bugs in GMaps
+                tooltip.show();
+ 
+                // Create map object as api attribute for later use
+                api.map = new google.maps.Map(container[0], {
+                    zoom: 12, // Close zoom!
+                    mapTypeId: google.maps.MapTypeId.ROADMAP // Use the classic roadmap
+                });
+ 
+                // Hide the tooltip again now we're done
+                tooltip.hide();
+            },
+            show: function(event, api)
+            {
+                // Grab the map reference and target
+                var map = api.map,
+                    target = api.elements.target,
+                    coords, latlong, map, marker, info;
+ 
+                // Parse coordinates of event target
+                coords = target.attr('data-coord').split(',');
+ 
+                // Setup lat/long coordinates
+                latlong = new google.maps.LatLng(parseFloat(coords[0]), parseFloat(coords[1]));
+ 
+                // Create marker at the new location and center map there
+                marker = new google.maps.Marker({
+                    position: latlong,
+                    map: map,
+                    title: target.attr('alt') // Use the alt attribute of the target for the marker title
+                });
+                map.setCenter(latlong);
+            }
+        }
+    })
+</script>
+<?php echo $this->partial('js/template/filter/save_location.phtml') ?>
