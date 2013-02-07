@@ -1,15 +1,22 @@
-<?php echo $this -> partial('js/feed/index.phtml', array('feed' => $this -> feed)); ?>
+<script type="text/javascript">
+    var index_feeds = jQuery.parseJSON('<?php echo json_encode($this->feed) ?>');
+    jQuery(function($){
+        renderIndexFeeds(index_feeds, false);
+    });
+</script>
+<?php echo $this -> partial('js/feed/index.phtml'); ?>
+
 <?php //echo $this->partial('breadcrumbs.phtml'); ?>
 <article class="main div_shadow">
     <?php echo $this -> partial('partials/filter.phtml'); ?>
 
-    <section class="post" id="more_updates">
-        <div class="feeds"></div>
+    <div class="post" id="more_updates">
+        <div class="feeds index"></div>
         <div class="more_div">
             <a style="display:none;" class="more" href="#"> More &gt; </a>
-            <img style="display:none;" class="loading" src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
+            <img style="display:none;" class="loading" alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?> alt="loading..."" />
         </div>
-    </section>
+    </div>
 
 </article>
 

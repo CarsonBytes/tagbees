@@ -3,19 +3,6 @@
 
 <?php echo $this->partial('js/common.phtml')?>
 
-<?php $this->minifyHeadScript()->captureStart()?>
-      jQuery(function($){
-        $.ajaxSetup({
-            type: "POST",
-            dataType:"json",
-            error:function(jqXHR, textStatus, errorThrown){
-                console.log(errorThrown);
-                console.log(textStatus);
-            }
-        })
-      })
-<?php $this->minifyHeadScript()->captureEnd() ?>
-
 <script type="text/javascript">
    jQuery(function($){
         $('.watcher_close').click(function(){           
@@ -70,33 +57,7 @@ jQuery(function($){
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/custom-form-elements.js')?>"> </script>
 <script type="text/javascript">
     jQuery(function($){  
-        $(".tab_content").hide();
-        $("ul.tabs li:first").addClass("active").show(); //Activate first tab
-        $(".tab_content:first").show(); //Show first tab content
         
-        //On Click Event
-        $("ul.tabs li").click(function() {
-            $("ul.tabs li").removeClass("active"); //Remove any "active" class
-            $(this).addClass("active"); //Add "active" class to selected tab
-            $(".tab_content").hide(); //Hide all tab content
-            var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-            $(activeTab).fadeIn(); //Fade in the active content
-            return false;
-        });
-        
-        $(".said_content").hide(); //Hide all content
-        $("ul.home_tab li:first").addClass("active").show(); //Activate first tab
-        $(".said_content:first").show(); //Show first tab content
-        
-        //On Click Event
-        $("ul.home_tab li").click(function() {
-            $("ul.home_tab li").removeClass("active"); //Remove any "active" class
-            $(this).addClass("active"); //Add "active" class to selected tab
-            $(".said_content").hide(); //Hide all tab content
-            var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-            $(activeTab).fadeIn(); //Fade in the active content
-            return false;
-        });
     
     });
     

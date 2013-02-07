@@ -254,12 +254,6 @@ jQuery(function($){
         changed_feed_input_names = []; // reset changed variables in search form
         return false;
     })
-    //when user clicks load more
-    .on("click",'.more_div',function() {
-        feed_para.last_id = $('.feeds > article:last').data("id");
-        refreshFeed('index', true);
-        return false;
-    });
 });
 
 </script>

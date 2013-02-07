@@ -2,7 +2,7 @@
 <?php echo $this -> partial('js/user.phtml'); ?>
         <article class="main div_shadow">
           <section class="mainevent">
-            <h1><?php echo $this->username?></h1>
+            <h1><?php echo $this->user->username?></h1>
             <div class="myprofile profile_form clearfix">
               <div class="profileLeft">
                 <div class="all_e_div"><img src="<?php echo $this->baseUrl('images/man.gif')?>" alt=""/></div>
@@ -14,7 +14,7 @@
                 </div>
                 <div class="p-div">
                   <label>Name:</label>
-                  <span class="profile_field">tagjoseph</span></div>
+                  <span class="profile_field"><?php echo $this->user->name?></span></div>
                 <div class="p-div">
                   <label>Place of residence:</label>
                   <span class="profile_field">Moon</span></div>
@@ -25,12 +25,12 @@
                   <label >Membership:</label>
                   <span class="profile_field">Proficient</span></div>
                 <div class="p-div">
-                  <label >Role:</label>
+                  <label >Rank:</label>
                   <span class="profile_field">Publisher</span></div>
                 <div class="p-div">
                   <label>Description:</label>
                 </div>
-                <p>The first Moon Country resident, jQuery provide an easy way to automatically seperate your information into generated hyper-linked pages, abit like a book with page numbers. The implementation can either be a) all data is loaded on 1 page and then the plugin evenly splits the data.</p>
+                <p><?php echo $this->user->description?></p>
               </div>
             </div>
           </section>
@@ -42,22 +42,22 @@
             </ul>
           </nav>
           <section class="tab_container">
-            <section id="mypublish" class="tab_content">
+            <section id="mypublish" class="tab_content" >
               <h1 class="heading1">Activities</h1>              
               
-              <section class="post" id="more_updates">
+              <div class="post" id="more_updates">
                     <?php
-                    echo $this -> partial('partials/feed.phtml', array(
-                    //'feed'=>$this->feed,
-                    //'category_tags'=>$this->category_tags
-                    ));
+                    /*echo $this -> partial('partials/feed.phtml', array(
+                    ));*/
                     ?>
-                    <div class="more" id="morebutton" >
-                        <a class="more" title="more" href="javascript:void(0);" > More &gt; </a>
+                    <div class="feeds user_logs"></div>
+                    <div class="more_div">
+                        <a style="display:none;" class="more" href="#"> More &gt; </a>
+                        <img style="display:none;" class="loading"  alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
                     </div>
-                </section>
+                </div>
             </section>
-            <section id="myinterest" class="tab_content">
+            <section id="myinterest" class="tab_content" style="display:none;">
               <h1 class="heading1">My Interests<span class="set">Set yyyy</span><a href="#useropen" class="open leanModal">Open</a></h1>
               <table class="tag_table1">
                 <tr>
@@ -145,7 +145,7 @@
                 </tr>
               </table>
             </section>
-            <section id="mywatchlist" class="tab_content">
+            <section id="mywatchlist" class="tab_content" style="display:none;">
               <h1 class="heading1">My Watchlist</h1>
               <table class="tag_table">
                 <tr>
@@ -233,7 +233,16 @@
           </section>
         </article>
 
+<script type="text/javascript">
+     var user_logs = jQuery.parseJSON('<?php echo json_encode($this->logs) ?>');
+    
+    jQuery(function($){
+        renderUserLogs(user_logs, false);
+    });
+</script>
+<?php echo $this -> partial('js/feed/user.phtml'); ?>
 
+<?php /*
 <div id="uploadThumbnail" class="popup_window" style="width:485px;">
   <?php include("upload_thumbnail.php");?>
 </div>
@@ -243,3 +252,4 @@
 <div id="useropen" class="popup_window" style="width:450px;">
   <?php include("user_open.php");?>
 </div>
+ */ ?>

@@ -36,7 +36,7 @@ function validateSidebarSearchInputs(){
     }
 }
 
-function initFeed(){ 
+function initIndexFeed(){ 
     updateVariablesFromUrlParams();
     updateFeedInputsFromVariables();
     
@@ -85,19 +85,27 @@ function isFeedParameterValid(key, value){
     }
     return false;
 }
-function refreshFeed(type, more_flag){
+function refreshFeed(type, more_flag, para){
     if(typeof type == 'undefined') var type = 'index';
     if(typeof more_flag == 'undefined') var more_flag = false;
-    if (!more_flag) {
-        $.address.update();
-        feed_para.last_id = null;
-    }
+    if(typeof para == 'undefined') var para = [];
+    
+    if (type == 'index'){
+        if ( !more_flag ){
+            $.address.update();
+            feed_para.last_id = null;
+        }
+        if (para != []) para = feed_para;
+    } 
+    
+    para['type'] = type;
+    
     if(!feed_refreshing){
         $('.loading.feed').show();
         feed_refreshing = true;
         jQuery.ajax({
                 url: "<?php echo $this->baseUrl('ajax/feed/refresh') ?>",
-                data: feed_para,
+                data: para,
                 beforeSend:  function() {
                     if (more_flag) {
                         $(".more_div .loading").show();
@@ -108,12 +116,16 @@ function refreshFeed(type, more_flag){
                     if ($.isEmptyObject(response.data)){
                         hideMoreButton(more_flag);
                     } else {
-                <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                        if (!map_markers_data) var map_markers_data = [];
-                        map_markers_data.push = response.data;
-                        refreshMarkers();
-                <?php } ?>
-                        if (type == 'index') renderIndexFeeds(response.data, more_flag);
+                        if (type == 'index') {
+                            <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+                                if (!map_markers_data) var map_markers_data = [];
+                                map_markers_data.push = response.data;
+                                refreshMarkers();
+                            <?php } ?>
+                            renderIndexFeeds(response, more_flag);
+                        } else if (type == 'user_log'){
+                            renderUserLogs(response, more_flag);
+                        }
                     }
                     feed_refreshing = false;
                     $('.loading.feed').hide();
@@ -229,8 +241,8 @@ function updateVariableAndUrlParamFromFeedInput(element){
 
 jQuery(function($){
     $.address.autoUpdate(false);
-    if ($('.feeds').length) initFeed();
-    $('body')
+    if ($('.feeds.index').length) initIndexFeed();
+    $('body#index')
         <?php // event that the submit button is needed to be clicked before searching, e.g. search field ?>
         .on('change keyup', '#feed_search input[name="q"], #feed_search input[name="is_all_time"], #feed_search input[name="begin_date"], #feed_search input[name="end_date"]', function(){
             addChangedFeedInputName($(this));

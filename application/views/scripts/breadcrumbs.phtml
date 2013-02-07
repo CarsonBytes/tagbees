@@ -20,14 +20,20 @@
     foreach(Common::getSession()->nav as $key => $value){
     	if ($value!=null){
     ?>
-        <li><a href="<?php echo $this->baseUrl($this->translate($value))?>"><?php echo $this->translate($key)?></a></li>
+        <li><a href="<?php echo $this->baseUrl($this->translate($value))?>"><?php echo $this->translate($key)?></a><?php 
+        if($i < count(Common::getSession()->nav)){
+            echo '<span class="separator"> > </span>';
+        }
+        $i++;
+        ?></li>
     <?php }else{ ?>
-    	<li><strong><?php echo $this->translate($key)?></strong></li>
+    	<li><strong><?php echo $this->translate($key)?></strong><?php 
+        if($i < count(Common::getSession()->nav)){
+            echo '<span class="separator"> > </span>';
+        }
+        $i++;
+        ?></li>
     <?php }
-    	if($i < count(Common::getSession()->nav)){
-    		echo '<span class="separator"> > </span>';
-    	}
-    	$i++;
     }
     ?>    
     </ul>

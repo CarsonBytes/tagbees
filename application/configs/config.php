@@ -29,6 +29,23 @@ return array(
 	'feed'=>array(
 		'sort_by'=>array('new','hot','ending')
 	),
+	'user_feed'=>array(
+        'rpp' => 3
+    ),
+    'table'=>array(
+        'log_action'=>array(
+            'action_type' => array(
+                'create'=>1,
+                'update'=>2,
+                'bookmark'=>3,
+            ),
+            'object_type'=>array(
+                'event'=>1,
+                'tag'=>2,
+                'user'=>3
+            )
+        )
+    ),
 	'feed_item'=>array(
 		'info_line'=>array(
 			'basic'=>array(

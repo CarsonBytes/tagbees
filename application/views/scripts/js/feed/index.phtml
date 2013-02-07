@@ -1,12 +1,25 @@
 <script type="text/javascript">
-    var init_feeds = jQuery.parseJSON('<?php echo $this->feed ?>');
-    jQuery(function($){
-        renderIndexFeeds(init_feeds.data, false);
-    });
-    function renderIndexFeeds(data, more_flag){
+    function renderIndexFeeds(index_feeds, more_flag){
         if (typeof more_flag == 'undefined') var more_flag=false;
-        if (typeof data == 'undefined') var data = init_feeds.data;
-        var feeds_html = $( "#feed_index_item" ).tmpl(data,
+        if (typeof data == 'undefined') var index_feeds = index_feeds;
+        
+        var feeds_html = generateIndexFeeds(index_feeds);
+        
+        if (more_flag) feeds_html.appendTo( ".post .feeds.index");
+        else $(".post .feeds.index").html(feeds_html);
+        
+        //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
+        if (feeds_html.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
+            hideMoreButton(more_flag);
+        }else{
+            $('.more_div .loading').hide();
+            $('.more_div .more').show();
+        }
+        
+        attachIndexFeedEvents();
+    }
+    function generateIndexFeeds(index_feeds){
+        return $( "#feed_index_item" ).tmpl(index_feeds.data,
               {
                   getMainPicTitle: function(){
                       var img_is_main_pics =this.data.img_is_main_pics.split(',');
@@ -30,16 +43,16 @@
                   getMainCatName: function(){
                       var main_cat_ids = this.data.tree_ids.main;
                       var keys = $.keys(main_cat_ids);
-                      return init_feeds.category_tags[main_cat_ids[keys[keys.length-1]]]['name'];
+                      return index_feeds.category_tags[main_cat_ids[keys[keys.length-1]]]['name'];
                   },
                   getMainCatURL: function(){
                       var main_cat_ids = this.data.tree_ids.main;
                       var url = [];
                       for (index in main_cat_ids){
-                        if (typeof init_feeds.category_tags[main_cat_ids[index]] != 'undefined'){
-                            url.push(init_feeds.category_tags[main_cat_ids[index]]['slug_name']);
+                        if (typeof index_feeds.category_tags[main_cat_ids[index]] != 'undefined'){
+                            url.push(index_feeds.category_tags[main_cat_ids[index]]['slug_name']);
                         }else {
-                            //unknown error: init_feeds.category_tags[main_cat_ids[index]] can be undefined...
+                            //unknown error: index_feeds.category_tags[main_cat_ids[index]] can be undefined...
                             alert('Error occured, please refresh the page.');
                             return '';
                         }
@@ -70,17 +83,8 @@
                   }
               } 
         );
-        if (more_flag) feeds_html.appendTo( ".post .feeds");
-        else $(".post .feeds").html(feeds_html);
-        
-        //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
-        if (feeds_html.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
-            hideMoreButton(more_flag);
-        }else{
-            $('.more_div .loading').hide();
-            $('.more_div .more').show();
-        }
-        
+    }
+    function attachIndexFeedEvents(){
         $("abbr.timeago").timeago();
         
         $(".tag_top .place").qtip({
@@ -164,6 +168,7 @@
             }
         })
     }
+    
     (function($) {
       $.timeago = function(timestamp) {
         if (timestamp instanceof Date) {
@@ -295,6 +300,15 @@
         document.createElement("abbr");
         document.createElement("time");
     }(jQuery));
+    
+    jQuery(function($){
+        //when user clicks load more
+        $('body#index').on("click",'.more_div',function() {
+            feed_para.last_id = $('.feeds > article:last').data("id");
+            refreshFeed('index', true);
+            return false;
+        });
+    })
 </script>
 <?php echo $this->partial('js/feeds.phtml') ?>
 <?php echo $this->partial('js/template/feed/index_item.phtml') ?>

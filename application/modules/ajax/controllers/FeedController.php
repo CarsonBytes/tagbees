@@ -11,7 +11,6 @@ class Ajax_FeedController extends Zend_Controller_Action
 		}else{
 			$this->params=$this->_request->getPost();
 		}
-	    //$this->feedService=new Service_Feed();
     }
     
     public function loadAction(){
@@ -25,10 +24,14 @@ class Ajax_FeedController extends Zend_Controller_Action
     public function refreshAction()
     {
         $array = array();
-        //echo '<pre>';var_dump($this->params);echo '</pre>';die();
-		$feedService=new Service_Feed();
-		$feed=$feedService->getFeed($this->params);
-        $this->_helper->json($feed);
+        if ($this->params['type'] == 'index'){
+            $feedService=new Service_Feed();
+            $feed=$feedService->getFeed($this->params);
+            $this->_helper->json($feed);
+        } else if ($this->params['type'] == 'user_log'){
+            $logService = new Service_Log();
+            $this->_helper->json($logService->getActions($this->params['user_id'], $this->params['last_id']));
+        }
     }
 
     public function loadMoreUserActivitiesAction() {

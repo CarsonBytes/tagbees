@@ -1,0 +1,53 @@
+<script type="text/javascript">
+    function renderUserLogs(user_logs, more_flag){
+        if (typeof more_flag == 'undefined') var more_flag=false;
+        if (typeof data == 'undefined') var user_logs = user_logs;
+        
+        var user_logs = generateUserLogs(user_logs);
+        
+        if (more_flag) user_logs.appendTo( ".post .feeds.user_logs");
+        else $(".post .feeds.user_logs").html(user_logs);
+        
+        //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
+        if (user_logs.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
+            hideMoreButton(more_flag);
+        }else{
+            $('.more_div .loading').hide();
+            $('.more_div .more').show();
+        }
+        
+        attachIndexFeedEvents();
+        
+    }
+    function generateUserLogs(user_logs){
+        return $( "#feed_user_item" ).tmpl(user_logs.data,
+              {
+                  getPastTense: function(){
+                      return user_logs.action_types[this.data.action_type_id]['past']
+                  },
+                  getObjectType: function(){
+                      return user_logs.object_types[this.data.object_type_id]
+                  },
+                  getFeedItem: function(){
+                      var subfeeds = [];
+                      subfeeds.data = user_logs.feeds[this.data.object_id];
+                      subfeeds.category_tags = subfeeds.data.category_tags;
+                      return generateIndexFeeds(subfeeds).clone().wrap('<p>').parent().html();
+                  }
+              } 
+        );
+    }
+    jQuery(function($){
+        //when user clicks load more
+        $('body#user').on("click",' .more_div',function() {
+            var para = {};
+            para['last_id'] = $('.feeds > div:last').data("id");
+            para['user_id'] = user_logs.user_id;
+            
+            refreshFeed('user_log', true, para);
+            return false;
+        });
+    })
+</script>
+<?php echo $this->partial('js/template/feed/user_item.phtml') ?>
+<?php echo $this -> partial('js/feed/index.phtml'); ?>

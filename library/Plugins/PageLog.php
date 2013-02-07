@@ -7,6 +7,9 @@ class Plugins_PageLog extends Zend_Controller_Plugin_Abstract
         $controller = $request->getControllerName();
         $action = $request->getActionName();
         $params=$request->getParams();
+        
+        Common::getSession()->controller = $controller;
+        Common::getSession()->action = $action;
 		/*page type was for feed page type, for now as it appears only on main page, this check is not needed
          * if (strpos($_SERVER['REQUEST_URI'], 'profile')!==false){
                     $page_type='profile';
