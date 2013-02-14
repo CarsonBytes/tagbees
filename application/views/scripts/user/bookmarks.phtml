@@ -1,69 +1,9 @@
 <?php echo $this->partial('breadcrumbs.phtml'); ?>
 <?php echo $this -> partial('js/user.phtml'); ?>
-        <?php echo $this -> partial('partials/user/profile.phtml', array('active_tab'=>'index','user'=>$this->user)); ?>
+        <article class="main div_shadow">
+        <?php echo $this -> partial('partials/user/profile.phtml', array('active_tab'=>'bookmarks','user'=>$this->user)); ?>
           <section class="tab_container">
-            <section id="mypublish" class="tab_content" >
-              <h1 class="heading1">Activities</h1>              
-              
-              <div class="post" id="more_updates">
-                    <?php
-                    /*echo $this -> partial('partials/feed.phtml', array(
-                    ));*/
-                    ?>
-                    <div class="feeds user_logs"></div>
-                    <div class="more_div">
-                        <a style="display:none;" class="more" href="#"> More &gt; </a>
-                        <img style="display:none;" class="loading"  alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
-                    </div>
-                </div>
-            </section>
-            <section id="myinterest" class="tab_content" style="display:none;">
-              <h1 class="heading1">My Interests<span class="set">Set yyyy</span><a href="#useropen" class="open leanModal">Open</a></h1>
-              <table class="tag_table1">
-                <tr>
-                  <th>Interest</th>
-                  <th>Score</th>
-                  <th>Related tags</th>
-                  <th >Last used</th>
-                  <th>Sort...</th>
-                </tr>
-                <tr class="add_n">
-                  <td >MU Group</td>
-                  <td >144</td>
-                  <td >tag A, tag B, tag C</td>
-                  <td ><abbr class="timeago" title="02/01/2012"></td>
-                  <td ><select name="interest_sort">
-                      <option value="auto">auto</option>
-                      <option value="manual">manual</option>
-                  </select></td>
-                </tr>
-                <tr class="add_n">
-                  <td >MU Group</td>
-                  <td >144</td>
-                  <td >tag A, tag B, tag C</td>
-                  <td ><abbr class="timeago" title="02/01/2012"></td>
-                  <td ><select name="interest_sort">
-                      <option value="auto">auto</option>
-                      <option value="manual">manual</option>
-                  </select></td>
-                </tr>
-                <tr class="add_n">
-                  <td >MU Group</td>
-                  <td >144</td>
-                  <td >tag A, tag B, tag C</td>
-                  <td ><abbr class="timeago" title="02/01/2012"></td>
-                  <td ><select name="interest_sort">
-                      <option value="auto">auto</option>
-                      <option value="manual">manual</option>
-                  </select></td>
-                </tr>
-                <tr>
-                  <th colspan="2" class="td_th_align_left"><input type="submit" value="save" class="saveBtn" /></th>
-                  <th colspan="4" class="td_th_align_left" ><a class="leanModal" href="#usersave">Save the setting as ...</a></th>
-                </tr>
-              </table>
-            </section>
-            <section id="mywatchlist" class="tab_content" style="display:none;">
+            <section id="mybookmark" class="tab_content">
               <h1 class="heading1">My Watchlist</h1>
               <table class="tag_table">
                 <tr>
@@ -152,10 +92,4 @@
         </article>
 
 <script type="text/javascript">
-     var user_logs = jQuery.parseJSON('<?php echo json_encode($this->logs) ?>');
-    
-    jQuery(function($){
-        renderUserLogs(user_logs, false);
-    });
 </script>
-<?php echo $this -> partial('js/feed/user.phtml'); ?>

@@ -65,40 +65,28 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $router->addRoute('user', $route);
 
         $route = new Zend_Controller_Router_Route_Regex(
-            'user/(.+)/bookmark',
+            'user/(.+)/bookmarks',
             array(
                 'controller'=>'user',
-                'action'=>'bookmark'
+                'action'=>'bookmarks'
             ),
             array(
                 1=>'username'
             )
         );
-        $router->addRoute('user_bookmark', $route);
+        $router->addRoute('user_bookmarks', $route);
 
         $route = new Zend_Controller_Router_Route_Regex(
-            'user/(.+)/bookmark-log',
+            'user/(.+)/interests',
             array(
                 'controller'=>'user',
-                'action'=>'bookmark-log'
+                'action'=>'interests'
             ),
             array(
                 1=>'username'
             )
         );
-        $router->addRoute('user_bookmark_log', $route);
-
-        $route = new Zend_Controller_Router_Route_Regex(
-            'user/(.+)/interest',
-            array(
-                'controller'=>'user',
-                'action'=>'interest'
-            ),
-            array(
-                1=>'username'
-            )
-        );
-        $router->addRoute('user_interest', $route);
+        $router->addRoute('user_interests', $route);
 
         $route = new Zend_Controller_Router_Route_Regex(
                 'edit/(.+)',

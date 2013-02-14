@@ -36,37 +36,6 @@ function validateSidebarSearchInputs(){
     }
 }
 
-function initIndexFeed(){ 
-    updateVariablesFromUrlParams();
-    updateFeedInputsFromVariables();
-    
-    <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-        initMap();
-    <?php } ?>
-    
-    $( "#radius_slider" ).slider({
-        range: "min",
-        value:feed_para['radius'],
-        step: 0.01,
-        min: minDistance,
-        max: maxDistance,
-        slide: function( event, ui ) {
-            $( ".radius_amt span#filter_radius" ).text( ui.value );
-            
-        },
-        change: function( event, ui ) {
-            $( ".radius_amt span#filter_radius" ).text( ui.value );
-            if ($("#map").is(":visible")){
-                distanceWidget.set('distance',ui.value);
-                radiusWidget.bindTo('center', distanceWidget, 'position');
-                map.fitBounds(radiusWidget.get('bounds'));
-            }
-          feed_para['radius'] = ui.value;
-          updateUrlParam('radius', ui.value);
-        }
-    });
-}
-
 function isFeedParameterValid(key, value){
     if (key == 'is_match_interest' || key == 'is_match_location' || key == 'is_all_time' || key == 'is_show_map'){
         if (value == "") return false;

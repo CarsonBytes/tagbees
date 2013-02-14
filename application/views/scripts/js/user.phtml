@@ -34,20 +34,34 @@
             },
             style: 'qtip-light qtip-rounded'
         });
+        $("abbr.timeago").timeago();
         
-        $(".tab_content").hide();
-        $("ul.tabs li:first").addClass("active").show(); //Activate first tab
-        $(".tab_content:first").show(); //Show first tab content
+        $('.tab_content').show();
         
-        //On Click Event
-        $("ul.tabs li").click(function() {
-            $("ul.tabs li").removeClass("active"); //Remove any "active" class
-            $(this).addClass("active"); //Add "active" class to selected tab
-            $(".tab_content").hide(); //Hide all tab content
-            var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-            $(activeTab).fadeIn(); //Fade in the active content
-            return false;
-        });
+        $('body')
+            .on('click','.editable label',function(e){
+                e.preventDefault();
+                var parent = $(this).parents('.editable');
+                parent.data('prev_val',$(this).text());
+                parent.empty().append('<input type="text" value="'+$(this).text()+'"/> <a class="save_interest_order" href="#"><img width="15" src="<?php echo $this->baseUrl('images/tick.jpg')?>" /></a> <a class="cancel_interest_order" href="#"><img width="15" src="<?php echo $this->baseUrl('images/close.png')?>" /></a><br /><a href="#" class="sorting_toggle">switch to auto</a>');
+            })
+            .on('click','.editable .save_interest_order',function(e){
+                e.preventDefault();
+                var parent = $(this).parents('.editable');
+                var value = parent.find('input').val();
+                if (Number(value) > 0) {
+                    parent.empty().append('<label>'+Number(value)+'</label>');
+                } else {
+                    alert('enter the correct positive value please.');
+                }
+                
+            })
+            .on('click','.editable .cancel_interest_order',function(e){
+                e.preventDefault();
+                var parent = $(this).parents('.editable');
+                parent.empty().append('<label>'+parent.data('prev_val')+'</label>');
+            })
+        
     });
 </script>
 <?php echo $this->partial('js/template/user/upload_thumbnail.phtml') ?>

@@ -1,0 +1,48 @@
+<?php echo $this -> partial('breadcrumbs.phtml'); ?>
+<?php echo $this -> partial('js/user.phtml'); ?>
+<article class="main div_shadow">
+    <?php echo $this -> partial('partials/user/profile.phtml', array('active_tab' => 'interests', 'user' => $this -> user)); ?>
+    <section class="tab_container">
+        <section id="my_interest" style="display:none;" class="tab_content">
+            <h1 class="heading1">My Interests</h1>
+            <table class="tag_table1">
+                <tr>
+                    <th>Interest</th>
+                    <th>Score</th>
+                    <th>Related tags</th>
+                    <th>Last used</th>
+                </tr>
+                <tr class="add_n">
+                    <td >MU Group</td>
+                    <td class="editable">
+                      <label>144</label>
+                    </td>
+                    <td >tag A, tag B, tag C</td>
+                    <td ><abbr class="timeago" title="2012-01-29 18:46:24" /></td>
+                </tr>
+                <tr class="add_n">
+                    <td >MU Group</td>
+                    <td class="editable">
+                      <label>144</label>
+                    </td>
+                    <td >tag A, tag B, tag C</td>
+                    <td ><abbr class="timeago" title="2012-12-19 18:46:24" /></td>
+                </tr>
+                <tr class="add_n">
+                    <td >MU Group</td>
+                    <td class="editable">
+                      <label>144</label>
+                    </td>
+                    <td >tag A, tag B, tag C</td>
+                    <td ><abbr class="timeago" title="2012-11-29 18:46:24" /></td>
+                </tr>
+                <tr>
+                    <th colspan="2" class="td_th_align_left">
+                    <input type="submit" value="save" class="saveBtn" />
+                    </th>
+                    <th colspan="4" class="td_th_align_left" ><a class="leanModal" href="#usersave">Save the setting as ...</a></th>
+                </tr>
+            </table>
+        </section>
+    </section>
+</article>

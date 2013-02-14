@@ -46,4 +46,10 @@ class UserController extends Zend_Controller_Action
         $this->view->logs = $logService->getActions($this->view->userId, NULL, Zend_Registry::get('config')->user_feed->rpp);
         
     }
+    public function interestsAction()
+    {
+    }
+    public function bookmarksAction()
+    {
+    }
 }
