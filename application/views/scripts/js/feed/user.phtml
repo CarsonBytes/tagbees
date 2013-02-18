@@ -39,7 +39,7 @@
     }
     jQuery(function($){
         //when user clicks load more
-        $('body#user').on("click",' .more_div',function() {
+        $('body').on("click",'#user_activities .more_div',function() {
             var para = {};
             para['last_id'] = $('.feeds > div:last').data("id");
             para['user_id'] = user_logs.user_id;

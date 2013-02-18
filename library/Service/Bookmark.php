@@ -276,7 +276,7 @@ class Service_Bookmark{
 			->where('ul.status=1');
 		return $this->db->fetchAll($select);
 	}
-	public function getUserBookmark($user_id='', $bookmark_status=true,$fetch_mode=Zend_Db::FETCH_OBJ){
+	public function getUserBookmarks($user_id='', $bookmarked_only=false, $last_id = NULL, $limit = 2, $fetch_mode=Zend_Db::FETCH_OBJ){
 		if ($user_id==''){
 			$user_id=$this->identity->item_id;
 		}
@@ -293,14 +293,25 @@ class Service_Bookmark{
 				array('submitter_name'=>'name','submitter_slug_name'=>'slug_name')
 			)
 			->where('user_bookmark.user_id=?',$user_id)
-			->order('user_bookmark.update_time desc');
+			->order('user_bookmark.update_time desc')
+            ->limit($limit);
 
-		if ($bookmark_status) $select->where('user_bookmark.status > 0');
+		if ($bookmarked_only) $select->where('user_bookmark.status > 0');
+        
+        
+        if ($last_id != NULL){
+            $last_feed_sub_select = $this->db->select()
+                ->from('user_bookmark',array('update_time'))
+                ->where('user_bookmark.item_id = ?', $last_id)
+                ->where('user_bookmark.user_id = ?', $user_id);
+            $select->where('user_bookmark.update_time < ?', $last_feed_sub_select);
+        }
+        
 		$select=$this->getBookmarkCountQuery($select);
 		return $this->db->fetchAll($select, array() ,$fetch_mode);
 	}
 
-	public function getUserBookmarkId($user_id='', $bookmark_status=true,$fetch_mode=Zend_Db::FETCH_OBJ){
+	public function getUserBookmarkId($user_id='', $bookmarked_only=true,$fetch_mode=Zend_Db::FETCH_OBJ){
 		if ($user_id==''){
 			$user_id=$this->identity->item_id;
 		}

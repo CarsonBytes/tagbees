@@ -104,16 +104,6 @@ function refreshFeed(type, more_flag, para){
     };
 }
 
-function hideMoreButton(more_flag){
-    //var content = [{'error' : '<?php echo $this->translate('There is no more to load.')?>'}] ;
-    //showFlashMessages(content);
-    $(".more_div .more").hide();
-    $(".more_div .loading").hide();
-    var text = '<p>No results. Please loosen the filters</p>';
-    if (more_flag) $(".post .feeds").append(text);
-    else $(".post .feeds").html(text);
-}
-
 <?php // update url parameters from feed_para ?>
 function updateUrlParam(key,value, to_be_updated){
     if (!to_be_updated) var to_be_updated = false;

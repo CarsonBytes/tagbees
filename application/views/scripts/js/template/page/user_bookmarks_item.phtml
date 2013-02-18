@@ -1,0 +1,9 @@
+<script id="user_bookmarks_item" type="text/x-jquery-tmpl">
+    <tr data-id="${item_id}" class="${$item.getRowClass()}">
+      <td class="td_th_align_center">Public</td>
+      <td><a href="${slug_name}" class="dblink">${name}</a></td>
+      <td class="td_th_align_center">${like_count}</td>
+      <td class="td_th_align_center"><img width="20" src="<?php echo $this->baseUrl('images/') ?>{{if status == 1}}tick.jpg{{else}}cross.png{{/if}}"</td>
+      <td class="td_th_align_center">${update_time}</td>
+    </tr>
+</script>

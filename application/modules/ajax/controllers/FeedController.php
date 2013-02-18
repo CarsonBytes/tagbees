@@ -12,14 +12,14 @@ class Ajax_FeedController extends Zend_Controller_Action
 			$this->params=$this->_request->getPost();
 		}
     }
-    
+    /*
     public function loadAction(){
         $array = array();
         $this->view->addScriptPath(APPLICATION_PATH . "/views/scripts/");
         $array['html'] = $this->view->render('partials/feed.phtml'); // to render plain html
         $array['result'] = 1;
         $this->_helper->json($array);
-    }
+    }*/
 
     public function refreshAction()
     {

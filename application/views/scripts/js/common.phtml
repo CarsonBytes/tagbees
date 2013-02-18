@@ -181,6 +181,24 @@
             return data;
         }
         
+        function hideMoreButton(more_flag, type, obj_selector){
+            //var content = [{'error' : '<?php echo $this->translate('There is no more to load.')?>'}] ;
+            //showFlashMessages(content);
+            if (typeof more_flag == 'undefined') var more_flag=false;
+            if (typeof type == 'undefined') var type = 'index';
+            if (typeof obj_selector == 'undefined') var obj_selector = '.post .feeds';
+        
+            $(".more_div .more").hide();
+            $(".more_div .loading").hide();
+            var text = '';
+            if (type == 'index'){
+                text = '<p>No results. Please loosen the filters</p>';
+            } else if ($type =='user_bookmarks'){
+                text = '<p>That\'s all your bookmarks</p>';
+            }
+            if (more_flag) $(obj_selector).append(text);
+            else $(obj_selector).html(text);
+        }
         
         function isNumber(n) {
           return !isNaN(parseFloat(n)) && isFinite(n);

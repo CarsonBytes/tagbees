@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    function renderUserBookmarks(user_bookmarks){
+        if (typeof user_bookmarks == 'undefined') var user_bookmarks = user_bookmarks;
+        //if (typeof more_flag == 'undefined') var more_flag=true; // not needed as it is always more...
+        
+        var user_bookmarks = generateUserBookmarks(user_bookmarks);
+        
+        user_bookmarks.appendTo( "#user_bookmarks .tag_table");
+        
+        //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
+        if (user_bookmarks.length == 0){
+            hideMoreButton(true);
+        }else{
+            $('.more_div .loading').hide();
+            $('.more_div .more').show();
+        }
+        
+        //attachIndexFeedEvents();
+        
+    }
+    
+    var n = 0;
+    function generateUserBookmarks(user_bookmarks){
+        return $( "#user_bookmarks_item" ).tmpl(user_bookmarks,
+              {
+                  getRowClass: function(){
+                      return ++n % 2 == 0 ? 'add_n' : 'even';
+                  }
+              } 
+        );
+    }
+    
+    var user_bookmarks_refreshing = false;
+    function refreshUserBookmarks(para){
+        if(typeof para == 'undefined') var para = [];
+        
+        console.log(para)
+        
+        if(!user_bookmarks_refreshing){
+            $('.loading.feed').show();
+            user_bookmarks_refreshing = true;
+            jQuery.ajax({
+                    url: "<?php echo $this->baseUrl('ajax/user/load_more_bookmarks') ?>",
+                    data: para,
+                    beforeSend:  function() {
+                        $(".more_div .loading").show();
+                        $(".more_div .more").hide();
+                    },
+                    success: function(response){
+                        if ($.isEmptyObject(response)){
+                            hideMoreButton(true);
+                        } else {
+                            renderUserBookmarks(response);
+                        }
+                        user_bookmarks_refreshing = false;
+                        $('.loading.feed').hide();
+                        return true;
+                    }
+            });
+        };
+    }
+    jQuery(function($){
+        //when user clicks load more
+        $('body').on("click",'#user_bookmarks .more_div',function() {
+            var para = {};
+            para['last_id'] = $('#user_bookmarks tr:last').data("id");
+            para['user_id'] = $('#user_bookmarks').data("id");
+            
+            refreshUserBookmarks(para);
+            return false;
+        });
+    })
+</script>
+<?php echo $this->partial('js/template/page/user_bookmarks_item.phtml') ?>
