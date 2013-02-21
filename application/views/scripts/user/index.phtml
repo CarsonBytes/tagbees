@@ -1,26 +1,24 @@
-<?php echo $this->partial('breadcrumbs.phtml'); ?>
+<?php echo $this -> partial('breadcrumbs.phtml'); ?>
 <?php echo $this -> partial('js/user.phtml'); ?>
-        <?php echo $this -> partial('partials/user/profile.phtml', array('active_tab'=>'index','user'=>$this->user)); ?>
-          <section class="tab_container">
-            <section id="user_activities" class="tab_content" >
-              <h1 class="heading1">Activities</h1>              
-              
-              <div class="post" id="more_updates">
-                    <div class="feeds user_logs"></div>
-                    <div class="more_div">
-                        <a style="display:none;" class="more" href="#"> More &gt; </a>
-                        <img style="display:none;" class="loading"  alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
-                    </div>
-                </div>
-            </section>
-          </section>
-        </article>
+<?php echo $this -> partial('partials/user/profile.phtml', array('active_tab' => 'index', 'user' => $this -> user)); ?>
+<section class="mainevent">
+    <section id="user_activities" class="tab_content" >
+        <h1 class="heading1">Activities</h1>
+
+        <div class="post" id="more_updates">
+            <div class="feeds user_logs"></div>
+            <div class="more_div">
+                <a style="display:none;" class="more" href="#"> More &gt; </a>
+                <img style="display:none;" class="loading"  alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
+            </div>
+        </div>
+    </section>
+</section>
 
 <script type="text/javascript">
-     var user_logs = jQuery.parseJSON('<?php echo json_encode($this->logs) ?>');
-    
-    jQuery(function($){
-        renderUserLogs(user_logs, false);
-    });
+var user_logs = jQuery.parseJSON('<?php echo json_encode($this->logs) ?>');
+jQuery(function($){
+    renderUserLogs(user_logs, false);
+});
 </script>
 <?php echo $this -> partial('js/feed/user.phtml'); ?>

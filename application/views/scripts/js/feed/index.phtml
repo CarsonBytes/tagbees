@@ -87,7 +87,8 @@
     function attachIndexFeedEvents(){
         $("abbr.timeago").timeago();
         
-        $(".tag_top .place").qtip({
+        
+        $(".tag_top a.place").qtip({
             content: {
                 text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>'
             },
@@ -131,7 +132,7 @@
                     var map = api.map,
                         target = api.elements.target,
                         coords, latlong, map, marker, info;
-     
+                    
                     // Parse coordinates of event target
                     coords = target.attr('data-coord').split(',');
      

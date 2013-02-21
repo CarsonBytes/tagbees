@@ -1,0 +1,40 @@
+<section class="mainevent">
+    <h1><?php echo $this->tree_item->name?></h1>
+    <div class="myprofile profile_form clearfix">
+      <div class="profileLeft">
+        <div class="all_e_div"><img src="<?php echo $this->baseUrl('images/man.gif')?>" alt=""/></div>
+        <a href="#" class="upload_user_thumbnail">Upload an image</a></div>
+      <div class="profile_right">
+        <div class="activity">
+          <div class="active_div"></div>
+          <div class="not_active"><a href="#">not active</a></div>
+        </div>
+        <div class="p-div">
+          <label>Name:</label>
+          <span class="profile_field"><?php echo $this->tree_item->name ?></span></div>
+        <div class="p-div">
+          <label>Place of residence:</label>
+          <span class="profile_field">Moon</span></div>
+        <div class="p-div">
+          <label>Posts habit:</label>
+          <span class="profile_field">Very regular</span></div>
+        <div class="p-div">
+          <label >Membership:</label>
+          <span class="profile_field">Proficient</span></div>
+          <label >Activity Index:</label>
+          <span class="profile_field"><?php echo $this->tree_item->score?></span>
+        <div class="p-div">
+          <label >Rank:</label>
+          <span class="profile_field">Publisher</span></div>
+        <div class="p-div">
+          <label>Description:</label>
+        </div>
+        </div>
+        <p><?php echo $this->tree_item->description?></p>
+      </div>
+</section>
+<nav class="righttab">
+    <ul class="tabs">
+      <li <?php if ($this->active_tab=='index'){?>class="active"<?php } ?>><a href="<?php echo $this -> baseUrl('tree/' . $this -> tree -> username); ?>"><img src="<?php echo $this->baseUrl('images/icon12.png')?>" alt="Activities" /></a></li>
+    </ul>
+</nav>

@@ -105,7 +105,7 @@ class Service_Feed{
 				            	'submitter_name'=>'i.name',
 				            	'submitter_slug_name'=>'i.slug_name'
 							)
-					);
+				);
 	
             // get item tags
             $tagService=new Service_Tag();
