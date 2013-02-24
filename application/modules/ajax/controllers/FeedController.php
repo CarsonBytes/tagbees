@@ -26,14 +26,41 @@ class Ajax_FeedController extends Zend_Controller_Action
         $array = array();
         if ($this->params['type'] == 'index'){
             $feedService=new Service_Feed();
-            $feed=$feedService->getFeed($this->params);
-            $this->_helper->json($feed);
+            $this->_helper->json($feedService->getFeed($this->params));
         } else if ($this->params['type'] == 'user_log'){
             $logService = new Service_Log();
             $this->_helper->json($logService->getActions($this->params['user_id'], $this->params['last_id']));
+        }else if ($this->params['type'] == 'tree_feeds'){
+            $string='';
+            $tagService=new Service_Tag();
+            $cats=array();
+            for ($i=1;$i<=$this->params['level'];$i++){
+                $cats[]=urldecode($this->params['cat'.$i]);
+            }
+            $result=$tagService->getNameBySlugName($cats);
+            if($this->params['level']==count($result)){
+                $itemService=new Service_Item();
+                    $treeItem=
+                        $itemService->getItemBySlugName(
+                            $cats[count($cats)-1],
+                            array('category_tag')
+                        );
+                    $this->view->tree_item=$treeItem['item'];
+        
+                    $tree=array();
+                    for ($i=1;$i<=$this->params['level'];$i++){
+                        $tree[]=$result[$this->params['cat'.$i]]['id'];
+                        $string.='/'.$this->params['cat'.$i];
+                    }
+                
+                    $feedService=new Service_Feed();
+                    $this->_helper->json($feedService->getFeed(array('tree'=>$tree, 'last_id'=>$this->params['last_id'])));
+            }else{
+                $this->_helper->json(array('result'=>0));
+            }
         }
     }
-
+/*
     public function loadMoreUserActivitiesAction() {
         $logService = new Service_Log();
         $this->view->logs = $logService->getActions(
@@ -73,6 +100,7 @@ class Ajax_FeedController extends Zend_Controller_Action
             $this->_helper->json(array('result'=>0));
         }
     }
+ */
 
     public function loadMoreTagFeedsAction() {
         $itemService=new Service_Item();
@@ -105,7 +133,7 @@ class Ajax_FeedController extends Zend_Controller_Action
         
     }
 
-
+/*
     public function loadMoreTreeFeedsAction() {
         $string='';
         $tagService=new Service_Tag();
@@ -143,7 +171,7 @@ class Ajax_FeedController extends Zend_Controller_Action
                 $this->view->feed=$feed['final_feed_result'];
                 $this->view->category_tags=$feed['category_tags'];
     
-                $catService=new Service_Category();
+                $catService=new Service_Tree();
                 $this->view->related_categories=$catService->getMasterCategoriesFromTree($tree, true);
     
             if (!empty($this->view->feed)) {
@@ -159,6 +187,7 @@ class Ajax_FeedController extends Zend_Controller_Action
             $this->_helper->json(array('result'=>0));
         }
     }
+ */
 	public function deleteAction(){
     	$feedService=new Service_Feed();
     	$array['result']=$feedService->delete($this->params['id']);

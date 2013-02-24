@@ -46,9 +46,8 @@ class TreeController extends Zend_Controller_Action
             
             $feedService=new Service_Feed();
             $this->view->tree_feeds = $feedService->getFeed(array('tree'=>$tree));
-            //echo '<pre>';var_dump($this->view->tree_feeds);echo '</pre>';die();
 
-            $catService=new Service_Category();
+            $catService=new Service_Tree();
             $this->view->related_categories=$catService->getMasterCategoriesFromTree($tree, true);
 
             $i = 0;

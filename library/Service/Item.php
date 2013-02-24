@@ -80,7 +80,7 @@ class Service_Item{
 		}
 
 		//get related categories
-		$catService=new Service_Category();
+		$catService=new Service_Tree();
 		//$result['related_categories']=$catService->getRelatedCategoriesFromItem($result['item']->id);
 		$result['related_categories']=$catService->getMasterCategoriesFromItem($result['item']->id);
 
@@ -160,7 +160,7 @@ class Service_Item{
                 }
         
                 //get related categories
-                $catService=new Service_Category();
+                $catService=new Service_Tree();
                 $packed_result[$value->id]->related_categories=$catService->getMasterCategoriesFromItem($packed_result[$value->id]->id);
         
                 //get tree(s)

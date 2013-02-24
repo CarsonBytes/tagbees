@@ -5,27 +5,29 @@
         <div class="all_e_div"><img src="<?php echo $this->baseUrl('images/man.gif')?>" alt=""/></div>
         <a href="#" class="upload_user_thumbnail">Upload an image</a></div>
       <div class="profile_right">
-        <div class="activity">
-          <div class="active_div"></div>
-          <div class="not_active"><a href="#">not active</a></div>
+        <div class="p-div">
+          <label >Related Categories:</label>
+          <span class="profile_field"><?php
+                $cat_info=$this->related_categories['cat_info'];
+                foreach($this->related_categories['related_cats'] as $related_tree_ids){ ?>
+                    <?php
+                    $i=1;
+                    $cats_slugname=array();
+                    $cats_name=array();
+                    foreach ($related_tree_ids as $cat){
+                        $cats_slugname[]=$cat_info[$cat]['slug_name'];
+                        $cats_name[]=$cat_info[$cat]['name'];
+                
+                        $cats_slugname_url=implode('/',$cats_slugname);
+                        ?>
+                        <a class="ajax_load" href="<?php echo $this->baseUrl('tree/'.$cats_slugname_url); ?>"><?php echo $cat_info[$cat]['name']; ?></a><?php if (count($related_tree_ids)>$i){?> > <?php } 
+                        $i++;
+                        if (count($this->related_categories['related_cats']) < $i) echo ', ';
+                    } ?>
+                    <?php
+                }
+                 ?></span>
         </div>
-        <div class="p-div">
-          <label>Name:</label>
-          <span class="profile_field"><?php echo $this->tree_item->name ?></span></div>
-        <div class="p-div">
-          <label>Place of residence:</label>
-          <span class="profile_field">Moon</span></div>
-        <div class="p-div">
-          <label>Posts habit:</label>
-          <span class="profile_field">Very regular</span></div>
-        <div class="p-div">
-          <label >Membership:</label>
-          <span class="profile_field">Proficient</span></div>
-          <label >Activity Index:</label>
-          <span class="profile_field"><?php echo $this->tree_item->score?></span>
-        <div class="p-div">
-          <label >Rank:</label>
-          <span class="profile_field">Publisher</span></div>
         <div class="p-div">
           <label>Description:</label>
         </div>
@@ -35,6 +37,6 @@
 </section>
 <nav class="righttab">
     <ul class="tabs">
-      <li <?php if ($this->active_tab=='index'){?>class="active"<?php } ?>><a href="<?php echo $this -> baseUrl('tree/' . $this -> tree -> username); ?>"><img src="<?php echo $this->baseUrl('images/icon12.png')?>" alt="Activities" /></a></li>
+      <li <?php if ($this->active_tab=='index'){?>class="active"<?php } ?>><a href="<?php echo $this -> baseUrl('tree/' . $this -> tree -> username); ?>"><img src="<?php echo $this->baseUrl('images/icon12.png')?>" alt="Feeds" /></a></li>
     </ul>
 </nav>

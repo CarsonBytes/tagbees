@@ -271,7 +271,7 @@ class Service_Feed{
 				$tree_select=$this->db->select();
 				$tree_select->where("f.category_ids LIKE ?", '%|'.implode('|',$user_para['tree']).'|%');
 
-				$serviceCat = new Service_Category();
+				$serviceCat = new Service_Tree();
 				$other_trees = $serviceCat->getSlaveCategoriesFromTree($user_para['tree']); //master sees slaves' feed
 				if (isset($other_trees['related_cats'])){
 					foreach($other_trees['related_cats'] as $value){

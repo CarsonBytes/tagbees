@@ -69,6 +69,7 @@ function refreshFeed(type, more_flag, para){
     
     para['type'] = type;
     
+    
     if(!feed_refreshing){
         $('.loading.feed').show();
         feed_refreshing = true;
@@ -94,6 +95,8 @@ function refreshFeed(type, more_flag, para){
                             renderIndexFeeds(response, more_flag);
                         } else if (type == 'user_log'){
                             renderUserLogs(response, more_flag);
+                        } else if (type == 'tree_feeds'){
+                            renderTreeFeeds(response, more_flag);
                         }
                     }
                     feed_refreshing = false;

@@ -1,25 +1,30 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
-<?php echo $this -> partial('js/tree.phtml'); ?>
-<?php echo $this -> partial('partials/tree/profile.phtml', array('tree_item' => $this -> tree_item)); ?>
-
-<section class="tab_container">
-    <section id="tree_feeds" class="tab_content" >
-        <h1 class="heading1">Activities</h1>
+<?php if ($this->tree_item != NULL){ ?>
+    <?php echo $this -> partial('js/tree.phtml'); ?>
+    <?php echo $this -> partial('partials/tree/profile.phtml', array('tree_item' => $this->tree_item, 'related_categories' => $this->related_categories)); ?>
     
-        <div class="post" id="more_updates">
-            <div class="feeds tree_feeds"></div>
-            <div class="more_div">
-                <a style="display:none;" class="more" href="#"> More &gt; </a>
-                <img style="display:none;" class="loading"  alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
+    <section class="tab_container">
+        <section id="tree_feeds" data-id="<?php echo $this->tree_item->id ?>" class="tab_content" >
+            <h1 class="heading1">Feeds</h1>
+        
+            <div class="post" id="more_updates">
+                <div class="feeds tree_feeds"></div>
+                <div class="more_div">
+                    <a style="display:none;" class="more" href="#"> More &gt; </a>
+                    <img style="display:none;" class="loading"  alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
+                </div>
             </div>
-        </div>
+        </section>
     </section>
-</section>
+    
+    <script type="text/javascript">
+    var tree_feeds = jQuery.parseJSON('<?php echo json_encode($this->tree_feeds) ?>');
+    jQuery(function($){
+        renderTreeFeeds(tree_feeds, false);
+    });
+    </script>
+    <?php echo $this -> partial('js/feed/tree.phtml'); ?>
 
-<script type="text/javascript">
-var tree_feeds = jQuery.parseJSON('<?php echo json_encode($this->tree_feeds) ?>');
-jQuery(function($){
-    renderTreeFeeds(tree_feeds, false);
-});
-</script>
-<?php echo $this -> partial('js/feed/tree.phtml'); ?>
+<?php }else{
+    echo 'This tree has not been established yet.';
+}  ?>

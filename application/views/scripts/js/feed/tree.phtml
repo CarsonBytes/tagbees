@@ -87,11 +87,15 @@
     }
     jQuery(function($){
         //when tree clicks load more
-        $('body').on("click",'#tree_activities .more_div',function() {
-            var para = {};
-            para['last_id'] = $('.feeds > div:last').data("id");
-            para['tree_id'] = tree_feeds.tree_id;
+        $('body #tree_feeds').on("click",'.more_div',function() {
             
+            var para = {
+                <?php if (isset(Common::getSession()->redirect_params['cat1'])){ ?>cat1: '<?php echo Common::getSession()->redirect_params['cat1'] ?>',<?php } 
+                 if (isset(Common::getSession()->redirect_params['cat2'])){ ?>cat2: '<?php echo Common::getSession()->redirect_params['cat2'] ?>',<?php } 
+                 if (isset(Common::getSession()->redirect_params['cat3'])){ ?>cat3: '<?php echo Common::getSession()->redirect_params['cat3'] ?>',<?php } ?>
+                 level: '<?php echo Common::getSession()->redirect_params['level'] ?>',
+                 last_id: $('.feeds article:last').data("id")
+            };
             refreshFeed('tree_feeds', true, para);
             return false;
         });

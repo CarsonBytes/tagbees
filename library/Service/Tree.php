@@ -1,9 +1,9 @@
 <?php
-
-class Service_Category{
+//Service_Category
+class Service_Tree{
 	protected $db;
 	/*
-	 * $category:
+	 * $tree:
 	 * array(
 	 * 	array(
 	 * 		'name'=>'Meals',
@@ -18,23 +18,19 @@ class Service_Category{
 	 * )
 	 */
 	private $table='item';
-	private $tree_table='category_tree';
 	private $first_cat_import_flag=1;
+    private $category;
 	private $submitter_id;
-	private $category;
-	private $last_id=0;
+    private $last_id=0;
 	private $levels=array();
 	function __construct(){
 		$this->identity=Zend_Auth::getInstance()->getIdentity();
 	    $this->db = Zend_Db_Table::getDefaultAdapter();
 
-	    /* Deprecated*/
-	    //$this->category=Common::config()->category->toArray();
-
 		if (Zend_Auth::getInstance()->hasIdentity()){
 			$this->submitter_id = $this->identity->item_id;
 		}else{
-			$this->submitter_id=0;
+			$this->submitter_id=0; // default root id in case no one claim this tag adding / modifing
 		}
 		//$this->db->getProfiler()->setEnabled(true);
 	}
@@ -67,6 +63,24 @@ class Service_Category{
 
 	    return $cat;
 	}
+    public function getItemTreeById($item_id){
+        $query=$this->db->select()
+            ->from('item',array('category_ids'))
+            ->where('id=?',$item_id);
+        $result=$this->db->fetchOne($query);
+        $tree_ids = explode('|', $result);
+        
+        $tree_ids = array_values(array_diff($tree_ids, array(1, '')));
+        
+        $query=$this->db->select()
+            ->from('item')
+            //->where('name<>?','ROOT')
+            ->where('id in (?)',$tree_ids);
+        $result=$this->db->fetchAll($query);
+        
+        return array('tree_ids'=>$tree_ids, 'tree_details' => $result);
+        
+    }
 	/* not updated related categories logic
 	public function getRelatedCategoriesFromTree($tree){
 		$tree_string="|1|".implode("|", $tree)."|";
