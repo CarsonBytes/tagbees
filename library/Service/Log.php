@@ -83,10 +83,15 @@ class Service_Log{
         $used_object_type_ids = array();
         
         foreach($db_data as &$log){
+            //define which type of feeds should show events
             $log->is_detailed_feed = 
-                ($log->action_type_id == $action_types['create'])
+                (($log->action_type_id == $action_types['create'])
                 &&
-                ($log->object_type_id == $object_types['event']);
+                ($log->object_type_id == $object_types['event']))
+                || 
+                (($log->action_type_id == $action_types['tag'])
+                &&
+                ($log->object_type_id == $object_types['event']));
             
             if ($log->is_detailed_feed) $feed_item_ids[] = $log->object_id;
             

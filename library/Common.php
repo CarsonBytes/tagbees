@@ -478,8 +478,11 @@ class Common{
     }
     
     public static function getPastTense($verb){
+        $translate = Zend_Registry::get('Zend_Translate');
         if ($verb == 'create' || $verb == 'update') {
             return $verb . 'd';
+        } else if ($verb == 'tag'){
+            return $translate->translate('is tagged in');
         } else {
             return $verb . 'ed';
         }

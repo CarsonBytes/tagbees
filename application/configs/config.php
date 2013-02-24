@@ -38,6 +38,7 @@ return array(
                 'create'=>1,
                 'update'=>2,
                 'bookmark'=>3,
+                'tag'=>4
             ),
             'object_type'=>array(
                 'event'=>1,

@@ -454,3 +454,6 @@ Request for reset password;"請求重置密碼"
 
 ?# email templates
 Account confirmation from Tagbees;"請驗証您的Tagbees帳號"
+
+?# user activities
+is tagged in;"被標簽在"
