@@ -1,98 +1,7 @@
 <script type="text/javascript">
-    function renderTreeFeeds(tree_feeds, more_flag){
-        
-        if (typeof more_flag == 'undefined') var more_flag=false;
-        if (typeof data == 'undefined') var tree_feeds = tree_feeds;
-        
-        var tree_feeds = generateTreeFeeds(tree_feeds);
-        
-        if (more_flag) tree_feeds.appendTo( ".post .feeds.tree_feeds");
-        else $(".post .feeds.tree_feeds").html(tree_feeds);
-        
-        //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
-        if (tree_feeds.length == 0 <?php //echo Zend_Registry::get('config')->filter->tree_para->rpp ?>){
-            hideMoreButton(more_flag);
-        }else{
-            $('.more_div .loading').hide();
-            $('.more_div .more').show();
-        }
-        
-        attachIndexFeedEvents();
-        
-    }
-    function generateTreeFeeds(tree_feeds){
-        return $( "#feed_tree_item" ).tmpl(tree_feeds.data,
-              {
-                  getMainPicTitle: function(){
-                      var img_is_main_pics =this.data.img_is_main_pics.split(',');
-                      var img_descriptions =this.data.img_descriptions.split(',');
-                      for( index in img_is_main_pics){
-                          if (img_is_main_pics[index] == 1){
-                              return img_descriptions[index];
-                          }
-                      }
-                  },
-                  getMainPicURL: function(){
-                      var img_is_main_pics =this.data.img_is_main_pics.split(',');
-                      var img_filenames =this.data.img_filenames.split(',');
-                      for( index in img_is_main_pics){
-                          if (img_is_main_pics[index] == 1){
-                              return '<?php echo $this->baseUrl('uploads');?>/'+img_filenames[index];
-                          }
-                      }
-                      return '<?php echo Common::changePathToURL(Common::config()->pics->event->public);?>';
-                  },
-                  hasMainCat: function(){
-                      return !(jQuery.isEmptyObject(this.data.tree_ids.main));
-                  },
-                  getMainCatName: function(){
-                      var main_cat_ids = this.data.tree_ids.main;
-                      var keys = $.keys(main_cat_ids);
-                      return tree_feeds.tree_tags[main_cat_ids[keys[keys.length-1]]]['name'];
-                  },
-                  getMainCatURL: function(){
-                      var main_cat_ids = this.data.tree_ids.main;
-                      var url = [];
-                      for (index in main_cat_ids){
-                        if (typeof tree_feeds.tree_tags[main_cat_ids[index]] != 'undefined'){
-                            url.push(tree_feeds.tree_tags[main_cat_ids[index]]['slug_name']);
-                        }else {
-                            //unknown error: tree_feeds.tree_tags[main_cat_ids[index]] can be undefined...
-                            alert('Error occured, please refresh the page.');
-                            return '';
-                        }
-                      }
-                      url = url.join('/');
-                      return '<?php echo $this->baseUrl('tree');?>/'+url;
-                  },
-                  urldecode: function() {
-                     //console.log(this.data);
-                    if (typeof arguments[0] == 'string') 
-                        return decodeURIComponent((arguments[0]+'').replace(/\+/g, '%20')).replace('\n','<br />');
-                    else return '';
-                  },
-                  formatMysqlDate: function() { 
-                      if (typeof arguments[0] == 'string') 
-                        return $.datepicker.formatDate('dd M yy', mysqlTimeStampToDate(arguments[0]));
-                  },
-                  tagHTML: function() {
-                      var tag_slug_names =this.data.tag_slug_names.split(',');
-                      var tag_names =this.data.tag_names.split(',');
-                      var tag_types =this.data.tag_types.split(',');
-                      var html = [];
-                      for( index in tag_slug_names){
-                        if (tag_names[index]!='' && tag_slug_names[index]!='' && tag_slug_names[index]!='')
-                            html.push('<a href="<?php echo $this->baseUrl();?>/'+tag_types[index]+'/'+tag_slug_names[index]+'">'+tag_names[index]+'</a>');
-                      }
-                      return html.join(', ');
-                  }
-              } 
-        );
-    }
     jQuery(function($){
         //when tree clicks load more
         $('body #tree_feeds').on("click",'.more_div',function() {
-            
             var para = {
                 <?php if (isset(Common::getSession()->redirect_params['cat1'])){ ?>cat1: '<?php echo Common::getSession()->redirect_params['cat1'] ?>',<?php } 
                  if (isset(Common::getSession()->redirect_params['cat2'])){ ?>cat2: '<?php echo Common::getSession()->redirect_params['cat2'] ?>',<?php } 
@@ -105,5 +14,5 @@
         });
     })
 </script>
-<?php echo $this->partial('js/template/feed/tree_item.phtml') ?>
+<?php //echo $this->partial('js/template/feed/tree_item.phtml') ?>
 <?php echo $this -> partial('js/feed/index.phtml'); ?>

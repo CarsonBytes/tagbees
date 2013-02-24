@@ -96,7 +96,8 @@ function refreshFeed(type, more_flag, para){
                         } else if (type == 'user_log'){
                             renderUserLogs(response, more_flag);
                         } else if (type == 'tree_feeds'){
-                            renderTreeFeeds(response, more_flag);
+                            //renderTreeFeeds(response, more_flag);
+                            renderIndexFeeds(response, more_flag);
                         }
                     }
                     feed_refreshing = false;

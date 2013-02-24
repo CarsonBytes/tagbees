@@ -1,6 +1,6 @@
 <?php
 // this is to redirect to proper tree page
-class CategoryTagController extends Zend_Controller_Action
+class TreeTagController extends Zend_Controller_Action
 {
     protected $userId;
     

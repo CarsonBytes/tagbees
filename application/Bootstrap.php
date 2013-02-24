@@ -115,7 +115,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $route = new Zend_Controller_Router_Route_Regex(
             'tree_tag/(.+)',
             array(
-                'controller'=>'categoryTag',
+                'controller'=>'treeTag',
                 'action'=>'index'
             ),
             array(
