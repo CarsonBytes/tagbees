@@ -37,7 +37,7 @@ class Service_Tag{
 		}
 		/*if (!$include_categories){
 			$where.=' AND ';
-			$where.=$this->db->quoteInto("i.is_category_tag = 0");
+			$where.=$this->db->quoteInto("i.is_tree_tag = 0");
 		}*/
 		$select->where($where);
 		$result=$this->db->fetchAll($select);
@@ -272,7 +272,7 @@ class Service_Tag{
 				$this->db->select()
 				->from(array('item'),array('id','name','slug_name'))
 				->where('item.slug_name in (?)',$slug_name)
-				->where('item.type in (?)',array('tag','category_tag'));
+				->where('item.type in (?)',array('tag','tree_tag'));
 			$result=$this->db->fetchAll($select);
 			$packed=array();
 			foreach($result as $value){

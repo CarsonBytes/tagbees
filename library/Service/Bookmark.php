@@ -172,7 +172,7 @@ class Service_Bookmark{
 		//check from db if those submitted tags already exist
 	    $input_tags_names=explode(',',strtolower($input_tags));
 		$select=$this->db->select()
-					->from (array('t'=>'tag'), array('id','name','status','is_category_tag'))
+					->from (array('t'=>'tag'), array('id','name','status','is_tree_tag'))
 					->where ('t.name in (?)',$input_tags_names);
 
 		$old_input_tags=$this->db->fetchAll($select);
@@ -180,7 +180,7 @@ class Service_Bookmark{
 
 		//ensure old input tags are not category tags before assigning to the work with that id
 		foreach ($old_input_tags as $value){
-			if ($value['is_category_tag']==0){
+			if ($value['is_tree_tag']==0){
 				$data=array(
 					'type'=>$type,	// work is of type 1, tutorial is of type 2
 					'item_id'=>$submission_id,

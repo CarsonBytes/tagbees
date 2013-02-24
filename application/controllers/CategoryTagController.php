@@ -18,7 +18,7 @@ class CategoryTagController extends Zend_Controller_Action
             'Home' => '/'
         );
         $itemService = new Service_Item();
-        $item = $itemService->getItemBySlugName($this->_request->getParam('slug_name'), 'category_tag');
+        $item = $itemService->getItemBySlugName($this->_request->getParam('slug_name'), 'tree_tag');
         
         $treeService = new Service_Tree();
         $tree = $treeService->getItemTreeById($item['item']->id);

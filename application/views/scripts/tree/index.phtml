@@ -19,6 +19,7 @@
     
     <script type="text/javascript">
     var tree_feeds = jQuery.parseJSON('<?php echo json_encode($this->tree_feeds) ?>');
+        console.log(tree_feeds);
     jQuery(function($){
         renderTreeFeeds(tree_feeds, false);
     });

@@ -59,7 +59,7 @@ class Service_Item{
 		//$result['image']=$imageService->getImages($result['item']->id);
         //$this->feed_query = $imageService->getJoinQuery($this->feed_query, 'f.id');
         $result['item']->images = $this->getImagePaths($result['item']);
-        $result['item']->tags_html = $this->getTagsHTML($result['item']);
+        //$result['item']->tags_html = $this->getTagsHTML($result['item']);
 		
 		if ($result['item']->type == 'event'){
 			if (Zend_Auth::getInstance()->hasIdentity()){
@@ -88,12 +88,12 @@ class Service_Item{
         $result['item'] = $this->getCatAndTreeIdsByCategoryIdsString($result['item']->category_ids, $result['item']);
         
         //get category tags information for the item
-        $category_tags=array();
+        $tree_tags=array();
         if (!empty($result['item']->cat_ids)){
             $tagService=new Service_Tag();
-            $category_tags=$tagService->getCategoryTags($result['item']->cat_ids);
+            $tree_tags=$tagService->getCategoryTags($result['item']->cat_ids);
         }
-        $result['item']->category_tags=$category_tags;
+        $result['item']->tree_tags=$tree_tags;
         
         
 		return $result;
@@ -134,7 +134,7 @@ class Service_Item{
             foreach ($result as $value) {
                 $packed_result[$value->id] = clone $value;
                 $packed_result[$value->id]->images = $this->getImagePaths($packed_result[$value->id]);
-                $packed_result[$value->id]->tags_html = $this->getTagsHTML($packed_result[$value->id]);
+                //$packed_result[$value->id]->tags_html = $this->getTagsHTML($packed_result[$value->id]);
                 
                 //get tree(s)
                 $item = $this->getCatAndTreeIdsByCategoryIdsString($packed_result[$value->id]->category_ids, $item);
@@ -167,18 +167,18 @@ class Service_Item{
                 $packed_result[$value->id] = $this->getCatAndTreeIdsByCategoryIdsString($packed_result[$value->id]->category_ids, $packed_result[$value->id]);
                 
                 //get category tags information for the item
-                $category_tags=array();
+                $tree_tags=array();
                 if (!empty($packed_result[$value->id]->cat_ids)){
                     $tagService=new Service_Tag();
-                    $category_tags=$tagService->getCategoryTags($packed_result[$value->id]->cat_ids);
+                    $tree_tags=$tagService->getCategoryTags($packed_result[$value->id]->cat_ids);
                 }
-                $packed_result[$value->id]->category_tags=$category_tags;
+                $packed_result[$value->id]->tree_tags=$tree_tags;
             }
             
             if (!empty($cat_ids)){
                 //get category tags for items
                 $tagService=new Service_Tag();
-                $packed_result['category_tags']=$tagService->getCategoryTags($cat_ids);
+                $packed_result['tree_tags']=$tagService->getCategoryTags($cat_ids);
             }
             
             return $packed_result;
@@ -218,6 +218,7 @@ class Service_Item{
         return array('main'=>$main_img_info, 'general' => $img_info);
     }
 
+    /*
     public function getTagsHTML($item) {
         $tag_names = explode(',',$item->tag_names);
         $tag_slug_names = explode(',',$item->tag_slug_names);
@@ -230,9 +231,9 @@ class Service_Item{
                 isset($tag_slug_names[$i]) && $tag_slug_names[$i]!='' && 
                 isset($tag_types[$i]) && $tag_types[$i]!='') {
                     
-                 /* check duplicates */
+                 /* check duplicates 
                  if (!in_array($tag_slug_names[$i].'||'.$tag_types[$i], $tags_array)) {
-                     $tag_type = ($tag_types[$i] == 'category_tag') ? 'tag' : $tag_types[$i];
+                     $tag_type = ($tag_types[$i] == 'tree_tag') ? 'tag' : $tag_types[$i];
                      $tags_array[] = $tag_slug_names[$i].'||'.$tag_types[$i];
                      $tags_html_array[] = '<a class="ajax_load" href="' . Zend_Controller_Front::getInstance()->getBaseUrl().'/'.$tag_type . '/' . $tag_slug_names[$i] . '">' . $tag_names[$i] . '</a>';
                  }
@@ -240,6 +241,7 @@ class Service_Item{
         }
         return implode(', ',$tags_html_array);
     }
+     */
 
     public function getCatAndTreeIdsByCategoryIdsString($category_ids_string, &$item){
         $cat_ids = array();
@@ -357,7 +359,7 @@ class Service_Item{
 		$select = $this->db->select()
 							->from('item','id')
 							->where('name = ?',$name)
-							->where("type = 'category_tag'");
+							->where("type = 'tree_tag'");
 		return $this->db->fetchOne($select);
 	}
 

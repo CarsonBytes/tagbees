@@ -43,7 +43,7 @@ class Ajax_FeedController extends Zend_Controller_Action
                     $treeItem=
                         $itemService->getItemBySlugName(
                             $cats[count($cats)-1],
-                            array('category_tag')
+                            array('tree_tag')
                         );
                     $this->view->tree_item=$treeItem['item'];
         
@@ -86,7 +86,7 @@ class Ajax_FeedController extends Zend_Controller_Action
         $itemService=new Service_Item();
         $this->view->feed=$itemService->getItemsByIds($item_ids);
         
-        $this->view->category_tags=$this->view->feed['category_tags'];
+        $this->view->tree_tags=$this->view->feed['tree_tags'];
         
         $userService=new Service_User();
         $this->view->user=$userService->get($this->params['user_id'], Zend_Db::FETCH_OBJ);
@@ -107,7 +107,7 @@ class Ajax_FeedController extends Zend_Controller_Action
         $tag=
             $itemService->getItemBySlugName(
                 urldecode($this->params['tag_slug_name']),
-                array('tag','category_tag'),
+                array('tag','tree_tag'),
                 1
             );
             $this->view->tag=$tag['item'];
@@ -118,7 +118,7 @@ class Ajax_FeedController extends Zend_Controller_Action
             $feed = $feedService->getFeed($feed_para);
             
             $this->view->feed=$feed['final_feed_result'];
-            $this->view->category_tags=$feed['category_tags'];
+            $this->view->tree_tags=$feed['tree_tags'];
 
 
         if (!empty($this->view->feed)) {
@@ -147,7 +147,7 @@ class Ajax_FeedController extends Zend_Controller_Action
                 $treeItem=
                     $itemService->getItemBySlugName(
                         $cats[count($cats)-1],
-                        array('category_tag')
+                        array('tree_tag')
                     );
                 $this->view->tree_item=$treeItem['item'];
     
@@ -169,7 +169,7 @@ class Ajax_FeedController extends Zend_Controller_Action
                 $feed=$feedService->getFeed($feed_para);
                 
                 $this->view->feed=$feed['final_feed_result'];
-                $this->view->category_tags=$feed['category_tags'];
+                $this->view->tree_tags=$feed['tree_tags'];
     
                 $catService=new Service_Tree();
                 $this->view->related_categories=$catService->getMasterCategoriesFromTree($tree, true);

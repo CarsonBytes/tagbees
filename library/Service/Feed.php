@@ -318,6 +318,32 @@ class Service_Feed{
                     $item->degree=intval(rad2deg(atan2($delta_lng * cos(deg2rad($base_lat)),$delta_lat)));
                     if ($item->degree<0)$item->degree=$item->degree+360;
                 }
+                
+                //check if tags are unqiue 
+                $tag_slug_names = explode(',',$item->tag_slug_names);
+                $tag_names = explode(',',$item->tag_names);
+                $tag_types = explode(',',$item->tag_types);
+                
+                $unique_tags = array();
+                $duplicate_index = array();
+                for($i=0;$i<count($tag_slug_names);$i++){
+                    if (array_search($tag_slug_names[$i].';;'.$tag_types[$i], $unique_tags) == array()){
+                        $unique_tags[] = $tag_slug_names[$i].';;'.$tag_types[$i];
+                    } else {
+                        $duplicate_index[] = $i;
+                    }
+                }
+                
+                //remove duplicate tags 
+                foreach($duplicate_index as $value){
+                    unset($tag_slug_names[$value]);
+                    unset($tag_names[$value]);
+                    unset($tag_types[$value]);
+                }
+                $item->tag_slug_names=implode(',', $tag_slug_names);
+                $item->tag_names=implode(',', $tag_names);
+                $item->tag_types=implode(',', $tag_types);
+                
                 /*$item->images = $itemService->getImagePaths($item);
                 unset($item->img_titles);
                 unset($item->img_descriptions);
@@ -349,11 +375,11 @@ class Service_Feed{
 				//$imageService=new Service_Image();
 				//$image=$imageService->getImages($packed_result['item_ids']);
 			//}
-			$category_tags=array();
+			$tree_tags=array();
 			if (!empty($cat_ids)){
 				//get category tags for items
 				$tagService=new Service_Tag();
-				$category_tags=$tagService->getCategoryTags($cat_ids);
+				$tree_tags=$tagService->getCategoryTags($cat_ids);
 			}
 
 			return array(
@@ -361,7 +387,7 @@ class Service_Feed{
 				//'comment'=>$comment,
 				//'image'=>$image,
 				//'tags'=>$tags,
-				'category_tags'=>$category_tags,
+				'tree_tags'=>$tree_tags,
 				//'debug'=>$this->debug
 			);
 		}else{
@@ -370,7 +396,7 @@ class Service_Feed{
 				//'comment'=>array(),
 				//'image'=>array(),
 				//'tags'=>array(),
-				'category_tags'=>array(),
+				'tree_tags'=>array(),
 				//'debug'=>$this->debug
 			);
 		}

@@ -46,16 +46,16 @@
                   getMainCatName: function(){
                       var main_cat_ids = this.data.tree_ids.main;
                       var keys = $.keys(main_cat_ids);
-                      return index_feeds.category_tags[main_cat_ids[keys[keys.length-1]]]['name'];
+                      return index_feeds.tree_tags[main_cat_ids[keys[keys.length-1]]]['name'];
                   },
                   getMainCatURL: function(){
                       var main_cat_ids = this.data.tree_ids.main;
                       var url = [];
                       for (index in main_cat_ids){
-                        if (typeof index_feeds.category_tags[main_cat_ids[index]] != 'undefined'){
-                            url.push(index_feeds.category_tags[main_cat_ids[index]]['slug_name']);
+                        if (typeof index_feeds.tree_tags[main_cat_ids[index]] != 'undefined'){
+                            url.push(index_feeds.tree_tags[main_cat_ids[index]]['slug_name']);
                         }else {
-                            //unknown error: index_feeds.category_tags[main_cat_ids[index]] can be undefined...
+                            //unknown error: index_feeds.tree_tags[main_cat_ids[index]] can be undefined...
                             alert('Error occured, please refresh the page.');
                             return '';
                         }

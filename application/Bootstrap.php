@@ -113,7 +113,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $router->addRoute('event', $route);
 
         $route = new Zend_Controller_Router_Route_Regex(
-            'category_tag/(.+)',
+            'tree_tag/(.+)',
             array(
                 'controller'=>'categoryTag',
                 'action'=>'index'
@@ -122,7 +122,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 1=>'slug_name'
             )
         );
-        $router->addRoute('category_tag', $route);
+        $router->addRoute('tree_tag', $route);
 
         $route = new Zend_Controller_Router_Route_Regex(
             'tag/(.+)',

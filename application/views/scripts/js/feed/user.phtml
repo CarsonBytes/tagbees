@@ -31,7 +31,7 @@
                   getFeedItem: function(){
                       var subfeeds = [];
                       subfeeds.data = user_logs.feeds[this.data.object_id];
-                      subfeeds.category_tags = subfeeds.data.category_tags;
+                      subfeeds.tree_tags = subfeeds.data.tree_tags;
                       return generateIndexFeeds(subfeeds).clone().wrap('<p>').parent().html();
                   }
               } 

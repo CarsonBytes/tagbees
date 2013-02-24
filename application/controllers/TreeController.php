@@ -29,7 +29,7 @@ class TreeController extends Zend_Controller_Action
             $treeItem=
                 $itemService->getItemBySlugName(
                     $cats[count($cats)-1],
-                    array('category_tag')
+                    array('tree_tag')
                 );
             $this->view->tree_item=$treeItem['item'];
 

@@ -37,7 +37,7 @@ class Service_Tree{
 	public function get($is_all_included=true){
 	    $query=$this->db->select()
 		    ->from('item',array('id','name','category_ids'))
-		    ->where('type=?','category_tag')
+		    ->where('type=?','tree_tag')
 		    ->where('name<>?','ROOT')
 		    ->order(array('category_ids','id'));
 
@@ -50,7 +50,7 @@ class Service_Tree{
 	public function get3LevelCategories(){
 	    $query=$this->db->select()
 		    ->from('item',array('id','name','slug_name','category_ids'))
-		    ->where('type=?','category_tag')
+		    ->where('type=?','tree_tag')
 		    ->where('name<>?','ROOT')
 		    ->order(array('category_ids','id'));
 	    $result=$this->db->fetchAll($query);
@@ -290,7 +290,7 @@ class Service_Tree{
 					'id'=>1,
 					'name'=>'ROOT',
 					'slug_name'=>'ROOT',
-					'type'=>'category_tag',
+					'type'=>'tree_tag',
 					'submitter_id'=>$this->submitter_id,
 					'category_ids'=>'|0|'
 				);
@@ -337,14 +337,14 @@ class Service_Tree{
 		$values=array(
 				'name'=>$name,
 				'slug_name'=>$slug,
-				'type'=>'category_tag',
+				'type'=>'tree_tag',
 				'submitter_id'=>$this->submitter_id,
 				'category_ids'=>"|".implode("|", $parent_ids)."|"
 			);
 		$selectIdQuery=$this->db->select()
 			->from($this->table,'id')
 			->where('slug_name=?',$slug)
-			->where('type=?','category_tag');
+			->where('type=?','tree_tag');
 		$this->last_id=$this->db->fetchOne($selectIdQuery);
 		if ($this->last_id==''){
 			$values['create_time']=date('Y/m/d H:i:s');
@@ -354,12 +354,12 @@ class Service_Tree{
 			$status='inserted';
 		}else{
 			$values['update_time']=date('Y/m/d H:i:s');
-			$this->db->update($this->table, $values, "type='category_tag' and slug_name='".$slug."'" );
+			$this->db->update($this->table, $values, "type='tree_tag' and slug_name='".$slug."'" );
 
 			$selectIdQuery=$this->db->select()
 				->from($this->table,'id')
 				->where('slug_name=?',$slug)
-				->where('type=?','category_tag');
+				->where('type=?','tree_tag');
 			$this->last_id=$this->db->fetchOne($selectIdQuery);
 			$status='updated';
 		}
@@ -367,7 +367,7 @@ class Service_Tree{
 		var_dump($values);
 		/* Abandon this because the last insert id is not correct in any cases
 		$select="INSERT INTO ".$this->table." (name, slug_name, status, type, submitter_id,category_ids,create_time)
-			VALUES (?, ?, 1,'category_tag', ?, ?,NOW())
+			VALUES (?, ?, 1,'tree_tag', ?, ?,NOW())
 			ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id), name=?,status=1, category_ids=?,update_time=NOW()";
 		$value=array($name, $slug, $this->submitter_id, $category_ids,$name,$category_ids);
 		$result=$this->db->query($select,$value);
@@ -387,7 +387,7 @@ class Service_Tree{
 		$this->db->query('truncate '.$this->tree_table);
 		$query=$this->db->select()
 			->from($this->table,array('id','name','slug_name','category_ids','category_position'))
-			->where('type=?','category_tag')
+			->where('type=?','tree_tag')
 			->order('id');
 		$result=$this->db->fetchAll($query);
 		foreach($result as $value){
@@ -461,7 +461,7 @@ class Service_Tree{
 		$query = $this->db->select()
 			->from($this->table,"name")
 			->where("status=1")
-			->where("type='category_tag'");
+			->where("type='tree_tag'");
 
 		$result = $this->db->fetchAll($query);
 
@@ -473,9 +473,9 @@ class Service_Tree{
 		foreach($diff as $value){
 			$where=array(
 				'name'=>$value,
-				'type'=>'category_tag'
+				'type'=>'tree_tag'
 			);
-			$query=$this->db->update($this->table,array('status'=>0),'name='.$value.' and type="category_tag"');
+			$query=$this->db->update($this->table,array('status'=>0),'name='.$value.' and type="tree_tag"');
 			echo ("A category tag '$value' is disabled.");
 			echo '<br />';
 		}
@@ -503,7 +503,7 @@ class Service_Tree{
 		$query = $this->db->select()
 			->from('item',array('id','name'))
 			->where('category_ids = ?',$category_ids)
-			->where('type=?','category_tag');
+			->where('type=?','tree_tag');
 		$result=$this->db->fetchAll($query);
 		//error_log($this->db->getProfiler()->getLastQueryProfile()->getQuery());
 		return $result;
@@ -528,7 +528,7 @@ array(
 	public function getAll(){
 		$query = $this->db->select()
 			->from('item',array('id','name','slug_name','category_ids'))
-			->where('type=?','category_tag');
+			->where('type=?','tree_tag');
 		$result=$this->db->fetchAll($query);
 
 		$cat = array();
