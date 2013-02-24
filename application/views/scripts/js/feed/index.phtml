@@ -40,6 +40,9 @@
                       }
                       return '<?php echo Common::changePathToURL(Common::config()->pics->event->public);?>';
                   },
+                  hasMainCat: function(){
+                      return !(jQuery.isEmptyObject(this.data.tree_ids.main));
+                  },
                   getMainCatName: function(){
                       var main_cat_ids = this.data.tree_ids.main;
                       var keys = $.keys(main_cat_ids);

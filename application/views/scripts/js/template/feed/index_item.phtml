@@ -19,13 +19,13 @@
         <div class="post_right">
             <header class="tag_top taggap clearfix">
                 <ul>
-                    {{if tree_ids.main[1]}}
+                    {{if $item.hasMainCat() }}
                     <li>
                         <a target="blank" href="${$item.getMainCatURL()}"><strong>${$item.getMainCatName()}</strong></a>
                     </li>
                     {{/if}}
                     {{if begin_datetime}}
-                        {{if tree_ids.main[1]}}
+                        {{if $item.hasMainCat() }}
                         <li>
                             |
                         </li>
@@ -35,7 +35,7 @@
                     </li>
                     {{/if}}
                     {{if place}}
-                        {{if tree_ids.main[1] || begin_datetime}}
+                        {{if $item.hasMainCat() || begin_datetime}}
                     <li>
                         |
                     </li>

@@ -1,5 +1,7 @@
 <script type="text/javascript">
     function renderTreeFeeds(tree_feeds, more_flag){
+        console.log(tree_feeds);
+        
         if (typeof more_flag == 'undefined') var more_flag=false;
         if (typeof data == 'undefined') var tree_feeds = tree_feeds;
         
@@ -40,6 +42,9 @@
                           }
                       }
                       return '<?php echo Common::changePathToURL(Common::config()->pics->event->public);?>';
+                  },
+                  hasMainCat: function(){
+                      return !(jQuery.isEmptyObject(this.data.tree_ids.main));
                   },
                   getMainCatName: function(){
                       var main_cat_ids = this.data.tree_ids.main;

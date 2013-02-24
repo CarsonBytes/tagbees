@@ -278,8 +278,12 @@ class Service_Feed{
 						$tree_select->orWhere("f.category_ids LIKE ?", '%|'.implode('|',$value).'|%');
 					}
 				}
-				$this->feed_query->where(join(" ",$tree_select->getPart(Zend_Db_Select::WHERE)));
-			}
+                
+                // last tree tags related items
+                $tagService=new Service_Tag();
+                $tree_select=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', end($user_para['tree']));
+
+                $this->feed_query->where(join(" ",$tree_select->getPart(Zend_Db_Select::WHERE)));			}
             
 
 			//fetch and pack result
