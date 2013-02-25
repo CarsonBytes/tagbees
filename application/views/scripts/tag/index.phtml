@@ -1,11 +1,11 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
-<?php if ($this->tree_item != NULL){ ?>
-    <?php echo $this -> partial('js/tree.phtml'); ?>
-    <?php echo $this -> partial('partials/tree/profile.phtml', array('tree_item' => $this->tree_item, 'related_categories' => $this->related_categories)); ?>
+<?php if ($this->tag_item != NULL){ ?>
+    <?php //echo $this -> partial('js/tree.phtml'); ?>
+    <?php echo $this -> partial('partials/tag/profile.phtml', array('tag_item' => $this->tag_item)); ?>
     
     <section class="tab_container">
-        <section id="tree_feeds" data-id="<?php echo $this->tree_item->id ?>" class="tab_content" >
-            <h1 class="heading1">Feeds</h1>
+        <section id="tag_events" data-id="<?php echo $this->tree_item->id ?>" class="tab_content" >
+            <h1 class="heading1">Hot Events</h1>
         
             <div class="post" id="more_updates">
                 <div class="feeds tree_feeds"></div>
@@ -18,14 +18,13 @@
     </section>
     
     <script type="text/javascript">
-    var tree_feeds = jQuery.parseJSON('<?php echo json_encode($this->tree_feeds) ?>');
-        console.log(tree_feeds);
+    var tag_events_json = jQuery.parseJSON('<?php echo json_encode($this->tag_events) ?>');
     jQuery(function($){
-        renderIndexFeeds(tree_feeds, false);
+        renderIndexFeeds(tag_events_json, false);
     });
     </script>
-    <?php echo $this -> partial('js/feed/tree.phtml'); ?>
+    <?php echo $this->partial('js/page/tag_events.phtml', array('tag_id' => $this->tag_item->id)); ?>
 
 <?php }else{
-    echo 'This tree has not been established yet.';
+    echo 'This tag has not been established yet.';
 }  ?>

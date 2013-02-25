@@ -95,7 +95,7 @@ function refreshFeed(type, more_flag, para){
                             renderIndexFeeds(response, more_flag);
                         } else if (type == 'user_log'){
                             renderUserLogs(response, more_flag);
-                        } else if (type == 'tree_feeds'){
+                        } else if ((type == 'tree_feeds')|| (type == 'tag_events')){
                             //renderTreeFeeds(response, more_flag);
                             renderIndexFeeds(response, more_flag);
                         }

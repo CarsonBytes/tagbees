@@ -1,0 +1,19 @@
+<section class="mainevent">
+    <h1><?php echo $this->tag_item->name?></h1>
+    <div class="myprofile profile_form clearfix">
+      <div class="profileLeft">
+        <div class="all_e_div"><img src="<?php echo $this->baseUrl('images/man.gif')?>" alt=""/></div>
+        <a href="#" class="upload_user_thumbnail">Upload an image</a></div>
+      <div class="profile_right">
+        <div class="p-div">
+          <label>Description:</label>
+        </div>
+        </div>
+        <p><?php echo $this->tag_item->description?></p>
+      </div>
+</section>
+<nav class="righttab">
+    <ul class="tabs">
+      <li <?php if ($this->active_tab=='index'){?>class="active"<?php } ?>><a href="<?php echo $this -> baseUrl('tree/' . $this -> tree -> username); ?>"><img src="<?php echo $this->baseUrl('images/icon12.png')?>" alt="Feeds" /></a></li>
+    </ul>
+</nav>
