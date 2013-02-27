@@ -27,6 +27,7 @@ class TreeTagController extends Zend_Controller_Action
                      'tree_tag'
                 );
             
+            
             if ($item == false){
                 $this->_redirect('/');
             }
@@ -36,7 +37,7 @@ class TreeTagController extends Zend_Controller_Action
             
             $tree_arr = array();
             foreach($tree['tree_details'] as $tree_detail){
-                $tree_arr[array_search($tree_detail['id'], $tree[tree_ids])] = $tree_detail['slug_name'];
+                $tree_arr[array_search($tree_detail['id'], $tree['tree_ids'])] = $tree_detail['slug_name'];
             }
             
             $tree_str = '';

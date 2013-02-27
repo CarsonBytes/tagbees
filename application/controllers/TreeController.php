@@ -13,7 +13,7 @@ class TreeController extends Zend_Controller_Action
     
     public function indexAction()
     {
-        if ($this->_request->getParam('slug_name')==""){
+        if ($this->_request->getParam('cat1')==""){
             $this->_redirect('/');
         }else{
             Common::getSession()->nav=array(
