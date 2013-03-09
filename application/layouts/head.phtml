@@ -6,7 +6,8 @@
     <?php echo $this->minifyHeadLink()
         //->appendStylesheet('tooltip.css')
         //->appendStylesheet('bootstrap.css')
-        ->appendStylesheet('normalize.css')
+        //->appendStylesheet('normalize.css')
+        ->appendStylesheet('main.css')
         ->appendStylesheet('jquery.qtip.css')
         ->appendStylesheet('ui-lightness/jquery-ui-1.9.2.custom.css');
     ?>
@@ -33,9 +34,11 @@
             echo $this->minifyHeadScript();
         }
     ?>
-    <link href="<?php echo $this->baseUrl('css/main.less')?>" rel="stylesheet/less" type="text/css" media="all">
     <link href="<?php echo $this->baseUrl('css/wittysparks_checkbox_radio.css')?>"  rel="stylesheet" type="text/css" >
-    <script type="text/javascript" src="<?php echo $this->baseUrl('js/less-1.3.0.min.js')?>"> </script>
+    <?php /*
+    <link href="<?php echo $this->baseUrl('css/main.less')?>" rel="stylesheet/less" type="text/css" media="all">
+      <script type="text/javascript" src="<?php echo $this->baseUrl('js/less-1.3.0.min.js')?>"> </script> */ ?>
+      
     <!-- Internet Explorer HTML5 enabling code: -->
     <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -98,7 +101,7 @@
                     once: false,
                     loading: false,
                     error:function(){
-                        alert( jqXHR.responseText);
+                        //alert( jqXHR.responseText);
                     }
                 },
                 title: {

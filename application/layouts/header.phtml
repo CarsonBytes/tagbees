@@ -1,68 +1,55 @@
 <div id="wrapper">
   <div class="container">
     <header id="header" class="clearfix">
-      <h1 class="logo"><a href="<?php echo $this->baseUrl(''); ?>"><img src="<?php echo $this->baseUrl('images/logo.jpg')?>" alt="Tagbees" title="Tagbees" /></a></h1>
+      <h1 class="logo"><a href="<?php echo $this -> baseUrl(''); ?>"><img src="<?php echo $this->baseUrl('images/logo.jpg')?>" alt="Tagbees" title="Tagbees" /></a></h1>
       <div class="header_right right">
         <div class="header_top clearfix"> 
-            <?php 
-                $languages =  Zend_Registry::get('config')->languages->toArray();
-                $active_language_code = Common::getSiteDisplayLang();
+            <?php
+            $languages = Zend_Registry::get('config') -> languages -> toArray();
+            $active_language_code = Common::getSiteDisplayLang();
             ?>
             <nav class="language">
                 <ul>
-                    <li><a href="#" ><span class="country_flag <?php echo $active_language_code?>"></span><?php echo $languages[$active_language_code];?></a>
+                    <li><a href="#" ><span class="country_flag <?php echo $active_language_code?>"></span><?php echo $languages[$active_language_code]; ?></a>
                         <ul class="div_shadow">
                             <?php foreach($languages as $key => $value){
                                 if ($key != $active_language_code){ ?>
-                            <li><a href="#" ><span class="country_flag <?php echo $key?>"></span><?php echo $value;?><input type="hidden" name="languageCode" value="<?php echo $key ?>" /></a></li>
+                            <li><a href="#" ><span class="country_flag <?php echo $key?>"></span><?php echo $value; ?><input type="hidden" name="languageCode" value="<?php echo $key ?>" /></a></li>
                                 <?php }
-                            } ?>
+                                }
+ ?>
                         </ul>
                     </li>
                 </ul>
             </nav>
           <div class="date">Thursday, July 05, 2012</div>
         </div>
-        <div class="header-bottom">
-              <nav class="login_reg">
-                <ul>
+        <div class="header_bottom">
+              <div class="login_info">
           <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
-            <li><a href="#" class=""><strong>Hello, <?php echo Common::getSession()->user->name?></strong></a>
-                <ul>
-                  <li>
-                    <div class="login_div div_shadow" id="loginForm">
-                      <div class="proficient_member"> <img src="images/image.jpg" alt="Proficient Member">
-                        <div class="pro_div">
-                          <h6>Proficient Member</h6>
-                          <p>Join: 2010-7-18<br />
-                            Residence: Moon<br />
-                            Posts : Very regular<br />
-                            Role: Publisher</p>
-                        </div>
-                        <div class="pro-bottom"> <a href="<?php echo $this->baseUrl('settings');?>">My Settings</a><br />
-                          <a href="<?php echo $this->baseUrl('auth/logout');?>" class="logout"><strong>Logout</strong></a> </div>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </li>
-          <?php }else{?>
-                  <li><a href="<?php echo $this->baseUrl('auth/login');?>" class="login">Login</a></li>
-                  <?php /*<li><a href="<?php echo $this->baseUrl('auth/signup')?>" class="icon2 register">Register</a></li>*/?>
+                <strong>Hello, <a href="<?php echo $this->baseUrl('user/'.Common::getSession()->user->username)?>"><?php echo Common::getSession()->user->name ?></a></strong> <img class="grid_icon" width="14" src="<?php echo $this->baseUrl('images/setting.jpg') ?>" />
+          <?php }else{ ?>
+                  <a href="<?php echo $this -> baseUrl('auth/login'); ?>" class="login">Login</a>
+                  <?php /*<li><a href="<?php echo $this->baseUrl('auth/signup')?>" class="icon2 register">Register</a></li>*/ ?>
           <?php } ?>
-            </ul>
-          </nav>
+          </div>
           
           <nav id="menu">
             <ul>
-              <li <?php if(Zend_Registry::get('request')->getControllerName() == 'new-event'){ echo "class='current'";}?>><a href="<?php echo $this->baseUrl('new-event');?>">Post</a></li>
+              <li <?php
+                if (Zend_Registry::get('request') -> getControllerName() == 'new-event') { echo "class='current'";
+                }
+            ?>><a href="<?php echo $this -> baseUrl('new-event'); ?>">Post</a></li>
               <li><a href="#">Latest</a></li>
               <li><a href="#">Hot</a></li>
               <li><a href="#">Red Dots</a></li>
               <li><a href="#">Green Dots</a></li>
               <li><a href="#">Sports</a></li>
               <li><a href="#">MyList</a></li>
-              <li <?php if(Zend_Registry::get('request')->getControllerName() == 'apps'){ echo "class='current'";}?>><a href="<?php echo $this->baseUrl('apps');?>"><strong>apps</strong></a></li>
+              <li <?php
+                if (Zend_Registry::get('request') -> getControllerName() == 'apps') { echo "class='current'";
+                }
+            ?>><a href="<?php echo $this -> baseUrl('apps'); ?>"><strong>apps</strong></a></li>
             </ul>
           </nav>
         </div>

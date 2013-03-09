@@ -71,7 +71,7 @@
                     ajax: {
                         url: '<?php echo $this->baseUrl('ajax/bookmark/open_box_trigger')?>', 
                         success: function(data, status) {
-                            this.set('content.text', $( "#movieTemplate" ).tmpl());
+                            this.set('content.text', $( "#bookmark_box_trigger" ).tmpl());
                         }
                     },
                     title: {
@@ -92,6 +92,53 @@
                 }
             })
         })
+        
+        var loginined_popup;
+        $('body').on('click', '.login_info .grid_icon' , function() {
+            var target = $(this) ;
+            if (!target.hasClass('active')){
+                if (typeof loginined_popup == 'undefined' ){
+                    loginined_popup = $(this).qtip(
+                        {
+                            content: {
+                                text: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
+                                ajax: {
+                                    url: '<?php echo $this->baseUrl('ajax/header/open_loginned_popup')?>', 
+                                    success: function(data, status) {
+                                        this.set('content.text', $( "#loginned_popup" ).tmpl());
+                                    },
+                                    once: true
+                                },
+                                title: {
+                                    button: false
+                                }
+                            },
+                            events: {
+                                hidden: function(event, api) {
+                                    target.removeClass('active');
+                                }
+                            },
+                            position: {
+                                at: 'bottom center', 
+                                my: 'top right',
+                                target: $(this)
+                            },
+                            show: {
+                                 ready: true
+                            },
+                            style: {
+                                def:false,
+                                classes: 'qtip-light loginned_popup qtip-shadow'
+                            }
+                        })
+                   }else{
+                     loginined_popup.qtip('show');
+                   }
+            } else {
+                loginined_popup.qtip('hide');
+            }
+            target.toggleClass('active');
+        });
         $('input.username').watermark("<?php echo $this->translate('Username') ?>");
         $('input.password').watermark("<?php echo $this->translate('Password') ?>");
         $('input.keyword_text').watermark("<?php echo $this->translate('Enter keyword...') ?>");
@@ -410,4 +457,5 @@
     
 </script>
 <?php echo $this->partial('js/template/auth/login.phtml')?>
-<?php echo $this->partial('js/template/bookmark/box_trigger.phtml')?>
+<?php echo $this->partial('js/template/bookmark/box_trigger.phtml')?>>
+<?php echo $this->partial('js/template/header/loginned_popup.phtml')?>

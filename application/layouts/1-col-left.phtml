@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-    <?php echo $this->render('head.phtml') ?>
-<body id="<?php echo Common::getSession()->controller ?>" class="<?php echo Common::getSession()->action ?>">
-    <div class="flash_messages">
-    </div>
-    <script id="flash_message_tmpl" type="text/x-jquery-tmpl">
-        <div class="flash_message">
-            <span>${getFlashMessageType($data)}:${getFlashMessageHtml($data)}</span> 
+    <?php echo $this->render('head.phtml')
+    ?>
+    <body id="<?php echo Common::getSession()->controller ?>" class="<?php echo Common::getSession()->action ?>">
+        <div class="flash_messages"></div>
+        <script id="flash_message_tmpl" type="text/x-jquery-tmpl">
+            <div class="flash_message">
+            <span>${getFlashMessageType($data)}:${getFlashMessageHtml($data)}</span>
             <a href="#" class="close">dismiss</a>
-            <img class="close" src="<?php echo $this->baseUrl('images/close.jpg');?>"></div>
+            <img class="close" src="<?php echo $this -> baseUrl('images/close.jpg'); ?>"></div>
+            </div>
+        </script>
+        <?php echo $this->render('header.phtml')
+        ?>
+        <div id="main_wrapper">
+            <div class="container">
+                <section id="main" class="clearfix">
+                    <?php echo $this->render('sidebar.phtml')
+                    ?>
+                    <section id="content" class="right">
+                        <?php echo $this->layout()->content
+                        ?>
+                    </section>
+                </section>
+            </div>
         </div>
-    </script>
-    <?php echo $this->render('header.phtml') ?>
-    <div id="main_wrapper">
-      <div class="container">
-        <section id="main" class="clearfix">
-            <?php echo $this->render('sidebar.phtml') ?>
-            <section id="content" class="right">
-                <?php echo $this->layout()->content ?>
-            </section>
-        </section>
-      </div>
-    </div>
-    <?php echo $this->render('footer.phtml') ?>
-    <?php echo $this->render('scripts.phtml') ?>
-</body>
+        <?php echo $this->render('footer.phtml')
+        ?>
+        <?php echo $this->render('scripts.phtml')
+        ?>
+    </body>
 </html>
