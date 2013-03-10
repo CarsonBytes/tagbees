@@ -1,0 +1,43 @@
+@import "../_init.scss";
+
+.filter{
+  border-bottom:1px solid #e8e8e8; padding-bottom:10px; margin-bottom:9px;
+  > * {
+    float:left;
+  }
+  > a{
+    margin-top: 3px;
+    padding: 0 10px;
+  }
+  a{ color:$main-blue; display:block; text-decoration:none;
+    &:link {color:$main-blue;}
+    &:hover{color:#ff1d38;}
+    &:active {color:$color;}
+  } 
+  nav.sort_by { margin-top: 3px;
+      .title{ color:$color; display:inline-block; font-weight:bold;vertical-align:top;}
+      ul{display:inline-block;
+        li{ padding:0 4px;float:left;color:$main-blue; cursor:pointer; border-right:1px solid grey;}
+        li.current { font-weight:bold;color:#ff1d38; cursor:default}
+        li.last {border-right:0;}
+        li:hover{color:#ff1d38;}
+      }
+  }
+  input[type="checkbox"] + label{
+    margin:0 5px;color:$main-blue;
+  }
+  input[type="checkbox"]:disabled + label{
+    color:#888888;
+  }
+  input[type="checkbox"]:enabled + label:hover{
+    color:#ff1d38;
+  }
+  .loading.feed{
+    display:none;
+    height: 20px; 
+    vertical-align: middle;
+  }
+}
+/*.filter{ float:right; padding-right:6px;
+// li{ line-height:13px; margin-left:21px;}
+}*/

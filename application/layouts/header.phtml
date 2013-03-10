@@ -11,7 +11,7 @@
             <nav class="language">
                 <ul>
                     <li><a href="#" ><span class="country_flag <?php echo $active_language_code?>"></span><?php echo $languages[$active_language_code]; ?></a>
-                        <ul class="div_shadow">
+                        <ul class="shadow">
                             <?php foreach($languages as $key => $value){
                                 if ($key != $active_language_code){ ?>
                             <li><a href="#" ><span class="country_flag <?php echo $key?>"></span><?php echo $value; ?><input type="hidden" name="languageCode" value="<?php echo $key ?>" /></a></li>

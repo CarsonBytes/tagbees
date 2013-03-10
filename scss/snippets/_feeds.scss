@@ -1,0 +1,48 @@
+@import "../_init.scss";
+
+.feeds_and_more{ 
+    padding:0 8px 0 9px;
+    a.head{ 
+        font-size:22px; 
+        font-weight:normal;
+        color:#2f3031;
+        display:inline-block; 
+        text-decoration:none;
+        &:link {color:$main-blue;}
+        &:hover{color:#f0bc05;}
+        &:active {color:$color;}
+    }
+    p{ line-height:17px; padding-top:13px; }
+    .post_content{
+        padding:15px 0 40px 0;
+        background:url(../images/post_bg.gif) repeat-x bottom left; 
+        position:relative;
+        .post_left{ width:143px; float:left;
+          img{ border:10px solid #f2f2f2;}
+        }
+        .post_right{ width:474px; float:right;
+          .tag_top{ color:$color; 
+            ul{ margin-left:-3px;}
+            li{ float:left; color:$color; padding:0 3px;}
+            a{ display:inline-block; color:$main-blue; text-decoration:none;
+              &:link {color:$main-blue;}
+              &:hover{color:#f0bc05;}
+              &:active {color:$color;}
+            }
+            .place{max-width:150px;}
+          }
+          .taggap{ border-bottom:1px solid #e8e8e8; padding-bottom:8px;}
+          .tag_bottom{ padding-top:25px;
+              a{ padding:0 3px;}
+              
+          }
+        }
+    }
+    .load_more_feeds {
+        text-align:center;
+        .more{ 
+          background:url(../images/more_bg.gif) repeat-x bottom center; @include border-radius(4px); text-align:center; display:block; color:$main-blue; text-decoration:none; padding: 5px 0; border:1px solid #ebebeb; border-bottom:1px solid #cbcbcb; font-weight:bold; 
+          &:hover{ color:$color;}
+        }
+    }
+}

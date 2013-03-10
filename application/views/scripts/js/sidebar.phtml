@@ -1,5 +1,18 @@
 <script type="text/javascript">
+    
+    var feed_search_form;
     jQuery(function($) {
+        //form date validation
+        feed_search_form = $("#feed_search").validate({
+          rules: {
+            begin_date: {
+              date: true
+            }, 
+            end_date: {
+              date: true
+            }
+          }
+        });
         
         $(".sidebar_tabs .tab").hide(); //Hide all content
         $("ul.home_tab li:first").addClass("active").show(); //Activate first tab
@@ -27,7 +40,6 @@
         check_all_day();
         $('body').on('change', '#feed_search input[name="is_all_time"]', function() {check_all_day()});
 
-        
         //tuning date range (no reversed date range)
         var sidebar_dates = $('#feed_search input[name="begin_date"], #feed_search input[name="end_date"]').datepicker({
             defaultDate: "+1w",
@@ -43,6 +55,7 @@
                 sidebar_dates.not( this ).datepicker( "option", option, date );
             }
         });
+        
         
         //expand accordions        
         var accordion_expand_handler = function() {
@@ -71,11 +84,25 @@
         $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
 
         //change arrow during accordion mouseover and mouseout 
-        $('.accordion_button').mouseover(function() {
+        $('.accordion_button, .accordion_button_sub').mouseover(function() {
             $(this).addClass('over');
         }).mouseout(function() {
             $(this).removeClass('over');
         });
+        
+        
+        //clicking sub accordion button
+        $('.accordion_button_sub').click(function() {
+            $('.accordion_button_sub').removeClass('active');
+            $('.accordion_content_sub').slideUp('normal');
+            
+            if($(this).next().is(':hidden') == true) {
+                $(this).addClass('active');
+                $(this).next().slideDown('normal');
+             } 
+         });
+         
+        //$('.accordion_content_sub').hide();
         
         // click to trigger edit list order mode
         $('body').on('click', '.edit_list_order', function() {

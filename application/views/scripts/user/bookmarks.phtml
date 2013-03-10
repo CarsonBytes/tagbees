@@ -1,7 +1,7 @@
 <?php echo $this->partial('breadcrumbs.phtml'); ?>
 <?php echo $this -> partial('js/user.phtml'); ?>
 <?php //echo '<pre>';var_dump($this->bookmarks);echo '</pre>';die(); ?>
-        <div class="main div_shadow">
+        <div class="main shadow">
         <?php echo $this -> partial('partials/user/profile.phtml', array('active_tab'=>'bookmarks','user'=>$this->user)); ?>
           <div class="tab_container">
             <section id="user_bookmarks" data-id="<?php echo $this->user->id ?>" class="tab_content">
@@ -19,7 +19,7 @@
                   <th style="width:15%">Last Updated</th>
                 </tr> 
               </table>
-            <div class="more_div">
+            <div class="load_more_feeds">
                 <a class="more" href="#"> More &gt; </a>
                 <img style="display:none;" class="loading"  alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
             </div>

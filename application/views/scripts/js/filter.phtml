@@ -1,4 +1,9 @@
 <script type="text/javascript">
+var default_feed_para = $.extend(
+    true, 
+    jQuery.parseJSON('<?php echo json_encode(Zend_Registry::get('config')->filter->user_para->toArray()) ?>'),
+    default_feed_para
+);
 
 var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max_distance ?>;
 var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;

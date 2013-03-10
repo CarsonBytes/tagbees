@@ -26,7 +26,8 @@
         ->appendFile('jQueryRotate.2.2.js')
         ->appendFile('jquery.validate.js')
         ->appendFile('jquery.address-1.5.min.js')
-        ->appendFile('jquery.lazyload.js');
+        ->appendFile('jquery.lazyload.js')
+        ->appendFile('jquery.uqr.js');
     
         if (Zend_Registry::get('config_ini')->server->online==1){
             echo $this->minifyHeadScript()->appendFile('map/distancewidget.js');
@@ -166,6 +167,11 @@
     var end_date = new Date();
     end_date.setDate(today.getDate()+60);
     
-    var map_markers_data = [];
+    var map_markers_data = changed_feed_input_names = [];
+    
+    var default_feed_para = feed_para = {};
+        default_feed_para['q'] = '';
+        default_feed_para['begin_date'] = $.datepicker.formatDate('yy-mm-dd', today);
+        default_feed_para['end_date'] = $.datepicker.formatDate('yy-mm-dd', end_date);
 </script>
 </head>

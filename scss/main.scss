@@ -1,46 +1,11 @@
 @import "_general.scss";
+@import "common/_header.scss";
+@import "common/_sidebar.scss";
+@import "snippets/_qtip.scss";
+@import "snippets/_filter.scss";
+@import "snippets/_feeds.scss";
+@import "page/_new-event.scss";x
 
-.accordion_content { padding:5px 5px 5px 15px;  line-height:17px; display:none;}
-.on { background:url(../images/down_arrow.png) no-repeat right center; }
-.over{ background:url(../images/down_arrow.png) no-repeat right center;}
-.accordion_button1{ @include yellow-gradient; color:#2f3031; font-size:13px; font-weight:bold; @include border-radius(4px); margin-bottom:1px; cursor:pointer; color:#2f3031; text-decoration:none; padding:6px 0 8px 17px; display:block;
-    &:link { @include yellow-gradient;}
-    &:hover{@include black-gradient; color:white;}
-    &:active{ background:#E6E6E6; color:black;}
-}
-.accordion_button1.active {@include black-gradient; color:white;}
-.accordion_button2{ display: block;  font-weight: bold; cursor: pointer; padding:5px 10px; @include border-radius(4px);}
-.menuover{ background:$light-gray; @include border-radius(4px);}
-.menuactive{ background:$light-gray; border-radius:4px 4px 0 0 !important;}
-.accordion_content2 { display: none; border:2px solid $light-gray;
-  li{ font-weight: bold; cursor: auto; background-color:white;padding: 4px 0 4px 8px;}
-  a { text-decoration: none; color:$left-event;
-    &:hover { color:black;}
-  }
-}
-/*********************************************************************************/
-
-.tag_div, .venues{ padding:15px 20px 30px;}
-.tag_div{  font-size:12px; color:#2e75ab;}
-.cloudhead{ background:url(../images/cloud.gif) no-repeat top right; margin-bottom:30px;}
-.tag_div p{ line-height:17px;}
-.venues p{ font-size:11px; line-height:17px; padding-top:17px;}
-.venu_img{ float:left; margin:0 20px 10px 0;}
-
-
-/************************************************************************************************/
-
-#content{ width:688px;}
-.breadcrumb{ @include black-gradient; @include border-radius (4px); color:white; padding:8px 0 8px 17px; margin-bottom:10px;
- li{ float:left; /*padding:0 6px;*/}
- a{ color:white; text-decoration:none;
-    /*&:link {color:$main-blue;}*/
-    &:hover{color:#ff1d38;}
-    &:active {color:$color;}
- }
- .separator{/*float: left;*/margin: 0 10px;display: inline-block;}
-}
-.main{ padding:15px 14px 18px 17px;}
 /*.sort_map{ border-bottom:1px solid #e8e8e8; padding-bottom:10px; margin-bottom:9px;
   li{ color:$main-blue; float:left; }
   a{ color:$main-blue; display:block; text-decoration:none;
@@ -53,76 +18,6 @@
   /*.inputmark{ margin:-3px 5px 0 0;}*/
  /* .checkbox{ display:inline-block; margin-top:-4px;}
 }*/
-.filter_div{
-  border-bottom:1px solid #e8e8e8; padding-bottom:10px; margin-bottom:9px;
-  > * {
-    float:left;
-  }
-  > a{
-    margin-top: 3px;
-    padding: 0 10px;
-  }
-  a{ color:$main-blue; display:block; text-decoration:none;
-    &:link {color:$main-blue;}
-    &:hover{color:#ff1d38;}
-    &:active {color:$color;}
-  } 
-  nav.sort_by { margin-top: 3px;
-      .title{ color:$color; display:inline-block; font-weight:bold;vertical-align:top;}
-      ul{display:inline-block;
-        li{ padding:0 4px;float:left;color:$main-blue; cursor:pointer; border-right:1px solid grey;}
-        li.current { font-weight:bold;color:#ff1d38; cursor:default}
-        li.last {border-right:0;}
-        li:hover{color:#ff1d38;}
-      }
-  }
-  input[type="checkbox"] + label{
-    margin:0 5px;color:$main-blue;
-  }
-  input[type="checkbox"]:disabled + label{
-    color:#888888;
-  }
-  input[type="checkbox"]:enabled + label:hover{
-    color:#ff1d38;
-  }
-  .loading.feed{
-    display:none;
-    height: 20px; 
-    vertical-align: middle;
-  }
-}
-/*.filter_div{ float:right; padding-right:6px;
-// li{ line-height:13px; margin-left:21px;}
-}*/
-.post{ padding:0 8px 0 9px;
-  a.head{ font-size:22px; font-weight:normal; color:#2f3031;display:inline-block; text-decoration:none;
-    &:link {color:$main-blue;}
-    &:hover{color:#f0bc05;}
-    &:active {color:$color;}
-  }
-  p{ line-height:17px; padding-top:13px; }
-}
-.post_content{ padding:15px 0 40px 0; background:url(../images/post_bg.gif) repeat-x bottom left; position:relative;}
-.post_left{ width:143px; float:left;
-  img{ border:10px solid #f2f2f2;}
-}
-.post_right{ width:474px; float:right;
-  .tag_top{ color:$color; 
-    ul{ margin-left:-3px;}
-    li{ float:left; color:$color; padding:0 3px;}
-    a{ display:inline-block; color:$main-blue; text-decoration:none;
-      &:link {color:$main-blue;}
-      &:hover{color:#f0bc05;}
-      &:active {color:$color;}
-    }
-    .place{max-width:150px;}
-  }
-  .taggap{ border-bottom:1px solid #e8e8e8; padding-bottom:8px;}
-  .tag_bottom{ padding-top:25px;
-      a{ padding:0 3px;}
-      
-  }
-}
 .tag_l{ color:#4d4d4d;
   a{ color:#4d4d4d; text-decoration:none;
     &:link {color:$color;}
@@ -154,13 +49,6 @@
 }
 .expired{ background-color:#a4a4a4; border-color:#2d2d2d; color:white;
  span{ background:url(../images/expired.gif) repeat-x top center;}
-}
-.more_div {
-    text-align:center;
-    .more{ 
-      background:url(../images/more_bg.gif) repeat-x bottom center; @include border-radius(4px); text-align:center; display:block; color:$main-blue; text-decoration:none; padding: 5px 0; border:1px solid #ebebeb; border-bottom:1px solid #cbcbcb; font-weight:bold; 
-      &:hover{ color:$color;}
-    }
 }
 #footer{ background:url(../images/footer_bg.gif) repeat-x top center black; border-top:5px solid #faca18; font-size:12px; color:$footer-color;
   h6{ color:#f5bd0f; font-size:13px; font-weight:bold; padding-bottom:8px;}
@@ -210,7 +98,7 @@
 .share{ float:right;}
 
 .Imggallery{ border-top:1px solid #e8e8e8; padding:16px 0 0;}
-.slide{ background:$light-gray; padding:16px 8px 15px 19px; }
+.slide{ background:$light-grey; padding:16px 8px 15px 19px; }
 .slide_div{ float:left; border:3px solid white;  margin-right:11px;}
 .slide, .slide_div, .slide_div img{ @include border-radius(4px);}
 .detail_con{ padding:24px 0 0 12px;
@@ -224,7 +112,7 @@
 
 /******************************************************************************/
 
-.event_head{ background:$light-gray; @include border-radius(4px); padding:4px 11px 5px 13px;
+.event_head{ background:$light-grey; @include border-radius(4px); padding:4px 11px 5px 13px;
   h4{ font-size:13px; font-weight:bold; color:$left-event; display:inline-block; padding:4px 0 0;}
 }
 .event_links{

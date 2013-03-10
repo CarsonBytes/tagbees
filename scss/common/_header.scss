@@ -1,0 +1,103 @@
+@import "../_init.scss";
+
+#header{
+    padding:10px 10px;
+    h1{ float:left; padding-top:3px;}
+    a{ 
+        color:$color;
+        &:link {color:$color;}
+        &:hover{color:#F0BC05;}
+        /*&:visited {color:$color;} */
+        &:active {color:#096DB9;}
+    }
+    .header_right{
+        width: 80%;
+        .header_top{
+            position:relative; 
+            padding-bottom:3px;
+            .language{
+                float:right; 
+                font-size:12px; 
+                line-height:11px; 
+                li{ 
+                    position:relative; 
+                    z-index:1000; 
+                    padding-bottom:5px;
+                }
+                a{  
+                    text-decoration:none;
+                }
+                ul ul{ 
+                    display:none; 
+                    position:absolute; 
+                    top:15px; right:0px; 
+                    background:#fff; @include border-radius(4px); 
+                    z-index:10; 
+                    width:100px;
+                }
+                li:hover ul{ display:block; }
+                ul ul li{ padding:5px;}
+                ul ul li a{ color:$color;}
+                .country_flag{ 
+                    @include background_img; 
+                    width:16px; 
+                    height:11px; 
+                    float:left; 
+                    margin-right:9px;
+                }
+                .en{ 
+                    background-position:-102px -5px;
+                }
+                .zh_hk{ 
+                    background-position:-120px -5px;
+                }
+            }
+            .date{ 
+                float:left; 
+                color:$color; 
+                font-size:11px;
+                cursor:pointer;
+                &:link {color:$color;}
+                &:hover{color:#F0BC05;}
+                /*&:visited {color:$color;} */
+                &:active {color:#096DB9;}
+            }
+         }
+         .header_bottom{
+             position: relative;
+            .login_info{
+                position: absolute;
+                right: 0;top: 0;
+                line-height:24px;
+                .grid_icon{
+                    cursor:pointer;
+                }
+            }
+            #menu{ 
+                position: absolute;
+                left: 0;top: 0;
+                li{ 
+                    float:left; 
+                    padding-right:8px;
+                }
+                li:last-child { 
+                    padding-left:25px;
+                }
+                a{
+                    font-size:13px; 
+                    padding:3px 10px; 
+                    @include bordered; 
+                    @include border-radius(4px); 
+                    text-decoration:none; 
+                    display:inline-block;
+                }
+                a:hover,   li.current a,  li:last-child a{ 
+                    @include yellow-gradient; 
+                    color:$color; 
+                    border:none; 
+                    padding:4px 11px;
+                }
+            }
+         }
+    }
+}

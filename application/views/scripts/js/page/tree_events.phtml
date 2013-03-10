@@ -1,7 +1,7 @@
 <script type="text/javascript">
     jQuery(function($){
         //when tree clicks load more
-        $('body #tree_feeds').on("click",'.more_div',function() {
+        $('body #tree_feeds').on("click",'.load_more_feeds',function() {
             var para = {
                 <?php if (isset(Common::getSession()->redirect_params['cat1'])){ ?>cat1: '<?php echo Common::getSession()->redirect_params['cat1'] ?>',<?php } 
                  if (isset(Common::getSession()->redirect_params['cat2'])){ ?>cat2: '<?php echo Common::getSession()->redirect_params['cat2'] ?>',<?php } 

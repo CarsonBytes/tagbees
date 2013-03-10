@@ -5,15 +5,15 @@
         
         var user_logs = generateUserLogs(user_logs);
         
-        if (more_flag) user_logs.appendTo( ".post .feeds.user_logs");
-        else $(".post .feeds.user_logs").html(user_logs);
+        if (more_flag) user_logs.appendTo( ".feeds_and_more .feeds.user_logs");
+        else $(".feeds_and_more .feeds.user_logs").html(user_logs);
         
         //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
         if (user_logs.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
             hideMoreButton(more_flag);
         }else{
-            $('.more_div .loading').hide();
-            $('.more_div .more').show();
+            $('.load_more_feeds .loading').hide();
+            $('.load_more_feeds .more').show();
         }
         
         attachIndexFeedEvents();
@@ -39,7 +39,7 @@
     }
     jQuery(function($){
         //when user clicks load more
-        $('body').on("click",'#user_activities .more_div',function() {
+        $('body').on("click",'#user_activities .load_more_feeds',function() {
             var para = {};
             para['last_id'] = $('.feeds > div:last').data("id");
             para['user_id'] = user_logs.user_id;

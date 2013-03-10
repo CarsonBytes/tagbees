@@ -1,0 +1,20 @@
+@import "../_init.scss";
+
+/* new advanced event */
+.accordion_button1{ 
+    @include yellow-gradient; 
+    color:#2f3031; 
+    font-size:13px; 
+    font-weight:bold; 
+    @include border-radius(4px); 
+    margin-bottom:1px; 
+    cursor:pointer; 
+    color:#2f3031; 
+    text-decoration:none; 
+    padding:6px 0 8px 17px; 
+    display:block;
+    &:link { @include yellow-gradient;}
+    &:hover{@include black-gradient; color:white;}
+    &:active{ background:#E6E6E6; color:black;}
+}
+.accordion_button1.active {@include black-gradient; color:white;}

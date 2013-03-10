@@ -11,8 +11,8 @@
         if (user_bookmarks.length == 0){
             hideMoreButton(true);
         }else{
-            $('.more_div .loading').hide();
-            $('.more_div .more').show();
+            $('.load_more_feeds .loading').hide();
+            $('.load_more_feeds .more').show();
         }
         
         //attachIndexFeedEvents();
@@ -43,8 +43,8 @@
                     url: "<?php echo $this->baseUrl('ajax/user/load_more_bookmarks') ?>",
                     data: para,
                     beforeSend:  function() {
-                        $(".more_div .loading").show();
-                        $(".more_div .more").hide();
+                        $(".load_more_feeds .loading").show();
+                        $(".load_more_feeds .more").hide();
                     },
                     success: function(response){
                         if ($.isEmptyObject(response)){
@@ -61,7 +61,7 @@
     }
     jQuery(function($){
         //when user clicks load more
-        $('body').on("click",'#user_bookmarks .more_div',function() {
+        $('body').on("click",'#user_bookmarks .load_more_feeds',function() {
             var para = {};
             para['last_id'] = $('#user_bookmarks tr:last').data("id");
             para['user_id'] = $('#user_bookmarks').data("id");

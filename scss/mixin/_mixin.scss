@@ -6,11 +6,9 @@
     background-repeat:no-repeat;
 }
 @mixin black-gradient{
-    @include pie;
     @include background-image(linear-gradient(#717174, #656668, #474748));
 }
 
 @mixin yellow-gradient{
-    @include pie;
     @include background-image(linear-gradient(#fdd525, #facd18, #f3b50a));
 }

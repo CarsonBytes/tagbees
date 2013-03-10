@@ -11,14 +11,14 @@
             <div class="text from">
                 From
             </div>
-            <input type="text" name="begin_date" class="feed_filter_input" value="<?php echo isset($_GET['begin_date']) ? $_GET['begin_date'] : ''; ?>"/>
+            <input type="text" name="begin_date" class="feed_filter_input" value="<?php echo isset($_GET['begin_date']) ? $_GET['begin_date'] : ''; ?>" <?php if ($is_all_time){?>disabled="disabled"<?php } ?>/>
             <div class="text to">
                 To
             </div>
-            <input type="text" name="end_date" class="feed_filter_input" value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>"/>
+            <input type="text" name="end_date" class="feed_filter_input" value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>" <?php if ($is_all_time){?>disabled="disabled"<?php } ?>/>
         </section>
     </form>
-    <section class="tab_div div_shadow div_gap">
+    <section class="tab_div shadow gap">
         <nav class="tab_link clearfix">
             <ul class="home_tab">
                 <li>
@@ -42,10 +42,10 @@
                                 <a href="#" class="hide_toggle" data-flag="1">Hide</a>
                             </div>
                             <div class="accordion_content">
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Leisure
                                 </div>
-                                <div class="accordion_content2">
+                                <div class="accordion_content_sub">
                                     <nav>
                                         <ul>
                                             <li>
@@ -81,10 +81,10 @@
                                         </ul>
                                     </nav>
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Festival
                                 </div>
-                                <div class="accordion_content2">
+                                <div class="accordion_content_sub">
                                     <nav>
                                         <ul>
                                             <li>
@@ -99,10 +99,10 @@
                                         </ul>
                                     </nav>
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Regions
                                 </div>
-                                <div class="accordion_content2">
+                                <div class="accordion_content_sub">
                                     <nav>
                                         <ul>
                                             <li>
@@ -117,13 +117,13 @@
                                         </ul>
                                     </nav>
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     ECO Charity
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Social Service
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Perform Art
                                 </div>
                             </div>
@@ -134,13 +134,13 @@
                                 <a href="#" class="hide_toggle" data-flag="1">Hide</a>
                             </div>
                             <div class="accordion_content">
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     ECO Charity
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Social Service
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Perform Art
                                 </div>
                             </div>
@@ -151,13 +151,13 @@
                                 <a href="#" class="hide_toggle" data-flag="1">Hide</a>
                             </div>
                             <div class="accordion_content">
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     ECO Charity
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Social Service
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Perform Art
                                 </div>
                             </div>
@@ -168,13 +168,13 @@
                                 <a href="#" class="hide_toggle" data-flag="1">Hide</a>
                             </div>
                             <div class="accordion_content">
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     ECO Charity
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Social Service
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Perform Art
                                 </div>
                             </div>
@@ -185,13 +185,13 @@
                                 <a href="#" class="hide_toggle" data-flag="1">Hide</a>
                             </div>
                             <div class="accordion_content">
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     ECO Charity
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Social Service
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Perform Art
                                 </div>
                             </div>
@@ -202,32 +202,32 @@
                                 <a href="#" class="hide_toggle" data-flag="1">Hide</a>
                             </div>
                             <div class="accordion_content">
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     ECO Charity
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Social Service
                                 </div>
-                                <div class="accordion_button2">
+                                <div class="accordion_button_sub">
                                     Perform Art
                                 </div>
                             </div>
                         </li>
                     </ul>
-                </section>
-                <section class="hidden_categories">
+                </div>
+                <div class="hidden_categories">
                     <ul class="accordions">
                         <?php /*<li class="accordion">
                          <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon7.png')?>" alt=" " />Visit
                          </div>
                          <div class="accordion_content">
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          ECO Charity
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Social Service
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Perform Art
                          </div>
                          </div>
@@ -236,13 +236,13 @@
                          <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon8.png')?>" alt=" " />Arts
                          </div>
                          <div class="accordion_content">
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          ECO Charity
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Social Service
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Perform Art
                          </div>
                          </div>
@@ -251,13 +251,13 @@
                          <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon9.png')?>" alt=" " />Venues &amp; Festivals
                          </div>
                          <div class="accordion_content">
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          ECO Charity
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Social Service
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Perform Art
                          </div>
                          </div>
@@ -266,13 +266,13 @@
                          <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon10.png')?>" alt=" " />Sports
                          </div>
                          <div class="accordion_content">
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          ECO Charity
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Social Service
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Perform Art
                          </div>
                          </div>
@@ -281,13 +281,13 @@
                          <div class="accordion_button"><img src="<?php echo $this->baseUrl('images/icon11.png')?>" alt=" " />Unclassified
                          </div>
                          <div class="accordion_content">
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          ECO Charity
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Social Service
                          </div>
-                         <div class="accordion_button2">
+                         <div class="accordion_button_sub">
                          Perform Art
                          </div>
                          </div>
@@ -477,7 +477,7 @@
             </div>
         </div>
     </section>
-    <article class="tag_div div_shadow div_gap">
+    <section class="tag_div shadow gap">
         <h1 class="cloudhead">Tag Cloud</h1>
         <p>
             <span class="font11">Bishop &nbsp; Guertin &nbsp; High &nbsp; School &nbsp; prescription &nbsp; ETL</span><span class="font11 align1">Dynamic PDF Generator </span><span class="font35">VB.NET</span><span class="font11 align1">DevExpress</span><span class="font35">SQL Server</span> risk &nbsp; management &nbsp; <span class="font14">XML</span><span class="font16">HTML</span> &nbsp; asp.net
@@ -490,8 +490,8 @@
             <br />
             <span class="font13">Aspose QMS</span><span class="font16">VB6</span><span class="font24">Bridge-Soft</span> Hp <span class="font13">COM</span> education <span class="font13">DotNetNuke</span> Plastics Forming Enterprises <span class="font16">web design</span> University of Lowell <span class="font14">training </span><span class="font16">NEWWA</span> cyber security <span class="font14">SSRS</span> winforms <span class="font14">Crystal Reports</span> AutoCAD Consulting
         </p>
-    </article>
-    <article class="venues div_shadow div_gap">
+    </section>
+    <section class="venues shadow gap">
         <h2 class="head1"><strong><a href="#">Attraction &gt;</a></strong><a href="#">Venues &amp; Festivals &gt;</a> Open Spaces &gt;</h2>
         <h2 class="head2 blue"><strong>HM Tower of London</strong></h2>
         <p><img src="<?php echo $this->baseUrl('images/v1.gif')?>" alt=" " width="100" class="venu_img" />Despite the Tower of London's grim reputation as a place of torture and death, within these walls you will also discover the history of a royal palace, an armoury and a powerful fortress. Don't miss Royal Beasts! Learn about the wild and  wonderous animals that have inhabited the Tower throughout its history.
@@ -499,8 +499,8 @@
         <p>
             Plus: Discover the priceless Crown Jewels, join a 'Beefeater' tour and hear their bloody tales, stand where famous heads have rolled, learn the legend of the Tower's ravens, storm the battlements and try your hand at siege weapons* in the moat, get to grips with swords and armour and much more
         </p>
-    </article>
-    <article class="venues div_shadow">
+    </section>
+    <section class="venues shadow">
         <h2 class="head1"><strong><a href="#">Attraction &gt;</a></strong><a href="#">Venues &amp; Festivals &gt;</a> Open Spaces &gt;</h2>
         <h2 class="head2 orange"><strong> HM Tower of London</strong></h2>
         <p><img src="<?php echo $this->baseUrl('images/v1.gif')?>" alt=" " width="100" class="venu_img" />Despite the Tower of London's grim reputation as a place of torture and death, within these walls you will also discover the history of a royal palace, an armoury and a powerful fortress. Don't miss Royal Beasts! Learn about the wild and  wonderous animals that have inhabited the Tower throughout its history.
@@ -508,5 +508,5 @@
         <p>
             Plus: Discover the priceless Crown Jewels, join a 'Beefeater' tour and hear their bloody tales, stand
         </p>
-    </article>
+    </section>
 </aside>

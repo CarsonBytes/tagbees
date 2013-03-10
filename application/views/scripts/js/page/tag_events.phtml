@@ -1,6 +1,6 @@
 <script type="text/javascript">
     jQuery(function($){
-        $('body #tag_events').on("click",'.more_div',function() {
+        $('body #tag_events').on("click",'.load_more_feeds',function() {
             var para = {
                 tag_id: <?php echo $this->tag_id?>,
                 last_id: $('.feeds article:last').data("id")

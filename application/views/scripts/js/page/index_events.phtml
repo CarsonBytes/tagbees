@@ -5,15 +5,15 @@
         
         var feeds_html = generateIndexFeeds(index_feeds);
         
-        if (more_flag) feeds_html.appendTo( ".post .feeds");
-        else $(".post .feeds").html(feeds_html);
+        if (more_flag) feeds_html.appendTo( ".feeds_and_more .feeds");
+        else $(".feeds_and_more .feeds").html(feeds_html);
         
         //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
         if (feeds_html.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
             hideMoreButton(more_flag);
         }else{
-            $('.more_div .loading').hide();
-            $('.more_div .more').show();
+            $('.load_more_feeds .loading').hide();
+            $('.load_more_feeds .more').show();
         }
         
         attachIndexFeedEvents();
@@ -208,7 +208,7 @@
     
     jQuery(function($){
         //when user clicks load more
-        $('body#index').on("click",'.more_div',function() {
+        $('body#index').on("click",'.load_more_feeds',function() {
             feed_para.last_id = $('.feeds > article:last').data("id");
             refreshFeed('index', true);
             return false;

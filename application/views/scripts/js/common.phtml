@@ -1,179 +1,4 @@
 <script type="text/javascript">
-   jQuery(function($){
-        $('body').on('click','.language ul ul li',function(){
-            $.ajax({
-              type: "POST",
-              url: "<?php echo $this->baseUrl('ajax/language/switch') ?>",
-                data: {
-                    display_lang:$(this).find('input').val()
-                },
-              success: function(msg){
-                if(msg['result']==true){
-                    window.location.hash = ''; //if you want to reload with an empty hash
-                    window.location.reload(true); //reload the page and bypass the cache
-                    window.location.replace($(location).attr('href'));
-                }else{
-                    alert('Unkown error occured. Please try again later.')
-                }
-                },
-                dataType:'json'
-            });
-            return false;
-        })
-        .on('click','.flash_message .close',function(){
-            $(this).parents('.flash_message').fadeOut(400);
-            return false;
-        })
-        $('.login').qtip({
-            content: {
-                text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
-                ajax: {
-                    url: '<?php echo $this->baseUrl('ajax/auth/open_login_box')?>',
-                    success: function(data, status) {
-                        if (data.result == 'false'){
-                            this.set('content.text', 'already loginned!');
-                        } else {
-                            this.set('content.text', $( "#login" ).tmpl(data.data));
-                        }
-                        $('input.username').watermark("<?php echo $this->translate('Username') ?>");
-                        $('input.password').watermark("<?php echo $this->translate('Password') ?>");
-                    },
-                    once: true,
-                    loading: true
-                },
-                title: {
-                    text: 'Login'
-                }
-            },
-            show: {
-                event: 'click',
-                modal: {
-                    on: true
-                }
-            },
-            position: {
-                my: 'center',
-                at: 'center',
-                target: $(window)
-            },
-            style: {
-                def:false,
-                classes: 'qtip-light qtip-rounded login_dialog'
-            }
-        });
-        
-        $('body').on('click', '.watcher_icon' , function() {
-            $(this).qtip(
-            {
-                //overwrite: false, 
-                content: {
-                    text: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
-                    ajax: {
-                        url: '<?php echo $this->baseUrl('ajax/bookmark/open_box_trigger')?>', 
-                        success: function(data, status) {
-                            this.set('content.text', $( "#bookmark_box_trigger" ).tmpl());
-                        }
-                    },
-                    title: {
-                        text: 'Bookmark details'
-                    }
-                },
-                position: {
-                    at: 'bottom center', 
-                    my: 'top right',
-                    target: $(this)
-                },
-                show: {
-                     ready: true
-                },
-                style: {
-                    def:false,
-                    classes: 'qtip-light bookmark_box_trigger qtip-shadow'
-                }
-            })
-        })
-        
-        var loginined_popup;
-        $('body').on('click', '.login_info .grid_icon' , function() {
-            var target = $(this) ;
-            if (!target.hasClass('active')){
-                if (typeof loginined_popup == 'undefined' ){
-                    loginined_popup = $(this).qtip(
-                        {
-                            content: {
-                                text: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
-                                ajax: {
-                                    url: '<?php echo $this->baseUrl('ajax/header/open_loginned_popup')?>', 
-                                    success: function(data, status) {
-                                        this.set('content.text', $( "#loginned_popup" ).tmpl());
-                                    },
-                                    once: true
-                                },
-                                title: {
-                                    button: false
-                                }
-                            },
-                            events: {
-                                hidden: function(event, api) {
-                                    target.removeClass('active');
-                                }
-                            },
-                            position: {
-                                at: 'bottom center', 
-                                my: 'top right',
-                                target: $(this)
-                            },
-                            show: {
-                                 ready: true
-                            },
-                            style: {
-                                def:false,
-                                classes: 'qtip-light loginned_popup qtip-shadow'
-                            }
-                        })
-                   }else{
-                     loginined_popup.qtip('show');
-                   }
-            } else {
-                loginined_popup.qtip('hide');
-            }
-            target.toggleClass('active');
-        });
-        $('input.username').watermark("<?php echo $this->translate('Username') ?>");
-        $('input.password').watermark("<?php echo $this->translate('Password') ?>");
-        $('input.keyword_text').watermark("<?php echo $this->translate('Enter keyword...') ?>");
-        $('.loc_right input').watermark("<?php echo $this->translate('Enter a location...') ?>");
-        
-        //defining daterange below search bar...
-        //$.datepicker.setDefaults($.datepicker.regional['zh-HK']);
-        
-       /*$("select.selectBoxIt").selectBoxIt({
-          showEffect: "fadeIn",
-          showEffectSpeed: 100,
-          hideEffect: "fadeOut",
-          hideEffectSpeed: 100
-       });*/
-        //from form data to object
-        $.fn.serializeObject = function()
-        {
-            var o = {};
-            var a = this.serializeArray();
-            $.each(a, function() {
-                if (o[this.name] !== undefined) {
-                    if (!o[this.name].push) {
-                        o[this.name] = [o[this.name]];
-                    }
-                    o[this.name].push(this.value || '');
-                } else {
-                    o[this.name] = this.value || '';
-                }
-            });
-            return o;
-        };
-        
-        
-      });
-      
       //common functions
         // to check the size of asso. array
         Object.size = function(obj) {
@@ -208,7 +33,7 @@
             //  jQuery(".flash_message").hide();
             jQuery( "#flash_message_tmpl" ).tmpl( content ).appendTo( ".flash_messages" );
             jQuery(".flash_messages").fadeIn(300).delay(5000).fadeOut(300, function(){
-                $(this).empty();
+               jQuery(this).empty();
             });
         }
         function getFlashMessageType(data){
@@ -233,10 +58,10 @@
             //showFlashMessages(content);
             if (typeof more_flag == 'undefined') var more_flag=false;
             if (typeof type == 'undefined') var type = 'index';
-            if (typeof obj_selector == 'undefined') var obj_selector = '.post .feeds';
+            if (typeof obj_selector == 'undefined') var obj_selector = '.feeds_and_more .feeds';
         
-            $(".more_div .more").hide();
-            $(".more_div .loading").hide();
+            $(".load_more_feeds .more").hide();
+            $(".load_more_feeds .loading").hide();
             var text = '';
             if (type == 'index'){
                 text = '<p>No results. Please loosen the filters</p>';
@@ -455,6 +280,251 @@
         document.createElement("time");
     }(jQuery));
     
+<?php //update variables from url parameters ?>
+function updateVariablesFromUrlParams(){
+    for (key in default_feed_para){
+        var value = getURLParameterValue(key);
+        if (isFeedParameterValid(key, value) && value != ""){
+            feed_para[key] = value;
+            updateUrlParam(key, value);
+        } else {
+            feed_para[key] = default_feed_para[key];
+        }
+    }
+}
+
+<?php //update feed option inputs from feed_para ?>
+function updateFeedInputsFromVariables(){
+    for (key in feed_para){
+        if (key == 'is_match_interest' || key == 'is_match_location' || key == 'is_all_time' || key == 'is_show_map'){
+            if (feed_para[key] == 1) {
+                jQuery('.feed_filter_input[name="'+key+'"]').prop('checked','checked');
+            } else {
+                jQuery('.feed_filter_input[name="'+key+'"]').removeProp('checked','checked');
+            }
+            if (key == 'is_show_map'){
+                if (feed_para[key] == 1){
+                   $('#map_wrapper').show();
+                    <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+                        initMap();
+                    <?php } ?>
+                }
+            }
+        } else if (key == 'sort_by'){
+            updateSortByInput(feed_para[key]);
+        } else if (key == 'q') { 
+        } else if (key == 'radius') {
+            $('.feed_filter_input[name="'+key+'"]').val(feed_para[key]);
+            $('#filter_radius').text(feed_para[key]);
+        } else if (key == 'begin_date' || key == 'end_date') {
+            $('.feed_filter_input[name="'+key+'"]').datepicker("setDate", feed_para[key] );
+        }
+    }
+    if (feed_para['is_match_location']==1){
+        jQuery('.match_location_set').show();
+    } else {
+        jQuery('.match_location_set').hide();
+    }
+    if (isset(feed_para['is_all_time']) &&  feed_para['is_all_time']==1){
+        jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').prop('disabled','disabled');
+    } else {
+        jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').removeProp('disabled');
+    }
+}
+function isFeedParameterValid(key, value){
+    if (key == 'is_match_interest' || key == 'is_match_location' || key == 'is_all_time' || key == 'is_show_map'){
+        if (value == "") return false;
+            if (value == 1 || value == 0) return true;
+    } else if (key == 'sort_by'){
+        if (value == "") return false;
+        if (value == 2 || value == 1 || value == 0) return true;
+    } else if (key == 'q') {
+         return true;
+    } else if (key == 'radius' || key == 'lat' || key == 'lng') {
+        if (isNumber(value) || value == "") return true;
+    } else if (key == 'begin_date' || key == 'end_date') {
+        if (value == "") return true;
+        var regex = /^\d{4}-\d{1,2}-\d{1,2}$/gm;
+        if (regex.test(value)) return true;
+    }
+    return false;
+}
+   jQuery(function($){
+        $('body').on('click','.language ul ul li',function(){
+            $.ajax({
+              type: "POST",
+              url: "<?php echo $this->baseUrl('ajax/language/switch') ?>",
+                data: {
+                    display_lang:$(this).find('input').val()
+                },
+              success: function(msg){
+                if(msg['result']==true){
+                    window.location.hash = ''; //if you want to reload with an empty hash
+                    window.location.reload(true); //reload the page and bypass the cache
+                    window.location.replace($(location).attr('href'));
+                }else{
+                    alert('Unkown error occured. Please try again later.')
+                }
+                },
+                dataType:'json'
+            });
+            return false;
+        })
+        .on('click','.flash_message .close',function(){
+            $(this).parents('.flash_message').fadeOut(400);
+            return false;
+        })
+        $('.login').qtip({
+            content: {
+                text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
+                ajax: {
+                    url: '<?php echo $this->baseUrl('ajax/auth/open_login_box')?>',
+                    success: function(data, status) {
+                        if (data.result == 'false'){
+                            this.set('content.text', 'already loginned!');
+                        } else {
+                            this.set('content.text', $( "#login" ).tmpl(data.data));
+                        }
+                        $('input.username').watermark("<?php echo $this->translate('Username') ?>");
+                        $('input.password').watermark("<?php echo $this->translate('Password') ?>");
+                    },
+                    once: true,
+                    loading: true
+                },
+                title: {
+                    text: 'Login'
+                }
+            },
+            show: {
+                event: 'click',
+                modal: {
+                    on: true
+                }
+            },
+            position: {
+                my: 'center',
+                at: 'center',
+                target: $(window)
+            },
+            style: {
+                def:false,
+                classes: 'qtip-light qtip-rounded login_dialog'
+            }
+        });
+        
+        $('body').on('click', '.watcher_icon' , function() {
+            $(this).qtip(
+            {
+                //overwrite: false, 
+                content: {
+                    text: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
+                    ajax: {
+                        url: '<?php echo $this->baseUrl('ajax/bookmark/open_box_trigger')?>', 
+                        success: function(data, status) {
+                            this.set('content.text', $( "#bookmark_box_trigger" ).tmpl());
+                        }
+                    },
+                    title: {
+                        text: 'Bookmark details'
+                    }
+                },
+                position: {
+                    at: 'bottom center', 
+                    my: 'top right',
+                    target: $(this)
+                },
+                show: {
+                     ready: true
+                },
+                style: {
+                    def:false,
+                    classes: 'qtip-light bookmark_box_trigger qtip-shadow'
+                }
+            })
+        })
+        
+        var loginined_popup;
+        $('body').on('click', '.login_info .grid_icon' , function() {
+            var target = $(this) ;
+            if (!target.hasClass('active')){
+                if (typeof loginined_popup == 'undefined' ){
+                    loginined_popup = $(this).qtip(
+                        {
+                            content: {
+                                text: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
+                                ajax: {
+                                    url: '<?php echo $this->baseUrl('ajax/header/open_loginned_popup')?>', 
+                                    success: function(data, status) {
+                                        this.set('content.text', $( "#loginned_popup" ).tmpl());
+                                    },
+                                    once: true
+                                },
+                                title: {
+                                    button: false
+                                }
+                            },
+                            events: {
+                                hidden: function(event, api) {
+                                    target.removeClass('active');
+                                }
+                            },
+                            position: {
+                                at: 'bottom center', 
+                                my: 'top right',
+                                target: $(this)
+                            },
+                            show: {
+                                 ready: true
+                            },
+                            style: {
+                                def:false,
+                                classes: 'qtip-light loginned_popup qtip-shadow'
+                            }
+                        })
+                   }else{
+                     loginined_popup.qtip('show');
+                   }
+            } else {
+                loginined_popup.qtip('hide');
+            }
+            target.toggleClass('active');
+        });
+        $('input.username').watermark("<?php echo $this->translate('Username') ?>");
+        $('input.password').watermark("<?php echo $this->translate('Password') ?>");
+        $('input.keyword_text').watermark("<?php echo $this->translate('Enter keyword...') ?>");
+        $('.loc_right input').watermark("<?php echo $this->translate('Enter a location...') ?>");
+        
+        //defining daterange below search bar...
+        //$.datepicker.setDefaults($.datepicker.regional['zh-HK']);
+        
+       /*$("select.selectBoxIt").selectBoxIt({
+          showEffect: "fadeIn",
+          showEffectSpeed: 100,
+          hideEffect: "fadeOut",
+          hideEffectSpeed: 100
+       });*/
+        //from form data to object
+        $.fn.serializeObject = function()
+        {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+        
+        updateVariablesFromUrlParams();
+        updateFeedInputsFromVariables();
+      });
+      
 </script>
 <?php echo $this->partial('js/template/auth/login.phtml')?>
 <?php echo $this->partial('js/template/bookmark/box_trigger.phtml')?>>
