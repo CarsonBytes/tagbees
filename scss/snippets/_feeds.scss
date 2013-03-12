@@ -1,5 +1,30 @@
 @import "../_init.scss";
 
+/*
+ * general
+ */
+.watched{ position:absolute; top:12px; right:0px;}
+.w1{ float:right; position:relative;}
+.w1 a{ display:block; text-align:right;}
+.w_con{ clear:both; display:block; color:$main-blue; font-size:11px; padding-top:3px;}
+.w2{ float:left; font-size:22px; font-weight:normal; color:#3ca94e; padding-top:5px;}
+.remain_time{ position:absolute; top:15px; right:157px;}
+.r_day, .soon, .expired{ padding:2px; text-decoration:none; font-weight:bold; font-size:12px; @include box-shadow(4px, 3px, 2px, rgba(0,0,0,0.5));  border-width:1px; border-style:solid; display:inline-block;
+    span{ padding:2px 9px; display:inline-block; min-width:50px; text-align:center;}
+}
+.r_day{ background-color:#ec6b00; border-color:#c51100; color:white;
+  span{ background:url(../images/day_bg.gif) repeat-x top center;}
+}
+.soon{ background-color:#99e520; border-color:#4b7000; color:black;
+  span{ background:url(../images/soon.gif) repeat-x top center;}
+}
+.expired{ background-color:#a4a4a4; border-color:#2d2d2d; color:white;
+ span{ background:url(../images/expired.gif) repeat-x top center;}
+}
+
+/*
+ * feeds
+ */
 .feeds_and_more{ 
     padding:0 8px 0 9px;
     a.head{ 

@@ -37,7 +37,33 @@
     height: 20px; 
     vertical-align: middle;
   }
+  .showMap{ font-weight:bold;}
 }
 /*.filter{ float:right; padding-right:6px;
 // li{ line-height:13px; margin-left:21px;}
 }*/
+
+.match_location_set{ 
+    padding:13px 9px 17px 12px; 
+    border: 1px solid #CFCFCF; 
+    h3{ color:$main-blue; padding-bottom:10px;}
+    #geo_locate{
+      cursor:pointer;
+    }
+    .loc_right{ 
+        float:right;
+        input,  select{ float:left; border:1px solid #c7c7c7; color:$left-event; font-size:12px; margin-right:7px;}
+        input{ width:108px; height:19px; padding:0 10px; }
+        select{ padding:1px 1px 1px 10px; width:128px;}
+    }
+    .l_icon{ float:left; margin:3px 18px 0 0;}
+    .save_location, .manage_location{ margin-left:10px; display:inline-block;}
+    .manage_location{ border:1px solid #d2d1d0;}
+}
+/*.Location{ border:1px solid #cfcfcf; padding:3px;}
+.map_distance{ width:228px; height:12px; position:relative; float:left; margin-top:5px; z-index:1; @include black-gradient; @include border-radius(15px);
+}
+.mapgap{ width:67px; height:12px; @include border-radius(15px); background:url(../images/distance_bg2.gif) repeat-x top left; position:absolute; top:0px; left:0; z-index:2;}
+
+.loc_change{ position:absolute; top:-5px; left:60px; width:8px; height:21px; z-index:3;}
+*/

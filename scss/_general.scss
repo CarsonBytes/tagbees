@@ -43,6 +43,30 @@ input{
 .watermark {
    color: $watermark-color !important;
 }
+
+.tag_l{ color:#4d4d4d;
+  a{ color:#4d4d4d; text-decoration:none;
+    &:link {color:$color;}
+    &:hover{color:#f0bc05;}
+    &:active {color:$main-blue;}
+    }
+}
+.tag_r{ color:$main-blue;
+  a{ color:$main-blue; text-decoration:none;
+     &:link {color:$main-blue;}
+     &:hover{color:#f0bc05;}
+     &:active {color:$color;}
+  }
+}
+.btn_set{
+  margin-top:5px;
+  text-align:center;
+  input{float:none;}
+}
+
+.ui-slider{
+  width:240px;float:left;
+}
 /************************************ general end *******************************************************/
 
 /************************************ body start *******************************************************/

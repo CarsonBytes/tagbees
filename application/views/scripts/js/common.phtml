@@ -325,7 +325,8 @@ function updateFeedInputsFromVariables(){
     } else {
         jQuery('.match_location_set').hide();
     }
-    if (isset(feed_para['is_all_time']) &&  feed_para['is_all_time']==1){
+
+    if ( !("is_all_time" in feed_para) ||  feed_para['is_all_time']==1){
         jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').prop('disabled','disabled');
     } else {
         jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').removeProp('disabled');

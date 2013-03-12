@@ -1,0 +1,60 @@
+@import "../_init.scss";
+
+#footer{ 
+    background:url(../images/footer_bg.gif) repeat-x top center black; 
+    border-top:5px solid #faca18; 
+    font-size:12px; 
+    color:$footer-color;
+    
+    .main_footer{ 
+        padding:10px 6px 10px 20px;
+        .footer_left{
+            width:257px; 
+            float:left;
+            .footer_main_left{ 
+                padding:30px 0 79px 6px;
+            }
+        }
+        .footer_right{ 
+            float:right; 
+            padding-left:44px; 
+            border-left:1px solid #414140;
+            .footerlinks{
+                .attractions, .lifestyle, .knowledge, .shop_business{ float:left;}
+                .attractions{ width:187px;}
+                .lifestyle{ width:172px;}
+                .knowledge{ width:156px;}
+                .shop_business{ width:165px;}
+                &.f_gap{ padding-top:10px;}
+            }
+            
+        }
+    }
+    h6{ 
+        color:#f5bd0f; 
+        font-size:13px; 
+        font-weight:bold; 
+        padding-bottom:8px;
+    }
+    li{ 
+        background:url(../images/link_bg.png) no-repeat left 8px; 
+        padding:2px 0 2px 15px; 
+        color:$footer-color;
+    }
+    a{ 
+        color:$footer-color; 
+        text-decoration:none;
+        &:hover{ 
+            color:#f5bd0f;
+        }
+        &:link {
+            color:$footer-color;
+        }
+        &:active {
+            color:$main-blue;
+        }
+  }
+  .footer_right li:first-child{ 
+      padding:0; background:none;
+  }
+}

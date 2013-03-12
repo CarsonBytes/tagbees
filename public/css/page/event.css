@@ -1,0 +1,55 @@
+/*@import "compass/css3/pie";*/
+/*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
+$pie-base-class: pie-element;*/
+/********************************* Details Page ******************************************/
+.details_div { padding: 15px 0 19px 0; }
+
+.d_top { background: url(../images/post_bg.gif) repeat-x left bottom; padding-bottom: 36px; position: relative; }
+
+.main_details { padding-bottom: 10px; }
+
+.d_l { float: left; width: 315px; }
+
+.d_table { font-size: 13px; margin-top: -8px; width: 100%; border-spacing: 0; border: 0; }
+.d_table tr td { padding: 5px 2px; vertical-align: top; }
+.d_table tr td a { color: #020202; text-decoration: none; }
+.d_table tr td a:hover { text-decoration: underline; }
+
+.google_map { float: right; width: 222px; }
+
+.d_more { text-decoration: none; color: #020202; font-weight: bold; }
+
+.d_middle { float: left; width: 89px; }
+
+.qr_code a { display: inline-block; }
+
+.alarm { padding: 12px 0 8px 0; }
+
+.d_time a { float: right; }
+
+.edit_cancel { padding-top: 4px; }
+
+.edit_cancel a { float: right; clear: both; min-width: 32px; background: url(../images/d_link_bg.gif) repeat-x top center; text-align: right; color: #020202; font-size: 11px; padding: 0px 6px 1px; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px; border: 1px solid #cccccc; margin-top: 7px; }
+
+.social_media { padding-bottom: 20px; }
+
+.f_like, .g_plus, .t_like { float: left; margin-right: 20px; }
+
+.share { float: right; }
+
+.Imggallery { border-top: 1px solid #e8e8e8; padding: 16px 0 0; }
+
+.slide { background: #ececec; padding: 16px 8px 15px 19px; }
+
+.slide_div { float: left; border: 3px solid white; margin-right: 11px; }
+
+.slide, .slide_div, .slide_div img { -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; }
+
+.detail_con { padding: 24px 0 0 12px; }
+.detail_con p { padding: 0 0 20px 0; }
+.detail_con p a { color: #020202; text-decoration: none; }
+.detail_con p a:hover { text-decoration: underline; }
+
+.detail_tag { padding: 20px 0 25px 0; }
+
+/******************************************************************************/
