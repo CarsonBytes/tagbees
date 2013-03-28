@@ -2,7 +2,22 @@
 
 /********************************* Details Page ******************************************/
 
-.details_div{ padding:15px 0 19px 0;}
+.event_detail{ 
+    padding:0 8px 0 9px;
+    h3{ font-size:22px; font-weight:normal; color:#2f3031;}
+    p{ line-height:17px; padding-top:13px; }
+    .detail_div{ padding:15px 0 19px 0;
+        .upload_link{ 
+            padding: 5px 10px;
+            text-decoration: none !important;
+            position: relative;
+            @include yellow-gradient; 
+            @include border-radius(4px); 
+            margin-top:10px; 
+            display:inline-block;
+        }
+    }
+}
 .d_top{ background:url(../images/post_bg.gif) repeat-x left bottom; padding-bottom:36px; position:relative;}
 .main_details{ padding-bottom:10px;}
 .d_l{ float:left; width:315px;}

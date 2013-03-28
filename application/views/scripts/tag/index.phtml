@@ -23,7 +23,7 @@
         renderIndexFeeds(tag_events_json, false);
     });
     </script>
-    <?php echo $this->partial('js/page/tag_events.phtml', array('tag_id' => $this->tag_item->id)); ?>
+    <?php echo $this->partial('js/feeds/tag_events.phtml', array('tag_id' => $this->tag_item->id)); ?>
 
 <?php }else{
     echo 'This tag has not been established yet.';
