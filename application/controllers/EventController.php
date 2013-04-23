@@ -26,6 +26,11 @@ class EventController extends Zend_Controller_Action
                 $this->view->result=1;
                 
                 $this->view->headTitle($result['item']->name);
+                
+                Common::getSession()->nav=array(
+                    'Home' => '/',
+                    'Event '.$result['item']->name => null
+                );
             }else{
                 $this->view->result=-1;
             }

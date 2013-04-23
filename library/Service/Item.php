@@ -59,7 +59,7 @@ class Service_Item{
 		//$result['image']=$imageService->getImages($result['item']->id);
         //$this->feed_query = $imageService->getJoinQuery($this->feed_query, 'f.id');
         $result['item']->images = $this->getImagePaths($result['item']);
-        //$result['item']->tags_html = $this->getTagsHTML($result['item']);
+        $result['item']->tags_html = $this->getTagsHTML($result['item']);
 		
 		if ($result['item']->type == 'event'){
 			if (Zend_Auth::getInstance()->hasIdentity()){
@@ -218,7 +218,7 @@ class Service_Item{
         return array('main'=>$main_img_info, 'general' => $img_info);
     }
 
-    /*
+
     public function getTagsHTML($item) {
         $tag_names = explode(',',$item->tag_names);
         $tag_slug_names = explode(',',$item->tag_slug_names);
@@ -231,9 +231,9 @@ class Service_Item{
                 isset($tag_slug_names[$i]) && $tag_slug_names[$i]!='' && 
                 isset($tag_types[$i]) && $tag_types[$i]!='') {
                     
-                 /* check duplicates 
+                 /* check duplicates */
                  if (!in_array($tag_slug_names[$i].'||'.$tag_types[$i], $tags_array)) {
-                     $tag_type = ($tag_types[$i] == 'tree_tag') ? 'tag' : $tag_types[$i];
+                     $tag_type = ($tag_types[$i] == 'category_tag') ? 'tag' : $tag_types[$i];
                      $tags_array[] = $tag_slug_names[$i].'||'.$tag_types[$i];
                      $tags_html_array[] = '<a class="ajax_load" href="' . Zend_Controller_Front::getInstance()->getBaseUrl().'/'.$tag_type . '/' . $tag_slug_names[$i] . '">' . $tag_names[$i] . '</a>';
                  }
@@ -241,7 +241,6 @@ class Service_Item{
         }
         return implode(', ',$tags_html_array);
     }
-     */
 
     public function getCatAndTreeIdsByCategoryIdsString($category_ids_string, &$item){
         $cat_ids = array();

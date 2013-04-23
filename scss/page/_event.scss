@@ -3,55 +3,109 @@
 /********************************* Details Page ******************************************/
 
 .event_detail{ 
-    padding:0 8px 0 9px;
-    h3{ font-size:22px; font-weight:normal; color:#2f3031;}
-    p{ line-height:17px; padding-top:13px; }
-    .detail_div{ padding:15px 0 19px 0;
-        .upload_link{ 
-            padding: 5px 10px;
-            text-decoration: none !important;
-            position: relative;
-            @include yellow-gradient; 
-            @include border-radius(4px); 
-            margin-top:10px; 
-            display:inline-block;
+  padding:0 8px 0 9px;
+  h3{ 
+    font-size:22px; font-weight:normal; color:#2f3031;
+  }
+  p{ 
+    line-height:17px; padding-top:13px;
+  }
+  .detail_div{
+    padding:15px 0 19px 0;
+    .upload_link{ 
+      padding: 5px 10px;
+      text-decoration: none !important;
+      position: relative;
+      @include yellow-gradient; 
+      @include border-radius(4px); 
+      margin-top:10px; 
+      display:inline-block;
+    }
+    header{
+      background:url(../images/post_bg.gif) repeat-x left bottom; 
+      padding-bottom:36px; 
+      position:relative;
+    }
+    .main_details{
+      padding-bottom:10px;
+      .d_l{
+        float:left; width:315px;
+        .d_table{
+          font-size:13px; 
+          margin-top:-8px; 
+          width:100%; 
+          border-spacing:0; 
+          border:0;
+          tr td{ 
+            padding:5px 2px; 
+            vertical-align:top;
+            a{ 
+              color:$color; 
+              text-decoration:none;
+              &:hover{ 
+                text-decoration:underline;
+              }
+            }
+          }
         }
+      }
+      .d_middle{
+        float:left; 
+        width:89px;
+        .qr_code a{
+          display:inline-block;
+        }
+        .alarm{ 
+          padding:12px 0 8px 0;
+        }
+        .d_time a{
+          float:right;
+        }
+        .edit_cancel{
+          padding-top:4px;
+          a{
+            float:right; 
+            clear:both; 
+            min-width:32px; 
+            background:url(../images/d_link_bg.gif) repeat-x top center; 
+            text-align:right; 
+            color:#020202; 
+            font-size:11px; 
+            padding:0px 6px 1px; 
+            text-decoration:none; 
+            @include border-radius(3px); 
+            border:1px solid #cccccc; 
+            margin-top:7px;
+          }
+        }
+      }
     }
-}
-.d_top{ background:url(../images/post_bg.gif) repeat-x left bottom; padding-bottom:36px; position:relative;}
-.main_details{ padding-bottom:10px;}
-.d_l{ float:left; width:315px;}
-.d_table{ font-size:13px; margin-top:-8px; width:100%; border-spacing:0; border:0;
-  tr td{ padding:5px 2px; vertical-align:top;}
-  tr td a{ color:$color; text-decoration:none;
-    &:hover{ text-decoration:underline;}
+    .social_media{
+      padding-bottom:20px;
+      .share{ float:right;}
     }
-}
-.google_map{ float:right; width:222px;}
-.d_more{ text-decoration:none; color:$color; font-weight:bold;}
-.d_middle{ float:left; width:89px;}
-.qr_code{
-    a{ display:inline-block;}    
-}
-.alarm{ padding:12px 0 8px 0;}
-.d_time a{ float:right;}
-.edit_cancel{ padding-top:4px;}
-.edit_cancel a{ float:right; clear:both; min-width:32px; background:url(../images/d_link_bg.gif) repeat-x top center; text-align:right; color:#020202; font-size:11px; padding:0px 6px 1px; text-decoration:none; @include border-radius(3px); border:1px solid #cccccc; margin-top:7px;}
-.social_media{ padding-bottom:20px;}
-.f_like, .g_plus, .t_like{ float:left; margin-right:20px;}
-.share{ float:right;}
-
-.Imggallery{ border-top:1px solid #e8e8e8; padding:16px 0 0;}
-.slide{ background:$light-grey; padding:16px 8px 15px 19px; }
-.slide_div{ float:left; border:3px solid white;  margin-right:11px;}
-.slide, .slide_div, .slide_div img{ @include border-radius(4px);}
-.detail_con{ padding:24px 0 0 12px;
-  p{ padding:0 0 20px 0;
-    a{ color:$color; text-decoration:none;
-        &:hover{ text-decoration:underline;}
+    .Imggallery{
+      border-top:1px solid #e8e8e8; 
+      padding:16px 0 0;
+      .slide{
+        background:$light-grey; 
+        padding:16px 8px 15px 19px;
+        .slide_div{
+          float:left; 
+          border:3px solid white;
+          margin-right:11px;
+        }
+      }
+      .slide, .slide_div, .slide_div img{ 
+        @include border-radius(4px);
+      }
+      .content{ padding:24px 0 0 12px;
+        p{ padding:0 0 20px 0;
+        a{ color:$color; text-decoration:none;
+          &:hover{ text-decoration:underline;}
+        }
+        }
+      }
     }
   }
 }
-.detail_tag{ padding:20px 0 25px 0;}
-
-/******************************************************************************/

@@ -1,52 +1,94 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
-<?php echo $this->partial('js/event.phtml'); ?>
-<article class="main shadow">
+<?php echo $this -> partial('js/event.phtml'); ?>
+<?php //echo '<pre>';var_dump($this->item);echo '</pre>'; ?>
+<div class="main shadow">
     <div class="event_detail">
-        <div class="detail_div clearfix">
-            <header class="d_top">
+        <article class="detail_div clearfix">
+            <header>
                 <div class="watched">
                     <div class="w1">
-                        <a href="#"><img src="images/watched_icon.png" alt=""  style="float:right;" /></a><span class="w_con">Watched: 1</span>
+                        <a href="#"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=""  style="float:right;" /></a><span class="w_con">Watched: 1</span>
                     </div>
                     <div class="w2">
                         256
                     </div>
                 </div>
-                <h3 class="head4">Monumenta - Paris</h3>
+                <h3 class="head4"><?php echo $this -> item -> name; ?></h3>
             </header>
             <div class="main_details clearfix">
                 <article class="d_l">
                     <table class="d_table">
+                        <?php //time ?>
+                        <?php if ($this->item->not_time_specific == 0){
+                            $date_format = ($this->item->all_day == 1) ? "Y-m-d (D)" : "Y-m-d (D) H:i";
+                        ?>
                         <tr>
-                            <td><strong>Time:</strong></td>
-                            <td>May 10 - Jun 21 2012 <a href="#" data-link="more_details.php">...</a></td>
+                            <td><strong><?php echo $this -> translate('Time: '); ?></strong></td>
+                            <td><?php echo $this->item->begin_datetime==null ? '?' : date($date_format,strtotime($this->item->begin_datetime)) ?> - <?php echo $this->item->end_datetime==null ? '?' : date($date_format,strtotime($this->item->end_datetime)) ?> <a href="#" data-link="more_details.php">...</a></td>
                         </tr>
+                        <?php } ?>
+                        
+                        <?php //application datetime ?>
+                        <?php if (($this->item->application_begin_datetime!=null)||($this->item->application_end_datetime!=null)){ ?>
                         <tr>
-                            <td><strong>Place:</strong></td>
-                            <td>Avenue Winston Churchill,
-                            <br />
-                            Paris, France</td>
+                            <td><strong><?php echo $this -> translate('Application Time: '); ?></strong></td>
+                            <td><?php echo $this->item->application_begin_datetime==null ? '?' : $this->item->application_begin_datetime ?> - <?php echo $this->item->application_end_datetime==null ? '?' : $this->item->application_end_datetime ?> <a href="#" data-link="more_details.php">...</a></td>
                         </tr>
+                        <?php } ?>
+                        
+                        <?php //place ?>
+                        <?php if ($this->item->place!=null){?>
+                        <tr class="place">
+                            <td><strong><?php echo $this -> translate('Place: '); ?></strong></td>
+                            <td>
+                                <?php echo $this->item->place?>
+                            </td>
+                        </tr>
+                        <?php } ?>
                         <tr>
-                            <td><strong>Price:</strong></td>
-                            <td>Free</td>
+                            <td><strong><?php echo $this -> translate('Price: '); ?></strong></td>
+                            <td><?php if ($this->item->is_free  == 0){?>
+                                    
+                                <?php
+                                        if ($this -> item -> min_price != '0.00') {
+                                            echo '$' . $this -> item -> min_price;
+                                        } else {
+                                            echo '?';
+                                        }
+                                        echo ' - ';
+                                        if ($this -> item -> max_price != '0.00') {
+                                            echo '$' . $this -> item -> max_price;
+                                        } else {
+                                            echo '?';
+                                        }
+                                    ?>
+                            <?php }else{
+                                echo $this->translate('Free!');
+                                }
+ ?></td>
                         </tr>
-                        <tr>
-                            <td><strong>Organizer:</strong></td>
-                            <td>Monumenta City Community</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Getting there:</strong></td>
-                            <td>Monumenta is always
-                            <br />
-                            immensely popular, so
-                            <br />
-                            be prepared to queue ...</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tag</strong></td>
-                            <td><a href="#">wahfuralph</a>, <a href="#">carson_ng2323</a>, <a href="#">test</a></td>
-                        </tr>
+                        
+                        <?php //organiser ?>
+                        <?php if ($this->item->organiser_name!=null){?>
+                            <tr>
+                                <td><strong><?php echo $this -> translate('Organiser Name: '); ?></strong></td>
+                                <td><?php echo $this -> item -> organiser_name; ?></td>
+                            </tr>
+                        <?php } ?>
+                        <?php if ($this->item->organiser_website!=null){?>
+                            <tr>
+                                <td><strong><?php echo $this -> translate('Organiser Website: '); ?></strong></td>
+                                <td><a target="_blank" style="display:block;overflow: hidden" href="<?php echo $this -> item -> organiser_website; ?>"><?php echo $this -> item -> organiser_website; ?></a></td>
+                            </tr>
+                        <?php } ?>
+                        
+                        <?php //tags ?>
+                        <?php if ($this->item->tags_html!=''){?>
+                            <tr>
+                                <td><strong><?php echo $this -> translate('Tag: '); ?></strong></td>
+                                <td><?php echo $this->item->tags_html?></a></td>
+                            </tr>
+                        <?php } ?>
                     </table>
                 </article>
                 <div class="d_middle">
@@ -69,7 +111,7 @@
                         <div  id="alarm">
                             <ul>
                                 <li class="selected">
-                                    <a class="leanModal" href="#alarmbox"><img src="images/alarm_bg.png" alt="07:30:00" style="float:right;"/></a>
+                                    <a class="leanModal" href="#alarmbox"><img src="<?php echo $this->baseUrl('images/alarm_bg.png') ?>" alt="07:30:00" style="float:right;"/></a>
                                 </li>
                             </ul>
 
@@ -83,10 +125,30 @@
                         <a href="#">Edit</a><a href="#">Cancel</a>
                     </div>
                 </div>
-                <div class="google_map"><img src="images/map.gif" alt="Google Map" />
-                </div>
+                <?php if ($this->item->lat!=null && $this->item->lng!=null && Zend_Registry::get('config_ini')->server->online){?>
+                    <div id="event-map" style="float:right;width:220px;height:220px;"></div>
+                    <script type="text/javascript">
+                    jQuery(function($){
+                          initialize();
+                    })
+                        
+                    function initialize() {
+                      var mapDiv = document.getElementById('event-map');
+                      map = new google.maps.Map(mapDiv, {
+                        center: new google.maps.LatLng(<?php echo $this->item->lat?>, <?php echo $this->item->lng?>),
+                        zoom: 13,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                      });
+                    
+                    var marker = new google.maps.Marker({
+                      map: map, position: new google.maps.LatLng(<?php echo $this->item->lat?>, <?php echo $this->item->lng?>)
+                    });
+                    
+                    }
+                    </script>
+              <?php } ?>
             </div>
-            <footer class="social_media clearfix">
+            <div class="social_media clearfix">
                 <div class="share">
                     <!-- AddThis Button BEGIN -->
                     <div class="addthis_toolbox addthis_default_style ">
@@ -95,24 +157,22 @@
                     <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-504d9e426d8fd861"></script>
                     <!-- AddThis Button END -->
                 </div>
-            </footer>
+            </div>
             <div class="Imggallery">
                 <div class="slide clearfix">
-                    <div class="slide_div"><img src="images/slide1.jpg" alt=" " />
+                    <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide1.jpg') ?>" alt=" " />
                     </div>
-                    <div class="slide_div"><img src="images/slide2.jpg" alt=" " />
+                    <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide2.jpg') ?>" alt=" " />
                     </div>
-                    <div class="slide_div"><img src="images/slide3.jpg" alt=" " />
+                    <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide3.jpg') ?>" alt=" " />
                     </div>
-                    <div class="slide_div"><img src="images/slide4.jpg" alt=" " />
+                    <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide4.jpg') ?>" alt=" " />
                     </div>
                 </div>
-                <article class="detail_con">
-
+                <div class="content">
                     <p>
                         <a href="#" class="upload_link ui-state-default ui-corner-all">Upload More Images</a>
                     </p>
-
                     <div id="dialog" title="Upload Images">
                         <form id="fileupload" action="server/php/" method="POST" enctype="multipart/form-data">
                             <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -221,28 +281,13 @@
                     <p>
                         In 2012, Monumenta is dedicated to French, abstract minimalist artist Daniel Buren, famed for his use of stripes.Monumenta is always immensely popular, so be prepared to queue.
                     </p>
-                    <footer class="tag_r">
-                        <strong>Submitted by:</strong><a href="#">Mac Slocum</a> | <a href="#">16 days ago</a>
-                    </footer>
-                </article>
-                <?php /* ?>
-                     <div id="fb-root"></div>
-                     <script>
-                     (function(d, s, id) {
-                     var js, fjs = d.getElementsByTagName(s)[0];
-                     if (d.getElementById(id)) return;
-                     js = d.createElement(s); js.id = id;
-                     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-                     fjs.parentNode.insertBefore(js, fjs);
-                     }(document, 'script', 'facebook-jssdk'));
-                     </script>
-
-                     <div class="fb-comments" data-href="http://10.0.0.122/tagbees/event.php" data-num-posts="5" data-width="640"></div>
-                     *
-                     */
- ?>
-
+                </div>
             </div>
+            <footer>
+              <div class="tag_r">
+                  <strong>Submitted by:</strong><a href="#">Mac Slocum</a> | <a href="#">16 days ago</a>
+              </div>
+            </footer>
         </div>
     </div>
 </article>
