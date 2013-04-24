@@ -13,8 +13,8 @@
 </nav>
 */?>
 <nav class="breadcrumb clearfix">
-    <?php //echo $this->translate('You are in: ');?>
-    <ul>
+    <div class="nav_title"><?php echo $this->translate('You are in: ');?></div>
+    <ul class="nav_content">
     <?php
     $i=1;
     foreach(Common::getSession()->nav as $key => $value){

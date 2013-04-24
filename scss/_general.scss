@@ -101,16 +101,26 @@ body {
             #content{
                 width:688px;
                 .breadcrumb{
-                    @include black-gradient; @include border-radius (4px); color:white; padding:8px 0 8px 17px; margin-bottom:10px;
-                    li{ float:left;}
+                  @include black-gradient; 
+                  @include border-radius (4px); 
+                  color:white; 
+                  padding:8px 0 8px 17px; 
+                  margin-bottom:10px;
+                  
+                  .nav_content, .nav_title, .nav_content li{
+                    float:left;
+                  }
+                  
+                  .nav_content{
                     a{ color:white; text-decoration:none;
-                        &:hover{color:#ff1d38;}
-                        &:active {color:$color;}
-                     }
-                     .separator{
-                        margin: 0 10px;
-                        display: inline-block;
-                     }
+                      &:hover{color:#ff1d38;}
+                      &:active {color:$color;}
+                    }
+                    .separator{
+                      margin: 0 10px;
+                      display: inline-block;
+                    }
+                  }
                 }
                 .main{
                     padding:15px 14px 18px 17px;

@@ -7,11 +7,12 @@
 @import "snippets/_feeds.scss";
 @import "page/_new-event.scss";
 @import "page/_event.scss";
+@import "page/_apps.scss";
 
 /********************************* EVENT PAGES ***********************************************/
 
 .mainevent{ /*padding-top:11px;*/}
-.mainevent , .tag_con{ 
+.mainevent , .tag_con{
     h1{@include yellow-gradient; color:#2f3031; font-size:22px; font-weight:normal; padding:3px 0 5px 17px; @include border-radius(4px);}
 }
 .event_div{ @include border-radius(4px); background:#f2f2f2; padding:10px 0 0; line-height:17px;}
@@ -182,18 +183,6 @@ input:disabled{ background:#EBEBE4;}
 }
 /*********************************************************************************************/
 
-.tag_con{ padding:0 10px;
-    h1{ margin:0 -18px;}
-    h2{ font-size:16px; padding-top:15px;}
-    p{ line-height:17px; padding:15px 0 0;}
-}
-.tag_list{ padding:15px 0 0 15px;}
-.download{ padding-top:15px;
-    li{ display:inline-block; padding:0 10px;}
-    li a{ @include yellow-gradient; @include border-radius(10px); padding:5px 15px; text-decoration:none; color:$color; font-weight:bold; }
-}
-.down-txt{ font-size:16px;}
-.facebook-com{ margin-top:15px;}
 .event_brief, .watcher_details, .detail_con{ padding:10px 20px;}
 .watcher_details_inner{ padding:10px 15px;}
 .watcher_tag_inner{ padding-top:15px;}
