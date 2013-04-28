@@ -1,0 +1,46 @@
+<style>
+.event_reminder_div{
+	line-height:2em;
+}
+.event_reminder_div select.digit{
+	margin-right:5px;
+}
+.event_reminder_div select,
+.event_reminder_div input{
+	float:right;
+}
+.event_reminder_div input{
+	margin-top:5px;	
+}
+.event_reminder_div label{
+	margin-left:20px;
+}
+</style>
+
+<div class="event_reminder_div">
+	<form>
+	<?php echo $this->translate('before event begins in: '); ?><br />
+	<select class="time_type" name="time_type">
+		<option value="minutes" selected="selected"><?php echo $this->translate('Minutes'); ?></option>
+		<option value="hours"><?php echo $this->translate('Hours'); ?></option>
+	</select>
+	<select class="digit" name="digit">
+		<option value="5" selected="selected">5</option>
+		<option value="10">10</option>
+		<option value="15">15</option>
+		<option value="30">30</option>
+		<option value="30">45</option>
+		<option value="30">60</option>
+	</select>
+	<div class="clearFix"></div>
+	<p><?php echo $this->translate('Via: '); ?></p>
+	<label><input type="checkbox" checked="checked"/> <?php echo $this->translate('Site notification'); ?></label><br />
+	<label><input type="checkbox" /> <?php echo $this->translate('Email'); ?></label><br />
+	<label><input type="checkbox" /> <?php echo $this->translate('Mobile push notification'); ?></label>
+	</form>
+</div>
+
+<script type="text/javascript">
+jQuery(function($){
+})
+</script>

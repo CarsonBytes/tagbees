@@ -1,0 +1,114 @@
+<style>
+	.jira-avatar-upload-form {
+		padding: 24px 25px;
+		position: relative;
+		text-align: center;
+	}
+	.jira-avatar-upload-form .field-group label {
+		font-size: 13px;
+		margin-right: 10px;
+	}
+	.jira-avatar-upload-form .field-group input[type="file"] {
+	width: 50%;
+	}
+	.jira-avatar-upload-form .error {
+	color: #C00;
+	font-weight: bold;
+	white-space: normal;
+	}
+	.aui-popup .aui-popup-content .form-body {
+	position: relative;
+	overflow: auto;
+	padding: 10px;
+	}
+	.jira-avatars {
+	margin: 0;
+	margin-left: 20px;
+	padding: 0;
+	list-style-type: none;
+	}
+	.jira-avatars li {
+	float: left;
+	cursor: pointer;
+	position: relative;
+	}
+	.jira-avatars li img {
+		margin: 6px;
+	}
+ .jira-avatars li:hover img{margin:5px;-moz-box-shadow:3px 3px 5px rgba(0,0,0,0.5);-webkit-box-shadow:3px 3px 5px rgba(0,0,0,0.5);box-shadow:3px 3px 5px rgba(0,0,0,0.5);border:1px solid #000;}
+
+.jira-avatars .jira-selected-avatar img{padding:2px;margin:2px;border:2px solid #3C78B5;}
+
+.jira-avatars .jira-selected-avatar:hover img{margin:2px;border:2px solid #3C78B5;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
+.jira-avatars .jira-selected-avatar .jira-delete-avatar{top:-4px;right:-3px;}
+.jira-avatars li:hover .jira-delete-avatar{display:block;}
+
+.aui-message.jira-avatar-upload{padding-left:1em;}
+.aui-message.jira-avatar-upload p.title{margin-bottom:5px;}
+
+.jira-avatars li .jira-delete-avatar {
+	display: none;
+	position: absolute;
+	height: 16px;
+	width: 16px;
+	background: url("/s/en_US2rbgvk/733/150/1.0/_/download/resources/jira.webresources:avatar-picker/../../../images/icn-remove.png')?>") 0 0 no-repeat;
+	top: -2px;
+	right: -1px;
+	text-indent: -9999px;
+}
+.jira-avatars li:hover .jira-delete-avatar {
+	display:block;
+}
+</style>
+<div class="upload-user-thumbnail-popup">
+	<div id="jira-avatar-picker">
+		<form class="jira-avatar-upload-form" action="#">
+			<input name="id" value="10000" type="hidden">
+			<input name="pid" value="10000" type="hidden">
+			<div class="field-group">
+				<label>Upload a new avatar</label>
+				<input type="file" class="ignore-inline-attach" name="avatar" id="jira-avatar-uploader">
+				<div class="error"></div>
+			</div>
+		</form>
+		<div class="form-body"  style="height: 258px;overflow-y: auto; ">
+			<ul class="jira-avatars">
+				<li title="Select this avatar" class="jira-avatar jira-system-avatar" data-id="10100"><span><img width="48" height="48" src="<?php echo $this->baseUrl('/images/avatar/unknown.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/unknown-1.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-2.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-3.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-system-avatar" data-id="10100"><span><img width="48" height="48" src="<?php echo $this->baseUrl('/images/avatar/unknown.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/unknown-1.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-2.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-3.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-system-avatar" data-id="10100"><span><img width="48" height="48" src="<?php echo $this->baseUrl('/images/avatar/unknown.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/unknown-1.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-2.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-3.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-system-avatar" data-id="10100"><span><img width="48" height="48" src="<?php echo $this->baseUrl('/images/avatar/unknown.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/unknown-1.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-2.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-3.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-system-avatar" data-id="10100"><span><img width="48" height="48" src="<?php echo $this->baseUrl('/images/avatar/unknown.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/unknown-1.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-2.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar " ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-3.png')?>" /></span></li>
+				<li title="Select this avatar" class="jira-avatar jira-custom-avatar jira-selected-avatar" ><span><img width="48" height="48"  src="<?php echo $this->baseUrl('/images/avatar/useravatar-4.png')?>" /></span><span class="jira-delete-avatar" data-id="11300" title="Delete this Avatar">Delete</span></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+jQuery(function($){
+	$('.jira-avatar').click(function(){
+		$('.jira-avatar').removeClass('jira-selected-avatar');
+		$(this).addClass('jira-selected-avatar');
+	})
+})
+</script>

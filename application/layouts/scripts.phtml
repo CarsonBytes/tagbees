@@ -202,21 +202,19 @@ jQuery("#time-spec").on("change", function() {
 
 <!-- dialog box -->
 <script type="text/javascript">
-            jQuery(function($){
-
-                // Dialog
-                jQuery('#dialog').dialog({
-                    autoOpen: false,
-                    width: 700,
-                    buttons: {
-                        "Ok": function() {
-                            jQuery(this).dialog("close");
-                        },
-                        "Cancel": function() {
-                            jQuery(this).dialog("close");
-                        }
-                    }
-                });
-
-            });
+  jQuery(function($){
+      // Dialog
+      jQuery('#dialog').dialog({
+          autoOpen: false,
+          width: 700,
+          buttons: {
+              "Ok": function() {
+                  jQuery(this).dialog("close");
+              },
+              "Cancel": function() {
+                  jQuery(this).dialog("close");
+              }
+          }
+      });
+  });
 </script>

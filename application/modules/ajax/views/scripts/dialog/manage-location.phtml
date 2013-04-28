@@ -1,0 +1,22 @@
+	<?php //print_r($this->user_saved_location)?>
+<?php if (!empty($this->user_saved_location)){?>
+<div style="override-y:hidden;">
+	<table class="show_item_likes_list">
+	<?php foreach($this->user_saved_location as $location){
+		?>
+		<tr>
+			<td class="name"><?php echo $location['name']?></td>
+			<td>
+				<img src="http://maps.google.com/maps/api/staticmap?markers=<?php echo $location['lat']?>,<?php echo $location['lng']?>&zoom=13&size=100x100&sensor=false" />
+			</td>
+			<td>
+				<a class="delete_user_saved_location" href="#"><?php echo $this->translate('delete')?></a>
+			</td>
+		</tr>
+		<?php 
+	}?>
+	</table>
+</div>
+<?php }else{?>
+	<p><?php echo $this->translate('no saved locations')?>...</p>
+<?php }?>

@@ -8,6 +8,11 @@ var default_feed_para = $.extend(
 var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max_distance ?>;
 var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;
 
+<?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
+var savedLocation=[];
+var flagOverrideSavedLocation=0;
+<?php } ?>
+
 <?php /*
 // prepare to fetch new feed based on updated filter input
 function updateFilterByChangedInput(selector){
@@ -55,66 +60,93 @@ function updateSortByInput(value){
 }
 
 jQuery(function($){
-    $('.match_location_set .save_location').qtip({
-        content: {
-            text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
-            title: {
-                text: 'Save this Location'
-            }
-        },
-        show: {
-            event: 'click',
-            modal: {
-                on: true
-            }
-        },
-        position: {
-            my: 'center',
-            at: 'center',
-            target: $(window)
-        },
-        style: 'qtip-light qtip-rounded',
-        events: {
-            render : function(event, api)
+  <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
+   $('body').on('click', '.match_location_set .manage_location', function(){
+        jQDialog(
+            '<?php echo $this->translate('save this location') ?>',
+            '<?php echo $this->baseUrl('ajax/dialog/manage_location')?>',
+            {},
             {
-                var html = $( "#save_location" ).tmpl([{'location':$('#of').text()}]);
-                html.appendTo(api.elements.content.empty());
-            },
-            show : function(event, api){
-                setTimeout(function() { $('.qtip input.location_name').focus().select(); }, 50);
-            }
-        }
-    });
-    $('.match_location_set .manage_location').qtip({
-        content: {
-            text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
-            ajax: {
-                url: '<?php echo $this->baseUrl('ajax/filter/open_manage_location')?>',
-                success: function(data, status) {
-                    if (data.result == 'false'){
-                        this.set('content.text', 'Error occured! Please try again later.');
-                    } else {
-                        this.set('content.text', $( "#manage_location" ).tmpl());
-                    }
+                Close: function() {
+                    $( this ).dialog( "close" );
                 }
+            }
+         );
+      return false;
+   }).on('click','.match_location_set .save_location',function(){
+        jQDialog(
+            '<?php echo $this->translate('save this location') ?>',
+            '<?php echo $this->baseUrl('ajax/dialog/save_location')?>',
+            {
+                'title':$('.radius_amt #of').text()/*,
+                'user_saved_location[]':JSON.stringify(savedLocation)*/
             },
-            title: {
-                text: 'Manage Location'
+            {
+                Save: function() {
+                    var dialog=$(this);
+                    var location_name=$('.dialog input.save_location_name').val();
+                    $.ajax({
+                          type: "POST",
+                          url: "<?php echo $this->baseUrl('ajax/location/save') ?>",
+                            data: {
+                                name:location_name,
+                                lat:feed_para['lat'],
+                                lng:feed_para['lng'],
+                                radius:feed_para['radius'],
+                                override:flagOverrideSavedLocation
+                            },
+                          success: function(msg){
+                                if (msg['result']==1){
+                                    savedLocation[location_name]=[feed_para['lat'],feed_para['lng'],feed_para['radius']];
+                                    if (flagOverrideSavedLocation==0){
+                                        $(".user_saved_location_list").append("<option value=\""+location_name+"\">"+location_name+"</option>")
+                                        $(".user_saved_location_list option:last").prop("selected","selected");
+                                    }else{
+                                        flagOverrideSavedLocation=0;
+                                    }
+                                    dialog.dialog( "close" );
+                                }else if (msg['result']==1062){
+                                    $('.dialog').prepend('<p><?php echo $this->translate('same name exists in your saved locations, do you still want to override?')?></p>');
+                                    flagOverrideSavedLocation=1;
+                                }else{
+                                    $('.dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
+                                }
+                            },
+                        dataType:'json'
+                    });
+
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                    flagOverrideSavedLocation=0;
+                }
             }
-        },
-        show: {
-            event: 'click',
-            modal: {
-                on: true
-            }
-        },
-        position: {
-            my: 'center',
-            at: 'center',
-            target: $(window)
-        },
-        style: 'qtip-light qtip-rounded'
-    });
+         );
+      return false;
+   }).on('click', '.delete_user_saved_location', function(){
+        var tr =$(this).parents('tr');
+        var name=$(this).parents('tr').children('td.name').text();
+        $.ajax({
+              type: "POST",
+              url: "<?php echo $this->baseUrl('ajax/location/delete') ?>",
+                data: {
+                    'name':name,
+                },
+              success: function(msg){
+                if (msg['result']==1){
+                    tr.remove();
+                    if ($(".user_saved_location_list option[value='"+name+"']").is("selected"))
+                        $(".user_saved_location_list option[value='last']").prop('disabled',false).prop('selected',true);
+                    $(".user_saved_location_list option[value='"+name+"']").remove();
+                }else{
+                    $('#dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
+                }
+                },
+            dataType:'json'
+        });
+        return false;
+    })
+   <?php } ?>
     $('input[name="is_match_interest"]+ label').qtip({
         content: {
             text: 'Please login to let us find your interest.',

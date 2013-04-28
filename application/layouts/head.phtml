@@ -160,8 +160,45 @@
         
         $("img.lazy").lazyload({
         });
+        
+        $.ajaxSetup({
+          type: "POST",
+          dataType:"json",
+          error:function(jqXHR, textStatus, errorThrown){
+            //console.log(errorThrown);
+            //console.log(textStatus);
+          },
+          cache: true
+        })
     });
     
+    function jQDialog(title, contentUrl, params, buttons) {
+      //if (!width) var width='500';
+      //if (!height) var height='500';
+    
+      var dialog1 = jQuery(".dialog").dialog(
+      {
+          title: title,
+          buttons: buttons,
+          position: 'center',
+          closeOnEscape: true,
+          width: 'auto',
+          height: 'auto',
+          resizable: false,
+          autoOpen: false,
+          minHeight: false,
+          draggable: true,
+          modal: true,
+          close:  function (e, ui){
+            $(this).html('<p class="loading"><?php echo $this->translate('loading')?>...</p>')
+          }
+      });
+
+      //close previous dialog if existed...
+      jQuery(".dialog").dialog('close');
+      dialog1.load(contentUrl,params).dialog('open');
+     }
+     
     //begin date and end date for sidebar and feed para
     var today = new Date();
     var end_date = new Date();

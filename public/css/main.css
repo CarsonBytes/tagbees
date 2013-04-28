@@ -261,6 +261,12 @@ $pie-base-class: pie-element;*/
 /*@import "compass/css3/pie";*/
 /*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
 $pie-base-class: pie-element;*/
+/*@import "compass/css3/pie";*/
+/*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
+$pie-base-class: pie-element;*/
+/*@import "compass/css3/pie";*/
+/*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
+$pie-base-class: pie-element;*/
 .loginned_popup_inner { line-height: 1.5; width: 250px; }
 .loginned_popup_inner .img_outer { float: left; }
 .loginned_popup_inner .img_outer img { margin: 5px; }

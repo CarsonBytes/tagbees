@@ -1,0 +1,148 @@
+<style>
+.add_personal_event_div .reminder_tags h3{
+	color:blue;
+	font-weight:normal;
+}
+.add_personal_event_div .reminder_tags .tag_input{
+	margin: 5px 0;
+    width: 275px;
+}
+.add_personal_event_div .reminder_tags .tag_suggestion *{
+	color:grey !important;
+}
+.add_personal_event_div .close{
+    padding: 1px;
+	position:absolute;
+	right:5px;
+	top:5px;
+	font-weight:bold;
+	color:grey !important;
+	cursor:pointer;
+}
+.add_personal_event_div .name{
+	width: 304px;
+}
+.add_personal_event_div .description{
+	width: 306px;
+	margin-top: 10px;
+	height: 150px;
+	padding-left: 3px;
+	resize: none;
+}
+.add_personal_event_div .info_line {
+	padding: 10px;
+	background: #F2F2F1;
+	width: 310px;
+	margin-bottom: 20px;
+}
+
+.add_personal_event_div .begin_date,
+.add_personal_event_div .end_date{
+	width: 85px;
+}
+
+.add_personal_event_div .begin_time,
+.add_personal_event_div .end_time{
+	width:43px;
+}
+.time-picker{
+	z-index: 1000000;
+}
+</style>
+
+<div class="add_personal_event_div">
+	<form>
+	<input style="margin-bottom:10px;" class="name" name="name" type="text" value=""/>
+
+	<input class="begin_date" type="text" size="10" value="" />
+	<input class="begin_time" type="text" value="" size="10"/>
+	<span>-</span>
+	<input class="end_date" type="text" size="10" value="" />
+	<input class="end_time"  type="text" value=""  size="10"/>
+
+	<input type="hidden" name="begin_datetime" id="begin_datetime" value=""/>
+	<input type="hidden" name="end_datetime" id="end_datetime" value=""/>
+
+	<textarea  class="description" name="description" ></textarea>
+
+	<button onclick="window.location.replace('http://'+window.location.hostname+':'+window.location.port+'<?php echo $this->baseUrl('report')?>');return false;" class="info_line">我想公開這項活動，想提供更多資料</button>
+	<div class="block reminder_tags">
+		<h3>添加標簽
+				<select>
+					<option selected="selected">常用標簽</option>
+					<option>錄影</option>
+					<option>電影</option>
+					<option>電視</option>
+				</select></h3>
+		<p class="tag_suggestion">
+			<div style="float:left;">
+			</div>
+			<div class="suggested_tags" style="margin-left:10px;float:left;"><a href="#">視覺藝術</a> <a href="#">錄影</a> <a href="#">電影</a> <a href="#">電視</a> <a href="#">首映</a>
+			<a href="#">衛生</a> <a href="#">錄影</a> <a href="#">防護中心</a> <a href="#">食物</a> <a href="#">入院</a> <a href="#">視覺藝術</a> <a href="#">錄影</a> <a href="#">防護中心</a> <a href="#">食物</a> <a href="#">入院</a> </div>
+		</p>
+		<input class="tag_input" type="text" value=""/>
+	</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+jQuery(function($){
+	$(".add_personal_event_div .description").watermark("<?php echo $this->translate('Event detail') ?>");
+	$(".add_personal_event_div .name").watermark("<?php echo $this->translate('Event topic') ?>");
+	$(".add_personal_event_div .tag_input").watermark("<?php echo $this->translate('以逗號分隔，方便搜尋及有效管理') ?>");
+	$(".add_personal_event_div .begin_date").watermark("<?php echo $this->translate('Begin Date') ?>");
+	$(".add_personal_event_div .begin_time").watermark("<?php echo $this->translate('Begin Time') ?>");
+	$(".add_personal_event_div .end_date").watermark("<?php echo $this->translate('End Date') ?>");
+	$(".add_personal_event_div .end_time").watermark("<?php echo $this->translate('End Time') ?>");
+
+	$('.add_personal_event_div .begin_time, .add_personal_event_div .end_time').timePicker({
+		startTime: "00:00", // Using string. Can take string or Date object.
+		endTime: "23:59", // Using Date object here.
+		show24Hours: true,
+		separator: ':',
+		step: 15}
+	);
+	$.timePicker(".add_personal_event_div .begin_time").setTime('00:00');
+	$.timePicker(".add_personal_event_div .end_time").setTime('00:00');
+
+	var dates = $('.add_personal_event_div .begin_date, .add_personal_event_div .end_date').datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		changeYear: true,
+		onSelect: function( selectedDate ) {
+			var option = $(this).hasClass('begin_date') ? "minDate" : "maxDate",
+				instance = $( this ).data( "datepicker" ),
+				date = $.datepicker.parseDate(
+					instance.settings.dateFormat ||
+					$.datepicker._defaults.dateFormat,
+					selectedDate, instance.settings );
+			dates.not( this ).datepicker( "option", option, date );
+		}
+	});
+})
+function convertDateTime(){
+	if (!$(".not_time_specific").is(':checked')){
+		$(".begin_datetime").prop('#begin_datetime');
+		$(".end_datetime").prop('#end_datetime');
+		//console.log('not_time_specific is not checked!')
+		var begin_time;
+		var end_time;
+		if ($(".begin_time").val()!='')
+			begin_time=$(".begin_time").val()+':00';
+		else
+			begin_time='';
+
+		if ($(".end_time").val()!='')
+			end_time=$(".end_time").val()+':00';
+		else
+			end_time='';
+
+		$(".begin_datetime").val($.trim($(".begin_date").val()+" "+begin_time));
+		$(".end_datetime").val($.trim($(".end_date").val()+" "+end_time));
+	}else{
+		//console.log('not_time_specific is checked!')
+		$(".begin_datetime").removeProp('name');
+		$(".end_datetime").removeProp('name');
+	}
+}
+</script>

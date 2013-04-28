@@ -1,0 +1,18 @@
+<div style="override-y:hidden;">
+	<table class="manage_location">
+	<?php foreach($this->item_likes_list as $item){
+		?>
+		<tr>
+			<td>
+				<a href="<?php echo $this->baseUrl('user/'.$item['username'])?>">
+					<img src="<?php echo $this->baseUrl($item['thumbnail_path'])?>" />
+				</a>
+			</td>
+			<td class="name">
+				<a href="<?php echo $this->baseUrl('user/'.$item['username'])?>"><?php echo $item['username']?></a>
+			</td>
+		</tr>
+		<?php 
+	}?>
+	</table>
+</div>

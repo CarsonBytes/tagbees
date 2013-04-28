@@ -5,9 +5,9 @@ class Service_Location{
 	function __construct(){
 		$this->identity=Zend_Auth::getInstance()->getIdentity();
 	    $this->db = Zend_Db_Table::getDefaultAdapter();
-		if (!Zend_Auth::getInstance()->hasIdentity()){
-			return -1;
-		}
+  		if (!Zend_Auth::getInstance()->hasIdentity()){
+  			return -1;
+  		}
 	}
 	public function getSavedLocations(){
 		$select=$this->db->select()

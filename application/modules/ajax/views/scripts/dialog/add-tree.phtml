@@ -1,0 +1,81 @@
+<style>
+#add_tree{
+	margin-left:2px
+}
+#add_tree select{
+	float: left;
+    height: 260px;
+    padding: 5px;
+    width: 203px;
+}
+#add_tree select.last{
+	margin-right:0;
+}
+</style>
+
+Please specify:
+<div class="clearFix"></div>
+<form id="add_tree">
+	<select class="required" size="15" class="entrySelect" id="cat1" name="cat1">
+	</select>
+	<select class="required" size="15" class="entrySelect" id="cat2" name="cat2">
+	</select>
+	<select class="required last" size="15" class="entrySelect" id="cat3" name="cat3">
+	</select>
+</form>
+
+<script type="text/javascript">
+var category=<?php echo $_SESSION['category_json'] ?>;
+var cat_arr=[];
+jQuery(function($){
+	var i;
+	for(i=0;i<category[1].length;i+=2){
+		$('#cat1').append('<option value="'+category[1][i]+'">'+category[1][i+1]+'</option>');
+	}
+		$(document).on("change", "#cat1,#cat2,#cat3", function(){
+			if ($(this).prop('id')=='cat1' || $(this).prop('id')=='cat2'){
+				changeCategory($(this).prop('id'));
+			}
+		});
+	var cat_ids = $('#category_ids').val();
+	if (cat_ids != '') {
+		var cat = cat_ids.split('|');
+		cat.pop();
+		cat.shift();
+		var j;
+		for (j=1;j<=cat.length;j++){
+			$("#cat"+j).val(cat[j-1]);
+			changeCategory('cat'+j);
+		}
+		$("#cat"+(j-1)).val(cat[j-2]);
+	}
+})
+
+function changeCategory(id){
+	var key;
+	if (id=='cat1'){
+		$('#cat2,#cat3').empty();
+		key=jQuery.inArray('|1|'+$('#cat1 :selected').val()+'|', category);
+		if (key!=-1){
+			appendOptions(key,'cat2');
+			changeCategory('cat2');
+		}
+		$('#cat2').removeAttr('disabled');
+	}else{
+		$('#cat3').empty();
+		key=jQuery.inArray('|1|'+$('#cat1 :selected').val()+'|'+$('#cat2 :selected').val()+'|', category);
+		if (key!=-1){
+			appendOptions(key,'cat3');
+		}
+		$('#cat3').removeAttr('disabled')
+	}
+}
+function appendOptions(key,cat){
+	var i=0;
+	//$('#'+cat).append('<option value="">Please specify...</option>');
+	for (i=0;i<category[key+1].length;i+=2){
+		$('#'+cat).append('<option value="'+category[key+1][i]+'">'+category[key+1][i+1]+'</option>')
+				.show();
+	}
+}
+</script>
