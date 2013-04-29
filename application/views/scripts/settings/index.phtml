@@ -34,14 +34,14 @@
         <section class="event_div event_form">
             <div class="eventtype">
                 <div class="f_div">
-                    <label for="user-name">User Name</label>
-                    <input type="text" id="user-name" class="middle changetxt" />
-                    <label class="l-a1" id="changeInput"><strong>change</strong></label>
+                    <label for="user-name"><?php echo $this->translate('Display Name')?></label>
+                    <input type="text" id="user-name" name="name" class="middle changetxt" value="<?php echo $this->form_data['name'] ?>"/>
+                    <?php //<label class="l-a1" id="changeInput"><strong>change</strong></label> ?>
                 </div>
                 <div class="f_div">
-                    <label class="place_res" for="place-of-residence">Place of residence</label>
-                    <input type="text" id="place-of-residence" class="middle" />
-                    <label class="l-a1 settingMap">Hide Map</label>
+                    <label class="place_res" for="place-of-residence"><?php echo $this->translate('Place of residence')?></label>
+                    <input type="text" id="place-of-residence" class="middle" value="<?php echo $this->form_data['place'] ?>" />
+                    <label class="l-a1 settingMap"><?php echo $this->translate('Hide Map')?></label>
                 </div>
                 <div class="f_div" id="settingMapDiv">
                     <label>&nbsp;</label>
@@ -51,9 +51,9 @@
                 <div class="f_div">
                     <label>Gender</label>
                     <select class="smallSel">
-                        <option></option>
-                        <option>Male</option>
-                        <option>Female</option>
+                        <option value="" <?php if ($this->form_data['gender']==''){ ?>selected="selected"<?php } ?>></option>
+                        <option value="M" <?php if ($this->form_data['gender']=='M'){ ?>selected="selected"<?php } ?>>Male</option>
+                        <option value="F" <?php if ($this->form_data['gender']=='F'){ ?>selected="selected"<?php } ?>>Female</option>
                     </select>
                     <?php /*<input type="radio" id="male" name="gender" />
                     <label class="l-a3" for="male"><strong>Male</strong></label>
@@ -62,29 +62,29 @@
                     <select class="smallSel">
                         <option>Public</option>
                     </select>
-                    <label class="l-a1" style="margin-left:15px;"><strong>Birthday</strong></label>
+                    <?php /*<label class="l-a1" style="margin-left:15px;"><strong>Birthday</strong></label>
                     <input type="text" id="birthday" name="birthday" class="m-input" />
                     <select class="smallSel small_gap1">
                         <option>Public</option>
-                    </select>
+                    </select> */?>
                 </div>
                 <div class="f_div">
                     <label for="homepage">Homepage</label>
-                    <input type="text" class="middle1" id="homepage" />
+                    <input type="text" class="middle1" id="homepage" value="<?php echo $this->form_data['homepage'] ?>" />
                     <select class="smallSel small_gap1">
                         <option>Public</option>
                     </select>
                 </div>
                 <div class="f_div">
                     <label for="email">Email</label>
-                    <input type="text" class="middle1" id="email" />
+                    <input type="text" value="<?php echo $this->form_data['email'] ?>" class="middle1" id="email" />
                     <select class="smallSel small_gap1">
                         <option>Public</option>
                     </select>
                 </div>
                 <div class="f_div">
-                    <label for="desctiption">Description</label>
-                    <textarea class="middle1" id="desctiption"></textarea>
+                    <label for="description">Description</label>
+                    <textarea class="middle1" id="description" value="<?php echo $this->form_data['description'] ?>"></textarea>
                     <select class="smallSel small_gap1">
                         <option>Public</option>
                     </select>
@@ -114,20 +114,8 @@
                     <label class="l-a1"><a href="https://twitter.com/" target="_blank"><img src="images/twitter_icon2.png" alt="twitter" /></a> <a href="#"><img src="images/i_icon.png" alt="icon" /></a></label>
                 </div>
                 <div class="f_div">
-                    <label>Tumblr <img src="images/tumblr.png" alt="twitter" /></label>
-                    <label class="l-a1"><a href="javascript:void(0)" id="addTumblr"><img src="images/plus.png" alt="plus" class="add_tum" /> Add Tumblr Details</a> </label>
-                </div>
-                <div class="addTumblrDiv">
-                    <div class="f_div">
-                        <label>Tumblr <img src="images/tumblr.png" alt="twitter" /></label>
-                        <input type="text" value="" class="middle" />
-                        <label class="l-a1"><strong>Tumblr Email</strong></label>
-                    </div>
-                    <div class="f_div">
-                        <label>&nbsp;</label>
-                        <input type="text" value="" class="middle" />
-                        <label class="l-a1"><strong>Tumblr Password</strong></label>
-                    </div>
+                    <label></label>
+                    <label class="l-a1"><a href="javascript:void(0)" id="addTumblr"><img src="images/plus.png" alt="plus" class="add_tum" /> Add More...</a> </label>
                 </div>
             </div>
         </section>
