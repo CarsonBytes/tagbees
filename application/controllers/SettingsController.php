@@ -17,6 +17,7 @@ class SettingsController extends Zend_Controller_Action {
 
     $settingService = new Service_Setting();
     $this->view->form_data = $settingService->get();
+    //echo '<pre>';var_dump($this->view->form_data);echo '</pre>';die();
     
     // for not commly changed data we store them in session...
     if (!isset($_SESSION['timezone'])) {

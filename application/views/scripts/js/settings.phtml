@@ -1,7 +1,45 @@
 <script type="text/javascript">
-    jQuery(function($) {
-        $('#birthday').datepicker({ dateFormat: 'yy-mm-dd' });
-        //$('#birthday').datepicker("setDate", 'yy-mm-dd', today));
-    }); 
+var timezone =<?php echo $_SESSION['timezone_json'] ?>;
+  var timezone_id = ''; 
+<?php if (isset ($_SESSION['timezone_id'])){
+if ($_SESSION['timezone_id']!=''){?>var timezone_id = '<?php echo $_SESSION['timezone_id'] ?>';<?php }else{ ?>var timezone_id = '';<?php }} ?>
+  jQuery(function($) {
+    /*$('#birthday').datepicker({
+      dateFormat : 'yy-mm-dd'
+    });
+    //$('#birthday').datepicker("setDate", 'yy-mm-dd', today));
+    */
+    //timezone js
+    if (timezone_id != '') {
+      for (var i = 1; i < timezone.length; i = i + 2) {
+        var key = jQuery.inArray(timezone_id, timezone[i]);
+        if (key != -1) {
+          $('#country').val(timezone[i - 1]);
+          changeCountry();
+          $('#city').val(timezone[i][key]);
+          break;
+        }
+      }
+    } else {
+      $('#country').val('HK');
+      changeCountry();
+    }
+    $(document).on("change", "#country", function() {
+      changeCountry();
+    });
+  })
+  function changeCountry() {
+    $('#city').empty();
+    var key = jQuery.inArray($("#country").children('option:selected').val(), timezone);
+    if (key != -1) {
+      var i = 0;
+      for ( i = 0; i < timezone[key + 1].length; i = i + 2) {
+        $('#city').append('<option value="' + timezone[key+1][i] + '">' + timezone[key+1][i + 1] + '</option>');
+      }
+      $('#city').show();
+    } else {
+      $('#city').hide().prop('disabled', 'disabled');
+    }
+  }
 </script>
 <?php //echo $this->partial('js/template/filter/confirm_location_remove.phtml') ?>

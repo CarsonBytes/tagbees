@@ -153,6 +153,6 @@ return array(
         'event'=>array(
             'pic'=> APPLICATION_PATH ."/../public/uploads/events/"
         )
-     ),
+     )
 );
 ?>

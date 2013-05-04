@@ -56,17 +56,19 @@
                         <option value="F" <?php if ($this->form_data['gender']=='F'){ ?>selected="selected"<?php } ?>>Female</option>
                     </select>
                     <?php /*<input type="radio" id="male" name="gender" />
-                    <label class="l-a3" for="male"><strong>Male</strong></label>
-                    <input type="radio" id="female" name="gender" />
-                    <label class="l-a3" for="female"><strong>Female</strong></label>*/ ?>
+                       <label class="l-a3" for="male"><strong>Male</strong></label>
+                       <input type="radio" id="female" name="gender" />
+                       <label class="l-a3" for="female"><strong>Female</strong></label>*/
+ ?>
                     <select class="smallSel">
                         <option>Public</option>
                     </select>
                     <?php /*<label class="l-a1" style="margin-left:15px;"><strong>Birthday</strong></label>
-                    <input type="text" id="birthday" name="birthday" class="m-input" />
-                    <select class="smallSel small_gap1">
-                        <option>Public</option>
-                    </select> */?>
+                       <input type="text" id="birthday" name="birthday" class="m-input" />
+                       <select class="smallSel small_gap1">
+                       <option>Public</option>
+                       </select> */
+                    ?>
                 </div>
                 <div class="f_div">
                     <label for="homepage">Homepage</label>
@@ -91,32 +93,45 @@
                 </div>
                 <div class="f_div">
                     <label>Time Zone</label>
-                    <select class="smallSel1">
-                        <option>Hong Kong</option>
+                    <select class="country" style="width:190px" id="country" >
+                        <?php $country=array();
+                        foreach($_SESSION['timezone'] as $timezone){
+                          if (!in_array($timezone['country'],$country)){?>
+                        <option value="<?php echo $timezone['country_code'] ?>"><?php echo $timezone['country']?></option>
+                        <?php  $country[] = $timezone['country'];
+                          }
+                          }
+                     ?>
                     </select>
-                    <input type="text"/>
+                    <select class="city" style="display:none;width:189px" name="timezone_id" id="city"></select>
                     <select class="smallSel small_gap1">
                         <option>Public</option>
                     </select>
                 </div>
-                <div></div>
-            </div>
+             <div>
+          </div>
+        </div>
         </section>
         <h1>Social Connections</h1>
         <section class="event_div event_form">
             <div class="eventtype">
+              <?php
+              if ($this->form_data['account_provider_names']!=null){
+                $account_provider_names = explode(',',$this->form_data['account_provider_names']);
+                foreach ($account_provider_names as $account_provider_name) {
+              ?>
                 <div class="f_div">
-                    <label>Facebook <img src="images/facebook_icon.png" alt="facebook" /></label>
-                    <label class="l-a1"><a href="#">http://www.facebook.com/abcduser</a> </label><img src="images/close.png" alt="close" id="close" class="top_gap" /><a href="#social_connections" class="top_gap leanModal"><img src="images/i_icon.png" alt="icon" /></a>
+                    <label style="vertical-align: middle;"><img width="16" src="images/<?php echo $account_provider_name ?>_icon.png" alt="<?php echo $account_provider_name ?>" /> </label>
+                    <label class="l-a1"><?php echo ucfirst($account_provider_name); ?> connected <img src="images/close.png" alt="close" id="close" class="top_gap" /></label>
                 </div>
-                <div class="f_div">
-                    <label>Twitter <img src="images/twitter_icon.png" alt="twitter" /></label>
-                    <label class="l-a1"><a href="https://twitter.com/" target="_blank"><img src="images/twitter_icon2.png" alt="twitter" /></a> <a href="#"><img src="images/i_icon.png" alt="icon" /></a></label>
-                </div>
+              <?php 
+                }
+              ?>
                 <div class="f_div">
                     <label></label>
-                    <label class="l-a1"><a href="javascript:void(0)" id="addTumblr"><img src="images/plus.png" alt="plus" class="add_tum" /> Add More...</a> </label>
+                    <label class="l-a1"><a href="javascript:void(0)" id="addTumblr"><img src="images/plus.png" alt="plus" class="add_tum" /> Add</a> </label>
                 </div>
+                <?php } ?>
             </div>
         </section>
         <h1>Notifications</h1>
@@ -128,12 +143,12 @@
                 <div class="f_div">
                     <label>&nbsp;</label>
                     <input class="" type="checkbox" id="alarm-setting" data-label="Alarm Setting"/>
-                    <?php //<label class="l-a" for="alarm-setting"><strong>Alarm Setting</strong></label> ?>
+                    <label class="l-a" for="alarm-setting"><strong>Alarm Setting</strong></label>
                 </div>
                 <div class="f_div">
                     <label>&nbsp;</label>
-                    <?php /*<input type="checkbox" id="messages" />
-                    <label class="l-a" for="messages"><strong>Messages</strong></label>*/?>
+                    <input type="checkbox" id="messages" />
+                    <label class="l-a" for="messages"><strong>Messages</strong></label>
                     <input class="" type="checkbox" id="messages" data-label="Messages"/>
                     <div class="clear"></div>
                     <label>&nbsp;</label>
@@ -153,8 +168,8 @@
                 </div>
                 <div class="f_div">
                     <label>&nbsp;</label>
-                    <?php /*<input type="checkbox" id="updates" />
-                    <label class="l-a" for="updates"><strong>Updates</strong></label>*/?>
+                    <input type="checkbox" id="updates" />
+                    <label class="l-a" for="updates"><strong>Updates</strong></label>
                     <input class="" type="checkbox" id="updates" data-label="Updates"/>
                     <div class="clear"></div>
                     <label>&nbsp;</label>
