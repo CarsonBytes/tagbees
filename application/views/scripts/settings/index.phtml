@@ -118,14 +118,27 @@
               <?php
               if ($this->form_data['account_provider_names']!=null){
                 $account_provider_names = explode(',',$this->form_data['account_provider_names']);
-                foreach ($account_provider_names as $account_provider_name) {
-              ?>
+                $provider_ids = explode(',',$this->form_data['provider_ids']);
+                $identifiers = explode(',',$this->form_data['identifiers']);
+                foreach ($this->all_account_providers as $key => $value){
+                $i = array_search($key, $provider_ids);
+                if ($i !== false){ ?>
                 <div class="f_div">
-                    <label style="vertical-align: middle;"><img width="16" src="images/<?php echo $account_provider_name ?>_icon.png" alt="<?php echo $account_provider_name ?>" /> </label>
-                    <label class="l-a1"><?php echo ucfirst($account_provider_name); ?> connected <img src="images/close.png" alt="close" id="close" class="top_gap" /></label>
+                    <label style="vertical-align: middle;"><img width="16" src="images/<?php echo $account_provider_names[$i] ?>_icon.png" alt="<?php echo $account_provider_names[$i] ?>" /> </label>
+                    <label class="l-a1"><?php echo ucfirst($account_provider_names[$i]); ?> connected <a data-provider="<?php echo $provider_ids[$i] ?>" data-identifier="<?php echo $identifiers[$i] ?>" class="remove_social_network" href="#"><img src="images/close.png" alt="remove" /></a></label>
                 </div>
               <?php 
+                } else {
+              ?>
+                <div class="f_div">
+                    <label></label>
+                    <label class="l-a1"><a href="<?php echo $this->authUrl[$value] ?>" class="button <?php echo $value ?>"></a> </label>
+                </div>
+              
+              <?php 
                 }
+                $i++;
+              }
               ?>
                 <div class="f_div">
                     <label></label>

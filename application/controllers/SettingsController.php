@@ -15,14 +15,18 @@ class SettingsController extends Zend_Controller_Action {
   public function indexAction() {
     Common::getSession() -> nav = array('Home' => '/', 'Settings' => null);
 
+    $userService = new Service_User();
+    $this->view->all_account_providers = $userService->getAllAccountProviders();
+    $this->view->authUrl = $userService->getAllUserProviderLinks();
+
     $settingService = new Service_Setting();
-    $this->view->form_data = $settingService->get();
+    $this -> view -> form_data = $settingService -> get();
     //echo '<pre>';var_dump($this->view->form_data);echo '</pre>';die();
-    
+
     // for not commly changed data we store them in session...
     if (!isset($_SESSION['timezone'])) {
       $timezoneService = new Service_Timezone();
-      $_SESSION['timezone'] = $timezoneService->get();
+      $_SESSION['timezone'] = $timezoneService -> get();
     }
     if (!isset($_SESSION['timezone_json'])) {
       $js = array();

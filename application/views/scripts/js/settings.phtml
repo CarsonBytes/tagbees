@@ -9,6 +9,26 @@ if ($_SESSION['timezone_id']!=''){?>var timezone_id = '<?php echo $_SESSION['tim
     });
     //$('#birthday').datepicker("setDate", 'yy-mm-dd', today));
     */
+    
+    $('body').on('click', '.remove_social_network', function(){
+      var elem = $(this);
+      $.ajax({
+          url: "<?php echo $this->baseUrl('ajax/settings/delete_social_connection') ?>",
+          data: {
+              'provider_id':$(this).data('provider'),
+              'identifier':$(this).data('identifier'),
+          },
+          success: function(msg){
+            if (msg['result']){
+              elem.parents('.f_div').remove();
+            }else{
+              alert('<?php echo $this->translate('unknown error occured, please try again.')?>');
+            }
+          }
+      });
+      return false;
+   })
+   
     //timezone js
     if (timezone_id != '') {
       for (var i = 1; i < timezone.length; i = i + 2) {
@@ -41,5 +61,6 @@ if ($_SESSION['timezone_id']!=''){?>var timezone_id = '<?php echo $_SESSION['tim
       $('#city').hide().prop('disabled', 'disabled');
     }
   }
+  
 </script>
 <?php //echo $this->partial('js/template/filter/confirm_location_remove.phtml') ?>

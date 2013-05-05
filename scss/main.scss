@@ -10,6 +10,7 @@
 @import "page/_new-event.scss";
 @import "page/_event.scss";
 @import "page/_apps.scss";
+@import "page/_settings.scss";
 
 /********************************* EVENT PAGES ***********************************************/
 
@@ -271,8 +272,6 @@ input:disabled{ background:#EBEBE4;}
 
 .tag_category_inner{ height:130px; overflow-y:auto; border:1px solid #E0E0E0; padding:5px; @include border-radius(5px);}
 .category_nav{ width:137px;}
-.top_gap{ margin-top:3px; display:inline-block;}
-#close{ cursor:pointer;}
 /************************************************************************/
 .inner_post_right{ padding:10px 0 0 0;}
 /******************************************************************************/
@@ -406,6 +405,11 @@ input:disabled{ background:#EBEBE4;}
     float:left;
     p{padding:60px 5px;}
   }
+  .submit_btn{margin-right:57px;float:right;}
+  input{ border:1px solid #c0c0c0; display:inline-block; padding:2px 5px; font-size:12px; @include border-radius(5px);  background:white; width:200px; height:20px;}
+
+}
+.login_form, .settings_form{
   a.button {
       width: 251px;
       height: 42px;
@@ -440,9 +444,6 @@ input:disabled{ background:#EBEBE4;}
   a.button.google:active {
       background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -345px;
   }
-  .submit_btn{margin-right:57px;float:right;}
-  input{ border:1px solid #c0c0c0; display:inline-block; padding:2px 5px; font-size:12px; @include border-radius(5px);  background:white; width:200px; height:20px;}
-
 }
 .signup_form{
   padding: 10px 208px 10px 185px;

@@ -10,7 +10,7 @@ class Ajax_DialogController extends Zend_Controller_Action
     }
 
     public function saveLocationAction(){
-    	$this->view->title=$this->params['title'];
+      $this->view->title=$this->params['title'];
     }
     public function manageLocationAction(){
 		$locationService=new Service_Location();

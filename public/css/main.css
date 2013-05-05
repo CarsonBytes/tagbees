@@ -91,6 +91,26 @@ body #main_wrapper #main #content .breadcrumb .nav_content .separator { margin: 
 body #main_wrapper #main #content .main { padding: 15px 14px 18px 17px; }
 
 /************************************ body end *******************************************************/
+a.button { width: 251px; height: 42px; display: inline-block; cursor: pointer; clear: both; }
+
+a.button.facebook { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -1px; }
+
+a.button.facebook:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -44px; }
+
+a.button.facebook:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -87px; }
+
+a.button.twitter { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -130px; }
+
+a.button.twitter:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -173px; }
+
+a.button.twitter:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -216px; }
+
+a.button.google { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -259px; }
+
+a.button.google:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -302px; }
+
+a.button.google:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -345px; }
+
 /*@import "compass/css3/pie";*/
 /*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
 $pie-base-class: pie-element;*/
@@ -429,6 +449,11 @@ $pie-base-class: pie-element;*/
 .tag_con .download li a { background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZkZDUyNSIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZmFjZDE4Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjNiNTBhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fdd525), color-stop(50%, #facd18), color-stop(100%, #f3b50a)); background-image: -webkit-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: -moz-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: -o-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: linear-gradient(#fdd525, #facd18, #f3b50a); -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -o-border-radius: 10px; border-radius: 10px; padding: 5px 15px; text-decoration: none; color: #020202; font-weight: bold; }
 .tag_con .download .down-txt { font-size: 16px; }
 
+/*@import "compass/css3/pie";*/
+/*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
+$pie-base-class: pie-element;*/
+.remove_social_network { margin-top: 3px; }
+
 /********************************* EVENT PAGES ***********************************************/
 .mainevent { /*padding-top:11px;*/ }
 
@@ -716,10 +741,6 @@ input:disabled { background: #EBEBE4; }
 
 .category_nav { width: 137px; }
 
-.top_gap { margin-top: 3px; display: inline-block; }
-
-#close { cursor: pointer; }
-
 /************************************************************************/
 .inner_post_right { padding: 10px 0 0 0; }
 
@@ -814,18 +835,19 @@ input:disabled { background: #EBEBE4; }
 .login_form .col_right a { margin-bottom: 10px; }
 .login_form .or { float: left; }
 .login_form .or p { padding: 60px 5px; }
-.login_form a.button { width: 251px; height: 42px; display: inline-block; cursor: pointer; clear: both; }
-.login_form a.button.facebook { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -1px; }
-.login_form a.button.facebook:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -44px; }
-.login_form a.button.facebook:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -87px; }
-.login_form a.button.twitter { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -130px; }
-.login_form a.button.twitter:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -173px; }
-.login_form a.button.twitter:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -216px; }
-.login_form a.button.google { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -259px; }
-.login_form a.button.google:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -302px; }
-.login_form a.button.google:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -345px; }
 .login_form .submit_btn { margin-right: 57px; float: right; }
 .login_form input { border: 1px solid silver; display: inline-block; padding: 2px 5px; font-size: 12px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; background: white; width: 200px; height: 20px; }
+
+.login_form a.button, .settings_form a.button { width: 251px; height: 42px; display: inline-block; cursor: pointer; clear: both; }
+.login_form a.button.facebook, .settings_form a.button.facebook { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -1px; }
+.login_form a.button.facebook:hover, .settings_form a.button.facebook:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -44px; }
+.login_form a.button.facebook:active, .settings_form a.button.facebook:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -87px; }
+.login_form a.button.twitter, .settings_form a.button.twitter { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -130px; }
+.login_form a.button.twitter:hover, .settings_form a.button.twitter:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -173px; }
+.login_form a.button.twitter:active, .settings_form a.button.twitter:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -216px; }
+.login_form a.button.google, .settings_form a.button.google { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -259px; }
+.login_form a.button.google:hover, .settings_form a.button.google:hover { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -302px; }
+.login_form a.button.google:active, .settings_form a.button.google:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -345px; }
 
 .signup_form { padding: 10px 208px 10px 185px; }
 .signup_form input { width: 229px; height: 26px; }
