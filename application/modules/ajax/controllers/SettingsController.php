@@ -13,8 +13,8 @@ class Ajax_SettingsController extends Zend_Controller_Action
     }
     public function deleteSocialConnectionAction(){
         if (Zend_Auth::getInstance()->hasIdentity()){
-          $userService = new Service_User();
-          $userService->removeUserProviderAccount(
+          $authService = new Service_Auth();
+          $authService->removeProviderAccount(
             $this->params['provider_id'],$this->params['identifier']
           );
           $array['result'] = true;

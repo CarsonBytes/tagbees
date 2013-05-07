@@ -54,7 +54,7 @@ class Twitter implements \Zend_Auth_Adapter_Interface
 
     protected function _setOptions($options = null)
     {
-        $this->_options = Registry::get('config_ini')->twitter;
+        $this->_options = Registry::get('config_ini')->twitter->toArray();
     }
 
     protected function _setRequestToken($params)

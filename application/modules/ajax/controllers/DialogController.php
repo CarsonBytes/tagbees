@@ -39,10 +39,8 @@ class Ajax_DialogController extends Zend_Controller_Action
     public function uploadEventPicsAction(){
     }
     public function addLoginsAction(){
-        $serviceUser = new Service_User();
-        $provider_ids = explode(',',$serviceUser->getUserProviderIdsByUserId());
-        
         $serviceAuth = new Service_Auth();
+        $provider_ids = explode(',',$serviceAuth->getUserProviderIdsByUserId());
         
         if (!in_array($serviceAuth->getProviderIdByName('google'), $provider_ids))
             $this->view->googleAuthUrl = TBS\Auth\Adapter\Google::getAuthorizationUrl($this->view->serverUrl() . $this->view->baseUrl('setting?provider=google'));

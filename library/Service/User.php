@@ -215,67 +215,6 @@ class Service_User{
         return $this->db->fetchOne($select);
     }
     
-    public function addUserProviderAccount($provider_id, $identifier){
-        $data = array(
-            'user_id' => $this->identity->item_id,
-            'provider_id' => $provider_id,
-            'identifier' => $identifier,
-            'create_time'=>date('Y-m-d H:i:s')
-        );
-        return $this->db->insert('user_account',$data);
-    }
-
-    public function removeUserProviderAccount($provider_id, $identifier){
-        $where = array(
-            'user_id = ?' => $this->identity->item_id,
-            'provider_id  = ?' => $provider_id,
-            'identifier  = ?' => $identifier
-        );
-        
-        $serviceAuth = new Service_Auth();
-        $auth = TBS\Auth::getInstance();
-        $auth->clearIdentity($serviceAuth->getProviderIdByName($provider_id));
-        
-        return $this->db->delete('user_account',$where);
-    }
-    
-    public function getAllAccountProviders(){
-        $select = 
-            $this->db->select()
-                ->from('account_provider');
-        $packed = array();
-        foreach ($this->db->fetchAll($select) as $value){
-          $packed[$value['id']] = $value['name'];
-        }
-        return $packed;
-    }
-    
-    public function getAllUserProviderLinks(){
-        $serviceUser = new Service_User();
-        $provider_ids = explode(',',$serviceUser->getUserProviderIdsByUserId());
-        
-      $absUrl = 'http://' . $_SERVER['HTTP_HOST'] . Zend_Controller_Front::getInstance()->getRequest()->getRequestUri();
-      $serviceAuth = new Service_Auth();
-      $authUrl = array();
-  
-      if (!in_array($serviceAuth -> getProviderIdByName('google'), $provider_ids))
-        $authUrl['google'] = TBS\Auth\Adapter\Google::getAuthorizationUrl($absUrl);
-      if (!in_array($serviceAuth -> getProviderIdByName('facebook'), $provider_ids))
-        $authUrl['facebook'] = TBS\Auth\Adapter\Facebook::getAuthorizationUrl($absUrl);
-      if (!in_array($serviceAuth -> getProviderIdByName('twitter'), $provider_ids))
-        $authUrl['twitter'] = \TBS\Auth\Adapter\Twitter::getAuthorizationUrl($absUrl);
-        return $authUrl;
-    }
-    
-    public function getUserProviderIdsByUserId($user_id = ''){
-        $select = 
-            $this->db->select()
-                ->from('user_account',array('provider_ids'=>new Zend_Db_Expr('GROUP_CONCAT(provider_id)')))
-                ->where('user_id = ?',is_int($user_id) ? $user_id : $this->identity->item_id)
-                ->group('user_id');
-        return $this->db->fetchOne($select);
-    }
-    
     public function getUserByConfirmCode($confirm_code = ''){
         $this->db->setFetchMode(Zend_Db::FETCH_OBJ);
         $select = 
