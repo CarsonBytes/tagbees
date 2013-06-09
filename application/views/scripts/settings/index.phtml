@@ -1,204 +1,208 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
 <?php echo $this -> partial('js/settings.phtml'); ?>
-<article class="main shadow">
-    <section class="mainevent settings_form">
-        <h1>Manage Your Details</h1>
-        <div class="event_div event_form">
-            <div class="eventtype">
-                <div class="e_type_div clearfix">
-                    <div class="profileLeft">
-                        <div class="all_e_div"><img src="images/man.gif" alt=""/>
-                        </div>
-                        <a href="#uploadThumbnail" class="upload leanModal">Upload an image</a>
-                    </div>
-                    <div class="profile_right">
-                        <h6>Hello !</h6>
-                        <p>
-                            <strong>Customise your Tagbees.com experience.</strong>
-                            <br />
-                            Please give us more information about you to help us provide you with relevant information and offers.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <article class="event_div2 event_con">
-                <div class="eventtype">
-                    <h6>Your TagBees.com Memberships</h6>
-                    <p>
-                        You are currently a member of TagBees.com sites. To opt-out please select logout from the popup window of the register / login.
-                    </p>
-                </div>
-            </article>
-        </div>
-        <h1>Personal Information</h1>
-        <section class="event_div event_form">
-            <div class="eventtype">
-                <div class="f_div">
-                    <label for="user-name"><?php echo $this->translate('Display Name')?></label>
-                    <input type="text" id="user-name" name="name" class="middle changetxt" value="<?php echo $this->form_data['name'] ?>"/>
-                    <?php //<label class="l-a1" id="changeInput"><strong>change</strong></label> ?>
-                </div>
-                <div class="f_div">
-                    <label class="place_res" for="place-of-residence"><?php echo $this->translate('Place of residence')?></label>
-                    <input type="text" id="place-of-residence" class="middle" value="<?php echo $this->form_data['place'] ?>" />
-                    <label class="l-a1 settingMap"><?php echo $this->translate('Hide Map')?></label>
-                </div>
-                <div class="f_div" id="settingMapDiv">
-                    <label>&nbsp;</label>
-                    <div class="f_map"><img src="images/map-form.gif" alt=" " />
-                    </div>
-                </div>
-                <div class="f_div">
-                    <label>Gender</label>
-                    <select class="smallSel">
-                        <option value="" <?php if ($this->form_data['gender']==''){ ?>selected="selected"<?php } ?>></option>
-                        <option value="M" <?php if ($this->form_data['gender']=='M'){ ?>selected="selected"<?php } ?>>Male</option>
-                        <option value="F" <?php if ($this->form_data['gender']=='F'){ ?>selected="selected"<?php } ?>>Female</option>
-                    </select>
-                    <?php /*<input type="radio" id="male" name="gender" />
-                       <label class="l-a3" for="male"><strong>Male</strong></label>
-                       <input type="radio" id="female" name="gender" />
-                       <label class="l-a3" for="female"><strong>Female</strong></label>*/
- ?>
-                    <select class="smallSel">
-                        <option>Public</option>
-                    </select>
-                    <?php /*<label class="l-a1" style="margin-left:15px;"><strong>Birthday</strong></label>
-                       <input type="text" id="birthday" name="birthday" class="m-input" />
-                       <select class="smallSel small_gap1">
-                       <option>Public</option>
-                       </select> */
-                    ?>
-                </div>
-                <div class="f_div">
-                    <label for="homepage">Homepage</label>
-                    <input type="text" class="middle1" id="homepage" value="<?php echo $this->form_data['homepage'] ?>" />
-                    <select class="smallSel small_gap1">
-                        <option>Public</option>
-                    </select>
-                </div>
-                <div class="f_div">
-                    <label for="email">Email</label>
-                    <input type="text" value="<?php echo $this->form_data['email'] ?>" class="middle1" id="email" />
-                    <select class="smallSel small_gap1">
-                        <option>Public</option>
-                    </select>
-                </div>
-                <div class="f_div">
-                    <label for="description">Description</label>
-                    <textarea class="middle1" id="description" value="<?php echo $this->form_data['description'] ?>"></textarea>
-                    <select class="smallSel small_gap1">
-                        <option>Public</option>
-                    </select>
-                </div>
-                <div class="f_div">
-                    <label>Time Zone</label>
-                    <select class="country" style="width:190px" id="country" >
-                        <?php $country=array();
-                        foreach($_SESSION['timezone'] as $timezone){
-                          if (!in_array($timezone['country'],$country)){?>
-                        <option value="<?php echo $timezone['country_code'] ?>"><?php echo $timezone['country']?></option>
-                        <?php  $country[] = $timezone['country'];
-                          }
-                          }
-                     ?>
-                    </select>
-                    <select class="city" style="display:none;width:189px" name="timezone_id" id="city"></select>
-                    <select class="smallSel small_gap1">
-                        <option>Public</option>
-                    </select>
-                </div>
-             <div>
+<form action="" method="POST">
+  <div class="main shadow">
+      <section class="mainevent settings_form">
+          <h1>Manage Your Details</h1>
+          <div class="event_div event_form">
+              <div class="eventtype">
+                  <div class="e_type_div clearfix">
+                      <div class="profileLeft">
+                          <div class="all_e_div"><img src="images/man.gif" alt=""/>
+                          </div>
+                          <a href="#uploadThumbnail" class="upload leanModal">Upload an image</a>
+                      </div>
+                      <div class="profile_right">
+                          <h6>Hello !</h6>
+                          <p>
+                              <strong>Customise your Tagbees.com experience.</strong>
+                              <br />
+                              Please give us more information about you to help us provide you with relevant information and offers.
+                          </p>
+                      </div>
+                  </div>
+              </div>
+              <div class="event_div2 event_con">
+                  <div class="eventtype">
+                      <h6>Your TagBees.com Memberships</h6>
+                      <p>
+                          You are currently a member of TagBees.com sites. To opt-out please select logout from the popup window of the register / login.
+                      </p>
+                  </div>
+              </div>
           </div>
-        </div>
-        </section>
-        <h1>Social Connections</h1>
-        <section class="event_div event_form">
-            <div class="eventtype">
-              <?php
-              $provider_ids = array();
-              if ($this->form_data['account_provider_names']!=null){
-                $account_provider_names = explode(',',$this->form_data['account_provider_names']);
-                $provider_ids = explode(',',$this->form_data['provider_ids']);
-                $identifiers = explode(',',$this->form_data['identifiers']);
-              }
-                foreach ($this->all_account_providers as $key => $value){
-                $i = array_search($key, $provider_ids);
-                if ($i !== false){ ?>
-                <div class="f_div connected  provider_<?php echo $provider_ids[$i] ?>">
-                    <label style="vertical-align: middle;"><img width="16" src="images/<?php echo $account_provider_names[$i] ?>_icon.png" alt="<?php echo $account_provider_names[$i] ?>" /> </label>
-                    <label class="l-a1"><?php echo ucfirst($account_provider_names[$i]); ?> connected <a data-provider-id="<?php echo $provider_ids[$i] ?>" data-provider-name="<?php echo $account_provider_names[$i] ?>" data-identifier="<?php echo $identifiers[$i] ?>" class="remove_social_network" href="#"><img src="images/close.png" alt="remove" /></a></label>
-                </div>
-                <div class="f_div to_connect provider_<?php echo $provider_ids[$i] ?>" style="display:none;">
-                    <label></label>
-                    <label class="l-a1"><a href="<?php echo $this->authUrl[$value] ?>" class="button <?php echo $value ?>"></a> </label>
-                </div>
-              <?php 
+          <h1>Personal Information</h1>
+          <section class="event_div event_form">
+              <div class="eventtype">
+                  <div class="f_div">
+                      <label for="user-name"><?php echo $this->translate('Display Name')?></label>
+                      <input type="text" id="user-name" name="name" class="middle changetxt" value="<?php echo $this->form_data['name'] ?>"/>
+                      <?php //<label class="l-a1" id="changeInput"><strong>change</strong></label> ?>
+                  </div>
+                  <div class="f_div">
+                      <label class="place_res" for="place"><?php echo $this->translate('Place of residence')?></label>
+                      <input type="text" name="place" class="middle" value="<?php echo $this->form_data['place'] ?>" />
+                      <label class="l-a1 settingMap"><?php echo $this->translate('Hide Map')?></label>
+                  </div>
+                  <div class="f_div" id="settingMapDiv">
+                      <label>&nbsp;</label>
+                      <div class="f_map"><img src="images/map-form.gif" alt=" " />
+                      </div>
+                  </div>
+                  <div class="f_div">
+                      <label for="gender">Gender</label>
+                      <select class="smallSel" name="gender">
+                          <option value="" <?php if ($this->form_data['gender']==''){ ?>selected="selected"<?php } ?>></option>
+                          <option value="M" <?php if ($this->form_data['gender']=='M'){ ?>selected="selected"<?php } ?>>Male</option>
+                          <option value="F" <?php if ($this->form_data['gender']=='F'){ ?>selected="selected"<?php } ?>>Female</option>
+                      </select>
+                      <?php /*<input type="radio" id="male" name="gender" />
+                         <label class="l-a3" for="male"><strong>Male</strong></label>
+                         <input type="radio" id="female" name="gender" />
+                         <label class="l-a3" for="female"><strong>Female</strong></label>*/
+   ?>
+   <?php echo $this->partial('partials/settings/input/privacy.phtml',array('name'=>'privacy_gender', 'value'=>$this->form_data['privacy_gender'])); ?>
+                      <?php /*<label class="l-a1" style="margin-left:15px;"><strong>Birthday</strong></label>
+                         <input type="text" id="birthday" name="birthday" class="m-input" />
+                         <select class="smallSel small_gap1">
+                         <option>Public</option>
+                         </select> */
+                      ?>
+                  </div>
+                  <div class="f_div">
+                      <label for="homepage">Homepage</label>
+                      <input type="text" class="middle1" name="homepage" id="homepage" value="<?php echo $this->form_data['homepage'] ?>" />
+   <?php echo $this->partial('partials/settings/input/privacy.phtml',array('name'=>'privacy_homepage', 'value'=>$this->form_data['privacy_homepage'])); ?>
+                  </div>
+                  <div class="f_div">
+                      <label for="email">Email</label>
+                      <input type="text" value="<?php echo $this->form_data['email'] ?>" class="middle1" id="email" />
+   <?php echo $this->partial('partials/settings/input/privacy.phtml',array('name'=>'privacy_email', 'value'=>$this->form_data['privacy_email'])); ?>
+                  </div>
+                  <div class="f_div">
+                      <label for="description">Description</label>
+                      <textarea class="middle1" id="description" value="<?php echo $this->form_data['description'] ?>"></textarea>
+   <?php echo $this->partial('partials/settings/input/privacy.phtml',array('name'=>'privacy_description', 'value'=>$this->form_data['privacy_description'])); ?>
+                  </div>
+                  <div class="f_div">
+                      <label>Time Zone</label>
+                      <select class="country" style="width:190px" id="country" >
+                          <?php $country=array();
+                          foreach($_SESSION['timezone'] as $timezone){
+                            if (!in_array($timezone['country'],$country)){?>
+                          <option value="<?php echo $timezone['country_code'] ?>"><?php echo $timezone['country']?></option>
+                          <?php  $country[] = $timezone['country'];
+                            }
+                            }
+                       ?>
+                      </select>
+                      <select class="city" style="display:none;width:189px" name="timezone_id" id="city"></select>
+   <?php echo $this->partial('partials/settings/input/privacy.phtml',array('name'=>'privacy_timezone', 'value'=>$this->form_data['privacy_timezone'])); ?>
+                  </div>
+               <div>
+            </div>
+          </div>
+          </section>
+          <h1>Social Connections</h1>
+          <section class="event_div event_form">
+              <div class="eventtype">
+                <?php
+                $provider_ids = array();
+                if ($this->form_data['account_provider_names']!=null){
+                  $account_provider_names = explode(',',$this->form_data['account_provider_names']);
+                  $provider_ids = explode(',',$this->form_data['provider_ids']);
+                  $identifiers = explode(',',$this->form_data['identifiers']);
+                }
+                  foreach ($this->all_account_providers as $key => $value){
+                  $i = array_search($key, $provider_ids);
+                  if ($i !== false){ ?>
+                  <div class="f_div connected  provider_<?php echo $provider_ids[$i] ?>">
+                      <label style="vertical-align: middle;"><img width="16" src="images/<?php echo $account_provider_names[$i] ?>_icon.png" alt="<?php echo $account_provider_names[$i] ?>" /> </label>
+                      <label class="l-a1"><?php echo ucfirst($account_provider_names[$i]); ?> connected <a data-provider-id="<?php echo $provider_ids[$i] ?>" data-provider-name="<?php echo $account_provider_names[$i] ?>" data-identifier="<?php echo $identifiers[$i] ?>" class="remove_social_network" href="#"><img src="images/close.png" alt="remove" /></a></label>
+                  </div>
+                  <div class="f_div to_connect provider_<?php echo $provider_ids[$i] ?>" style="display:none;">
+                      <label></label>
+                      <label class="l-a1"><a href="<?php echo $this->authUrl[$value] ?>" class="button <?php echo $value ?>"></a> </label>
+                  </div>
+                <?php
                 } else {
-              ?>
-                <div class="f_div">
-                    <label></label>
-                    <label class="l-a1"><a href="<?php echo $this->authUrl[$value] ?>" class="button <?php echo $value ?>"></a> </label>
-                </div>
-              <?php 
+                ?>
+                  <div class="f_div">
+                      <label></label>
+                      <label class="l-a1"><a href="<?php echo $this->authUrl[$value] ?>" class="button <?php echo $value ?>"></a> </label>
+                  </div>
+                <?php
                 }
                 $i++;
-              }
-              ?>
-            </div>
-        </section>
-        <h1>Notifications</h1>
-        <section class="event_div event_form notifications">
-            <div class="eventtype">
+                }
+                ?>
                 <div class="f_div">
-                    <label class="l-a1"><strong>Receive notifications for these events</strong></label>
+                  <label>&nbsp;</label>
+                  <input type="hidden" name="social_post_bookmark_add" value="0" />
+                  <input type="checkbox" id="social_post_bookmark_add" name="social_post_bookmark_add" <?php if ($this->form_data['social_post_bookmark_add'] == 1){ ?>checked="checked"<?php } ?> data-label="Post when bookmark is added" value="1"/>
+                  <label class="l-a" for="social_post_bookmark_add">Post to wall when I add a bookmark </label>
                 </div>
                 <div class="f_div">
-                    <label>&nbsp;</label>
-                    <input class="" type="checkbox" id="alarm-setting" data-label="Alarm Setting"/>
-                    <label class="l-a" for="alarm-setting"><strong>Alarm Setting</strong></label>
+                  <label>&nbsp;</label>
+                  <input type="hidden" name="social_post_event_add" value="0" />
+                  <input type="checkbox" id="social_post_event_add" name="social_post_event_add" <?php if ($this->form_data['social_post_event_add'] == 1){ ?>checked="checked" <?php } ?> data-label="Post when event is added" value="1"/>
+                  <label class="l-a" for="social_post_event_add">Post to wall when I add an event </label>
                 </div>
-                <div class="f_div">
-                    <label>&nbsp;</label>
-                    <input type="checkbox" id="messages" />
-                    <label class="l-a" for="messages"><strong>Messages</strong></label>
-                    <input class="" type="checkbox" id="messages" data-label="Messages"/>
-                    <div class="clear"></div>
-                    <label>&nbsp;</label>
-                    <div class="list list_gap">
-                        <ul>
-                            <li>
-                                Your fan publish a social event
-                            </li>
-                            <li>
-                                Someone writes on your message board
-                            </li>
-                            <li>
-                                Someone comments on your event
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="f_div">
-                    <label>&nbsp;</label>
-                    <input type="checkbox" id="updates" />
-                    <label class="l-a" for="updates"><strong>Updates</strong></label>
-                    <input class="" type="checkbox" id="updates" data-label="Updates"/>
-                    <div class="clear"></div>
-                    <label>&nbsp;</label>
-                    <div class="list list_gap">
-                        <ul>
-                            <li>
-                                Important announcements from Tagbees
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="f_div div_center">
-                    <input type="submit" value="Save" class="submit1" />
-                    <input type="submit" value="Restore" class="submit2" />
-                </div>
-            </div>
-        </section>
-    </section>
-</article>
+              </div>
+          </section>
+          <h1>Notifications</h1>
+          <section class="event_div event_form notifications">
+              <div class="eventtype">
+                  <div class="f_div">
+                      <label class="l-a1"><strong>Receive notifications for these events</strong></label>
+                  </div>
+                  <div class="f_div">
+                      <label>&nbsp;</label>
+                      <input class="" type="checkbox" id="alarm-setting" data-label="Alarm Setting"/>
+                      <label class="l-a" for="alarm-setting"><strong>Alarm Setting</strong></label>
+                  </div>
+                  <div class="f_div">
+                      <label>&nbsp;</label>
+                      <input type="checkbox" id="messages" />
+                      <label class="l-a" for="messages"><strong>Messages</strong></label>
+                      <input class="" type="checkbox" id="messages" data-label="Messages"/>
+                      <div class="clear"></div>
+                      <label>&nbsp;</label>
+                      <div class="list list_gap">
+                          <ul>
+                              <li>
+                                  Your fan publish a social event
+                              </li>
+                              <li>
+                                  Someone writes on your message board
+                              </li>
+                              <li>
+                                  Someone comments on your event
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="f_div">
+                      <label>&nbsp;</label>
+                      <input type="checkbox" id="updates" />
+                      <label class="l-a" for="updates"><strong>Updates</strong></label>
+                      <input class="" type="checkbox" id="updates" data-label="Updates"/>
+                      <div class="clear"></div>
+                      <label>&nbsp;</label>
+                      <div class="list list_gap">
+                          <ul>
+                              <li>
+                                  Important announcements from Tagbees
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="f_div div_center">
+                      <input type="submit" value="Save" class="submit1" />
+                      <?php /*<input type="submit" value="Restore" class="submit2" /> */ ?>
+                  </div>
+              </div>
+          </section>
+      </section>
+  </div>
+</form>

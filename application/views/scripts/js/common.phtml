@@ -398,7 +398,7 @@ function navigateToUrl(url) {
             $(this).parents('.flash_message').fadeOut(400);
             return false;
         })
-        $('.login').qtip({
+        $('.login_info .login').qtip({
             content: {
                 text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
                 ajax: {

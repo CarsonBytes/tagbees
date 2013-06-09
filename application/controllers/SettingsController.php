@@ -28,7 +28,7 @@ class SettingsController extends Zend_Controller_Action {
                 if ($this->_hasParam('code')) {
                     $adapter = new TBS\Auth\Adapter\Facebook(
                         $this->_getParam('code'), 
-                        $this->view->serverUrl() . $this->view->baseUrl('setting?provider=facebook')
+                        $this->view->serverUrl() . $this->view->baseUrl('settings?provider=facebook')
                     );
                     $result = $auth->authenticate($adapter);
                 }
@@ -85,6 +85,9 @@ class SettingsController extends Zend_Controller_Action {
             }
         }
         $this->_redirect('settings');
+    } else if ($this->getRequest()->isPost()){
+      $settingService = new Service_Setting();
+      $settingService->save($this->_request->getPost());
     }
     $this->view->all_account_providers = $authService->getAllProviders();
     $this->view->authUrl = $authService->getAllProviderLinks();
