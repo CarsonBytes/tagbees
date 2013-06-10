@@ -69,6 +69,30 @@ input{
 .ui-slider{
   width:240px;float:left;
 }
+
+.profile_pic{ width:125px; padding:5px; background-color:white;float:left;
+     &:link {background:#fff;}
+     &:hover{ background:#F5F5F5;}
+     &:active {background:#f0bc05;}
+    h6{ padding:7px 0 3px 0; text-align:center;}
+}
+
+.profile_right{ float:right; width:454px; position:relative;
+    h6{ font-size:14px;}
+    p{ padding-top:8px;}
+}
+.upload_user_thumbnail{ @include black-gradient; font-weight:bold; color:white !important; display:inline-block; text-align:center; padding:2px 0 3px; text-decoration:none; @include border-radius(4px); width:100%; margin-top:3px;
+      &:link { @include black-gradient; color:white;}
+      &:hover{ @include yellow-gradient; color:black !important;}
+      &:active{ background:#000;  color:white !important;}
+  }
+  
+.div_center{text-align:center;
+    *{margin-left:auto;margin-right:auto;}
+}
+
+input:disabled{ background:#EBEBE4;}
+
 /************************************ general end *******************************************************/
 
 /************************************ body start *******************************************************/
@@ -125,6 +149,16 @@ body {
                 .main{
                     padding:15px 14px 18px 17px;
                 }
+                .main_inner, .tag_con{
+                    h1{
+                      @include yellow-gradient; 
+                      color:#2f3031; 
+                      font-size:22px; 
+                      font-weight:normal; 
+                      padding:3px 0 5px 17px; 
+                      @include border-radius(4px);
+                   }
+                }
             }
         }
         .container{
@@ -132,6 +166,7 @@ body {
         }
     }
 }
+
 /************************************ body end *******************************************************/
 
 a.button {

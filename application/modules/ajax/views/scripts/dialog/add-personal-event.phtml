@@ -1,16 +1,16 @@
 <style>
-.add_personal_event_div .reminder_tags h3{
+.add_personal_grey_area .reminder_tags h3{
 	color:blue;
 	font-weight:normal;
 }
-.add_personal_event_div .reminder_tags .tag_input{
+.add_personal_grey_area .reminder_tags .tag_input{
 	margin: 5px 0;
     width: 275px;
 }
-.add_personal_event_div .reminder_tags .tag_suggestion *{
+.add_personal_grey_area .reminder_tags .tag_suggestion *{
 	color:grey !important;
 }
-.add_personal_event_div .close{
+.add_personal_grey_area .close{
     padding: 1px;
 	position:absolute;
 	right:5px;
@@ -19,30 +19,30 @@
 	color:grey !important;
 	cursor:pointer;
 }
-.add_personal_event_div .name{
+.add_personal_grey_area .name{
 	width: 304px;
 }
-.add_personal_event_div .description{
+.add_personal_grey_area .description{
 	width: 306px;
 	margin-top: 10px;
 	height: 150px;
 	padding-left: 3px;
 	resize: none;
 }
-.add_personal_event_div .info_line {
+.add_personal_grey_area .info_line {
 	padding: 10px;
 	background: #F2F2F1;
 	width: 310px;
 	margin-bottom: 20px;
 }
 
-.add_personal_event_div .begin_date,
-.add_personal_event_div .end_date{
+.add_personal_grey_area .begin_date,
+.add_personal_grey_area .end_date{
 	width: 85px;
 }
 
-.add_personal_event_div .begin_time,
-.add_personal_event_div .end_time{
+.add_personal_grey_area .begin_time,
+.add_personal_grey_area .end_time{
 	width:43px;
 }
 .time-picker{
@@ -50,7 +50,7 @@
 }
 </style>
 
-<div class="add_personal_event_div">
+<div class="add_personal_grey_area">
 	<form>
 	<input style="margin-bottom:10px;" class="name" name="name" type="text" value=""/>
 
@@ -87,25 +87,25 @@
 
 <script type="text/javascript">
 jQuery(function($){
-	$(".add_personal_event_div .description").watermark("<?php echo $this->translate('Event detail') ?>");
-	$(".add_personal_event_div .name").watermark("<?php echo $this->translate('Event topic') ?>");
-	$(".add_personal_event_div .tag_input").watermark("<?php echo $this->translate('以逗號分隔，方便搜尋及有效管理') ?>");
-	$(".add_personal_event_div .begin_date").watermark("<?php echo $this->translate('Begin Date') ?>");
-	$(".add_personal_event_div .begin_time").watermark("<?php echo $this->translate('Begin Time') ?>");
-	$(".add_personal_event_div .end_date").watermark("<?php echo $this->translate('End Date') ?>");
-	$(".add_personal_event_div .end_time").watermark("<?php echo $this->translate('End Time') ?>");
+	$(".add_personal_grey_area .description").watermark("<?php echo $this->translate('Event detail') ?>");
+	$(".add_personal_grey_area .name").watermark("<?php echo $this->translate('Event topic') ?>");
+	$(".add_personal_grey_area .tag_input").watermark("<?php echo $this->translate('以逗號分隔，方便搜尋及有效管理') ?>");
+	$(".add_personal_grey_area .begin_date").watermark("<?php echo $this->translate('Begin Date') ?>");
+	$(".add_personal_grey_area .begin_time").watermark("<?php echo $this->translate('Begin Time') ?>");
+	$(".add_personal_grey_area .end_date").watermark("<?php echo $this->translate('End Date') ?>");
+	$(".add_personal_grey_area .end_time").watermark("<?php echo $this->translate('End Time') ?>");
 
-	$('.add_personal_event_div .begin_time, .add_personal_event_div .end_time').timePicker({
+	$('.add_personal_grey_area .begin_time, .add_personal_grey_area .end_time').timePicker({
 		startTime: "00:00", // Using string. Can take string or Date object.
 		endTime: "23:59", // Using Date object here.
 		show24Hours: true,
 		separator: ':',
 		step: 15}
 	);
-	$.timePicker(".add_personal_event_div .begin_time").setTime('00:00');
-	$.timePicker(".add_personal_event_div .end_time").setTime('00:00');
+	$.timePicker(".add_personal_grey_area .begin_time").setTime('00:00');
+	$.timePicker(".add_personal_grey_area .end_time").setTime('00:00');
 
-	var dates = $('.add_personal_event_div .begin_date, .add_personal_event_div .end_date').datepicker({
+	var dates = $('.add_personal_grey_area .begin_date, .add_personal_grey_area .end_date').datepicker({
 		defaultDate: "+1w",
 		changeMonth: true,
 		changeYear: true,

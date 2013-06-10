@@ -2,18 +2,18 @@
 <?php echo $this -> partial('js/settings.phtml'); ?>
 <form action="" method="POST">
   <div class="main shadow">
-      <section class="mainevent settings_form">
+      <div class="main_inner settings_form">
           <h1>Manage Your Details</h1>
-          <div class="event_div event_form">
-              <div class="eventtype">
+          <div class="grey_area">
+              <div class="area_inner">
                   <div class="e_type_div clearfix">
                       <div class="profileLeft">
-                          <div class="all_e_div"><img src="images/man.gif" alt=""/>
+                          <div class="profile_pic"><img src="images/man.gif" alt=""/>
                           </div>
-                          <a href="#uploadThumbnail" class="upload leanModal">Upload an image</a>
+                          <a href="#" class="upload_user_thumbnail">Upload an image</a>
                       </div>
                       <div class="profile_right">
-                          <h6>Hello !</h6>
+                          <h2>Hello !</h2>
                           <p>
                               <strong>Customise your Tagbees.com experience.</strong>
                               <br />
@@ -22,9 +22,9 @@
                       </div>
                   </div>
               </div>
-              <div class="event_div2 event_con">
-                  <div class="eventtype">
-                      <h6>Your TagBees.com Memberships</h6>
+              <div class="deep_grey_area">
+                  <div class="area_inner">
+                      <h2>Your TagBees.com Memberships</h2>
                       <p>
                           You are currently a member of TagBees.com sites. To opt-out please select logout from the popup window of the register / login.
                       </p>
@@ -32,8 +32,8 @@
               </div>
           </div>
           <h1>Personal Information</h1>
-          <section class="event_div event_form">
-              <div class="eventtype">
+          <div class="grey_area">
+              <div class="area_inner">
                   <div class="f_div">
                       <label for="user-name"><?php echo $this->translate('Display Name')?></label>
                       <input type="text" id="user-name" name="name" class="middle changetxt" value="<?php echo $this->form_data['name'] ?>"/>
@@ -102,10 +102,10 @@
                <div>
             </div>
           </div>
-          </section>
+          </div>
           <h1>Social Connections</h1>
-          <section class="event_div event_form">
-              <div class="eventtype">
+          <div class="grey_area">
+              <div class="area_inner">
                 <?php
                 $provider_ids = array();
                 if ($this->form_data['account_provider_names']!=null){
@@ -149,10 +149,10 @@
                   <label class="l-a" for="social_post_event_add">Post to wall when I add an event </label>
                 </div>
               </div>
-          </section>
+          </div>
           <h1>Notifications</h1>
-          <section class="event_div event_form notifications">
-              <div class="eventtype">
+          <div class="grey_area notifications">
+              <div class="area_inner">
                   <div class="f_div">
                       <label class="l-a1"><strong>Receive notifications for these events</strong></label>
                   </div>
@@ -202,7 +202,7 @@
                       <?php /*<input type="submit" value="Restore" class="submit2" /> */ ?>
                   </div>
               </div>
-          </section>
-      </section>
+          </div>
+      </div>
   </div>
 </form>

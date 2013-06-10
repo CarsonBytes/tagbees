@@ -1,9 +1,9 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
 <?php echo $this -> partial('js/new_event.phtml'); ?>
 <article class="main shadow">
-    <section class="mainevent">
+    <section class="main_inner event_form">
         <h1>Post An Event</h1>
-        <section class="event_div event_form">
+        <section class="grey_area">
             <div class="eventtype">
                 <div class="e_type_div">
                     <label>Event Type</label>
@@ -11,13 +11,13 @@
                         <div class="all_div clearfix">
                             <ul>
                                 <li>
-                                    <a href="JavaScript:void(1);" class="all_e_div allgap"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6>Public Event</h6> </a>
+                                    <a href="JavaScript:void(1);" class="profile_pic allgap"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6>Public Event</h6> </a>
                                 </li>
                                 <li>
-                                    <a href="JavaScript:void(2);" class="all_e_div allgap"> <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/> <h6>Private Event</h6> </a>
+                                    <a href="JavaScript:void(2);" class="profile_pic allgap"> <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/> <h6>Private Event</h6> </a>
                                 </li>
                                 <li>
-                                    <a href="JavaScript:void(3);" class="all_e_div"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6>Attraction</h6> </a>
+                                    <a href="JavaScript:void(3);" class="profile_pic"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6>Attraction</h6> </a>
                                 </li>
                             </ul>
                         </div>
@@ -104,7 +104,7 @@
                     <?php //<input type="text" value="Hong Kong (+08:00)" class="middle2" /> ?>
                 </div>
             </div>
-            <div class="event_div2">
+            <div class="deep_grey_area">
                 <div class="eventtype clearfix">
                     <div class="f_div">
                         <label>&nbsp;</label>

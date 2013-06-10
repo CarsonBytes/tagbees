@@ -1,20 +1,97 @@
 @import "../_init.scss";
 
-/* new advanced event */
-.accordion_button1{ 
-    @include yellow-gradient; 
-    color:#2f3031; 
-    font-size:13px; 
-    font-weight:bold; 
-    @include border-radius(4px); 
-    margin-bottom:1px; 
-    cursor:pointer; 
-    color:#2f3031; 
-    text-decoration:none; 
-    padding:6px 0 8px 17px; 
-    display:block;
-    &:link { @include yellow-gradient;}
-    &:hover{@include black-gradient; color:white;}
-    &:active{ background:#E6E6E6; color:black;}
+.event_form, .advanced_event_form{
+  /* new advanced event */
+  .accordion_button1{ 
+      @include yellow-gradient; 
+      color:#2f3031; 
+      font-size:13px; 
+      font-weight:bold; 
+      @include border-radius(4px); 
+      margin-bottom:1px; 
+      cursor:pointer; 
+      color:#2f3031; 
+      text-decoration:none; 
+      padding:6px 0 8px 17px; 
+      display:block;
+      &:link { @include yellow-gradient;}
+      &:hover{@include black-gradient; color:white;}
+      &:active{ background:#E6E6E6; color:black;}
+  }
+  .accordion_button1.active {@include black-gradient; color:white;}
+  
+  
+  .grey_area{ @include border-radius(4px); background:#f2f2f2; padding:10px 0 0; line-height:17px;}
+  .deep_grey_area{ @include border-radius(4px); background:#cdcdcd; padding-top:22px;}
+  .eventtype{ padding:0 19px;
+      p{ line-height:17px;}
+  }
+  a{ color:$color; text-decoration:none; }
+  label{ width:108px; display:inline-block; padding:3px 10px 0 0; text-align:right; font-weight:bold;}
+  label.place_res{ width:118px; margin-left:-12px;}
+  label.l-a, label.l-a1, label.l-a2, label.l-a3{ width:auto; font-weight:normal;}
+  label.l-a{ /*padding-top:0; */padding-right:5px;}
+  label.l-a1{ padding-left:3px; padding-right:3px;}
+  label.l-a2{ padding-right:0;}
+label.l-a3{ padding-left:0; padding-right:6px;}
+  input, textarea, select{ border:1px solid #e0e0e0; background-color:white;font-family:Arial, Helvetica, sans-serif; font-size:13px; @include border-radius(4px); }
+  input, textarea{ padding:2px 10px; color:$in-color;}
+  input{ height:17px;}
+  input.full, textarea.full{ width:466px;}
+  input.middle{ width:250px;}
+  input.middle1{ width:363px;}
+  textarea.middle1{  width:363px;}
+  input.middle2{ width:150px;}
+  input.c-gap{ margin-right:10px; margin-top:1px;}
+  input.time-gap{ margin-left:59px;}
+  /*input.smallInput{ width:51px;}*/
+  .date_input{width:70px;text-align:center;}
+  .time_input{width:70px;text-align:center;}
+  input.m-input{ width:110px; padding:2px 5px;}
+  select{  padding:2px; height:25px;}
+  select.auto_select{ height:auto; width:190px;} 
+  select.category_select{ height:auto; width:141px} 
+  .category_optgroup{ height:auto; width:190px; float:left;}
+  select.smallSel{ width:85px;}
+  select.smallSel1{ width:209px;}
+  select.middleSel{ /*width:247px;*/}
+  input[type="checkbox"], input[type="radio"]{ width:auto; height:auto; border:none; background:none; padding:0;}
+  input[type="submit"]{ @include border-radius(6px); padding: 3px 13px 6px; font-size:13px; font-weight:bold; width:auto; height:auto; cursor:pointer; border:1px solid white; margin:0 10px;}
+  input.submit1, input.submit4{ @include yellow-gradient; color:$color;}
+  input.submit2{ @include black-gradient; color:white;}
+  input.submit3{ background:url(../images/btn_bg2.gif) repeat-x left top #c4c4c4; color:$color;} 
+  .input-right{ margin-right:5px;}   
+  .timezone_trigger{}
+  .timezone_input {display:none;
+    .city{width:242px;}
+    .country{width:189px;margin:3px 5px 0 0;}
+  }
+  
+  .show_hide_map{ cursor:pointer;}
+  .allgap{ margin-right:40px;}
+  .e_type_div{ padding-bottom:10px;}
+  
+  .allevent{ display:inline-block; width:486px;
+      p{ padding:0 0 0 7px;}
+  }
+  .all_div{  padding-bottom:23px;
+     li a.active { background:#f5f5f5;}
+       
+  }
+  
+  
+  .f_div{ width:100%; display:block; padding-bottom:6px;}
+  .f_div1{ display:inline-block;
+      .checkbox{ display:inline-block;}
+  }
+  
+  .f_div2{ margin-left:59px;}
+  .f_map{ border:1px solid #d1d1d1;}
+  .f_map, .f_c_r{ display:inline-block; width:485px;}
+  
+  .choose{ text-align:center; color:white; background:#9a9a9a; height:19px; padding:2px 10px; width:466px; display:inline-block; text-decoration:none;
+       &:hover{ background:#096DB9; color:#fff;}
+       &:active {background:#f0bc05; color:#000;}
+  }
+  .chose_active{background:#f0bc05; color:#000;}
 }
-.accordion_button1.active {@include black-gradient; color:white;}
