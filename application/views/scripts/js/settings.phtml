@@ -61,6 +61,8 @@ if ($_SESSION['timezone_id']!=''){?>var timezone_id = '<?php echo $_SESSION['tim
       $('#city').hide().prop('disabled', 'disabled');
     }
   }
-  
 </script>
+<?php if (Zend_Registry::get('config_ini')->server->online==1){
+    echo $this->partial('js/settings/map.phtml');
+} ?>
 <?php //echo $this->partial('js/template/filter/confirm_location_remove.phtml') ?>

@@ -234,7 +234,7 @@ function handle_geolocation_query(position){
         jQuery('#map_wrapper').toggle(0);
         initMap();
         feed_para['is_show_map']=1;
-        $('..feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
+        $('.feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
     }
     feed_para['lat']=position.coords.latitude;
     feed_para['lng']=position.coords.longitude;

@@ -1,0 +1,168 @@
+<?php
+if (isset(Common::getSession()->user_signup->display_lang)){
+    if (Common::getSession()->user_signup->display_lang=='zh-hk')$language='zh-tw';
+    else $language=Common::getSession()->user_signup->display_lang;
+}else{
+    $language='en';
+}?>
+
+<script type="text/javascript">
+var marker;
+var map;
+var home_icon='<?php echo $this->baseUrl('images/map/home.png')?>';
+var autocomplete;
+var settings_form_lat = <?php echo isset(Common::getSession()->settings_form->lat) && Common::getSession()->settings_form->lat!=''  ? Common::getSession()->settings_form->lat : 'null' ?>;
+var settings_form_lng = <?php echo isset(Common::getSession()->settings_form->lng) && Common::getSession()->settings_form->lng!=''  ? Common::getSession()->settings_form->lng : 'null' ?>;
+
+
+function initMap() {
+  // autocomplete init + customization when hitting enter, the first result should be queried
+  var pac_input = document.getElementById('place');
+  autocomplete = new google.maps.places.Autocomplete(pac_input);
+  autocomplete.bindTo('bounds', map);
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      updateMapByPlace(autocomplete.getPlace());
+  });
+  (function pacSelectFirst(input) {
+      // store the original event binding function
+      var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
+  
+      function addEventListenerWrapper(type, listener) {
+          // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected,
+          // and then trigger the original listener.
+          if (type == "keydown") {
+              var orig_listener = listener;
+              listener = function(event) {
+                  var suggestion_selected = $(".pac-item.pac-selected").length > 0;
+                  if (event.which == 13 && !suggestion_selected) {
+                      var simulated_downarrow = $.Event("keydown", {
+                          keyCode: 40,
+                          which: 40
+                      });
+                      orig_listener.apply(input, [simulated_downarrow]);
+                  }
+  
+                  orig_listener.apply(input, [event]);
+              };
+          }
+  
+          _addEventListener.apply(input, [type, listener]);
+      }
+  
+      input.addEventListener = addEventListenerWrapper;
+      input.attachEvent = addEventListenerWrapper;
+  
+      var autocomplete = new google.maps.places.Autocomplete(input);
+          autocomplete.bindTo('bounds', map);
+  
+  })(pac_input);
+  
+  var position;
+  
+  var mapDiv = document.getElementById('map');
+      map = new google.maps.Map(mapDiv, {
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoomControl:true,
+        scrollwheel: false
+      });
+  
+  // check if there is user defined latlng
+  if (settings_form_lat.length && settings_form_lng.length){
+    position = new google.maps.LatLng(settings_form_lat, settings_form_lng);  
+    
+    map.setCenter(position);
+    
+    marker = new google.maps.Marker({
+      position: position,
+      map: map
+    });
+  } else {
+    position = new google.maps.LatLng('22.3964280', '114.1094970');  
+    map.setCenter(position);
+  }
+}
+
+function updateMapByPlace(place){
+    marker.setVisible(false);
+    
+    if (!place.geometry) {
+        //var content = [{'error' : 'Your input place was not found. please correct the input.'}] ;
+        //showFlashMessages(content);
+        // Inform the user that a place was not found and return.
+        alert ("please ensure you have input the right location.")
+        return false;
+    }
+        // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+
+
+}
+
+// trigger from the geolocate image button
+function handleGeolocation(){
+    // Try HTML5 geolocation
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = new google.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+        map.setZoom(11);
+        
+        marker = new google.maps.Marker({
+            position: pos,
+            map: map
+        });
+        
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'location': pos,'language':'<?php echo $language; ?>'}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              $('input[name"place"]').val(results[1].formatted_address);
+              return;
+            }
+          }
+        });
+      }, handleGeolocationErrors);
+    } else {
+      // Browser doesn't support Geolocation
+      alert('Your browser doesn\'t support Geolocation!');
+    }
+  
+}
+function handleGeolocationErrors(error)
+{
+    $('#feed-settings-page .location_settings').toggle();
+    switch(error.code)
+    {
+        case error.PERMISSION_DENIED: alert("Please enable geo location function in your device and try again.");
+        break;
+
+        case error.POSITION_UNAVAILABLE: alert("Current position could not be detected.");
+        break;
+
+        case error.TIMEOUT: alert("Retrieving position timed out.");
+        break;
+
+        default: alert("Unknown error.");
+        break;
+    }
+}
+
+
+jQuery(function($){
+    initMap();
+    $('body').on('click', '#geo_locate', function(){
+      handleGeolocation();
+      return false;
+    })
+});
+
+</script>

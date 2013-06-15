@@ -41,13 +41,14 @@
                   </div>
                   <div class="f_div">
                       <label class="place_res" for="place"><?php echo $this->translate('Place of residence')?></label>
-                      <input type="text" name="place" class="middle" value="<?php echo $this->form_data['place'] ?>" />
-                      <label class="l-a1 settingMap"><?php echo $this->translate('Hide Map')?></label>
+                      <input id="place" type="text" name="place" class="middle" value="<?php echo $this->form_data['place'] ?>"/>
+                      <img id="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
                   </div>
-                  <div class="f_div" id="settingMapDiv">
+                  <div class="f_div">
                       <label>&nbsp;</label>
-                      <div class="f_map"><img src="images/map-form.gif" alt=" " />
-                      </div>
+                      <input type="hidden" name="lat" value="<?php echo $this->form_data['lat'] ?>"/>
+                      <input type="hidden" name="lng" value="<?php echo $this->form_data['lng'] ?>"/>
+                      <div id="map"></div>
                   </div>
                   <div class="f_div">
                       <label for="gender">Gender</label>
@@ -88,7 +89,7 @@
                       <label>Time Zone</label>
                       <select class="country" style="width:190px" id="country" >
                           <?php $country=array();
-                          foreach($_SESSION['timezone'] as $timezone){
+                          foreach(Common::getSession()->timezone as $timezone){
                             if (!in_array($timezone['country'],$country)){?>
                           <option value="<?php echo $timezone['country_code'] ?>"><?php echo $timezone['country']?></option>
                           <?php  $country[] = $timezone['country'];
