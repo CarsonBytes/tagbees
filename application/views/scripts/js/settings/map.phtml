@@ -16,48 +16,6 @@ var settings_form_lng = <?php echo isset(Common::getSession()->settings_form->ln
 
 
 function initMap() {
-  // autocomplete init + customization when hitting enter, the first result should be queried
-  var pac_input = document.getElementById('place');
-  autocomplete = new google.maps.places.Autocomplete(pac_input);
-  autocomplete.bindTo('bounds', map);
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      updateMapByPlace(autocomplete.getPlace());
-  });
-  (function pacSelectFirst(input) {
-      // store the original event binding function
-      var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
-  
-      function addEventListenerWrapper(type, listener) {
-          // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected,
-          // and then trigger the original listener.
-          if (type == "keydown") {
-              var orig_listener = listener;
-              listener = function(event) {
-                  var suggestion_selected = $(".pac-item.pac-selected").length > 0;
-                  if (event.which == 13 && !suggestion_selected) {
-                      var simulated_downarrow = $.Event("keydown", {
-                          keyCode: 40,
-                          which: 40
-                      });
-                      orig_listener.apply(input, [simulated_downarrow]);
-                  }
-  
-                  orig_listener.apply(input, [event]);
-              };
-          }
-  
-          _addEventListener.apply(input, [type, listener]);
-      }
-  
-      input.addEventListener = addEventListenerWrapper;
-      input.attachEvent = addEventListenerWrapper;
-  
-      var autocomplete = new google.maps.places.Autocomplete(input);
-          autocomplete.bindTo('bounds', map);
-  
-  })(pac_input);
-  
-  var position;
   
   var mapDiv = document.getElementById('map');
       map = new google.maps.Map(mapDiv, {
@@ -66,6 +24,16 @@ function initMap() {
         zoomControl:true,
         scrollwheel: false
       });
+      
+  // autocomplete init + customization when hitting enter, the first result should be queried
+  var ac_input = document.getElementById('place');
+  autocomplete = new google.maps.places.Autocomplete(ac_input);
+  autocomplete.bindTo('bounds', map);
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      updateMapByPlace(autocomplete.getPlace());
+  });
+  
+  var position;
   
   // check if there is user defined latlng
   if (settings_form_lat.length && settings_form_lng.length){
@@ -84,6 +52,12 @@ function initMap() {
 }
 
 function updateMapByPlace(place){
+    if(typeof marker == 'undefined'){
+      marker = new google.maps.Marker({
+        map: map
+      });
+    }
+  
     marker.setVisible(false);
     
     if (!place.geometry) {
@@ -98,7 +72,7 @@ function updateMapByPlace(place){
       map.fitBounds(place.geometry.viewport);
     } else {
       map.setCenter(place.geometry.location);
-      map.setZoom(17);  // Why 17? Because it looks good.
+      map.setZoom(17);  
     }
 
     marker.setPosition(place.geometry.location);
@@ -114,19 +88,16 @@ function handleGeolocation(){
       navigator.geolocation.getCurrentPosition(function(position) {
         var pos = new google.maps.LatLng(position.coords.latitude,
                                          position.coords.longitude);
-        map.setZoom(11);
-        
-        marker = new google.maps.Marker({
-            position: pos,
-            map: map
-        });
         
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({'location': pos,'language':'<?php echo $language; ?>'}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             if (results[1]) {
-              $('input[name"place"]').val(results[1].formatted_address);
-              return;
+              
+              updateMapByPlace(results[0]);
+              
+              $('input[name="place"]').val(results[1].formatted_address);
+              
             }
           }
         });
@@ -157,12 +128,47 @@ function handleGeolocationErrors(error)
 }
 
 
+ function selectFirstResult() {
+    $(".pac-container").hide();
+    var firstResult = $(".pac-container .pac-item:first").text();
+    
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({"address":firstResult }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              updateMapByPlace(results[0]);
+              $('input[name="place"]').val(results[1].formatted_address);
+            }
+        }
+    });   
+ }
+
 jQuery(function($){
     initMap();
-    $('body').on('click', '#geo_locate', function(){
-      handleGeolocation();
-      return false;
-    })
+    $('body')
+      .on('click', '#geo_locate', function(){
+        handleGeolocation();
+        return false;
+      })
+      .keypress(function(e){
+          if ( e.which == 13 ) return false;
+      });    
+    
+    
+    $("input#place")
+      .focusin(function () {
+          $(document).keypress(function (e) {
+              if (e.which == 13) {
+                   selectFirstResult();
+              }
+          });
+      })
+      .focusout(function () {
+          if(!$(".pac-container").is(":focus") && !$(".pac-container").is(":visible"))
+              selectFirstResult();
+      });
+    
+    
 });
 
 </script>

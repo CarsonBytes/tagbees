@@ -577,6 +577,7 @@ $pie-base-class: pie-element;*/
 .settings_form .grey_area .f_map { border: 1px solid #d1d1d1; }
 .settings_form .grey_area .remove_social_network { margin-top: 3px; }
 .settings_form .grey_area .area_inner { padding: 0 19px; }
+.settings_form .grey_area #map { height: 191px; width: 100%; overflow: hidden; position: relative; border: 1px solid #d1d1d1; }
 .settings_form .grey_area.notifications .prettycheckbox label { text-align: left; }
 .settings_form .grey_area.notifications .list_gap { padding-left: 34px; }
 
