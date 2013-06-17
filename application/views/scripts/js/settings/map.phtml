@@ -19,7 +19,6 @@ function initMap() {
   
   var mapDiv = document.getElementById('map');
       map = new google.maps.Map(mapDiv, {
-        zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         zoomControl:true,
         scrollwheel: false
@@ -35,18 +34,20 @@ function initMap() {
   
   var position;
   
-  // check if there is user defined latlng
-  if (settings_form_lat.length && settings_form_lng.length){
+  // check if there is user defined latlng in input
+  if (isNumber(settings_form_lat) && isNumber(settings_form_lng)){
     position = new google.maps.LatLng(settings_form_lat, settings_form_lng);  
     
     map.setCenter(position);
+    map.setZoom(17);  
     
     marker = new google.maps.Marker({
       position: position,
       map: map
     });
   } else {
-    position = new google.maps.LatLng('22.3964280', '114.1094970');  
+    position = new google.maps.LatLng('22.3964280', '114.1094970');
+    map.setZoom(9);  
     map.setCenter(position);
   }
 }
@@ -77,7 +78,9 @@ function updateMapByPlace(place){
 
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
-
+     
+    jQuery('input[name="lat"]').val(place.geometry.location.lat());
+    jQuery('input[name="lng"]').val(place.geometry.location.lng());
 
 }
 
