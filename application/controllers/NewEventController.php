@@ -2,12 +2,17 @@
 class NewEventController extends Zend_Controller_Action
 {
     
-    public function preDispatch(){
+  public function preDispatch() {
+    if (!Zend_Auth::getInstance() -> hasIdentity()) {
+      $this -> _redirect('/auth/login?redirect=' . urlencode($this -> getRequest() -> REQUEST_URI));
+      return false;
     }
+  }
+
     
     public function init()
     {
-        $this->view->headTitle('Account - Create Event');
+        $this->view->headTitle('Tagbees - Create Event');
     }
     
     public function indexAction()

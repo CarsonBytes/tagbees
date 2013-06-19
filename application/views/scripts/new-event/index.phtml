@@ -49,12 +49,14 @@
                     <input type="text" class="full"  />
                 </div>
                 <div class="f_div">
-                    <label class="show_hide_map">Place Show Map</label>
-                    <input type="text" class="full" />
+                    <label class="show_hide_map">Place</label>
+                    <input id="place" type="text" name="place" class="full" value="<?php echo $this->form_data['place'] ?>"/>
+                    <img id="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
                 </div>
                 <div class="f_div event_map">
-                    <label>&nbsp;</label>
-                    <div class="f_map"><img src="<?php echo $this->baseUrl('images/map-form.gif')?>" alt=" " />
+                    <input type="hidden" name="lat" value="<?php echo $this->form_data['lat'] ?>"/>
+                    <input type="hidden" name="lng" value="<?php echo $this->form_data['lng'] ?>"/>
+                    <div id="map"></div>
                     </div>
                 </div>
                 <div class="f_div">

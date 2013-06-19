@@ -63,13 +63,6 @@
     .area_inner{ 
       padding:0 19px;
     }
-    
-    #map{
-      height: 191px;width: 100%;
-      overflow: hidden;
-      position: relative;
-      border: 1px solid #d1d1d1;
-    }
     &.notifications{
       .prettycheckbox {
         label{text-align:left;}

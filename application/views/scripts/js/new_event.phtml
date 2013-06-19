@@ -29,4 +29,7 @@
         });
     });
 </script>
+<?php if (Zend_Registry::get('config_ini')->server->online==1){
+    echo $this->partial('js/new_event/map.phtml');
+} ?>
 <?php //echo $this->partial('js/template/user/upload_thumbnail.phtml') ?>

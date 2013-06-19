@@ -131,25 +131,6 @@ jQuery(function($){
 
 });
 
-$(function() {
-    $(".show_hide_map").toggle(function (){
-        $(".show_hide_map").text("Place Hide Map").stop();
-        $( ".event_map" ).slideUp("slow");
-    }, function(){
-       $(".show_hide_map").text("Place Show Map").stop();
-       $( ".event_map" ).slideDown("slow");
-    });
-    
-    $(".show_hide_map1").toggle(function (){
-        $(".show_hide_map1").text("Place Hide Map").stop();
-        $( ".event_map1" ).slideUp("slow");
-    }, function(){
-       $(".show_hide_map1").text("Place Show Map").stop();
-       $( ".event_map1" ).slideDown("slow");
-    });
-    
-});
-
 </script> 
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.leanModal.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery.leanModal1.min.js')?>"></script>

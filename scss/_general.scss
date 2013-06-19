@@ -203,3 +203,15 @@ a.button.google:hover {
 a.button.google:active {
     background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -345px;
 }
+
+/* map autocomplete */
+#geo_locate{
+  cursor:pointer;
+}
+#map{
+  height: 191px;width: 100%;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #d1d1d1;
+  margin-bottom: 5px;
+}

@@ -12,8 +12,8 @@ var map;
 var home_icon='<?php echo $this->baseUrl('images/map/home.png')?>';
 var autocomplete;
 
-var form_lat = <?php echo isset(Common::getSession()->settings_form->lat) && Common::getSession()->settings_form->lat!=''  ? Common::getSession()->settings_form->lat : 'null' ?>;
-var form_lng = <?php echo isset(Common::getSession()->settings_form->lng) && Common::getSession()->settings_form->lng!=''  ? Common::getSession()->settings_form->lng : 'null' ?>;
+var form_lat = <?php echo isset(Common::getSession()->new_event_form->lat) && Common::getSession()->new_event_form->lat!=''  ? Common::getSession()->new_event_form->lat : 'null' ?>;
+var form_lng = <?php echo isset(Common::getSession()->new_event_form->lng) && Common::getSession()->new_event_form->lng!=''  ? Common::getSession()->new_event_form->lng : 'null' ?>;
 var mapDiv_ID = 'map';
 var ac_input_ID = 'place';
 var lat_input_selector = 'input[name="lat"]';

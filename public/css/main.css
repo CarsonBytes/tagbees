@@ -132,6 +132,11 @@ a.button.google:hover { background: url("http://blog.christianstrang.de/wp-conte
 
 a.button.google:active { background: url("http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png") no-repeat -2px -345px; }
 
+/* map autocomplete */
+#geo_locate { cursor: pointer; }
+
+#map { height: 191px; width: 100%; overflow: hidden; position: relative; border: 1px solid #d1d1d1; margin-bottom: 5px; }
+
 /*@import "compass/css3/pie";*/
 /*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
 $pie-base-class: pie-element;*/
@@ -437,6 +442,7 @@ $pie-base-class: pie-element;*/
 .event_form input, .event_form textarea, .advanced_event_form input, .advanced_event_form textarea { padding: 2px 10px; color: gray; }
 .event_form input, .advanced_event_form input { height: 17px; }
 .event_form input.full, .event_form textarea.full, .advanced_event_form input.full, .advanced_event_form textarea.full { width: 466px; }
+.event_form input.full#place, .event_form textarea.full#place, .advanced_event_form input.full#place, .advanced_event_form textarea.full#place { width: 450px; }
 .event_form input.middle, .advanced_event_form input.middle { width: 250px; }
 .event_form input.middle1, .advanced_event_form input.middle1 { width: 363px; }
 .event_form textarea.middle1, .advanced_event_form textarea.middle1 { width: 363px; }
@@ -577,7 +583,6 @@ $pie-base-class: pie-element;*/
 .settings_form .grey_area .f_map { border: 1px solid #d1d1d1; }
 .settings_form .grey_area .remove_social_network { margin-top: 3px; }
 .settings_form .grey_area .area_inner { padding: 0 19px; }
-.settings_form .grey_area #map { height: 191px; width: 100%; overflow: hidden; position: relative; border: 1px solid #d1d1d1; }
 .settings_form .grey_area.notifications .prettycheckbox label { text-align: left; }
 .settings_form .grey_area.notifications .list_gap { padding-left: 34px; }
 
