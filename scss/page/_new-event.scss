@@ -23,7 +23,7 @@
   
   .grey_area{ @include border-radius(4px); background:#f2f2f2; padding:10px 0 0; line-height:17px;}
   .deep_grey_area{ @include border-radius(4px); background:#cdcdcd; padding-top:22px;}
-  .eventtype{ padding:0 19px;
+  .horizontal-padding{ padding:0 19px;
       p{ line-height:17px;}
   }
   a{ color:$color; text-decoration:none; }
@@ -54,7 +54,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   .timepicker{width:70px;text-align:center;}
   input.m-input{ width:110px; padding:2px 5px;}
   select{  padding:2px; height:25px;}
-  select.auto_select{ height:auto; width:190px;} 
+  /*select.auto_select{ height:auto; width:190px;}*/ 
   select.category_select{ height:auto; width:141px} 
   .category_optgroup{ height:auto; width:190px; float:left;}
   select.smallSel{ width:85px;}
@@ -82,10 +82,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   }
   .all_div{  padding-bottom:23px;
      li a.active { background:#f5f5f5;}
-       
   }
-  
-  
   .f_div{ width:100%; padding-bottom:6px;}
   .f_div1{ display:inline-block;
       .checkbox{ display:inline-block;}
@@ -100,6 +97,14 @@ label.l-a3{ padding-left:0; padding-right:6px;}
        &:active {background:#f0bc05; color:#000;}
   }
   .chose_active{background:#f0bc05; color:#000;}
-  
-  
+  .tree_text{display:inline-block;line-height:20px !important;}
+}
+#add_tree {
+  margin-left: 2px;
+  select {
+    float: left; 
+    height: auto;
+    padding: 5px;
+    width: 33%;
+  }
 }
