@@ -23,7 +23,7 @@
       input.c-gap{ margin-right:10px; margin-top:1px;}
       input.time-gap{ margin-left:59px;}
       .date_input{width:70px;text-align:center;}
-      .time_input{width:70px;text-align:center;}
+      .timepicker{width:70px;text-align:center;}
       input.m-input{ width:110px; padding:2px 5px;}
       select{  padding:2px; height:25px;}
       select.auto_select{ height:auto; width:190px;} 
@@ -37,12 +37,8 @@
       input.submit1, input.submit4{ @include yellow-gradient; color:$color;}
       input.submit2{ @include black-gradient; color:white;}
       input.submit3{ background:url(../images/btn_bg2.gif) repeat-x left top #c4c4c4; color:$color;} 
-      .input-right{ margin-right:5px;}   
+      .input-right{ margin-right:5px;}  
       .timezone_trigger{}
-      .timezone_input {display:none;
-        .city{width:242px;}
-        .country{width:189px;margin:3px 5px 0 0;}
-      }
     .deep_grey_area{ 
       @include border-radius(4px); 
       background:#cdcdcd; 

@@ -1,6 +1,5 @@
-	<?php //print_r($this->user_saved_location)?>
+	<?php //print_r($this->user_saved_location) ?>
 <?php if (!empty($this->user_saved_location)){?>
-<div style="override-y:hidden;">
 	<table class="show_item_likes_list">
 	<?php foreach($this->user_saved_location as $location){
 		?>
@@ -13,10 +12,10 @@
 				<a class="delete_user_saved_location" href="#"><?php echo $this->translate('delete')?></a>
 			</td>
 		</tr>
-		<?php 
-	}?>
+		<?php
+      }
+    ?>
 	</table>
-</div>
-<?php }else{?>
+<?php }else{ ?>
 	<p><?php echo $this->translate('no saved locations')?>...</p>
-<?php }?>
+<?php } ?>

@@ -137,6 +137,30 @@ a.button.google:active { background: url("http://blog.christianstrang.de/wp-cont
 
 #map { height: 191px; width: 100%; overflow: hidden; position: relative; border: 1px solid #d1d1d1; margin-bottom: 5px; }
 
+/* jquery timepicker */
+/* css for timepicker */
+.ui-timepicker-wrapper { overflow-y: auto; height: 150px; width: 6.5em; background: #fff; border: 1px solid #dddddd; -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); outline: none; z-index: 10001; margin: 0; }
+
+.ui-timepicker-wrapper.ui-timepicker-with-duration { width: 11em; }
+
+.ui-timepicker-list { margin: 0; padding: 0; list-style: none; }
+
+.ui-timepicker-duration { margin-left: 5px; color: #888; }
+
+.ui-timepicker-list:hover .ui-timepicker-duration { color: #888; }
+
+.ui-timepicker-list li { padding: 3px 0 3px 5px; cursor: pointer; white-space: nowrap; color: #000; list-style: none; margin: 0; }
+
+.ui-timepicker-list:hover .ui-timepicker-selected { background: #fff; color: #000; }
+
+li.ui-timepicker-selected, .ui-timepicker-list li:hover, .ui-timepicker-list .ui-timepicker-selected:hover { background: #1980EC; color: #fff; }
+
+li.ui-timepicker-selected .ui-timepicker-duration, .ui-timepicker-list li:hover .ui-timepicker-duration { color: #ccc; }
+
+.ui-timepicker-list li.ui-timepicker-disabled, .ui-timepicker-list li.ui-timepicker-disabled:hover, .ui-timepicker-list li.ui-timepicker-selected.ui-timepicker-disabled { color: #888; cursor: default; }
+
+.ui-timepicker-list li.ui-timepicker-disabled:hover, .ui-timepicker-list li.ui-timepicker-selected.ui-timepicker-disabled { background: #f2f2f2; }
+
 /*@import "compass/css3/pie";*/
 /*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
 $pie-base-class: pie-element;*/
@@ -431,7 +455,7 @@ $pie-base-class: pie-element;*/
 .event_form .eventtype, .advanced_event_form .eventtype { padding: 0 19px; }
 .event_form .eventtype p, .advanced_event_form .eventtype p { line-height: 17px; }
 .event_form a, .advanced_event_form a { color: #020202; text-decoration: none; }
-.event_form label, .advanced_event_form label { width: 108px; display: inline-block; padding: 3px 10px 0 0; text-align: right; font-weight: bold; }
+.event_form label, .advanced_event_form label { width: 108px; display: inline-block; padding: 3px 10px 0 0; text-align: right; font-weight: bold; vertical-align: top; }
 .event_form label.place_res, .advanced_event_form label.place_res { width: 118px; margin-left: -12px; }
 .event_form label.l-a, .event_form label.l-a1, .event_form label.l-a2, .event_form label.l-a3, .advanced_event_form label.l-a, .advanced_event_form label.l-a1, .advanced_event_form label.l-a2, .advanced_event_form label.l-a3 { width: auto; font-weight: normal; }
 .event_form label.l-a, .advanced_event_form label.l-a { /*padding-top:0; */ padding-right: 5px; }
@@ -450,7 +474,7 @@ $pie-base-class: pie-element;*/
 .event_form input.c-gap, .advanced_event_form input.c-gap { margin-right: 10px; margin-top: 1px; }
 .event_form input.time-gap, .advanced_event_form input.time-gap { margin-left: 59px; }
 .event_form .date_input, .advanced_event_form .date_input { width: 70px; text-align: center; }
-.event_form .time_input, .advanced_event_form .time_input { width: 70px; text-align: center; }
+.event_form .timepicker, .advanced_event_form .timepicker { width: 70px; text-align: center; }
 .event_form input.m-input, .advanced_event_form input.m-input { width: 110px; padding: 2px 5px; }
 .event_form select, .advanced_event_form select { padding: 2px; height: 25px; }
 .event_form select.auto_select, .advanced_event_form select.auto_select { height: auto; width: 190px; }
@@ -475,7 +499,7 @@ $pie-base-class: pie-element;*/
 .event_form .allevent p, .advanced_event_form .allevent p { padding: 0 0 0 7px; }
 .event_form .all_div, .advanced_event_form .all_div { padding-bottom: 23px; }
 .event_form .all_div li a.active, .advanced_event_form .all_div li a.active { background: #f5f5f5; }
-.event_form .f_div, .advanced_event_form .f_div { width: 100%; display: block; padding-bottom: 6px; }
+.event_form .f_div, .advanced_event_form .f_div { width: 100%; padding-bottom: 6px; }
 .event_form .f_div1, .advanced_event_form .f_div1 { display: inline-block; }
 .event_form .f_div1 .checkbox, .advanced_event_form .f_div1 .checkbox { display: inline-block; }
 .event_form .f_div2, .advanced_event_form .f_div2 { margin-left: 59px; }
@@ -556,7 +580,7 @@ $pie-base-class: pie-element;*/
 .settings_form .grey_area input.c-gap { margin-right: 10px; margin-top: 1px; }
 .settings_form .grey_area input.time-gap { margin-left: 59px; }
 .settings_form .grey_area .date_input { width: 70px; text-align: center; }
-.settings_form .grey_area .time_input { width: 70px; text-align: center; }
+.settings_form .grey_area .timepicker { width: 70px; text-align: center; }
 .settings_form .grey_area input.m-input { width: 110px; padding: 2px 5px; }
 .settings_form .grey_area select { padding: 2px; height: 25px; }
 .settings_form .grey_area select.auto_select { height: auto; width: 190px; }
@@ -571,9 +595,6 @@ $pie-base-class: pie-element;*/
 .settings_form .grey_area input.submit2 { background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzcxNzE3NCIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjNjU2NjY4Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNDc0NzQ4Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #717174), color-stop(50%, #656668), color-stop(100%, #474748)); background-image: -webkit-linear-gradient(#717174, #656668, #474748); background-image: -moz-linear-gradient(#717174, #656668, #474748); background-image: -o-linear-gradient(#717174, #656668, #474748); background-image: linear-gradient(#717174, #656668, #474748); color: white; }
 .settings_form .grey_area input.submit3 { background: url(../images/btn_bg2.gif) repeat-x left top #c4c4c4; color: #020202; }
 .settings_form .grey_area .input-right { margin-right: 5px; }
-.settings_form .grey_area .timezone_input { display: none; }
-.settings_form .grey_area .timezone_input .city { width: 242px; }
-.settings_form .grey_area .timezone_input .country { width: 189px; margin: 3px 5px 0 0; }
 .settings_form .grey_area .deep_grey_area { -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; background: #cdcdcd; padding-top: 22px; padding-bottom: 22px; }
 .settings_form .grey_area .deep_grey_area p { padding-top: 15px; }
 .settings_form .grey_area .f_div { width: 100%; display: block; padding-bottom: 6px; }
@@ -819,7 +840,7 @@ $pie-base-class: pie-element;*/
 .simple_personal_event_form .timezone_input .city { width: 242px; }
 .simple_personal_event_form .timezone_input .country { width: 189px; margin: 3px 5px 0 0; }
 .simple_personal_event_form .date_input { width: 70px; text-align: center; }
-.simple_personal_event_form .time_input { width: 70px; text-align: center; }
+.simple_personal_event_form .timepicker { width: 70px; text-align: center; }
 .simple_personal_event_form label { padding: 0; }
 .simple_personal_event_form label.l-a, .simple_personal_event_form label.l-a1, .simple_personal_event_form label.l-a2, .simple_personal_event_form label.l-a3 { width: auto; font-weight: normal; }
 .simple_personal_event_form label.l-a { /*padding-top:0; */ padding-right: 5px; }

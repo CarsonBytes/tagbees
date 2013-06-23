@@ -27,7 +27,7 @@
       p{ line-height:17px;}
   }
   a{ color:$color; text-decoration:none; }
-  label{ width:108px; display:inline-block; padding:3px 10px 0 0; text-align:right; font-weight:bold;}
+  label{ width:108px; display:inline-block; padding:3px 10px 0 0; text-align:right; font-weight:bold; vertical-align: top}
   label.place_res{ width:118px; margin-left:-12px;}
   label.l-a, label.l-a1, label.l-a2, label.l-a3{ width:auto; font-weight:normal;}
   label.l-a{ /*padding-top:0; */padding-right:5px;}
@@ -51,7 +51,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   input.time-gap{ margin-left:59px;}
   /*input.smallInput{ width:51px;}*/
   .date_input{width:70px;text-align:center;}
-  .time_input{width:70px;text-align:center;}
+  .timepicker{width:70px;text-align:center;}
   input.m-input{ width:110px; padding:2px 5px;}
   select{  padding:2px; height:25px;}
   select.auto_select{ height:auto; width:190px;} 
@@ -67,7 +67,8 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   input.submit3{ background:url(../images/btn_bg2.gif) repeat-x left top #c4c4c4; color:$color;} 
   .input-right{ margin-right:5px;}   
   .timezone_trigger{}
-  .timezone_input {display:none;
+  .timezone_input {
+    display:none;
     .city{width:242px;}
     .country{width:189px;margin:3px 5px 0 0;}
   }
@@ -85,7 +86,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   }
   
   
-  .f_div{ width:100%; display:block; padding-bottom:6px;}
+  .f_div{ width:100%; padding-bottom:6px;}
   .f_div1{ display:inline-block;
       .checkbox{ display:inline-block;}
   }

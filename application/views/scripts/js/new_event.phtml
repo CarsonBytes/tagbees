@@ -5,8 +5,10 @@
         $('#event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
         $('#event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
         
+        $('.timepicker').timepicker({ 'timeFormat': 'H:i', step : 15 });
+        
         //tuning date range (no reversed date range)
-        var sidebar_dates2 = $('#event_begin_date, #event_end_date').datepicker({
+        var event_dates = $('#event_begin_date, #event_end_date').datepicker({
             defaultDate: "+1w",
             changeMonth: true,
             changeYear: true,
@@ -17,13 +19,12 @@
                         instance.settings.dateFormat ||
                         $.datepicker._defaults.dateFormat,
                         selectedDate, instance.settings );
-                sidebar_dates.not( this ).datepicker( "option", option, date );
+                event_dates.not( this ).datepicker( "option", option, date );
             },
         });
         
         $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
         $('body').on('click','.timezone_trigger',function(){
-            console.log('test');
             $('.timezone_input ').slideToggle();
             return false;
         });

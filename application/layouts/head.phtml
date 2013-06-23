@@ -27,7 +27,8 @@
         ->appendFile('jquery.validate.js')
         ->appendFile('jquery.address-1.5.min.js')
         ->appendFile('jquery.lazyload.js')
-        ->appendFile('jquery.uqr.js');
+        ->appendFile('jquery.uqr.js')
+        ->appendFile('jquery.timepicker.min.js');
     
         if (Zend_Registry::get('config_ini')->server->online==1){
             echo $this->minifyHeadScript()->appendFile('map/distancewidget.js');
@@ -175,28 +176,34 @@
     function jQDialog(title, contentUrl, params, buttons) {
       //if (!width) var width='500';
       //if (!height) var height='500';
-    
-      var dialog1 = jQuery(".dialog").dialog(
-      {
-          title: title,
-          buttons: buttons,
-          position: 'center',
-          closeOnEscape: true,
-          width: 'auto',
-          height: 'auto',
-          resizable: false,
-          autoOpen: false,
-          minHeight: false,
-          draggable: true,
-          modal: true,
-          close:  function (e, ui){
-            $(this).html('<p class="loading"><?php echo $this->translate('loading')?>...</p>')
-          }
-      });
-
+      
       //close previous dialog if existed...
       jQuery(".dialog").dialog('close');
-      dialog1.load(contentUrl,params).dialog('open');
+      
+      var dialog = jQuery(".dialog").dialog(
+        {
+            title: title,
+            buttons: buttons,
+            closeOnEscape: true,
+            position: "center",
+            width: "auto",
+            height: "auto",
+            resizable: false,
+            autoOpen: false,
+            minHeight: false,
+            maxHeight: 400,
+            draggable: false,
+            modal: true,
+            open: function(event, ui) { 
+              $('.ui-widget-overlay').bind('click', function(){ dialog.dialog('close'); }); 
+            },
+            close:  function (e, ui){
+              $(this).html('<p class="loading"><?php echo $this->translate('loading')?>...</p>')
+            }
+        }).load(contentUrl, params, function() {
+            //TODO to fix the dialog with variable height to be middle aligned 
+            dialog.dialog('open').dialog("option", "position", "center");;
+        });
      }
      
     //begin date and end date for sidebar and feed para

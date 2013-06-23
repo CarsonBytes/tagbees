@@ -1,0 +1,45 @@
+	    <p class="tree_text"></p>
+	    <label></label>
+      <a href="#" class="choose tree_popup" id="addToCategory"><?php echo $this->translate('選擇合適的子類別，可幫助您的活動得到更有效的曝光。')?></a>
+		<input name="tree_text" id="tree_text" value="" type="hidden" />
+		<input class="required" name="category_ids" id="category_ids" value="" type="hidden" />
+<script type="text/javascript">
+	jQuery(function($){
+		$('.tree_text').text($('#tree_text').val());
+		$('body').on('click',".tree_popup",function(){
+			jQDialog(
+				'<?php echo $this->translate('Add Tree') ?>',
+				'<?php echo $this->baseUrl('ajax/dialog/add_tree')?>',
+				{},
+				{
+  				Confirm: function() {
+  					if (!$('#add_tree').valid()) return false;
+  						if (!$('#add_tree').validate())
+  							return false;
+  						var value='|'+$('#cat1 :selected').val()+'|';
+  						var text=$('#cat1 :selected').text();
+  						if($('#cat2 :selected').length!=0){
+  							value += $('#cat2 :selected').val()+'|';
+  							text += ' > ' + $('#cat2 :selected').text();
+  							if ($('#cat3 :selected').length!=0){
+  								value += $('#cat3 :selected').val()+'|';
+  								text += ' > ' + $('#cat3 :selected').text();
+  							}
+  						}
+  
+  						console.log(value);
+  
+  						$('#category_ids').val(value);
+  						$('.tree_text').text(text);
+  						$('#tree_text').val(text);
+  						$( this ).dialog( "close" );
+  					},
+  				Cancel: function() {
+  						$( this ).dialog( "close" );
+  					}
+	    	 	}
+	    	 );
+	   	 	return false;
+		})
+	});
+</script>
