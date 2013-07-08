@@ -24,13 +24,25 @@
         });
         
         $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
+        
+        
+        $('.event_type a').click(function (event) {
+        });
+        
         $('body').on('click','.timezone_trigger',function(){
             $('.timezone_input ').slideToggle();
             return false;
+        })
+        .on('click','.event_type a', function(){
+          if( ! $(this).hasClass('active') ) {
+              $( ".event_type a.active" ).removeClass( "active" );
+              $(this).addClass( "active" );
+              $("input[name='event_type']").val($(this).data('value'));
+          }
+          return false;
         });
     });
 </script>
 <?php if (Zend_Registry::get('config_ini')->server->online==1){
     echo $this->partial('js/new_event/map.phtml');
 } ?>
-<?php //echo $this->partial('js/template/user/upload_thumbnail.phtml') ?>

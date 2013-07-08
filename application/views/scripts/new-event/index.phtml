@@ -1,5 +1,6 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
 <?php echo $this -> partial('js/new_event.phtml'); ?>
+<?php echo $this -> partial('js/new_event/basic.phtml'); ?>
 <article class="main shadow">
   <section class="main_inner event_form">
     <h1>Post An Event</h1>
@@ -7,19 +8,20 @@
       <div class="horizontal-padding">
         <div class="e_type_div">
           <label>Event Type</label>
-          <div class="allevent">
-            <div class="all_div clearfix">
+          <div class="event_type">
+            <div class="event_type_inner clearfix">
               <ul>
                 <li>
-                  <a href="JavaScript:void(1);" class="profile_pic allgap"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6>Public Event</h6> </a>
+                  <a href="#" class="profile_pic allgap active" data-value="1"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6>Public Event</h6> </a>
                 </li>
                 <li>
-                  <a href="JavaScript:void(2);" class="profile_pic allgap"> <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/> <h6>Private Event</h6> </a>
+                  <a href="#" class="profile_pic allgap" data-value="2"> <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/> <h6>Private Event</h6> </a>
                 </li>
                 <li>
-                  <a href="JavaScript:void(3);" class="profile_pic"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6>Attraction</h6> </a>
+                  <a href="#" class="profile_pic" data-value="3"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6>Attraction</h6> </a>
                 </li>
               </ul>
+              <input type="hidden" name="event_type" value="" />
             </div>
             <div>
               <div id="div1">
@@ -46,7 +48,7 @@
         </div>
         <div class="f_div">
           <label>Event Name</label>
-          <input type="text" class="full"  />
+          <input type="text" name="name" class="full"  />
         </div>
         <div class="f_div">
           <label class="show_hide_map">Place</label>

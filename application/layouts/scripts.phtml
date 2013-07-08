@@ -84,19 +84,6 @@ jQuery(function($){
 
 <script type="text/javascript">
 jQuery(function($){
-    $('.all_div li:first-child a').addClass('active');
-    $('.all_div a').click(function (event) {
-        var divname= this.name;
-        $("#"+divname).show("slow").siblings().hide("slow");
-        if( $(this).is('.active') ) {
-             $(this).removeClass( "active" );
-        }
-        else {
-            $( ".all_div a.active" ).removeClass( "active" );
-            $(this).addClass( "active" );
-        }
-    });
-
     $('#addToCategory').click( function(){
         $('#addToCategoryDiv').slideDown();
         $('#addToCategory').addClass('chose_active');

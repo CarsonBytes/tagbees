@@ -590,10 +590,10 @@ $pie-base-class: pie-element;*/
 .event_form .show_hide_map, .advanced_event_form .show_hide_map { cursor: pointer; }
 .event_form .allgap, .advanced_event_form .allgap { margin-right: 40px; }
 .event_form .e_type_div, .advanced_event_form .e_type_div { padding-bottom: 10px; }
-.event_form .allevent, .advanced_event_form .allevent { display: inline-block; width: 486px; }
-.event_form .allevent p, .advanced_event_form .allevent p { padding: 0 0 0 7px; }
-.event_form .all_div, .advanced_event_form .all_div { padding-bottom: 23px; }
-.event_form .all_div li a.active, .advanced_event_form .all_div li a.active { background: #f5f5f5; }
+.event_form .event_type, .advanced_event_form .event_type { display: inline-block; width: 486px; }
+.event_form .event_type p, .advanced_event_form .event_type p { padding: 0 0 0 7px; }
+.event_form .event_type_inner, .advanced_event_form .event_type_inner { padding-bottom: 23px; }
+.event_form .event_type_inner li a.active, .advanced_event_form .event_type_inner li a.active { background: #f5f5f5; }
 .event_form .f_div, .advanced_event_form .f_div { width: 100%; padding-bottom: 6px; }
 .event_form .f_div1, .advanced_event_form .f_div1 { display: inline-block; }
 .event_form .f_div1 .checkbox, .advanced_event_form .f_div1 .checkbox { display: inline-block; }
