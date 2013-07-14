@@ -205,10 +205,10 @@ a.button.google:active {
 }
 
 /* map autocomplete */
-#geo_locate{
+.geo_locate{
   cursor:pointer;
 }
-#map{
+.map{
   height: 191px;width: 100%;
   overflow: hidden;
   position: relative;

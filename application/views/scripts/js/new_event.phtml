@@ -1,19 +1,21 @@
 <script type="text/javascript">
    jQuery(function($){
-        $('#event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
-        $('#event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
-        $('#event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
-        $('#event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
+        $('#new_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
+        $('#new_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
+        $('#new_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
+        $('#new_event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
+        $('#new_event_max_price').watermark("<?php echo $this->translate('Min. Price') ?>");
+        $('#new_event_min_price').watermark("<?php echo $this->translate('Max. Price') ?>");
         
         $('.timepicker').timepicker({ 'timeFormat': 'H:i', step : 15 });
         
         //tuning date range (no reversed date range)
-        var event_dates = $('#event_begin_date, #event_end_date').datepicker({
+        var event_dates = $('#new_event_begin_date, #new_event_end_date').datepicker({
             defaultDate: "+1w",
             changeMonth: true,
             changeYear: true,
             onSelect: function( selectedDate ) {
-                var option = this.id == "event_begin_date" ? "minDate" : "maxDate",
+                var option = this.id == "new_event_begin_date" ? "minDate" : "maxDate",
                     instance = $( this ).data( "datepicker" ),
                     date = $.datepicker.parseDate(
                         instance.settings.dateFormat ||
@@ -23,26 +25,63 @@
             },
         });
         
+        
         $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
         
         
-        $('.event_type a').click(function (event) {
+        $('.new_event_type a').click(function (event) {
         });
         
         $('body').on('click','.timezone_trigger',function(){
             $('.timezone_input ').slideToggle();
             return false;
         })
-        .on('click','.event_type a', function(){
+        .on('click','.new_event_type a', function(){
           if( ! $(this).hasClass('active') ) {
-              $( ".event_type a.active" ).removeClass( "active" );
+              $( "#new_event_type a.active" ).removeClass( "active" );
               $(this).addClass( "active" );
-              $("input[name='event_type']").val($(this).data('value'));
+              $("#new_event_type").val($(this).data('value'));
           }
           return false;
+        })
+        .on('click','#price-free', function(){
+          if ($(this).is(':checked')){
+            $('#priceFree').slideUp('fast');
+          }else{
+             $('#priceFree').slideDown('fast')
+          }
         });
+        
+        
+  updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+
+    $('#new_event_is_any_time, #new_event_is_all_day').change(function(){
+  updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+    });
+function updatePeriod(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
+  if (is_any_time_input.is(':checked')){
+    begin_date_input.prop('disabled',true);
+    end_date_input.prop('disabled',true);
+    begin_time_input.prop('disabled',true);
+    end_time_input.prop('disabled',true);
+    is_all_day_input.prop('disabled',true);
+  }else{
+    begin_date_input.prop('disabled',false);
+    end_date_input.prop('disabled',false);
+    is_all_day_input.prop('disabled',false);
+    
+    if (is_all_day_input.is(':checked')){
+      begin_time_input.prop('disabled',true);
+      end_time_input.prop('disabled',true);
+    }else{
+      begin_time_input.prop('disabled',false);
+      end_time_input.prop('disabled',false);
+    }
+  }
+}
     });
 </script>
 <?php if (Zend_Registry::get('config_ini')->server->online==1){
     echo $this->partial('js/new_event/map.phtml');
+    echo $this->partial('js/new_event/init_map.phtml', array('mapDiv_ID'=>'new_event_map', 'ac_input_ID'=>'new_event_place', 'lat_input_ID'=>'new_event_lat', 'lng_input_ID'=>'new_event_lng', 'geo_locate_ID'=>'new_event_geo_locate'));
 } ?>

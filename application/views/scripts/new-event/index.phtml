@@ -21,7 +21,7 @@
                   <a href="#" class="profile_pic" data-value="3"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6>Attraction</h6> </a>
                 </li>
               </ul>
-              <input type="hidden" name="event_type" value="" />
+              <input type="hidden" name="new_event_type" value="" />
             </div>
             <div>
               <div id="div1">
@@ -48,41 +48,41 @@
         </div>
         <div class="f_div">
           <label>Event Name</label>
-          <input type="text" name="name" class="full"  />
+          <input type="text" name="new_event_name" class="full"  />
         </div>
         <div class="f_div">
           <label class="show_hide_map">Place</label>
-          <input id="place" type="text" name="place" class="full" value="<?php echo $this->form_data['place'] ?>"/>
-          <img id="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
+          <input id="new_event_place" class="place_ac full" type="text" name="new_event_place" class="full" value="<?php echo $this->form_data['place'] ?>"/>
+          <img id="new_event_geo_locate" class="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
         </div>
         <div class="f_div event_map">
-          <input type="hidden" name="lat" value="<?php echo $this->form_data['lat'] ?>"/>
-          <input type="hidden" name="lng" value="<?php echo $this->form_data['lng'] ?>"/>
-          <div id="map"></div>
+          <input type="hidden" name="new_event_lat" id="new_event_lat" value="<?php echo $this->form_data['lat'] ?>"/>
+          <input type="hidden" name="new_event_lng" id="new_event_lng" value="<?php echo $this->form_data['lng'] ?>"/>
+          <div id="new_event_map" class="map"></div>
         </div>
         <div class="f_div">
           <label>Period</label>
           <div class="f_div1">
-            <input type="hidden" name="is_time_specific" value="0" />
-            <input type="checkbox" id="is_time_specific" name="is_time_specific" checked="checked"/>
-            <label class="l-a" for="is_time_specific">Time specific</label>
+            <input type="hidden" name="new_event_is_any_time" value="0" />
+            <input type="checkbox" id="new_event_is_any_time" name="is_any_time"/>
+            <label class="l-a" for="new_event_is_any_time">Any Time</label>
           </div>
           <div class="f_div1 f_div2">
-            <input type="hidden" name="is_all_day" value="0" />
-            <input type="checkbox" id="is_all_day" name="is_all_day" />
-            <label class="l-a" for="is_all_day">All days</label>
+            <input type="hidden" name="new_event_is_all_day" value="0" />
+            <input type="checkbox" id="new_event_is_all_day" name="is_all_day" />
+            <label class="l-a" for="new_event_is_all_day">All day</label>
           </div>
         </div>
         <div class="f_div">
           <label>&nbsp;</label>
-          <input type="text" class="date_input" id="event_begin_date" />
+          <input type="text" class="date_input" id="new_event_begin_date" />
           <label class="l-a1"><strong>-</strong></label>
-          <input type="text" class="date_input" id="event_end_date" />
+          <input type="text" class="date_input" id="new_event_end_date" />
           &nbsp;
           <?php //<label class="l-a1"><strong>From</strong></label> ?>
-          <input id="event_begin_time" type="text" class="timepicker"  />
+          <input id="new_event_begin_time" type="text" class="timepicker"  />
           <label class="l-a1"><strong>-</strong></label>
-          <input id="event_end_time" type="text" class="timepicker" />
+          <input id="new_event_end_time" type="text" class="timepicker" />
           <a class="l-a2 timezone_trigger" href="#">Time Zone</a>
         </div>
         <div class="f_div timezone_input">
@@ -115,18 +115,18 @@
           <div class="f_div">
             <label>Price</label>
             <div class="f_div1">
-              <input type="checkbox" id="price-free" onclick="$(this).is(':checked') && $('#priceFree').slideDown('slow') || $('#priceFree').slideUp('slow');" />
+              <input type="checkbox" id="price-free" checked="checked"/>
               <label class="l-a" for="price-free">Is it free?</label>
             </div>
 
           </div>
           <div id="priceFree" class="f_div" style="display:none;">
             <label>Range</label>
-            <input type="text" class="smallInput" value="min" onclick="if(this.value == 'min'){this.value='';}" onblur="if(this.value==''){this.value='min'};">
+            <input type="text" name="min_price" id="new_event_min_price" class="smallInput" value="" >
             <label class="l-a1"><strong>To</strong></label>
-            <input type="text" class="smallInput" value="max" onclick="if(this.value == 'max'){this.value='';}" onblur="if(this.value==''){this.value='max'};">
-            &nbsp;
-            <label class="l-a1"><strong>The highest and lowest prices</strong></label>
+            <input type="text" name="max_price" id="new_event_max_price"class="smallInput" value="">
+            <?php /*&nbsp;
+            <label class="l-a1"><strong>The highest and lowest prices</strong></label>*/ ?>
           </div>
           <div class="f_div">
             <label>Tags</label>
