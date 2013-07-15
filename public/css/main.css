@@ -605,6 +605,7 @@ $pie-base-class: pie-element;*/
 .event_form .choose:active, .advanced_event_form .choose:active { background: #f0bc05; color: #000; }
 .event_form .chose_active, .advanced_event_form .chose_active { background: #f0bc05; color: #000; }
 .event_form .tree_text, .advanced_event_form .tree_text { display: inline-block; line-height: 20px !important; }
+.event_form .tree_line_hidden, .advanced_event_form .tree_line_hidden { display: none; }
 
 #add_tree { margin-left: 2px; }
 #add_tree select { float: left; height: auto; padding: 5px; width: 33%; }

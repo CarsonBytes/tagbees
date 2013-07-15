@@ -97,7 +97,12 @@ label.l-a3{ padding-left:0; padding-right:6px;}
        &:active {background:#f0bc05; color:#000;}
   }
   .chose_active{background:#f0bc05; color:#000;}
-  .tree_text{display:inline-block;line-height:20px !important;}
+  .tree_text{
+    display:inline-block;line-height:20px !important;
+  }
+  .tree_line_hidden{
+    display: none;
+  }
 }
 #add_tree {
   margin-left: 2px;

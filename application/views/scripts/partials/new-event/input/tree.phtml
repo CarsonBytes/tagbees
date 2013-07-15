@@ -1,6 +1,6 @@
-	    <p class="tree_text"></p>
-	    <div class="clearfix"></div>
-	    <label></label>
+	    <p class="tree_text tree_line_hidden"></p>
+	    <div class="clearfix tree_line_hidden"></div>
+	    <label class="tree_line_hidden"></label>
       <a href="#" class="choose tree_popup" id="addToCategory"><?php echo $this->translate('選擇合適的子類別，可幫助您的活動得到更有效的曝光。')?></a>
 		<input name="tree_text" id="tree_text" value="" type="hidden" />
 		<input class="required" name="category_ids" id="category_ids" value="" type="hidden" />
@@ -28,11 +28,12 @@
   							}
   						}
   
-  						console.log(value);
-  
   						$('#category_ids').val(value);
   						$('.tree_text').text(text);
   						$('#tree_text').val(text);
+  						$('.tree_line_hidden').show();
+              $('label.tree_line_hidden').css('display','inline-block');
+              $('p.tree_line_hidden').css('display','inline-block');
   						$( this ).dialog( "close" );
   					},
   				Cancel: function() {
