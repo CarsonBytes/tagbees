@@ -1,7 +1,7 @@
 	    <p class="tree_text tree_line_hidden"></p>
 	    <div class="clearfix tree_line_hidden"></div>
 	    <label class="tree_line_hidden"></label>
-      <a href="#" class="choose tree_popup" id="addToCategory"><?php echo $this->translate('選擇合適的子類別，可幫助您的活動得到更有效的曝光。')?></a>
+      <a href="#" class="choose tree_popup" id="addToCategory"><?php echo $this->translate('Please choose correct tree path to help your event easier to reach target group')?></a>
 		<input name="tree_text" id="tree_text" value="" type="hidden" />
 		<input class="required" name="category_ids" id="category_ids" value="" type="hidden" />
 <script type="text/javascript">
@@ -14,8 +14,8 @@
 				{},
 				{
   				Confirm: function() {
-  					if (!$('#add_tree').valid()) return false;
-  						if (!$('#add_tree').validate())
+  					if (!$('#add_tree_popup').valid()) return false;
+  						if (!$('#add_tree_popup').validate())
   							return false;
   						var value='|'+$('#cat1 :selected').val()+'|';
   						var text=$('#cat1 :selected').text();

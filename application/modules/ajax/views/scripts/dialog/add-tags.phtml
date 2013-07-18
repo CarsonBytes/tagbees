@@ -1,63 +1,35 @@
-<style>
-.items {
-	border: 1px solid grey;
-    height: 178px;
-    line-height: 1;
-    margin: 10px 0;
-    overflow-y: scroll;
-    padding: 5px 5px 5px 10px;
-    width: 600px;
-}
-.items .item{
-	cursor: pointer;
-    float: left;
-    line-height: 1.5;
-    padding: 0 5px;
-    width: 135px;
-}
-.items .item a{
-	display:inline-block;
-}
-.items_nav{
-	margin-top: 5px;
-    padding-left: 15px;
-}
-
-.items_nav span{
-	font-weight:normal;
-	text-decoration:underline;
-	cursor:pointer;
-}
-.items_nav span.pressed{
-	font-weight:bold;
-	text-decoration:none;
-}
-#new_items{
-	height: 42px;
-    line-height: 1.5;
-    padding: 5px 15px;
-    width: 585px;
-    resize:none;
-}
-.new_item_label{
-	display: block;
-    margin-bottom: 10px;
-    padding-left: 15px;
-}
-</style>
-<div class="add_tags_div">
-	<div class="items_nav">
-		<span class="all pressed"><?php echo $this->translate('All') ?></span> | <span class="selected"><?php echo $this->translate('Selected')?></span>
-		<select class="tag_group" style="margin-left:20px;" name="tag_group"><option value="1" selected="selected">熱門</option><option value="2">電視首映</option><option value="3">衛生</option></select>
-		<label style="float:right;display:block;"><?php echo $this->translate('Filter tags by keyword') ?>: <input type="text" id="existing_item" style="width:300px;" value="" /> </label>
-	</div>
-	<div class="items">
-	</div>
-	<label class="new_item_label"><?php echo $this->translate('Suggest new tag(s) (seperate with comma)') ?>:</label>
-	<textarea id="new_items" value="" ></textarea>
+<div id="add_tags_popup">
+  <div>
+    <select name="new_event_filter_tags_by_tag_group" id="new_event_filter_tags_by_tag_group">
+      <option value="1" selected="selected">熱門</option>
+      <option value="2">電視首映</option>
+      <option value="3">衛生</option>
+    </select>
+    <?php /*<label>Filter by</label>*/ ?>
+    <input type="text" name="new_event_filter_tags_by_keyword" id="new_event_filter_tags_by_keyword" value=""/>
+    <nav id="new_event_switch_tags_selected_or_all" class="right">
+      <ul>
+        <li>
+          <a href="#" class="all pressed"><?php echo $this->translate('All') ?></a>
+        </li>
+        <li>
+          <a href="#" class="selected"><?php echo $this->translate('Selected')?></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div id="new_event_tag_items">
+    <div class="inner"></div>
+  </div>
+  <div class="f_div">
+    <?php /*<label><strong>New Tags</strong></label>*/ ?>
+    <input name="new_event_add_custom_tags" id="new_event_add_custom_tags" type="text">
+  </div>
 </div>
 <script type="text/javascript">
 jQuery(function($){
+  $('#new_event_filter_tags_by_keyword').watermark("<?php echo $this->translate('Filter tags by keyword') ?>");
+  $('#new_event_add_custom_tags').watermark("<?php echo $this->translate('Enter new tags here and separate them with commas') ?>");
 	getTagsByTerm('');
 	$('#new_items').val(new_items.join(', '));
 })

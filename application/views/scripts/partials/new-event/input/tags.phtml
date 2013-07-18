@@ -1,0 +1,241 @@
+<div class="f_div">
+  <label>Tags</label>
+  <div id="new_event_added_tags_display" style="display:inline;"></div>
+  <a href="#" class="choose add_tags"><?php echo $this->translate('Add tags to personalize your event exposure')?></a>
+</div>
+          
+<div style="display:none;" class="item_ids_div"></div>
+<div style="display:none;" class="new_items_div"></div>
+
+
+<script id="old_tags_ids" type="text/x-jquery-tmpl">
+  <input type="hidden" name="item_ids[]" value="${$data}"/>
+</script>
+<script id="new_item_store" type="text/x-jquery-tmpl">
+  <input type="hidden" name="new_items[]" value="${$data}"/>
+</script>
+<script id="item_names" type="text/x-jquery-tmpl">
+  <a class="text_link" href="<?php echo $this->baseUrl()?>${getItem($data,'type')}/${getItem($data,"slug_name")}" target="_blank">${getItem($data,'name')}</a>
+  {{if isNotLastIndex($data)}}, {{/if}}
+</script>
+<script id="new_item_names" type="text/x-jquery-tmpl">
+  ${$data}
+  {{if isNotLastIndexNewItems($data)}}, {{/if}}
+</script>
+<script type="text/javascript">
+  var selected_items=[];
+  var selected_confirmed_items=[];
+  var all_items={};
+  var last_term='';
+  var new_items=[];
+  var new_confirmed_items=[];
+  var new_items_names='';
+  var term='';
+  
+  function getItem( id, name) {
+    return all_items[id][name];
+  }
+  function isNotLastIndex (item) {
+      return ($.inArray(item, selected_items) != selected_items.length-1);
+    }
+  function isNotLastIndexNewItems (item) {
+      return ($.inArray(item, new_items) != new_items.length-1);
+    }
+
+
+  jQuery(function($){
+    if ("item_ids[]" in event_form_data){
+      selected_items = event_form_data["item_ids[]"];
+      getSelectedTagsByIds(selected_items);
+    }
+    
+    if ("new_items[]" in event_form_data){
+      new_items = event_form_data["new_items[]"];
+    }
+    
+    $('body').on('click',".add_tags",function(){
+      jQDialog(
+        '<?php echo $this->translate('Add tags') ?>',
+        '<?php echo $this->baseUrl('ajax/dialog/add_tags')?>',
+        {},
+        {
+            Confirm: function() {
+              $('.item_ids_div').text('');
+              $("#new_event_added_tags_display").text('');
+              $('.new_items_div').empty();
+              
+              /* Render the sideBarTree with the "movies" data */
+              $( "#old_tags_ids" ).tmpl( selected_items ).appendTo( ".item_ids_div" );
+              $( "#item_names" ).tmpl( selected_items ).appendTo( "#new_event_added_tags_display");
+  
+              new_items=$('#new_event_add_custom_tags').val().split(',');
+              
+              //trim new names' trim spaces 
+              //to-do: other unnecessary charactors
+              for (var i =0 ; i <new_items.length;i++){
+                var new_item_name=$.trim(new_items[i]);
+                new_item_name=new_item_name.replace(/\s{2,}/g, ' ');
+                new_items[i]=new_item_name;
+              }
+              //remove new names' empty value
+              new_items.removeByValue('');
+              
+              // remove new names' duplicates
+              new_items = new_items.unique();
+              
+              if (selected_items.length>0 && new_items.length>0)
+                  $("#new_event_added_tags_display").append(', ');
+  
+              new_items_names='';
+              
+              //append new non-empty names
+              $( "#new_item_store" ).tmpl( new_items ).appendTo( ".new_items_div" );
+              $( "#new_item_names" ).tmpl( new_items ).appendTo( "#new_event_added_tags_display");
+  
+              selected_confirmed_items=selected_items.slice(0);
+              new_confirmed_items=new_items.slice(0);
+              $( this ).dialog( "close" );
+            },
+            Cancel: function() {
+              selected_items=selected_confirmed_items.slice(0);
+              new_items=new_confirmed_items.slice(0);
+              $( this ).dialog( "close" );
+            }
+           }
+           );
+          return false;
+    });
+
+    //in the add-tags.phtml dialog...
+    $( "body" ).on('click','.item',function(e){
+        if (!$(e.target).closest('a').length) {
+        var item_id=$(this).find('input.item_id').val();
+        if ($(this).data('selected')!=true){
+          $(this).css('background','yellow');
+          $(this).data('selected',true);
+          if ($.inArray(item_id, selected_items)){
+            selected_items.push(item_id);
+          }
+          //if ($('input.item_ids[value="'+$(this).find('input.item_id').val()+'"]').length==0)
+          //  $('.item_ids_div').append('<input type="hidden" class="item_ids" value="'+$(this).find('input.item_id').val()+'"/>');
+        }else{
+          $(this).css('background','none');
+          $(this).data('selected',false);
+          //$('input.item_ids[value="'+$(this).find('input.item_id').val()+'"]').remove();
+          selected_items.removeByValue(item_id);
+        }
+        }
+        //console.log(selected_items)
+    })
+    .on('click','#new_event_switch_tags_selected_or_all a',function(e){
+      if ($(this).hasClass('selected')){
+        $('#new_event_tag_items .inner').text('');
+        for (var i =0 ; i <selected_items.length;i++){
+          $('#new_event_tag_items .inner').append('<div class="item" id="item_'+selected_items[i]+'">'+all_items[selected_items[i]].name+'<input class="item_id" type="hidden" value="'+selected_items[i]+'" /></div>');
+          $('.item')
+            .css('background','yellow')
+            .data('selected',true);
+          $('#new_event_filter_tags_by_keyword').val('');
+        }
+        $('.all').removeClass('pressed');
+      }else{
+        getTagsByTerm(term);
+        $('.selected').removeClass('pressed');
+      }
+      $(this).addClass('pressed');
+      return false;
+    })
+    .on('keyup','#new_event_filter_tags_by_keyword',function(e){
+      $('.selected').removeClass('pressed');
+      $('.all').addClass('pressed');
+
+       term = $(this).val();
+       //console.log(term);
+       if (last_term!=term){
+         getTagsByTerm(term);
+       }
+    })
+    .on('change','select#new_event_filter_tags_by_tag_group',function(e){
+        $.shuffle(datas);
+        //refer to getTagsByTerm and add all tags to the box
+        $('#new_event_tag_items .inner').text('');
+        $.map( datas, function( item ) {
+          $('#new_event_tag_items .inner').append('<div class="item" id="item_'+item.id+'">'+item.name+'<input class="item_id" type="hidden" value="'+item.id+'" /></div>');
+          if ($.inArray(item.id.toString(), selected_items)>-1){
+            $('#item_'+item.id)
+              .css('background','yellow')
+              .data('selected',true);
+          }
+        })
+    });
+  })
+
+
+  function getSelectedTagsByIds(ids){
+     jQuery.ajax({
+      url: "<?php echo $this->baseUrl('ajax/item/get_selected_tags_by_ids')?>",
+      dataType: "json",
+      type: "post",
+      data: {
+        ids: ids
+      },
+      success: function( data ) {
+        console.log(data);
+        console.log('all_items');
+        jQuery.map( data, function( item ) {
+          //console.log(item);
+          all_items[item.id]={
+            name: item.name,
+            slug_name: item.slug_name,
+            type: item.type
+          };
+        });
+        $( "#old_tags_ids" ).tmpl(  selected_items ).appendTo( ".item_ids_div" );
+        $( "#item_names" ).tmpl( selected_items ).appendTo( "#new_event_added_tags_display");
+        
+        if (selected_items.length>0 && new_items.length>0)
+          $("#new_event_added_tags_display").append(', ');
+          
+        $( "#new_item_store" ).tmpl( new_items ).appendTo( ".new_items_div" );
+        $( "#new_item_names" ).tmpl( new_items ).appendTo( "#new_event_added_tags_display");
+                
+      }
+    });
+  }
+
+  var datas = {};
+  function getTagsByTerm(term){
+    $('#new_event_add_custom_tags').val(new_confirmed_items);
+     jQuery.ajax({
+      url: "<?php echo $this->baseUrl('ajax/item/fetch')?>",
+      dataType: "json",
+      type: "post",
+      data: {
+        term: term
+      },
+      success: function( data ) {
+        last_term=term;
+        jQuery('#new_event_tag_items .inner').text('');
+        datas = data;
+        jQuery.map( data, function( item ) {
+          jQuery('#new_event_tag_items .inner').append('<div class="item" id="item_'+item.id+'">'+item.name+'<input class="item_id" type="hidden" value="'+item.id+'" /></div>');
+          all_items[item.id]={
+            name: item.name,
+            slug_name: item.slug_name,
+            type: item.type
+          };
+          if (jQuery.inArray(item.id.toString(), selected_items)>-1){
+            //console.log($.inArray(item.id.toString(),selected_items))
+            //console.log(item.id +' '+ selected_items)
+            //console.log(selected_items)
+            jQuery('#item_'+item.id)
+              .css('background','yellow')
+              .data('selected',true);
+          }
+        })
+        //console.log(data);
+      }
+    });
+  }
+
+</script>

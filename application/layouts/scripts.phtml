@@ -84,22 +84,6 @@ jQuery(function($){
 
 <script type="text/javascript">
 jQuery(function($){
-    $('#addToCategory').click( function(){
-        $('#addToCategoryDiv').slideDown();
-        $('#addToCategory').addClass('chose_active');
-    })
-    $('#tagConfirm, #tagCancel').click( function(){
-        $('#addToCategoryDiv').slideUp();
-        $('#addToCategory').removeClass('chose_active');
-    })
-    $('.chooseTag').click(function(){
-        $('#addTag').slideDown();
-        $('.chooseTag').addClass('chose_active');
-    })
-    $('#tagConfirm1, #tagCancel1').click( function(){
-        $('#addTag').slideUp();
-        $('.chooseTag').removeClass('chose_active');
-    })
     $('#addTumblr').click(function(){
         $('.addTumblrDiv').slideToggle();
     })

@@ -149,13 +149,6 @@
 .add_category_div{ padding:10px;}
 .div_category{ margin:10px 0;}
 
-.all_selected{ padding:5px 0 0 0;
-    li{ float:left; font-size:13px; color:$color; border-right:1px solid $color; line-height:15px; padding:0 8px;}
-    li:last-child{ border:none;}
-    li a{ color:$color;
-        &:hover{ text-decoration:underline;}
-    }
-}
 
 .tag_category_inner{ height:130px; overflow-y:auto; border:1px solid #E0E0E0; padding:5px; @include border-radius(5px);}
 .category_nav{ width:137px;}

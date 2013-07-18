@@ -1,4 +1,5 @@
 <script type="text/javascript">
+var event_form_data = {};
    jQuery(function($){
         $('#new_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
         $('#new_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
@@ -53,11 +54,11 @@
         });
         
         
-  updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
-
-    $('#new_event_is_any_time, #new_event_is_all_day').change(function(){
-  updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
-    });
+    updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+  
+      $('#new_event_is_any_time, #new_event_is_all_day').change(function(){
+    updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+      });
 function updatePeriod(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
   if (is_any_time_input.is(':checked')){
     begin_date_input.prop('disabled',true);
@@ -79,7 +80,38 @@ function updatePeriod(is_any_time_input, is_all_day_input, begin_date_input, end
     }
   }
 }
-    });
+
+function saveFormCookie(){
+  console.log('saveFormCookie')
+  event_form_data =  $.extend(event_form_data,$('#new_event_basic').serializeObject());
+  console.log(event_form_data);
+  console.log(JSON.stringify(event_form_data));
+  $.cookie('event_form_data', JSON.stringify(event_form_data), {path: '/'});
+}
+function loadCookieToForm(){
+  if ($.cookie('event_form_data') != '' && $.cookie('event_form_data') != null){
+    console.log($.cookie('event_form_data'))
+    event_form_data = JSON.parse($.cookie('event_form_data'));
+
+    console.log(event_form_data)
+
+      $('form.item_create input,form.item_create textarea').each(function(){
+          if ($(this).prop('name').length && $(this).prop('name') in event_form_data){
+            if (event_form_data[$(this).prop('name')]!=''){
+          if ($(this).hasClass('checkBox')){
+            console.log($(this));
+            $(this).prop('checked','checked');
+          }else if ($(this).prop('value')==''){
+                $(this).val(event_form_data[$(this).prop('name')]);
+          }
+            }
+          }
+      });
+      //all possible js checking
+    updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+  }
+}
+});
 </script>
 <?php if (Zend_Registry::get('config_ini')->server->online==1){
     echo $this->partial('js/new_event/map.phtml');
