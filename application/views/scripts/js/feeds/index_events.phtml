@@ -209,6 +209,7 @@
     jQuery(function($){
         //when user clicks load more
         $('body#index').on("click",'.load_more_feeds',function() {
+          console.log('loaded');
             feed_para.last_id = $('.feeds > article:last').data("id");
             refreshFeed('index', true);
             return false;

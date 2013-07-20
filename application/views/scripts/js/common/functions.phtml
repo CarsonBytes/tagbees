@@ -262,22 +262,4 @@ $.fn.serializeObject = function()
       return o;
   };
   
-  //remove value from array P.S. cannot be globally added, crashed with the map markers in the feed...
-  Array.prototype.removeByValue= function(){
-      var what, a= arguments, L= a.length, ax;
-      while(L && this.length){
-          what= a[--L];
-          while((ax= this.indexOf(what))!= -1){
-              this.splice(ax, 1);
-          }
-      }
-      return this;
-  };
-  
-  // avoid duplicates in array, P.S. cannot be globally added, crashed with the map markers in the feed...
-  Array.prototype.unique = function(){
-    return Object.keys(this.reduce(function(r,v){
-      return r[v]=1,r;
-    },{}));
-  };
 </script>

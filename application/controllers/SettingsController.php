@@ -99,28 +99,7 @@ class SettingsController extends Zend_Controller_Action {
     Common::getSession()->settings_form->lat = $this->view->form_data['lat'];
     Common::getSession()->settings_form->lng = $this->view->form_data['lng'];
     
-    
-    //echo '<pre>';var_dump($this->view->form_data);echo '</pre>';die();
-
-    // for not commly changed data we store them in session...
-    if (!isset(Common::getSession()->timezone)) {
-      $timezoneService = new Service_Timezone();
-      Common::getSession()->timezone = $timezoneService -> get();
-    }
-    if (!isset($_SESSION['timezone_json'])) {
-      $js = array();
-      foreach (Common::getSession()->timezone as $timezone) {
-        if (!in_array($timezone['country_code'], $js)) {
-          $js[] = $timezone['country_code'];
-          $js[] = array($timezone['timezone_id'], $timezone['city'] . ' (' . $timezoneService -> formatOffset($timezone['offset']) . ')');
-        } else {
-          $key = array_search($timezone['country_code'], $js);
-          $js[$key + 1][] = $timezone['timezone_id'];
-          $js[$key + 1][] = $timezone['city'] . ' (' . $timezoneService -> formatOffset($timezone['offset']) . ')';
-        }
-      }
-      $_SESSION['timezone_json'] = json_encode($js);
-    }
+    Common::initTimezoneSession();
   }
 
 }
