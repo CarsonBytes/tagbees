@@ -4,10 +4,11 @@
 Choose a category for the event. If no category is selected, an Unclassified category will be assigned:
 <div class="clearFix"></div>
 <div class="div_category">
-  <form id="add_tree_popup">
-    <select class="required auto_select" size="15" class="entrySelect" id="cat1" name="cat1"></select>
-    <select class="required auto_select" size="15" class="entrySelect" id="cat2" name="cat2"></select>
-    <select class="required last auto_select" size="15" class="entrySelect" id="cat3" name="cat3"></select>
+  <form id="new_event_add_tree" minlength="1" name="new_event_add_tree">
+    <select class="auto_select" minlength="1" size="15" class="entrySelect" id="cat1" name="cat1"></select>
+    <select class="auto_select" minlength="1" size="15" class="entrySelect" id="cat2" name="cat2"></select>
+    <select class="last auto_select" size="15" class="entrySelect" id="cat3" name="cat3"></select>
+    <div id="new_event_add_tree_error"></div>
   </form>
 </div>
 <script type="text/javascript">var category =<?php echo $_SESSION['tree_json'] ?>
@@ -23,7 +24,7 @@ Choose a category for the event. If no category is selected, an Unclassified cat
         changeCategory($(this).prop('id'));
       }
     });
-    var cat_ids = $('#category_ids').val();
+    var cat_ids = $('#new_event_tree_ids').val();
     if (cat_ids != '') {
       var cat = cat_ids.split('|');
       cat.pop();
@@ -35,6 +36,22 @@ Choose a category for the event. If no category is selected, an Unclassified cat
       }
       $("#cat" + (j - 1)).val(cat[j - 2]);
     }
+    
+    
+    // this one requires the text "buga", we define a default message, too
+    $.validator.addMethod("all_selected", function(value) {
+      return ($('#cat1 option:selected').length && $('#cat2 option:selected').length && $('#cat3 option:selected').length);
+    }, "<?php echo $this->translate("Please make sure to specify 3 levels of category.");?>");
+    
+    $("#new_event_add_tree").validate({
+        ignore: [],
+        rules: {
+          cat1: "all_selected"
+        },
+       errorPlacement: function(error, element) {
+         error.insertAfter("#cat3");
+       }
+     });
   })
   function changeCategory(id) {
     var key;

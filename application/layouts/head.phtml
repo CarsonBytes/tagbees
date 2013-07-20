@@ -24,11 +24,12 @@
         ->appendFile('jquery.watermark.js')
         ->appendFile('jquery.dotdotdot-1.5.3.js')
         ->appendFile('jQueryRotate.2.2.js')
-        ->appendFile('jquery.validate.js')
+        //->appendFile('jquery.validate.js')
         ->appendFile('jquery.address-1.5.min.js')
         ->appendFile('jquery.lazyload.js')
         ->appendFile('jquery.uqr.js')
-        ->appendFile('jquery.timepicker.min.js');
+        ->appendFile('jquery.timepicker.min.js')
+        ->appendFile('validate/jquery.validate.min.js');
     
         if (Zend_Registry::get('config_ini')->server->online==1){
             echo $this->minifyHeadScript()->appendFile('map/distancewidget.js');
@@ -217,5 +218,11 @@
         default_feed_para['q'] = '';
         default_feed_para['begin_date'] = $.datepicker.formatDate('yy-mm-dd', today);
         default_feed_para['end_date'] = $.datepicker.formatDate('yy-mm-dd', end_date);
+        
+    // just for the demos, avoids form submit
+    jQuery.validator.setDefaults({
+      debug: true,
+      success: "valid"
+    });
 </script>
 </head>

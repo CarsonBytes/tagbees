@@ -9,11 +9,11 @@
         <div class="horizontal-padding">
           <div class="e_type_div">
             <label>Event Type</label>
-            <div class="event_type">
-              <div class="event_type_inner clearfix">
+            <div class="new_event_type">
+              <div class="inner clearfix">
                 <ul>
                   <li>
-                    <a href="#" class="profile_pic allgap active" data-value="1"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6>Public Event</h6> </a>
+                    <a href="#" class="profile_pic allgap" data-value="1"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6>Public Event</h6> </a>
                   </li>
                   <li>
                     <a href="#" class="profile_pic allgap" data-value="2"> <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/> <h6>Private Event</h6> </a>
@@ -22,24 +22,24 @@
                     <a href="#" class="profile_pic" data-value="3"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6>Attraction</h6> </a>
                   </li>
                 </ul>
-                <input type="hidden" name="new_event_type" value="" />
+                <input type="hidden" id="new_event_type" name="new_event_type" value="" required />
               </div>
-              <div>
-                <div id="div1">
+              <div class="new_event_type_caption">
+                <div id="new_event_type_caption_1" style="display:none">
                   <p>
-                    <?php echo $this->baseUrl('For events either you are the representative of the organizer or the information supplier of an event organized for the public.'); ?>
+                    <?php echo $this->translate('For events either you are the representative of the organizer or the information supplier of an event organized for the public.'); ?>
                   </p>
                 </div>
 
-                <div id="div2" style="display:none">
+                <div id="new_event_type_caption_2" style="display:none">
                   <p>
-                    <?php echo $this->baseUrl('For events either you are the representative of the organizer or the information supplier of an event organized for the Private.'); ?>
+                    <?php echo $this->translate('For events either you are the representative of the organizer or the information supplier of an event organized for the Private.'); ?>
                   </p>
                 </div>
 
-                <div id="div3" style="display:none">
+                <div id="new_event_type_caption_3" style="display:none">
                   <p>
-                    <?php echo $this->baseUrl('For events either you are the representative of the organizer or the information supplier of an event organized for the Attraction.'); ?>
+                    <?php echo $this->translate('For events either you are the representative of the organizer or the information supplier of an event organized for the Attraction.'); ?>
                   </p>
                 </div>
 
@@ -49,11 +49,11 @@
           </div>
           <div class="f_div">
             <label>Event Name</label>
-            <input type="text" name="new_event_name" class="full"  />
+            <input type="text" id="new_event_name" name="new_event_name" class="full" required  />
           </div>
           <div class="f_div">
-            <label class="show_hide_map">Place</label>
-            <input id="new_event_place" class="place_ac full" type="text" name="new_event_place" class="full" value="<?php echo $this->form_data['place'] ?>"/>
+            <label for="new_event_place">Place</label>
+            <input id="new_event_place" class="place_ac full" type="text" name="new_event_place" class="full" value="<?php echo $this->form_data['place'] ?>" />
             <img id="new_event_geo_locate" class="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
           </div>
           <div class="f_div event_map">
@@ -65,36 +65,30 @@
             <label>Period</label>
             <div class="f_div1">
               <input type="hidden" name="new_event_is_any_time" value="0" />
-              <input type="checkbox" id="new_event_is_any_time" name="is_any_time"/>
+              <input type="checkbox" id="new_event_is_any_time" name="new_event_is_any_time"/>
               <label class="l-a" for="new_event_is_any_time">Any Time</label>
             </div>
             <div class="f_div1 f_div2">
               <input type="hidden" name="new_event_is_all_day" value="0" />
-              <input type="checkbox" id="new_event_is_all_day" name="is_all_day" />
+              <input type="checkbox" id="new_event_is_all_day" name="new_event_is_all_day" />
               <label class="l-a" for="new_event_is_all_day">All day</label>
             </div>
           </div>
           <div class="f_div">
             <label>&nbsp;</label>
-            <input type="text" class="date_input" id="new_event_begin_date" />
+            <input type="text" class="date_input" id="new_event_begin_date" name="new_event_begin_date" required />
             <label class="l-a1"><strong>-</strong></label>
-            <input type="text" class="date_input" id="new_event_end_date" />
+            <input type="text" class="date_input" id="new_event_end_date" name="new_event_end_date" required />
             &nbsp;
             <?php //<label class="l-a1"><strong>From</strong></label> ?>
-            <input id="new_event_begin_time" type="text" class="timepicker"  />
+            <input id="new_event_begin_time" name="new_event_begin_time" type="text" class="timepicker" required />
             <label class="l-a1"><strong>-</strong></label>
-            <input id="new_event_end_time" type="text" class="timepicker" />
+            <input id="new_event_end_time" name="new_event_end_time" type="text" class="timepicker" required />
             <a class="l-a2 timezone_trigger text_link" href="#">Time Zone</a>
           </div>
           <div class="f_div timezone_input">
             <label>Time Zone</label>
-            <select class="country middleSel">
-              <option>Hong Kong</option>
-            </select>
-            <select class="city middleSel">
-              <option>Hong Kong</option>
-            </select>
-            <?php //<input type="text" value="Hong Kong (+08:00)" class="middle2" /> ?>
+              <?php echo $this->partial('partials/new-event/input/timezone.phtml'); ?>
           </div>
         </div>
         <div class="deep_grey_area">
@@ -107,7 +101,7 @@
             </div>
             <div class="f_div">
               <label>Category</label>
-              <?php echo $this -> partial('partials/new-event/input/tree.phtml', array('title' => 'Category')); ?>
+              <?php echo $this -> partial('partials/new-event/input/tree.phtml'); ?>
             </div>
             <div class="f_div">
               <label for="description">Description</label>
@@ -116,15 +110,16 @@
             <div class="f_div">
               <label>Price</label>
               <div class="f_div1">
-                <input type="checkbox" id="price-free" checked="checked"/>
-                <label class="l-a" for="price-free">Is it free?</label>
+                <input type="hidden" name="is_free" value="0" />
+                <input type="checkbox" id="is_free" name="is_free" checked="checked"/>
+                <label class="l-a" for="is_free" name="is_free">Is it free?</label>
               </div>
             </div>
             <div id="priceFree" class="f_div" style="display:none;">
               <label>Range</label>
-              <input type="text" name="min_price" id="new_event_min_price" class="smallInput" value="" >
+              <input type="text" name="new_event_min_price" id="new_event_min_price" class="smallInput" value="" >
               <label class="l-a1"><strong>To</strong></label>
-              <input type="text" name="max_price" id="new_event_max_price"class="smallInput" value="">
+              <input type="text" name="new_event_max_price" id="new_event_max_price"class="smallInput" value="">
               <?php /*&nbsp;
                  <label class="l-a1"><strong>The highest and lowest prices</strong></label>*/
               ?>
@@ -137,9 +132,9 @@
           <div class="f_div"></div>
           <div class="f_div">
             <label>&nbsp;</label>
-            <input type="submit" value="Save" class="submit1" id="eventSave" />
-            <input type="submit" value="Post" class="submit2" id="eventPost" />
-            <input type="submit" value="More Details" class="submit3" />
+            <input type="button" value="Save" class="submit1" id="new_event_save" />
+            <input type="submit" value="Submit" class="submit2" id="new_event_submit" />
+            <input type="button" value="More Details" class="submit3" />
 
           </div>
         </div>

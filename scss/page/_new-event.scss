@@ -21,8 +21,18 @@
   .accordion_button1.active {@include black-gradient; color:white;}
   
   
-  .grey_area{ @include border-radius(4px); background:#f2f2f2; padding:10px 0 0; line-height:17px;}
-  .deep_grey_area{ @include border-radius(4px); background:#cdcdcd; padding-top:22px;}
+  .grey_area{ 
+    @include border-radius(4px); 
+    background:#f2f2f2; 
+    padding:10px 0 0; 
+    line-height:17px;
+  }
+  .deep_grey_area{ 
+    @include border-radius(4px); 
+    background:#cdcdcd; 
+    padding-top:12px;
+    clear:both;
+  }
   .horizontal-padding{ padding:0 19px;
       p{ line-height:17px;}
   }
@@ -46,7 +56,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   input, textarea{ padding:2px 10px; color:$in-color;}
   input{ height:17px;}
   input.full, textarea.full{ 
-    width:466px;
+    width:474px;
     &.place_ac{
       width:450px;
     }
@@ -69,7 +79,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   select.smallSel1{ width:209px;}
   select.middleSel{ /*width:247px;*/}
   input[type="checkbox"], input[type="radio"]{ width:auto; height:auto; border:none; background:none; padding:0;}
-  input[type="submit"]{ @include border-radius(6px); padding: 3px 13px 6px; font-size:13px; font-weight:bold; width:auto; height:auto; cursor:pointer; border:1px solid white; margin:0 10px;}
+  input[type="submit"], input[type="button"]{ @include border-radius(6px); padding: 3px 13px 6px; font-size:13px; font-weight:bold; width:auto; height:auto; cursor:pointer; border:1px solid white; margin:0 10px;}
   input.submit1, input.submit4{ @include yellow-gradient; color:$color;}
   input.submit2{ @include black-gradient; color:white;}
   input.submit3{ background:url(../images/btn_bg2.gif) repeat-x left top #c4c4c4; color:$color;} 
@@ -81,17 +91,29 @@ label.l-a3{ padding-left:0; padding-right:6px;}
     .country{width:189px;margin:3px 5px 0 0;}
   }
   
-  .show_hide_map{ cursor:pointer;}
   .allgap{ margin-right:40px;}
   .e_type_div{ padding-bottom:10px;}
   
-  .event_type{ display:inline-block; width:486px;
-      p{ padding:0 0 0 7px;}
+  .new_event_type{ 
+      display:inline-block; width:486px;
+      .inner{  padding-bottom:23px;
+        li a.active { background:#f5f5f5;}
+        p{ padding:0 0 0 7px;}
+      }
   }
-  .event_type_inner{  padding-bottom:23px;
-     li a.active { background:#f5f5f5;}
+  
+  .f_div{ 
+    width:100%; 
+    padding-bottom:6px; 
+    position:relative;
+    clear:both;
+    input.error, textarea.error{
+      border: 2px solid red;
+      &.full{
+        width: 470px;
+      }
+    }
   }
-  .f_div{ width:100%; padding-bottom:6px;}
   .f_div1{ display:inline-block;
       .checkbox{ display:inline-block;}
   }
@@ -117,14 +139,25 @@ label.l-a3{ padding-left:0; padding-right:6px;}
       margin-right: 11px;
     }
   }
+  label.error{
+    display: inline-block;
+    width: auto;
+    color:red;
+    padding: 3px;
+    margin: 5px auto;
+    float:right;
+  }
 }
-#add_tree_popup {
+#new_event_add_tree {
   margin-left: 2px;
   select {
     float: left; 
     height: auto;
     padding: 5px;
     width: 33%;
+  }
+  label.error{
+    color:red;
   }
 }
 

@@ -1,116 +1,88 @@
 <script type="text/javascript">
+var ns_new_event = {};
 var event_form_data = {};
-   jQuery(function($){
-        $('#new_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
-        $('#new_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
-        $('#new_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
-        $('#new_event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
-        $('#new_event_max_price').watermark("<?php echo $this->translate('Min. Price') ?>");
-        $('#new_event_min_price').watermark("<?php echo $this->translate('Max. Price') ?>");
-        
-        $('.timepicker').timepicker({ 'timeFormat': 'H:i', step : 15 });
-        
-        //tuning date range (no reversed date range)
-        var event_dates = $('#new_event_begin_date, #new_event_end_date').datepicker({
-            defaultDate: "+1w",
-            changeMonth: true,
-            changeYear: true,
-            onSelect: function( selectedDate ) {
-                var option = this.id == "new_event_begin_date" ? "minDate" : "maxDate",
-                    instance = $( this ).data( "datepicker" ),
-                    date = $.datepicker.parseDate(
-                        instance.settings.dateFormat ||
-                        $.datepicker._defaults.dateFormat,
-                        selectedDate, instance.settings );
-                event_dates.not( this ).datepicker( "option", option, date );
-            },
-        });
-        
-        
-        $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
-        
-        
-        $('.new_event_type a').click(function (event) {
-        });
-        
-        $('body').on('click','.timezone_trigger',function(){
-            $('.timezone_input ').slideToggle();
-            return false;
-        })
-        .on('click','.new_event_type a', function(){
-          if( ! $(this).hasClass('active') ) {
-              $( "#new_event_type a.active" ).removeClass( "active" );
-              $(this).addClass( "active" );
-              $("#new_event_type").val($(this).data('value'));
-          }
-          return false;
-        })
-        .on('click','#price-free', function(){
-          if ($(this).is(':checked')){
-            $('#priceFree').slideUp('fast');
-          }else{
-             $('#priceFree').slideDown('fast')
-          }
-        });
-        
-        
-    updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
-  
-      $('#new_event_is_any_time, #new_event_is_all_day').change(function(){
-    updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+jQuery(function($){
+  ns_new_event = {
+     init: function(){
+      $('#new_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
+      $('#new_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
+      $('#new_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
+      $('#new_event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
+      $('#new_event_max_price').watermark("<?php echo $this->translate('Min. Price') ?>");
+      $('#new_event_min_price').watermark("<?php echo $this->translate('Max. Price') ?>");
+      
+      $('.timepicker').timepicker({ 'timeFormat': 'H:i', step : 15 });
+      
+      //tuning date range (no reversed date range)
+      var event_dates = $('#new_event_begin_date, #new_event_end_date').datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          changeYear: true,
+          onSelect: function( selectedDate ) {
+              var option = this.id == "new_event_begin_date" ? "minDate" : "maxDate",
+                  instance = $( this ).data( "datepicker" ),
+                  date = $.datepicker.parseDate(
+                      instance.settings.dateFormat ||
+                      $.datepicker._defaults.dateFormat,
+                      selectedDate, instance.settings );
+              event_dates.not( this ).datepicker( "option", option, date );
+          },
       });
-function updatePeriod(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
-  if (is_any_time_input.is(':checked')){
-    begin_date_input.prop('disabled',true);
-    end_date_input.prop('disabled',true);
-    begin_time_input.prop('disabled',true);
-    end_time_input.prop('disabled',true);
-    is_all_day_input.prop('disabled',true);
-  }else{
-    begin_date_input.prop('disabled',false);
-    end_date_input.prop('disabled',false);
-    is_all_day_input.prop('disabled',false);
-    
-    if (is_all_day_input.is(':checked')){
-      begin_time_input.prop('disabled',true);
-      end_time_input.prop('disabled',true);
-    }else{
-      begin_time_input.prop('disabled',false);
-      end_time_input.prop('disabled',false);
+      
+      $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
+      
+      
+      $('body').on('click','.timezone_trigger',function(){
+          $('.timezone_input ').slideToggle();
+          return false;
+      })
+      .on('click','.new_event_type a', function(){
+        var value= $(this).data('value');
+        //$("#new_event_type_caption_"+value).show("slow").siblings().hide("slow");
+        $('.new_event_type_caption div').hide();
+        $("#new_event_type_caption_"+value).show();
+        if( ! $(this).hasClass('active') ) {
+            $( ".new_event_type a" ).removeClass( "active" );
+            $(this).addClass( "active" );
+            $("#new_event_type").val($(this).data('value'));
+        }
+        return false;
+      })
+      .on('click','#is_free', function(){
+        if ($(this).is(':checked')){
+          $('#priceFree').slideUp('fast');
+        }else{
+           $('#priceFree').slideDown('fast')
+        }
+      }).on('change','#new_event_is_any_time, #new_event_is_all_day', function(){
+            ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+      });
+      
+      ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+     },
+     updatePeriod: function(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
+      if (is_any_time_input.is(':checked')){
+        begin_date_input.prop('disabled',true);
+        end_date_input.prop('disabled',true);
+        begin_time_input.prop('disabled',true);
+        end_time_input.prop('disabled',true);
+        is_all_day_input.prop('disabled',true);
+      }else{
+        begin_date_input.prop('disabled',false);
+        end_date_input.prop('disabled',false);
+        is_all_day_input.prop('disabled',false);
+        
+        if (is_all_day_input.is(':checked')){
+          begin_time_input.prop('disabled',true);
+          end_time_input.prop('disabled',true);
+        }else{
+          begin_time_input.prop('disabled',false);
+          end_time_input.prop('disabled',false);
+        }
+      }
     }
   }
-}
-
-function saveFormCookie(){
-  console.log('saveFormCookie')
-  event_form_data =  $.extend(event_form_data,$('#new_event_basic').serializeObject());
-  console.log(event_form_data);
-  console.log(JSON.stringify(event_form_data));
-  $.cookie('event_form_data', JSON.stringify(event_form_data), {path: '/'});
-}
-function loadCookieToForm(){
-  if ($.cookie('event_form_data') != '' && $.cookie('event_form_data') != null){
-    console.log($.cookie('event_form_data'))
-    event_form_data = JSON.parse($.cookie('event_form_data'));
-
-    console.log(event_form_data)
-
-      $('form.item_create input,form.item_create textarea').each(function(){
-          if ($(this).prop('name').length && $(this).prop('name') in event_form_data){
-            if (event_form_data[$(this).prop('name')]!=''){
-          if ($(this).hasClass('checkBox')){
-            console.log($(this));
-            $(this).prop('checked','checked');
-          }else if ($(this).prop('value')==''){
-                $(this).val(event_form_data[$(this).prop('name')]);
-          }
-            }
-          }
-      });
-      //all possible js checking
-    updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
-  }
-}
+  ns_new_event.init();
 });
 </script>
 <?php if (Zend_Registry::get('config_ini')->server->online==1){

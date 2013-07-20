@@ -1,0 +1,58 @@
+
+<select class="country middleSel" id="new_event_country_code" name="new_event_country_code">
+  <?php /* <option value=""><?php echo $this->translate('Please select a country...')?></option> */ ?>
+      <?php $country=array();
+      foreach($_SESSION['timezone'] as $timezone){
+        if (!in_array($timezone['country'],$country)){?>
+      <option value="<?php echo $timezone['country_code'] ?>"><?php echo $timezone['country']?></option>
+      <?php  $country[]=$timezone['country'];
+        }
+      } ?>
+</select>
+<select class="city middleSel" name="new_event_timezone_id" id="new_event_timezone_id"></select>
+<?php //<input type="text" value="Hong Kong (+08:00)" class="middle2" /> ?>
+            
+<script type="text/javascript">
+	var timezone=<?php echo $_SESSION['timezone_json'] ?>;
+	var timezone_id='';
+	<?php if (isset ($_SESSION['form_data']['timezone_id'])){
+		if ($_SESSION['form_data']['timezone_id']!=''){?>
+			var timezone_id='<?php echo $_SESSION['form_data']['timezone_id'] ?>';
+		<?php }else{?>
+			var timezone_id='';
+		<?php }}?>
+	jQuery(function($){
+		if(timezone_id!=''){
+		for (var i=1;i<timezone.length;i=i+2){
+			var key=jQuery.inArray(timezone_id,timezone[i]);
+			if (key!=-1){
+				$('#new_event_country_code').val(timezone[i-1]);
+				changeCountry();
+				$('#new_event_timezone_id').val(timezone[i][key]);
+				break;
+			}
+		}
+		}else{
+			$('#new_event_country_code').val('HK');
+			changeCountry();
+		}
+		$('body').on("change", "#new_event_country_code", function(){
+			changeCountry();
+		});
+	})
+	function changeCountry(){
+		$('#new_event_timezone_id').empty();
+		var key=jQuery.inArray($("#new_event_country_code").children('option:selected').val(), timezone);
+		if (key!=-1){
+			//console.log(timezone[key+1]);
+			var i=0;
+			for (i=0;i<timezone[key+1].length;i=i+2){
+				$('#new_event_timezone_id').append('<option value="'+timezone[key+1][i]+'">'+timezone[key+1][i+1]+'</option>');
+			}
+			$('#new_event_timezone_id').show();
+		}else{
+			$('#new_event_timezone_id').hide().prop('disabled','disabled');
+		}
+	}
+</script>
+
