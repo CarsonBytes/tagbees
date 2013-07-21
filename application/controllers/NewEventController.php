@@ -34,7 +34,6 @@ class NewEventController extends Zend_Controller_Action {
 
   public function indexAction() {
     Common::getSession() -> nav = array('Home' => '/', 'Create Event' => null);
-
     Common::initTimezoneSession();
   }
 

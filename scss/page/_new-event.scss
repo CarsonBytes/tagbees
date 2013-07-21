@@ -33,7 +33,7 @@
     padding-top:12px;
     clear:both;
   }
-  .horizontal-padding{ padding:0 19px;
+  .horizontal-padding{ padding:5px 19px;
       p{ line-height:17px;}
   }
   a{ 
@@ -122,9 +122,19 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   .f_map{ border:1px solid #d1d1d1;}
   .f_map, .f_c_r{ display:inline-block; width:485px;}
   
-  .choose{ text-align:center; color:white; background:#9a9a9a; height:19px; padding:2px 10px; width:466px; display:inline-block; text-decoration:none;
-       &:hover{ background:#096DB9; color:#fff;}
-       &:active {background:#f0bc05; color:#000;}
+  .choose{ 
+    text-align:center; 
+    color:white; 
+    background:#9a9a9a; height:19px; 
+    padding:2px; 
+    width:490px; 
+    display:inline-block; 
+    text-decoration:none;
+    &:hover{ background:#096DB9; color:#fff;}
+    &:active {background:#f0bc05; color:#000;}
+    &.add_tags{
+      float: right;
+    }
   }
   .chose_active{background:#f0bc05; color:#000;}
   .tree_text{
@@ -134,10 +144,6 @@ label.l-a3{ padding-left:0; padding-right:6px;}
     display: none;
   }
   .choose{
-    &.add_tags{
-      float: right;
-      margin-right: 11px;
-    }
   }
   label.error{
     display: inline-block;
@@ -146,6 +152,19 @@ label.l-a3{ padding-left:0; padding-right:6px;}
     padding: 3px;
     margin: 5px auto;
     float:right;
+  }
+  .toggle_editor{
+    width: 496px;
+    display: block;
+    clear: both;
+    float: right;
+    margin-bottom: 10px;
+  }
+  #new_event_description_parent{
+    float:right;
+    #new_event_description_tbl{
+      margin-right:3px;
+    }
   }
 }
 #new_event_add_tree {

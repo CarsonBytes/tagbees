@@ -1,3 +1,4 @@
+<?php echo $this -> partial('js/common/tinymce.phtml'); ?>
 <script type="text/javascript">
 var ns_new_event = {};
 var event_form_data = {};
@@ -59,6 +60,8 @@ jQuery(function($){
       });
       
       ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+      
+      tinymce_ns.init('#new_event_description_toggle_editor',$('#new_event_description'));
      },
      updatePeriod: function(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
       if (is_any_time_input.is(':checked')){
