@@ -502,7 +502,7 @@ class Common{
     }
     
     
-    public static function initTimezoneSession($session_namespace = 'Default'){
+    public static function initTimezoneSession(){
       // for not commly changed data we store them in session...
       if (!isset(Common::getSession()->timezone)) {
         $timezoneService = new Service_Timezone();
@@ -521,6 +521,27 @@ class Common{
           }
         }
         $_SESSION['timezone_json'] = json_encode($js);
+      }
+    }
+    public static function initTreeSession(){
+      if (!isset($_SESSION['tree_json']) || $_SESSION['tree_json'] == '[]') {
+        $categoryService = new Service_Tree();
+        $category = $categoryService -> get(false);
+  
+        $used_cats = array();
+        $js = array();
+        foreach ($category as &$cat) {
+          if (!in_array($cat['category_ids'], $used_cats)) {
+            $js[] = $cat['category_ids'];
+            $js[] = array($cat['id'], $cat['name']);
+            $used_cats[] = $cat['category_ids'];
+          } else {
+            $key = array_search($cat['category_ids'], $js);
+            $js[$key + 1][] = $cat['id'];
+            $js[$key + 1][] = $cat['name'];
+          }
+        }
+        $_SESSION['tree_json'] = json_encode($js);
       }
     }
     

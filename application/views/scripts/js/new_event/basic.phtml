@@ -42,10 +42,12 @@ jQuery(function($){
        error.insertAfter(element);
      },
      submitHandler: function(form) {
+       console.log(form);
        form.submit();
+       return false;
      },
      invalidHandler: function(event, validator) {
-       ns_new_event.init();
+       ns_new_event.init(false);
      }
    });
 });

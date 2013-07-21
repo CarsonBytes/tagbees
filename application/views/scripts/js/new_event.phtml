@@ -4,7 +4,10 @@ var ns_new_event = {};
 var event_form_data = {};
 jQuery(function($){
   ns_new_event = {
-     init: function(){
+    event_dates: null,
+     init: function(is_reload){
+      if (typeof is_reload == 'undefined') var is_reload=true;
+      
       $('#new_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
       $('#new_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
       $('#new_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
@@ -15,7 +18,7 @@ jQuery(function($){
       $('.timepicker').timepicker({ 'timeFormat': 'H:i', step : 15 });
       
       //tuning date range (no reversed date range)
-      var event_dates = $('#new_event_begin_date, #new_event_end_date').datepicker({
+      ns_new_event.event_dates = $('#new_event_begin_date, #new_event_end_date').datepicker({
           defaultDate: "+1w",
           changeMonth: true,
           changeYear: true,
@@ -26,42 +29,46 @@ jQuery(function($){
                       instance.settings.dateFormat ||
                       $.datepicker._defaults.dateFormat,
                       selectedDate, instance.settings );
-              event_dates.not( this ).datepicker( "option", option, date );
+              ns_new_event.event_dates.not( this ).datepicker( "option", option, date );
           },
       });
       
-      $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
-      
-      
-      $('body').on('click','.timezone_trigger',function(){
-          $('.timezone_input ').slideToggle();
+      if (is_reload){
+        console.log('attached!');
+        $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
+        
+        $('body').on('click','.timezone_trigger',function(){
+            $('.timezone_input ').slideToggle();
+            return false;
+        })
+        .on('click','.new_event_type a', function(){
+          var value= $(this).data('value');
+          //$("#new_event_type_caption_"+value).show("slow").siblings().hide("slow");
+          $('.new_event_type_caption div').hide();
+          $("#new_event_type_caption_"+value).show();
+          if( ! $(this).hasClass('active') ) {
+              $( ".new_event_type a" ).removeClass( "active" );
+              $(this).addClass( "active" );
+              $("#new_event_type").val($(this).data('value'));
+          }
           return false;
-      })
-      .on('click','.new_event_type a', function(){
-        var value= $(this).data('value');
-        //$("#new_event_type_caption_"+value).show("slow").siblings().hide("slow");
-        $('.new_event_type_caption div').hide();
-        $("#new_event_type_caption_"+value).show();
-        if( ! $(this).hasClass('active') ) {
-            $( ".new_event_type a" ).removeClass( "active" );
-            $(this).addClass( "active" );
-            $("#new_event_type").val($(this).data('value'));
-        }
-        return false;
-      })
-      .on('click','#is_free', function(){
-        if ($(this).is(':checked')){
-          $('#priceFree').slideUp('fast');
-        }else{
-           $('#priceFree').slideDown('fast')
-        }
-      }).on('change','#new_event_is_any_time, #new_event_is_all_day', function(){
-            ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
-      });
+        })
+        .on('click','#new_event_is_free', function(){
+          if ($(this).is(':checked')){
+            $('#priceFree').slideUp('fast');
+            $('#new_event_min_price, #new_event_max_price').prop('disabled', true);
+          }else{
+            $('#new_event_min_price, #new_event_max_price').prop('disabled', false);
+            $('#priceFree').slideDown('fast')
+          }
+        }).on('change','#new_event_is_any_time, #new_event_is_all_day', function(){
+              ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+        });
       
-      ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
-      
-      tinymce_ns.init('#new_event_description_toggle_editor',$('#new_event_description'));
+        ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+        
+        tinymce_ns.init('#new_event_description_toggle_editor',$('#new_event_description'));
+        }
      },
      updatePeriod: function(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
       if (is_any_time_input.is(':checked')){

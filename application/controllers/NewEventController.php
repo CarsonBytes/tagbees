@@ -10,31 +10,48 @@ class NewEventController extends Zend_Controller_Action {
 
   public function init() {
     $this -> view -> headTitle('Tagbees - Create Event');
-
-    if (!isset($_SESSION['tree_json']) || $_SESSION['tree_json'] == '[]') {
-      $categoryService = new Service_Tree();
-      $category = $categoryService -> get(false);
-
-      $used_cats = array();
-      $js = array();
-      foreach ($category as &$cat) {
-        if (!in_array($cat['category_ids'], $used_cats)) {
-          $js[] = $cat['category_ids'];
-          $js[] = array($cat['id'], $cat['name']);
-          $used_cats[] = $cat['category_ids'];
-        } else {
-          $key = array_search($cat['category_ids'], $js);
-          $js[$key + 1][] = $cat['id'];
-          $js[$key + 1][] = $cat['name'];
-        }
-      }
-      $_SESSION['tree_json'] = json_encode($js);
-    }
+    Common::initTimezoneSession();
+    Common::initTreeSession();
   }
 
   public function indexAction() {
     Common::getSession() -> nav = array('Home' => '/', 'Create Event' => null);
-    Common::initTimezoneSession();
+    
+    if( $this->getRequest()->isPost() ){
+      
+      $data = $this->_request->getParams();
+      echo '<pre>';var_dump($data);echo '</pre>';die();
+      $validators = array(
+          'password'   => array(
+              new Zend_Validate_StringLength(
+                  array('min' => 6)
+              ),
+              'messages' => 'the password should contain at least 6 characters'
+          ),
+          'email'   => array(
+              new Zend_Validate_EmailAddress(
+              ),
+              'messages' => 'the email is not valid'
+          ),
+          'gender'   => array(
+          ),
+          'display_name'   => array(
+          )/*,
+          '*'   => array('allowEmpty'=>false)*/
+      )
+      ;
+      $options= array(
+          'missingMessage' => "'%field%' is required"
+      );
+      $input = new Zend_Filter_Input($filters, $validators,$data,$options);
+      
+      $postService=new Service_Post();
+      $slug_name=$postService->add($values);
+      
+      $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$_POST['name'].'\" has been created.'));
+      
+      $this->_redirect('/event/' . urlencode($slug_name));
+    }
   }
 
   public function advancedAction() {
