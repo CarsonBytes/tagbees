@@ -10,8 +10,6 @@ class NewEventController extends Zend_Controller_Action {
 
   public function init() {
     $this -> view -> headTitle('Tagbees - Create Event');
-    Common::initTimezoneSession();
-    Common::initTreeSession();
   }
 
   public function indexAction() {
