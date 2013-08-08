@@ -13,14 +13,14 @@
                         256
                     </div>
                 </div>
-                <h3 class="head4"><?php echo $this -> item -> name; ?></h3>
+                <h3 class="head4"><?php echo $this->item->name; ?></h3>
             </header>
             <div class="main_details clearfix">
                 <article class="d_l">
                     <table class="d_table">
                         <?php //time ?>
-                        <?php if ($this->item->not_time_specific == 0){
-                            $date_format = ($this->item->all_day == 1) ? "Y-m-d (D)" : "Y-m-d (D) H:i";
+                        <?php if ($this->item->is_any_time == 0){
+                            $date_format = ($this->item->is_all_day == 1) ? "Y-m-d (D)" : "Y-m-d (D) H:i";
                         ?>
                         <tr>
                             <td><strong><?php echo $this -> translate('Time: '); ?></strong></td>

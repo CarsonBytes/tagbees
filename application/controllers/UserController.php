@@ -38,8 +38,8 @@ class UserController extends Zend_Controller_Action
             $this->_request->getParam('username').'\'s Profile' => null
         );
         
-        $logService = new Service_Log();
-        $this->view->logs = $logService->getActions($this->userId, NULL, Zend_Registry::get('config')->user_feed->rpp);
+        $actionService = new Service_Action();
+        $this->view->logs = $actionService->getActions($this->userId, NULL, Zend_Registry::get('config')->user_feed->rpp);
         
     }
     

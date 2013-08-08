@@ -11,7 +11,7 @@ Choose a category for the event. If no category is selected, an Unclassified cat
     <div id="new_event_add_tree_error"></div>
   </form>
 </div>
-<script type="text/javascript">var category =<?php echo $_SESSION['tree_json'] ?>
+<script type="text/javascript">var category =<?php echo Common::getSession()->tree_json ?>
   ;
   var cat_arr = [];
   jQuery(function($) {

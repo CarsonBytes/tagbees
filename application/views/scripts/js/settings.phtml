@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var timezone =<?php echo $_SESSION['timezone_json'] ?>;
+var timezone =<?php echo Common::getSession()->timezone_json ?>;
   var timezone_id = ''; 
 <?php if (isset ($_SESSION['timezone_id'])){
 if ($_SESSION['timezone_id']!=''){?>var timezone_id = '<?php echo $_SESSION['timezone_id'] ?>';<?php }else{ ?>var timezone_id = '';<?php }} ?>

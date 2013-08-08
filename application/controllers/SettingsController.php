@@ -98,8 +98,6 @@ class SettingsController extends Zend_Controller_Action {
     // for global map js
     Common::getSession()->settings_form->lat = $this->view->form_data['lat'];
     Common::getSession()->settings_form->lng = $this->view->form_data['lng'];
-    
-    Common::initTimezoneSession();
   }
 
 }

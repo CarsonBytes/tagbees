@@ -219,7 +219,7 @@ class Service_Feed{
 					->where('type != ?','event');
 				$result=$this->db->fetchCol($catId_nestedQuery);
 				foreach($result as $cat){
-					$terms_select->orWhere("f.category_ids LIKE '%|?|%'", $cat);
+					$terms_select->orWhere("f.tree_ids LIKE '%|?|%'", $cat);
 				}
 
 
@@ -269,13 +269,13 @@ class Service_Feed{
 			}else if (isset($user_para['tree']) && is_array($user_para['tree']) && !empty($user_para['tree'])){
 
 				$tree_select=$this->db->select();
-				$tree_select->where("f.category_ids LIKE ?", '%|'.implode('|',$user_para['tree']).'|%');
+				$tree_select->where("f.tree_ids LIKE ?", '%|'.implode('|',$user_para['tree']).'|%');
 
 				$serviceCat = new Service_Tree();
 				$other_trees = $serviceCat->getSlaveCategoriesFromTree($user_para['tree']); //master sees slaves' feed
 				if (isset($other_trees['related_cats'])){
 					foreach($other_trees['related_cats'] as $value){
-						$tree_select->orWhere("f.category_ids LIKE ?", '%|'.implode('|',$value).'|%');
+						$tree_select->orWhere("f.tree_ids LIKE ?", '%|'.implode('|',$value).'|%');
 					}
 				}
                 
@@ -299,7 +299,7 @@ class Service_Feed{
                 $itemService = new Service_Item();
                 
                 //get tree(s)
-                $item = $itemService->getCatAndTreeIdsByCategoryIdsString($item->category_ids, $item);
+                $item = $itemService->getCatAndTreeIdsByCategoryIdsString($item->tree_ids, $item);
                 $cat_ids = array_merge($cat_ids, $item->cat_ids);
                 
                 $item->description = urlencode($item->description);
@@ -427,8 +427,8 @@ class Service_Feed{
 			$this->db->update('item',$var,'id='.$id);
             
             /*if ($set_status == -1){
-                $logService = new Service_Log();
-                $logService->updateAction($id, 0);
+                $actionService = new Service_Action();
+                $actionService->updateAction($id, 0);
             }*/
             return 1;
 		} catch (Exception $e) {

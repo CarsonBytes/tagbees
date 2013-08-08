@@ -16,30 +16,30 @@ class Service_Tree{
 	 * 		'subcategories'=>array()
 	 * 	)
 	 * )
-	 */
-	private $table='item';
-	private $first_cat_import_flag=1;
-    private $category;
-	private $submitter_id;
-    private $last_id=0;
-	private $levels=array();
-	function __construct(){
-		$this->identity=Zend_Auth::getInstance()->getIdentity();
-	    $this->db = Zend_Db_Table::getDefaultAdapter();
+	 */ private $table='item';
+  private $first_cat_import_flag=1;
+  private $category;
+  private $submitter_id;
+  private $last_id=0;
+  private $levels=array();
+  function __construct(){
+  $this->identity=Zend_Auth::getInstance()->getIdentity();
+  $this->db = Zend_Db_Table::getDefaultAdapter();
 
-		if (Zend_Auth::getInstance()->hasIdentity()){
-			$this->submitter_id = $this->identity->item_id;
-		}else{
-			$this->submitter_id=0; // default root id in case no one claim this tag adding / modifing
+  if (Zend_Auth::getInstance()->hasIdentity()){
+  $this->submitter_id = $this->identity->item_id;
+  }else{
+  $this->submitter_id=0;
+ // default root id in case no one claim this tag adding / modifing
 		}
 		//$this->db->getProfiler()->setEnabled(true);
 	}
 	public function get($is_all_included=true){
 	    $query=$this->db->select()
-		    ->from('item',array('id','name','category_ids'))
+		    ->from('item',array('id','name','tree_ids'))
 		    ->where('type=?','tree_tag')
 		    ->where('name<>?','ROOT')
-		    ->order(array('category_ids','id'));
+		    ->order(array('tree_ids','id'));
 
 		/*if (! $is_all_included){
 			//@to-do may need a new field to store the hide status, coz it's not quite appropriate to place it in description
@@ -49,15 +49,15 @@ class Service_Tree{
 	}
 	public function get3LevelCategories(){
 	    $query=$this->db->select()
-		    ->from('item',array('id','name','slug_name','category_ids'))
+		    ->from('item',array('id','name','slug_name','tree_ids'))
 		    ->where('type=?','tree_tag')
 		    ->where('name<>?','ROOT')
-		    ->order(array('category_ids','id'));
+		    ->order(array('tree_ids','id'));
 	    $result=$this->db->fetchAll($query);
 
 	    $cat=array();
 	    foreach($result as $row){
-	        $level=count(explode('|', $row['category_ids']))-2;
+	        $level=count(explode('|', $row['tree_ids']))-2;
 	        $cat[$level][]=$row;
 	    }
 
@@ -65,7 +65,7 @@ class Service_Tree{
 	}
     public function getItemTreeById($item_id){
         $query=$this->db->select()
-            ->from('item',array('category_ids'))
+            ->from('item',array('tree_ids'))
             ->where('id=?',$item_id);
         $result=$this->db->fetchOne($query);
         $tree_ids = explode('|', $result);
@@ -105,7 +105,7 @@ class Service_Tree{
 
 	public function getMasterCategoriesFromItem($item_id, $is_all_included=false){
 	    $query=$this->db->select()
-				->from("item",array('category_ids'))
+				->from("item",array('tree_ids'))
 				->where("id = ?", $item_id);
 		$result=$this->db->fetchOne($query);
 		$tree_string="|1".$result;
@@ -217,7 +217,7 @@ class Service_Tree{
 	/* not updated related categories logic
 	public function getRelatedCategoriesFromItem($item_id){
 	    $query=$this->db->select()
-				->from("item",array('category_ids'))
+				->from("item",array('tree_ids'))
 				->where("id = ?", $item_id);
 		$result=$this->db->fetchOne($query);
 		$tree_string="|1".$result;
@@ -292,7 +292,7 @@ class Service_Tree{
 					'slug_name'=>'ROOT',
 					'type'=>'tree_tag',
 					'submitter_id'=>$this->submitter_id,
-					'category_ids'=>'|0|'
+					'tree_ids'=>'|0|'
 				);
 				if ($this->last_id==''){
 					$rootData['create_time']=date('Y/m/d H:i:s');
@@ -339,7 +339,7 @@ class Service_Tree{
 				'slug_name'=>$slug,
 				'type'=>'tree_tag',
 				'submitter_id'=>$this->submitter_id,
-				'category_ids'=>"|".implode("|", $parent_ids)."|"
+				'tree_ids'=>"|".implode("|", $parent_ids)."|"
 			);
 		$selectIdQuery=$this->db->select()
 			->from($this->table,'id')
@@ -366,10 +366,10 @@ class Service_Tree{
 		echo '<br />'.$status.' category '.$this->last_id.': '.$name;
 		var_dump($values);
 		/* Abandon this because the last insert id is not correct in any cases
-		$select="INSERT INTO ".$this->table." (name, slug_name, status, type, submitter_id,category_ids,create_time)
+		$select="INSERT INTO ".$this->table." (name, slug_name, status, type, submitter_id,tree_ids,create_time)
 			VALUES (?, ?, 1,'tree_tag', ?, ?,NOW())
-			ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id), name=?,status=1, category_ids=?,update_time=NOW()";
-		$value=array($name, $slug, $this->submitter_id, $category_ids,$name,$category_ids);
+			ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id), name=?,status=1, tree_ids=?,update_time=NOW()";
+		$value=array($name, $slug, $this->submitter_id, $tree_ids,$name,$tree_ids);
 		$result=$this->db->query($select,$value);
 		if ($result->rowCount() == 1){ //INSERT
 			$status='inserted';
@@ -386,12 +386,12 @@ class Service_Tree{
 	public function rebuildTreeFromItem(){
 		$this->db->query('truncate '.$this->tree_table);
 		$query=$this->db->select()
-			->from($this->table,array('id','name','slug_name','category_ids','category_position'))
+			->from($this->table,array('id','name','slug_name','tree_ids','category_position'))
 			->where('type=?','tree_tag')
 			->order('id');
 		$result=$this->db->fetchAll($query);
 		foreach($result as $value){
-			$categories=explode('|',$value['category_ids']);
+			$categories=explode('|',$value['tree_ids']);
 			end($categories);
 			$insert=array(
 				'id'=>$value['id'],
@@ -499,10 +499,10 @@ class Service_Tree{
 
 	public function browse($cat_ids=array(1)){
 		//$this->db->getProfiler()->setEnabled(true);
-		$category_ids="|".implode("|", $cat_ids)."|";
+		$tree_ids="|".implode("|", $cat_ids)."|";
 		$query = $this->db->select()
 			->from('item',array('id','name'))
-			->where('category_ids = ?',$category_ids)
+			->where('tree_ids = ?',$tree_ids)
 			->where('type=?','tree_tag');
 		$result=$this->db->fetchAll($query);
 		//error_log($this->db->getProfiler()->getLastQueryProfile()->getQuery());
@@ -527,14 +527,14 @@ array(
 	 */
 	public function getAll(){
 		$query = $this->db->select()
-			->from('item',array('id','name','slug_name','category_ids'))
+			->from('item',array('id','name','slug_name','tree_ids'))
 			->where('type=?','tree_tag');
 		$result=$this->db->fetchAll($query);
 
 		$cat = array();
 		foreach($result as &$value){
 			if ($value['id']==1) continue;
-			$subject  = $value['category_ids'];
+			$subject  = $value['tree_ids'];
 			$pattern  = '/\|(?P<ids>\d+)/';
 			preg_match_all($pattern, $subject, $matches);
 			$value['level']=count($matches['ids']);

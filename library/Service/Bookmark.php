@@ -74,14 +74,14 @@ class Service_Bookmark{
 					->where ('item_id = ?',$item_id);
 			$tags=$this->db->fetchCol($select);
 			
-            $logService = new Service_Log();
+            $actionService = new Service_Action();
             if ($set_status == 1){
                 $content = array(
                     'tag'=>$tags
                 );
-                $logService->addAction('bookmark', $item_id, 'event', $content);
+                $actionService->addAction('bookmark', $item_id, 'event', $content);
             } else {
-                $logService->updateAction($item_id, 0);
+                $actionService->updateAction($item_id, 0);
             }
 
 			$select=
@@ -398,7 +398,7 @@ class Service_Bookmark{
 		$select=$this->db->select()
 			->from(array('user_bookmark'))
 			->where('user_bookmark.user_id=?',$user_id)
-			->joinLeft(array('item'), 'user_bookmark.item_id=item.id',array('name','slug_name','place','description','begin_datetime','end_datetime','not_time_specific','type'))
+			->joinLeft(array('item'), 'user_bookmark.item_id=item.id',array('name','slug_name','place','description','begin_datetime','end_datetime','is_any_time','type'))
 			//->where('user_bookmark.status > 0') // not neccessarily hide the unbookmarked items...
 			->order(array('update_time desc', 'create_time desc'))
 			->limit($total);

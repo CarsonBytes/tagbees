@@ -2,7 +2,7 @@
 <select class="country middleSel" id="new_event_country_code" name="new_event_country_code">
   <?php /* <option value=""><?php echo $this->translate('Please select a country...')?></option> */ ?>
       <?php $country=array();
-      foreach($_SESSION['timezone'] as $timezone){
+      foreach(Common::getSession()->timezone as $timezone){
         if (!in_array($timezone['country'],$country)){?>
       <option value="<?php echo $timezone['country_code'] ?>"><?php echo $timezone['country']?></option>
       <?php  $country[]=$timezone['country'];
@@ -13,7 +13,7 @@
 <?php //<input type="text" value="Hong Kong (+08:00)" class="middle2" /> ?>
             
 <script type="text/javascript">
-	var timezone=<?php echo $_SESSION['timezone_json'] ?>;
+	var timezone=<?php echo Common::getSession()->timezone_json ?>;
 	var timezone_id='';
 	<?php if (isset ($_SESSION['form_data']['timezone_id'])){
 		if ($_SESSION['form_data']['timezone_id']!=''){?>

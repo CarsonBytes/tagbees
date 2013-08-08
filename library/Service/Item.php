@@ -85,7 +85,7 @@ class Service_Item{
 		$result['related_categories']=$catService->getMasterCategoriesFromItem($result['item']->id);
 
 		//get tree(s)
-        $result['item'] = $this->getCatAndTreeIdsByCategoryIdsString($result['item']->category_ids, $result['item']);
+        $result['item'] = $this->getCatAndTreeIdsByCategoryIdsString($result['item']->tree_ids, $result['item']);
         
         //get category tags information for the item
         $tree_tags=array();
@@ -137,7 +137,7 @@ class Service_Item{
                 //$packed_result[$value->id]->tags_html = $this->getTagsHTML($packed_result[$value->id]);
                 
                 //get tree(s)
-                $item = $this->getCatAndTreeIdsByCategoryIdsString($packed_result[$value->id]->category_ids, $item);
+                $item = $this->getCatAndTreeIdsByCategoryIdsString($packed_result[$value->id]->tree_ids, $item);
                 $cat_ids = array_merge($cat_ids, $item->cat_ids);
                 
                 
@@ -164,7 +164,7 @@ class Service_Item{
                 $packed_result[$value->id]->related_categories=$catService->getMasterCategoriesFromItem($packed_result[$value->id]->id);
         
                 //get tree(s)
-                $packed_result[$value->id] = $this->getCatAndTreeIdsByCategoryIdsString($packed_result[$value->id]->category_ids, $packed_result[$value->id]);
+                $packed_result[$value->id] = $this->getCatAndTreeIdsByCategoryIdsString($packed_result[$value->id]->tree_ids, $packed_result[$value->id]);
                 
                 //get category tags information for the item
                 $tree_tags=array();
@@ -242,12 +242,12 @@ class Service_Item{
         return implode(', ',$tags_html_array);
     }
 
-    public function getCatAndTreeIdsByCategoryIdsString($category_ids_string, &$item){
+    public function getCatAndTreeIdsByCategoryIdsString($tree_ids_string, &$item){
         $cat_ids = array();
         $tree_ids['main'] = array();
         $tree_ids['others'] = array();
-        if ($category_ids_string != ''){
-            $trees = explode(';', $category_ids_string);
+        if ($tree_ids_string != ''){
+            $trees = explode(';', $tree_ids_string);
             $tree_ref = (Zend_Registry::isRegistered('tree_ref') && is_array(Zend_Registry::get('tree_ref'))) ? Zend_Registry::get('tree_ref') : array();
             
             foreach($trees as $tree){

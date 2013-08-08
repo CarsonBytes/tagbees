@@ -1,5 +1,5 @@
 <?php
-class Service_Log{
+class Service_Action{
 	protected $identity;
 	protected $db;
 	function __construct(){

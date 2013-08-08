@@ -8,11 +8,11 @@
 <div style="display:none;" class="new_items_div"></div>
 
 
-<script id="old_tags_ids" type="text/x-jquery-tmpl">
-  <input type="hidden" name="item_ids[]" value="${$data}"/>
+<script id="new_event_tag_ids" type="text/x-jquery-tmpl">
+  <input type="hidden" name="new_event_tag_ids[]" value="${$data}"/>
 </script>
-<script id="new_item_store" type="text/x-jquery-tmpl">
-  <input type="hidden" name="new_items[]" value="${$data}"/>
+<script id="new_event_new_tags" type="text/x-jquery-tmpl">
+  <input type="hidden" name="new_event_new_tags[]" value="${$data}"/>
 </script>
 <script id="item_names" type="text/x-jquery-tmpl">
   <a class="text_link" href="<?php echo $this->baseUrl()?>${getItem($data,'type')}/${getItem($data,"slug_name")}" target="_blank">${getItem($data,'name')}</a>
@@ -65,7 +65,7 @@
               $('.new_items_div').empty();
               
               /* Render the sideBarTree with the "movies" data */
-              $( "#old_tags_ids" ).tmpl( selected_items ).appendTo( ".item_ids_div" );
+              $( "#new_event_tag_ids" ).tmpl( selected_items ).appendTo( ".item_ids_div" );
               $( "#item_names" ).tmpl( selected_items ).appendTo( "#new_event_added_tags_display");
   
               new_items=$('#new_event_add_custom_tags').val().split(',');
@@ -89,7 +89,7 @@
               new_items_names='';
               
               //append new non-empty names
-              $( "#new_item_store" ).tmpl( new_items ).appendTo( ".new_items_div" );
+              $( "#new_event_new_tags" ).tmpl( new_items ).appendTo( ".new_items_div" );
               $( "#new_item_names" ).tmpl( new_items ).appendTo( "#new_event_added_tags_display");
   
               selected_confirmed_items=selected_items.slice(0);
@@ -190,13 +190,13 @@
             type: item.type
           };
         });
-        $( "#old_tags_ids" ).tmpl(  selected_items ).appendTo( ".item_ids_div" );
+        $( "#new_event_tag_ids" ).tmpl(  selected_items ).appendTo( ".item_ids_div" );
         $( "#item_names" ).tmpl( selected_items ).appendTo( "#new_event_added_tags_display");
         
         if (selected_items.length>0 && new_items.length>0)
           $("#new_event_added_tags_display").append(', ');
           
-        $( "#new_item_store" ).tmpl( new_items ).appendTo( ".new_items_div" );
+        $( "#new_event_new_tags" ).tmpl( new_items ).appendTo( ".new_items_div" );
         $( "#new_item_names" ).tmpl( new_items ).appendTo( "#new_event_added_tags_display");
                 
       }

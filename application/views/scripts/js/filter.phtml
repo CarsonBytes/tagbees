@@ -236,7 +236,7 @@ jQuery(function($){
             refreshFeed('index');
         }
     }).on('change','.feed_filter_input[name="is_match_interest"]', function(){
-        <?php if (empty($_SESSION['user'])) { ?>
+        <?php if (Common::getSession()->user == null) { ?>
             var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
             showFlashMessages(content);
             $(this).removeAttr('checked');

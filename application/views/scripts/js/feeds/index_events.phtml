@@ -67,6 +67,7 @@
                      //console.log(this.data);
                     if (typeof arguments[0] == 'string') 
                         return decodeURIComponent((arguments[0]+'').replace(/\+/g, '%20')).replace('\n','<br />');
+                        //return $("<div/>").html(arguments[0]).text();
                     else return '';
                   },
                   formatMysqlDate: function() { 

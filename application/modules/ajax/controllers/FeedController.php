@@ -28,8 +28,8 @@ class Ajax_FeedController extends Zend_Controller_Action
             $feedService=new Service_Feed();
             $this->_helper->json($feedService->getFeed($this->params));
         } else if ($this->params['type'] == 'user_log'){
-            $logService = new Service_Log();
-            $this->_helper->json($logService->getActions($this->params['user_id'], $this->params['last_id']));
+            $actionService = new Service_Action();
+            $this->_helper->json($actionService->getActions($this->params['user_id'], $this->params['last_id']));
         }else if ($this->params['type'] == 'tree_feeds'){
             $string='';
             $tagService=new Service_Tag();
@@ -62,8 +62,8 @@ class Ajax_FeedController extends Zend_Controller_Action
     }
 /*
     public function loadMoreUserActivitiesAction() {
-        $logService = new Service_Log();
-        $this->view->logs = $logService->getActions(
+        $actionService = new Service_Action();
+        $this->view->logs = $actionService->getActions(
             $this->params['user_id'], 
             $this->params['last_id'],
             Zend_Registry::get('config_ini')->para->feed->rpp

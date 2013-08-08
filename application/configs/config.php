@@ -66,7 +66,7 @@ return array(
 				'application_end_datetime'
 			)
 		)
-	),
+	),/*
 	'post'=>array(
 		'adv_submit'=>array(
 			'name'=>array(
@@ -82,7 +82,7 @@ return array(
 			'mode'=>array('Zend_Validate'=>array('presence'=>'required'),'default'=>'advanced'),
 			'status'=>array('Zend_Validate'=>array('presence'=>'required'),'default'=>1),
 			//'submitter_id'=>array('Zend_Validate'=>array('presence'=>'required')),
-			'category_ids'=>array('Zend_Validate'=>array('presence'=>'required'),'default'=>'|0|'),
+			'tree_ids'=>array('Zend_Validate'=>array('presence'=>'required'),'default'=>'|0|'),
 			'begin_datetime'=>array(
 				//'Zend_Validate'=>array('presence'=>'required'),
 				'Custom_Validate'=>array('func'=>'Validate_DateTimeRange','para'=>array('begin_datetime','end_datetime'))
@@ -113,7 +113,7 @@ return array(
 			'organiser_website'=>array('Zend_Validate'=>array(new Zend_Validate_Callback(array('Zend_Uri', 'check')))),
 			//'create_time'=>array('Zend_Validate'=>array('presence'=>'required')),
 		)
-	),
+	),*/
     'email_templates'=>array(
         'user_signup_confirmation' =>array(
             'subject' => $translate->translate('Account confirmation from Tagbees')

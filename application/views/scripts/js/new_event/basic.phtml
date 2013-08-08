@@ -1,16 +1,21 @@
 <script type="text/javascript">
 jQuery(function($){
+    jQuery.validator.addMethod("custom_numeric", function(value, element) {
+      return isNumber(value);
+    }, "Value should be numeric");
+    
+    
     $('#new_event_basic').validate({
       ignore: [],
       rules: {
-        new_event_type: "required",
-        new_event_name: "required",
-        new_event_begin_date: "required",
-        new_event_end_date: "required",
+        new_event_event_type: "required",
+        new_event_name: {required: true, minlength: 4} ,
+        new_event_begin_date: {required: true, date: true},
+        new_event_end_date: {required: true, date: true},
         new_event_begin_time: "required",
         new_event_end_time: "required",
-        new_event_min_price: "required",
-        new_event_max_price: "required",
+        new_event_min_price: {required: true, custom_numeric: true} ,
+        new_event_max_price: {required: true, custom_numeric: true} ,
         cat1: "required",
         cat2: "required",
         cat3: "required"
@@ -42,12 +47,11 @@ jQuery(function($){
        error.insertAfter(element);
      },
      submitHandler: function(form) {
-       console.log(form);
        form.submit();
-       return false;
      },
      invalidHandler: function(event, validator) {
        ns_new_event.init(false);
+       showFlashMessages([{'error' : 'please correct the input(s).'}]);
      }
    });
 });

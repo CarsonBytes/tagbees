@@ -504,11 +504,11 @@ class Common{
     
     public static function initTimezoneSession(){
       // for not commly changed data we store them in session...
+      $timezoneService = new Service_Timezone();
       if (!isset(Common::getSession()->timezone)) {
-        $timezoneService = new Service_Timezone();
         Common::getSession()->timezone = $timezoneService -> get();
       }
-      if (!isset($_SESSION['timezone_json'])) {
+      if (!isset(Common::getSession()->timezone_json)) {
         $js = array();
         foreach (Common::getSession()->timezone as $timezone) {
           if (!in_array($timezone['country_code'], $js)) {
@@ -520,28 +520,28 @@ class Common{
             $js[$key + 1][] = $timezone['city'] . ' (' . $timezoneService -> formatOffset($timezone['offset']) . ')';
           }
         }
-        $_SESSION['timezone_json'] = json_encode($js);
+        Common::getSession()->timezone_json = json_encode($js);
       }
     }
     public static function initTreeSession(){
-      if (!isset($_SESSION['tree_json']) || $_SESSION['tree_json'] == '[]') {
+      if (!isset(Common::getSession()->tree_json) || Common::getSession()->tree_json == '[]') {
         $categoryService = new Service_Tree();
         $category = $categoryService -> get(false);
   
         $used_cats = array();
         $js = array();
         foreach ($category as &$cat) {
-          if (!in_array($cat['category_ids'], $used_cats)) {
-            $js[] = $cat['category_ids'];
+          if (!in_array($cat['tree_ids'], $used_cats)) {
+            $js[] = $cat['tree_ids'];
             $js[] = array($cat['id'], $cat['name']);
-            $used_cats[] = $cat['category_ids'];
+            $used_cats[] = $cat['tree_ids'];
           } else {
-            $key = array_search($cat['category_ids'], $js);
+            $key = array_search($cat['tree_ids'], $js);
             $js[$key + 1][] = $cat['id'];
             $js[$key + 1][] = $cat['name'];
           }
         }
-        $_SESSION['tree_json'] = json_encode($js);
+        Common::getSession()->tree_json = json_encode($js);
       }
     }
     

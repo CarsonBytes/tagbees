@@ -20,37 +20,88 @@ class NewEventController extends Zend_Controller_Action {
     if( $this->getRequest()->isPost() ){
       
       $data = $this->_request->getParams();
-      echo '<pre>';var_dump($data);echo '</pre>';die();
+      //echo '<pre>';var_dump($data);echo '</pre>';
+      $filters=array(
+          'new_event_event_type'   => 'Digits',
+          'new_event_name'   => 'StringTrim',
+          'new_event_place'   => 'StringTrim',
+          'new_event_is_any_time'   => array(
+            new Plugins_CheckboxValueFilter()
+          ),
+          'new_event_is_all_day'   => array(
+            new Plugins_CheckboxValueFilter()
+          ),
+          'new_event_is_free'   => array(
+            new Plugins_CheckboxValueFilter()
+          )
+      );
       $validators = array(
-          'password'   => array(
+          'new_event_event_type'   => array(
+              'digits',
+              new Zend_Validate_Between(1, 3),
+              'messages' => array(1=>'Please choose the valid event type from our 3 provided event types')
+          ),
+          'new_event_name'   => array(
               new Zend_Validate_StringLength(
-                  array('min' => 6)
-              ),
-              'messages' => 'the password should contain at least 6 characters'
+                  array('min' => 4, 'max' => 20, 'encoding'=> 'utf-8')
+              )
           ),
-          'email'   => array(
-              new Zend_Validate_EmailAddress(
-              ),
-              'messages' => 'the email is not valid'
+          'new_event_place'   => array(),
+          'new_event_lat'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_lng'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_is_any_time' => array('default' => 0),
+          'new_event_is_all_day' => array('default' => 0),
+          'new_event_begin_date' => array(
+            new Zend_Validate_Date(array('format' => 'YYYY-MM-DD'))
           ),
-          'gender'   => array(
+          'new_event_end_date' => array(
+            new Zend_Validate_Date(array('format' => 'YYYY-MM-DD'))
           ),
-          'display_name'   => array(
-          )/*,
-          '*'   => array('allowEmpty'=>false)*/
-      )
-      ;
-      $options= array(
-          'missingMessage' => "'%field%' is required"
+          'new_event_begin_time' => array(
+            new Zend_Validate_Date(array('format' => 'HH:mm'))
+          ),
+          'new_event_end_time' => array(
+            new Zend_Validate_Date(array('format' => 'HH:mm'))
+          ),
+          'new_event_timezone_id'   => array(),
+          'new_event_tree_ids'   => array(),
+          'new_event_new_tags' => array(),
+          'new_event_tag_ids' => array(),
+          'new_event_description'   => array(),
+          'new_event_is_free' => array('default' => 0),
+          'new_event_min_price' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
+          'new_event_max_price' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
+          'new_event_submit'   => array(),
+          'new_event_save'   => array(),
+          'new_event_more_detail'   => array()
+      );
+      $options = array(
+          'missingMessage' => "'%field%' is required",
+          'allowEmpty' => true
       );
       $input = new Zend_Filter_Input($filters, $validators,$data,$options);
       
-      $postService=new Service_Post();
-      $slug_name=$postService->add($values);
-      
-      $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$_POST['name'].'\" has been created.'));
-      
-      $this->_redirect('/event/' . urlencode($slug_name));
+      if ($input->hasInvalid() || $input->hasMissing()) {
+        $this->view->result=$input->getMessages();
+        $this->_helper->FlashMessenger($input->getMessages());
+      }else{
+        $input_vals = $input->getEscaped();
+        
+        if (isset($input_vals['new_event_submit'])){
+          unset($input_vals['new_event_submit']);
+          $postService=new Service_Post();
+          $slug_name=$postService->add($input_vals);
+          
+          $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$_POST['name'].'\" has been created.'));
+          
+          $this->_redirect('/event/' . urlencode($slug_name));
+        } else if (isset($input_vals['new_event_save'])){
+          unset($input_vals['new_event_save']);
+          
+        } else if (isset($input_vals['new_event_more_detail'])){
+          unset($input_vals['new_event_more_detail']);
+        } 
+      }
     }
   }
 

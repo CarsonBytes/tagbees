@@ -591,10 +591,10 @@ $pie-base-class: pie-element;*/
 .event_form .timezone_input .country, .advanced_event_form .timezone_input .country { width: 189px; margin: 3px 5px 0 0; }
 .event_form .allgap, .advanced_event_form .allgap { margin-right: 40px; }
 .event_form .e_type_div, .advanced_event_form .e_type_div { padding-bottom: 10px; }
-.event_form .new_event_type, .advanced_event_form .new_event_type { display: inline-block; width: 486px; }
-.event_form .new_event_type .inner, .advanced_event_form .new_event_type .inner { padding-bottom: 23px; }
-.event_form .new_event_type .inner li a.active, .advanced_event_form .new_event_type .inner li a.active { background: #f5f5f5; }
-.event_form .new_event_type .inner p, .advanced_event_form .new_event_type .inner p { padding: 0 0 0 7px; }
+.event_form .new_event_event_types, .advanced_event_form .new_event_event_types { display: inline-block; width: 486px; }
+.event_form .new_event_event_types .inner, .advanced_event_form .new_event_event_types .inner { padding-bottom: 23px; }
+.event_form .new_event_event_types .inner li a.active, .advanced_event_form .new_event_event_types .inner li a.active { background: #f5f5f5; }
+.event_form .new_event_event_types .inner p, .advanced_event_form .new_event_event_types .inner p { padding: 0 0 0 7px; }
 .event_form .f_div, .advanced_event_form .f_div { width: 100%; padding-bottom: 6px; position: relative; clear: both; }
 .event_form .f_div input.error, .event_form .f_div textarea.error, .advanced_event_form .f_div input.error, .advanced_event_form .f_div textarea.error { border: 2px solid red; }
 .event_form .f_div input.error.full, .event_form .f_div textarea.error.full, .advanced_event_form .f_div input.error.full, .advanced_event_form .f_div textarea.error.full { width: 470px; }
@@ -611,9 +611,9 @@ $pie-base-class: pie-element;*/
 .event_form .tree_text, .advanced_event_form .tree_text { display: inline-block; line-height: 20px !important; }
 .event_form .tree_line_hidden, .advanced_event_form .tree_line_hidden { display: none; }
 .event_form label.error, .advanced_event_form label.error { display: inline-block; width: auto; color: red; padding: 3px; margin: 5px auto; float: right; }
-.event_form .toggle_editor, .advanced_event_form .toggle_editor { width: 496px; display: block; clear: both; float: right; margin-bottom: 10px; }
+.event_form .toggle_editor, .advanced_event_form .toggle_editor { width: 498px; display: block; clear: both; float: right; margin-bottom: 10px; }
 .event_form #new_event_description_parent, .advanced_event_form #new_event_description_parent { float: right; }
-.event_form #new_event_description_parent #new_event_description_tbl, .advanced_event_form #new_event_description_parent #new_event_description_tbl { margin-right: 3px; }
+.event_form #new_event_description_parent #new_event_description_tbl, .advanced_event_form #new_event_description_parent #new_event_description_tbl { margin-right: 3px; width: 494px !important; }
 
 #new_event_add_tree { margin-left: 2px; }
 #new_event_add_tree select { float: left; height: auto; padding: 5px; width: 33%; }

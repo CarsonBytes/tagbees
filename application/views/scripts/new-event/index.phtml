@@ -9,7 +9,7 @@
         <div class="horizontal-padding">
           <div class="e_type_div">
             <label>Event Type</label>
-            <div class="new_event_type">
+            <div class="new_event_event_types">
               <div class="inner clearfix">
                 <ul>
                   <li>
@@ -22,7 +22,7 @@
                     <a href="#" class="profile_pic" data-value="3"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6>Attraction</h6> </a>
                   </li>
                 </ul>
-                <input type="hidden" id="new_event_type" name="new_event_type" value="" required />
+                <input type="hidden" id="new_event_event_type" name="new_event_event_type" value="" required />
               </div>
               <div class="new_event_type_caption">
                 <div id="new_event_type_caption_1" style="display:none">
@@ -76,9 +76,9 @@
           </div>
           <div class="f_div">
             <label>&nbsp;</label>
-            <input type="text" class="date_input" id="new_event_begin_date" name="new_event_begin_date" required />
+            <input type="text" class="date_input" id="new_event_begin_date" name="new_event_begin_date" required  readonly="true" />
             <label class="l-a1"><strong>-</strong></label>
-            <input type="text" class="date_input" id="new_event_end_date" name="new_event_end_date" required />
+            <input type="text" class="date_input" id="new_event_end_date" name="new_event_end_date" required readonly="true" />
             &nbsp;
             <?php //<label class="l-a1"><strong>From</strong></label> ?>
             <input id="new_event_begin_time" name="new_event_begin_time" type="text" class="timepicker" required />

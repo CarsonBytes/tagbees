@@ -10,7 +10,7 @@ class Service_Post{
 	 *	$name,$description,
 		$has_original_price=0,$price='',$has_discount=0,$discount_mode='',
 		$discount_price='',$discount_percent='',$discount_custom='',
-		$category_id='',
+		$tree_ids='',
 		$payment_method=array('any'),
 		$time_zone_id=0,
 		$begin_time='',$has_end_time=0,$end_time='',
@@ -19,52 +19,55 @@ class Service_Post{
 		$imgs=array(),$img_descriptions=array()
 	 *
 	 */
-	public function add($data){
+	public function add($inputs, $prefix = 'new_event_'){
 		try {
-			//unset undefined...
-			unset($data['undefined']);
-			unset($data['tree_text']);
-			
-			// handling tag...
-			// setting old tags
-			$tag_ids=array();
-			if (isset($data['item_ids'])){
-				$tag_ids=$data['item_ids'];
-				unset($data['item_ids']);
-			}
-			// adding new tags
-			if (isset($data['new_items'])){
-				// add new related item of the target promotion first to item
-				$tag_ids=array_merge(
-					$tag_ids,
-					$this->bulkAddTags(
-						$data['new_items']
-					)
-				);
-				unset($data['new_items']);
-			}
+      $item_tag_table_data = array();
+      
+      // handle normal and special fields to be combined
+      $to_be_customed = array('begin_date','end_date','begin_time','end_time', 'is_any_time', 'is_all_day', 'description');
+      $customed_inputs = array();
+      foreach($inputs as $key => $value){
+        $name = str_replace($prefix, '', $key);
+        if (in_array($name, $to_be_customed)) $customed_inputs[$name] = $value;
+        else $item_tag_table_data[$name]=$value;
+      }
+      if ($customed_inputs['is_any_time']==0  && isset($customed_inputs['begin_date']) && isset($customed_inputs['end_date'])){
+      $item_tag_table_data['begin_datetime'] = $customed_inputs['begin_date'] . ' ' . ($customed_inputs['is_all_day'] == 0 ? $customed_inputs['begin_time'] : "");
+      $item_tag_table_data['end_datetime'] = $customed_inputs['end_date'] . ' ' . ($customed_inputs['is_all_day'] == 0 ? $customed_inputs['end_time'] : "");
+      }
+      
+      // strip html text if needed
+      $item_tag_table_data['description'] = $customed_inputs['description'];
+      $item_tag_table_data['teaser'] = mb_substr(strip_tags(html_entity_decode($item_tag_table_data['description'])), 0, 50, 'UTF-8');
 
-
-			//adding extra fields before posting to db
-			$commonService=new Common();
-			$data['slug_name']=$commonService->slugUnique($data['name']);
-			$data['create_time']=date('Y-m-d H:i:s');
-			$data['submitter_id']=$this->identity->item_id;
-
-			//$data['begin_datetime']=(isset($data['begin_datetime'])) ? $data['begin_datetime'] : null;
-			//$data['end_datetime']=(isset($data['begin_datetime'])) ? $data['begin_datetime'] : null;
-
-			$data['is_free']=(isset($data['is_free'])) ? 1 : 0;
-			$data['all_day']=(isset($data['all_day'])) ? 1 : 0;
-			$data['not_time_specific']=(isset($data['not_time_specific'])) ? 1 : 0;
-			
-			//check price
-			$data['min_price']=(isset($data['min_price'])) ? number_format((float)$data['min_price'], 2, '.', '') : NULL;
-			$data['max_price']=(isset($data['max_price'])) ? number_format((float)$data['max_price'], 2, '.', '') : NULL;
-
-			$this->db->insert('item',$data);
-			$post_id = $this->db->lastinsertid('item','id');
-
+      // handling tag...
+      // setting old tags
+      $tag_ids=array();
+      if (isset($item_tag_table_data['tag_ids'])){
+        $tag_ids=$item_tag_table_data['tag_ids'];
+        unset($item_tag_table_data['tag_ids']);
+      }
+      // adding new tags
+      if (isset($item_tag_table_data['new_tags'])){
+        // add new related item of the target promotion first to item
+        $tagService = new Service_Tag();
+        $tag_ids=array_merge(
+          $tag_ids,
+          $tagService->bulkAddTags(
+            $item_tag_table_data['new_tags']
+          )
+        );
+        unset($item_tag_table_data['new_tags']);
+      }
+      
+      //adding extra fields before posting to db
+      $commonService=new Common();
+      $item_tag_table_data['create_time']=date('Y-m-d H:i:s');
+      $item_tag_table_data['slug_name']=$commonService->slugUnique($inputs[$prefix.'name']);
+      
+      $this->db->insert('item',$item_tag_table_data);
+      $post_id = $this->db->lastinsertid('item','id');
+      
 			if (!empty($tag_ids)){
 				// add to item_tag
 				foreach($tag_ids as $tag_id){
@@ -86,13 +89,13 @@ class Service_Post{
 			//$imageService->moveTmpImages(1,$promoId,$slugName)
 			//return 1;
 			
-            $logService=new Service_Log();
-            $content = array(
-                'fields' => $vars
-            );
-            $logService->addAction('create', $post_id, 'event', $content);
+      $actionService=new Service_Action();
+      $content = array(
+          'fields' => $vars
+      );
+      $actionService->addAction('create', $post_id, 'event', $content);
             
-			return $data['slug_name'];
+			return $item_tag_table_data['slug_name'];
 		} catch (Exception $e) {
 			return $e->getMessage();
 		}
@@ -117,49 +120,18 @@ class Service_Post{
 	    try {
 	    	$this->db->update('item',$changed_fields,'id='.$id);
 
-	    	$logService=new Service_Log();
+	    	$actionService=new Service_Action();
             $content = array(
                 'fields' => array_keys($changed_fields),
                 'reason' => $reason
             );
-	    	$logService->addAction('update', $id, 'event', $content);
+	    	$actionService->addAction('update', $id, 'event', $content);
 
 	    } catch (Exception $e) {
 	    	return $e->getMessage();
 	    }
 	}
 
-	/*
-	 * check if tags are new and bulk add
-	 * $tag_ids = existing tag ids, if it's new tags, then it will be empty string
-	 * $tag_names= tag namess
-	 */
-	public function bulkAddTags($tag_names,$userId=''){
-		try{
-			if ($userId===''){
-				$userId=$this->identity->item_id;
-			}
-
-			$commonService=new Common();
-
-			foreach ($tag_names as $name){
-				//new tag handling
-				$vars=array(
-					'name'=>$name,
-					'slug_name'=>$commonService->slugUnique($name),
-					'type'=>'tag',
-					'status'=>-1, //awaiting approval
-					'submitter_id'=>$userId,
-					'create_time'=>date('Y-m-d H:i:s')
-				);
-				$this->db->insert('item',$vars);
-				$ids[]=$this->db->lastinsertid('item','id');
-			}
-			return $ids;
-		} catch (Exception $e) {
-			return $e->getMessage();
-		}
-	}
 
 	/*
 	 * bulk import to item table regarding specific fields

@@ -300,12 +300,12 @@ class Service_Tag{
 			if ($i==0){
 				$tagged_item_nested_query->where('item_tag.tag_id = ?',intval($tag_id));
 				$tag_select
-					->where($item_table_name.".category_ids LIKE '%|?|%'", intval($tag_id));
+					->where($item_table_name.".tree_ids LIKE '%|?|%'", intval($tag_id));
 
 			}else{
 				$tagged_item_nested_query->orWhere('tag_id = ?',intval($tag_id));
 				$tag_select
-					->orWhere($item_table_name.".category_ids LIKE '%|?|%'", intval($tag_id));
+					->orWhere($item_table_name.".tree_ids LIKE '%|?|%'", intval($tag_id));
 			}
 			$i++;
 		}
@@ -313,5 +313,38 @@ class Service_Tag{
 
 		return $select->where(join(" ",$tag_select->getPart(Zend_Db_Select::WHERE)));
 	}
+  
+  
+  /*
+   * check if tags are new and bulk add
+   * $tag_ids = existing tag ids, if it's new tags, then it will be empty string
+   * $tag_names= tag namess
+   */
+  public function bulkAddTags($tag_names,$userId=''){
+    try{
+      if ($userId===''){
+        $userId=$this->identity->item_id;
+      }
+
+      $commonService=new Common();
+
+      foreach ($tag_names as $name){
+        //new tag handling
+        $vars=array(
+          'name'=>$name,
+          'slug_name'=>$commonService->slugUnique($name),
+          'type'=>'tag',
+          'status'=>-1, //awaiting approval
+          'submitter_id'=>$userId,
+          'create_time'=>date('Y-m-d H:i:s')
+        );
+        $this->db->insert('item',$vars);
+        $ids[]=$this->db->lastinsertid('item','id');
+      }
+      return $ids;
+    } catch (Exception $e) {
+      return $e->getMessage();
+    }
+  }
 
 }
