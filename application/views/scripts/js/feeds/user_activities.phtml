@@ -23,10 +23,10 @@
         return $( "#feed_user_item" ).tmpl(user_logs.data,
               {
                   getPastTense: function(){
-                      return user_logs.action_types[this.data.action_type_id]['past']
+                      return user_logs.action_types[this.data.action_type]['past']
                   },
                   getObjectType: function(){
-                      return user_logs.object_types[this.data.object_type_id]
+                      return user_logs.object_types[this.data.object_type]
                   },
                   getFeedItem: function(){
                       var subfeeds = [];

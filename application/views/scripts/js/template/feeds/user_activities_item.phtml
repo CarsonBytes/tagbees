@@ -6,7 +6,7 @@
         <div class="content">
             <a href="<?php echo $this->baseUrl('user/')?>${username}">${user_name}</a>
             ${$item.getPastTense()}
-            <a href="<?php echo $this->baseUrl('/')?>${$item.getObjectType()}/${object_slug_name}">${object_name}</a>
+            <a href="<?php echo $this->baseUrl('/')?>${object_type}/${object_slug_name}">${object_name}</a>
             <abbr class="timeago" title="${create_time}" style="float:right;">
         </div>
         {{if is_detailed_feed}}

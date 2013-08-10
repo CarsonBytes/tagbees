@@ -275,12 +275,9 @@
                         </tr>
                         {% } %}
                     </script>
-                    <p>
-                        Each year Paris' Grand Palais asks an internationally acclaimed artist to create an artwork exhibition - called Monumenta - to grace its ornate glass nave. It's an aptly named installation, as the 'monumental' works need to fill a 35m-high space.
-                    </p>
-                    <p>
-                        In 2012, Monumenta is dedicated to French, abstract minimalist artist Daniel Buren, famed for his use of stripes.Monumenta is always immensely popular, so be prepared to queue.
-                    </p>
+                    <div class="description">
+                      <?php echo html_entity_decode($this->item->description) ?>
+                    </div>
                 </div>
             </div>
             <footer>

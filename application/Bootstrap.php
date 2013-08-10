@@ -34,10 +34,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     protected function _initConfig()
     {
-        $config_ini = new Zend_Config($this->getOptions(), true);
-        Zend_Registry::set('config_ini', $config_ini);
+       Zend_Registry::set('config_ini', new Zend_Config($this->getOptions(), true));
         
-       
        $display_lang = Common::getSiteDisplayLang();
        $translate = new Zend_Translate('csv', APPLICATION_PATH . '/configs/lang/'.$display_lang.'.csv', $display_lang);
        $translate->setLocale($display_lang);
