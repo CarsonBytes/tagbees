@@ -8,12 +8,12 @@ jQuery(function($){
      init: function(is_reload){
       if (typeof is_reload == 'undefined') var is_reload=true;
       
-      $('#new_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
-      $('#new_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
-      $('#new_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
-      $('#new_event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
-      $('#new_event_max_price').watermark("<?php echo $this->translate('Min. Price') ?>");
-      $('#new_event_min_price').watermark("<?php echo $this->translate('Max. Price') ?>");
+      $('#new_event_begin_time').watermark("<?php echo $this->translate('new_event_begin_time') ?>");
+      $('#new_event_end_time').watermark("<?php echo $this->translate('new_event_end_time') ?>");
+      $('#new_event_begin_date').watermark("<?php echo $this->translate('new_event_begin_date') ?>");
+      $('#new_event_end_date').watermark("<?php echo $this->translate('new_event_end_date') ?>");
+      $('#new_event_max_price').watermark("<?php echo $this->translate('new_event_max_price') ?>");
+      $('#new_event_min_price').watermark("<?php echo $this->translate('new_event_min_price') ?>");
       
       $('.timepicker').timepicker({ 'timeFormat': 'H:i', step : 15 });
       
@@ -34,7 +34,6 @@ jQuery(function($){
       });
       
       if (is_reload){
-        console.log('attached!');
         $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
         
         $('body').on('click','.timezone_trigger',function(){

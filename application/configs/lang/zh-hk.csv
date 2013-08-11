@@ -190,7 +190,40 @@ just before;"剛剛"
 user cloud;"用戶雲"
 
 ?# form
-New Event;新建活動
+
+Please correct the errors and submit the form again;"請先更正錯誤，然後再提交表格"
+"'%value%' is more than %max% characters long";"'%value%' 多於%max%字"
+Public Event;"公開活動"
+Private Event;"私人活動"
+Attraction;"景點"
+
+new_event_event_type;"屬性"
+new_event_name;"名稱"
+new_event_place;"地點"
+Period;"時期"
+new_event_is_any_time;"任何時間"
+new_event_is_all_day;"整天"
+new_event_begin_date;"起始日期"
+new_event_end_date;"結束日期"
+new_event_begin_time;"起始時間"
+new_event_end_time;"結束時間"
+new_event_description;"描述"
+new_event_description_toggle_editor;"切換編輯器"
+new_event_tree_ids;"分類"
+Price;"價錢"
+new_event_is_free;"免費?"
+new_event_min_price;"最低費用"
+new_event_max_price;"最高費用"
+
+new_event_save;"儲存"
+new_event_submit;"提交"
+new_event_more_detail;"儲存並提交更多資料..."
+
+Tags;"標簽"
+Add tags to personalize your event exposure;"添加標簽以讓您的活動更能針對特定興趣的人士"
+
+
+New Event;"新建活動"
 Event Type;"活動屬性"
 Private;"私人"
 Public;"公開"

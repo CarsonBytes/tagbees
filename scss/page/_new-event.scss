@@ -26,6 +26,17 @@
     background:#f2f2f2; 
     padding:10px 0 0; 
     line-height:17px;
+    .has_error{
+      margin: 5px 20px;
+    }
+    .errors{
+      list-style-type: disc;
+      margin: 0 20px 30px;
+      color: red;
+      li{
+        margin-left: 20px;
+      }
+    }
   }
   .deep_grey_area{ 
     @include border-radius(4px); 

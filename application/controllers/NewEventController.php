@@ -77,12 +77,12 @@ class NewEventController extends Zend_Controller_Action {
           'missingMessage' => "'%field%' is required",
           'allowEmpty' => true
       );
+        
       $input = new Zend_Filter_Input($filters, $validators,$data,$options);
-      
       //echo '<pre>';var_dump($input->getMessages());echo '</pre>';die();
       if ($input->hasInvalid() || $input->hasMissing()) {
-        $this->view->result=$input->getMessages();
-        $this->_helper->FlashMessenger($input->getMessages());
+        $this->_helper-> FlashMessenger(array('error' => 'Please correct the errors and submit the form again'.'.'));
+        $this->view->errors = $input->getMessages();
       }else{
         $input_vals = $input->getEscaped();
         
@@ -91,7 +91,7 @@ class NewEventController extends Zend_Controller_Action {
           $postService=new Service_Post();
           $slug_name=$postService->add($input_vals);
           
-          $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$_POST['name'].'\" has been created.'));
+          $this->_helper->FlashMessenger(array('error'=>'Your event \"'.$_POST['name'].'\" has been created.'));
           
           $this->_redirect('/event/' . urlencode($slug_name));
         } else if (isset($input_vals['new_event_save'])){

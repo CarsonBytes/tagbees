@@ -39,6 +39,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
        $display_lang = Common::getSiteDisplayLang();
        $translate = new Zend_Translate('csv', APPLICATION_PATH . '/configs/lang/'.$display_lang.'.csv', $display_lang);
        $translate->setLocale($display_lang);
+       Zend_Validate_Abstract::setDefaultTranslator($translate);
+       
        Zend_Registry::set('Zend_Translate', $translate);
        
        Zend_Registry::set('config', new Zend_Config(require APPLICATION_PATH . '/configs/config.php'));

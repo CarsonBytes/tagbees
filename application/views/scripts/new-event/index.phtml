@@ -3,23 +3,34 @@
 <?php echo $this -> partial('js/new_event/basic.phtml'); ?>
 <article class="main shadow">
   <section class="main_inner event_form">
-    <h1>Post An Event</h1>
+    <h1><?php echo $this->translate('New Event');?></h1>
     <div class="grey_area">
+    <?php if(isset($this->errors)){ ?>
+    <p class="has_error"><?php echo $this->translate('Please correct the errors and submit the form again');?>:</p>
+    <ul class="errors"> 
+     <?php  foreach($this->errors as $key1 => $value1){
+        foreach ($value1 as $key2 => $value2){
+          echo  '<li>'. $this->translate($key1).' '. $value2. '</li>';
+        }
+      }
+      ?> 
+    </ul>
+    <?php } ?>
       <form id="new_event_basic" name="new_event_basic" action="" method="post">
         <div class="horizontal-padding">
           <div class="e_type_div">
-            <label>Event Type</label>
+            <label><?php echo $this->translate('new_event_event_type');?></label>
             <div class="new_event_event_types">
               <div class="inner clearfix">
                 <ul>
                   <li>
-                    <a href="#" class="profile_pic allgap" data-value="1"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6>Public Event</h6> </a>
+                    <a href="#" class="profile_pic allgap" data-value="1"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6><?php echo $this->translate('Public Event');?></h6> </a>
                   </li>
                   <li>
-                    <a href="#" class="profile_pic allgap" data-value="2"> <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/> <h6>Private Event</h6> </a>
+                    <a href="#" class="profile_pic allgap" data-value="2"> <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/> <h6><?php echo $this->translate('Private Event');?></h6> </a>
                   </li>
                   <li>
-                    <a href="#" class="profile_pic" data-value="3"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6>Attraction</h6> </a>
+                    <a href="#" class="profile_pic" data-value="3"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6><?php echo $this->translate('Attraction');?></h6> </a>
                   </li>
                 </ul>
                 <input type="hidden" id="new_event_event_type" name="new_event_event_type" value="" required />
@@ -48,11 +59,11 @@
             </div>
           </div>
           <div class="f_div">
-            <label>Event Name</label>
+            <label><?php echo $this->translate('new_event_name');?></label>
             <input type="text" id="new_event_name" name="new_event_name" class="full" required  />
           </div>
           <div class="f_div">
-            <label for="new_event_place">Place</label>
+            <label for="new_event_place"><?php echo $this->translate('new_event_place');?></label>
             <input id="new_event_place" class="place_ac full" type="text" name="new_event_place" class="full" value="<?php echo $this->form_data['place'] ?>" />
             <img id="new_event_geo_locate" class="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
           </div>
@@ -62,16 +73,16 @@
             <div id="new_event_map" class="map"></div>
           </div>
           <div class="f_div">
-            <label>Period</label>
+            <label><?php echo $this->translate('Period');?></label>
             <div class="f_div1">
               <input type="hidden" name="new_event_is_any_time" value="0" />
               <input type="checkbox" id="new_event_is_any_time" name="new_event_is_any_time"/>
-              <label class="l-a" for="new_event_is_any_time">Any Time</label>
+              <label class="l-a" for="new_event_is_any_time"><?php echo $this->translate('new_event_is_any_time');?></label>
             </div>
             <div class="f_div1 f_div2">
               <input type="hidden" name="new_event_is_all_day" value="0" />
               <input type="checkbox" id="new_event_is_all_day" name="new_event_is_all_day" />
-              <label class="l-a" for="new_event_is_all_day">All day</label>
+              <label class="l-a" for="new_event_is_all_day"><?php echo $this->translate('new_event_is_all_day');?></label>
             </div>
           </div>
           <div class="f_div">
@@ -84,10 +95,10 @@
             <input id="new_event_begin_time" name="new_event_begin_time" type="text" class="timepicker" required />
             <label class="l-a1"><strong>-</strong></label>
             <input id="new_event_end_time" name="new_event_end_time" type="text" class="timepicker" required />
-            <a class="l-a2 timezone_trigger text_link" href="#">Time Zone</a>
+            <a class="l-a2 timezone_trigger text_link" href="#"><?php echo $this->translate('Time Zone');?></a>
           </div>
           <div class="f_div timezone_input">
-            <label>Time Zone</label>
+            <label><?php echo $this->translate('Time Zone');?></label>
               <?php echo $this->partial('partials/new-event/input/timezone.phtml'); ?>
           </div>
         </div>
@@ -100,20 +111,20 @@
               </div>
             </div>
             <div class="f_div">
-              <label>Category</label>
+              <label><?php echo $this->translate('new_event_tree_ids');?></label>
               <?php echo $this -> partial('partials/new-event/input/tree.phtml'); ?>
             </div>
             <div class="f_div">
-              <label for="description">Description</label>
-              <textarea class="full" rows="5" cols="25" id="new_event_description" name="new_event_description" ></textarea>
-              <a href="#" class="toggle_editor text_link" id="new_event_description_toggle_editor">[Toggle Editor]</a>
+              <label for="description"><?php echo $this->translate('new_event_description');?></label>
+              <textarea class="full" rows="5" cols="25" id="new_event_description" name="" ></textarea>
+              <a href="#" class="toggle_editor text_link" id="new_event_description_toggle_editor">[<?php echo $this->translate('new_event_description_toggle_editor');?>]</a>
             </div>
             <div class="f_div">
-              <label>Price</label>
+              <label><?php echo $this->translate('Price');?></label>
               <div class="f_div1">
                 <input type="hidden" name="new_event_is_free" value="0" />
                 <input type="checkbox" id="new_event_is_free" name="new_event_is_free" checked="checked"/>
-                <label class="l-a" for="new_event_is_free" name="new_event_is_free">Is it free?</label>
+                <label class="l-a" for="new_event_is_free" name="new_event_is_free"><?php echo $this->translate('new_event_is_free');?></label>
               </div>
             </div>
             <div id="priceFree" class="f_div" style="display:none;">
@@ -133,9 +144,9 @@
           <div class="f_div"></div>
           <div class="f_div">
             <label>&nbsp;</label>
-            <input type="submit" value="Save" name="new_event_save" class="submit1" id="new_event_save" />
-            <input type="submit" value="Submit" name="new_event_submit" class="submit2" id="new_event_submit" />
-            <input type="submit" value="More Details" name="new_event_more_detail" class="submit3"  id="new_event_more_detail"/>
+            <input type="submit" value="<?php echo $this->translate('new_event_save');?>" name="new_event_save" class="submit1" id="new_event_save" />
+            <input type="submit" value="<?php echo $this->translate('new_event_submit');?>" name="new_event_submit" class="submit2" id="new_event_submit" />
+            <input type="submit" value="<?php echo $this->translate('new_event_more_detail');?>" name="new_event_more_detail" class="submit3"  id="new_event_more_detail"/>
 
           </div>
         </div>
