@@ -79,6 +79,8 @@ class Service_Action{
         
         $used_action_types = array();
         $used_object_types = array();
+        $feed_item_ids = array();
+        
         
         foreach($db_data as &$log){
             //define which type of feeds should show events

@@ -79,6 +79,7 @@ class NewEventController extends Zend_Controller_Action {
       );
       $input = new Zend_Filter_Input($filters, $validators,$data,$options);
       
+      //echo '<pre>';var_dump($input->getMessages());echo '</pre>';die();
       if ($input->hasInvalid() || $input->hasMissing()) {
         $this->view->result=$input->getMessages();
         $this->_helper->FlashMessenger($input->getMessages());

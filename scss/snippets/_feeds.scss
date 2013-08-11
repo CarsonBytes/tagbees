@@ -46,17 +46,23 @@
           img{ border:10px solid #f2f2f2;}
         }
         .post_right{ width:474px; float:right;
-          .tag_top{ color:$color; 
-            ul{ margin-left:-3px;}
+          .tag_top{ 
+            color:$color; 
+            width: 405px;
+            overflow-x: hidden;
+            ul{ margin-left:-3px; width: 1000px;}
             li{ float:left; color:$color; padding:0 3px;}
             a{ display:inline-block; color:$main-blue; text-decoration:none;
               &:link {color:$main-blue;}
               &:hover{color:#f0bc05;}
               &:active {color:$color;}
+              &.place{
+                display: inline;
+              }
             }
             .place{max-width:150px;}
           }
-          .taggap{ border-bottom:1px solid #e8e8e8; padding-bottom:8px;}
+          .taggap{ border-bottom:1px solid #e8e8e8; padding-bottom:8px; }
           .tag_bottom{ padding-top:25px;
               a{ padding:0 3px;}
               

@@ -38,7 +38,11 @@ class Service_Post{
       
       // strip html text if needed
       $item_tag_table_data['description'] = $customed_inputs['description'];
-      $item_tag_table_data['teaser'] = mb_substr(trim(strip_tags(html_entity_decode($item_tag_table_data['description']))), 0, 50, 'UTF-8');
+      $to_be_replaced = array("/\s\s+/","@[　　]@u");
+      $replace_to = array(' ','');
+      $item_tag_table_data['teaser'] = 
+        trim(
+        preg_replace('/\s\s+/', ' ', mb_substr(strip_tags(html_entity_decode($item_tag_table_data['description'])), 0, 50, 'UTF-8')));
 
       // handling tag...
       // setting old tags
