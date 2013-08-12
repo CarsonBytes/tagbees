@@ -4,7 +4,7 @@ class Service_Post{
 	protected $db;
 	function __construct(){
 		$this->identity=Zend_Auth::getInstance()->getIdentity();
-	    $this->db = Zend_Db_Table::getDefaultAdapter();
+	  $this->db = Zend_Db_Table::getDefaultAdapter();
 	}
 	/*
 	 *	$name,$description,
@@ -68,6 +68,7 @@ class Service_Post{
       $commonService=new Common();
       $item_tag_table_data['create_time']=date('Y-m-d H:i:s');
       $item_tag_table_data['slug_name']=$commonService->slugUnique($inputs[$prefix.'name']);
+      $item_tag_table_data['submitter_id']=$this->identity->item_id;
       
       $this->db->insert('item',$item_tag_table_data);
       $post_id = $this->db->lastinsertid('item','id');
