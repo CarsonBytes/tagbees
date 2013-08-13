@@ -21,7 +21,7 @@ class Service_Post{
 	 */
 	public function add($inputs, $prefix = 'new_event_'){
 		try {
-      $item_tag_table_data = array();
+      $item_table_data = array();
       
       // handle normal and special fields to be combined
       $to_be_customed = array('begin_date','end_date','begin_time','end_time', 'is_any_time', 'is_all_day', 'description');
@@ -29,48 +29,48 @@ class Service_Post{
       foreach($inputs as $key => $value){
         $name = str_replace($prefix, '', $key);
         if (in_array($name, $to_be_customed)) $customed_inputs[$name] = $value;
-        else $item_tag_table_data[$name]=$value;
+        else $item_table_data[$name]=$value;
       }
       if ($customed_inputs['is_any_time']==0  && isset($customed_inputs['begin_date']) && isset($customed_inputs['end_date'])){
-      $item_tag_table_data['begin_datetime'] = $customed_inputs['begin_date'] . ' ' . ($customed_inputs['is_all_day'] == 0 ? $customed_inputs['begin_time'] : "");
-      $item_tag_table_data['end_datetime'] = $customed_inputs['end_date'] . ' ' . ($customed_inputs['is_all_day'] == 0 ? $customed_inputs['end_time'] : "");
+      $item_table_data['begin_datetime'] = $customed_inputs['begin_date'] . ' ' . ($customed_inputs['is_all_day'] == 0 ? $customed_inputs['begin_time'] : "");
+      $item_table_data['end_datetime'] = $customed_inputs['end_date'] . ' ' . ($customed_inputs['is_all_day'] == 0 ? $customed_inputs['end_time'] : "");
       }
       
       // strip html text if needed
-      $item_tag_table_data['description'] = $customed_inputs['description'];
+      $item_table_data['description'] = $customed_inputs['description'];
       $to_be_replaced = array("/\s\s+/","@[　　]@u");
       $replace_to = array(' ','');
-      $item_tag_table_data['teaser'] = 
+      $item_table_data['teaser'] = 
         trim(
-        preg_replace('/\s\s+/', ' ', mb_substr(strip_tags(html_entity_decode($item_tag_table_data['description'])), 0, 50, 'UTF-8')));
+        preg_replace('/\s\s+/', ' ', mb_substr(strip_tags(html_entity_decode($item_table_data['description'])), 0, 50, 'UTF-8')));
 
       // handling tag...
       // setting old tags
       $tag_ids=array();
-      if (isset($item_tag_table_data['tag_ids'])){
-        $tag_ids=$item_tag_table_data['tag_ids'];
-        unset($item_tag_table_data['tag_ids']);
+      if (isset($item_table_data['tag_ids'])){
+        $tag_ids=$item_table_data['tag_ids'];
+        unset($item_table_data['tag_ids']);
       }
       // adding new tags
-      if (isset($item_tag_table_data['new_tags'])){
+      if (isset($item_table_data['new_tags'])){
         // add new related item of the target promotion first to item
         $tagService = new Service_Tag();
         $tag_ids=array_merge(
           $tag_ids,
           $tagService->bulkAddTags(
-            $item_tag_table_data['new_tags']
+            $item_table_data['new_tags']
           )
         );
-        unset($item_tag_table_data['new_tags']);
+        unset($item_table_data['new_tags']);
       }
       
       //adding extra fields before posting to db
       $commonService=new Common();
-      $item_tag_table_data['create_time']=date('Y-m-d H:i:s');
-      $item_tag_table_data['slug_name']=$commonService->slugUnique($inputs[$prefix.'name']);
-      $item_tag_table_data['submitter_id']=$this->identity->item_id;
+      $item_table_data['create_time']=date('Y-m-d H:i:s');
+      $item_table_data['slug_name']=$commonService->slugUnique($inputs[$prefix.'name']);
+      $item_table_data['submitter_id']=$this->identity->item_id;
       
-      $this->db->insert('item',$item_tag_table_data);
+      $this->db->insert('item',$item_table_data);
       $post_id = $this->db->lastinsertid('item','id');
       
 			if (!empty($tag_ids)){
@@ -100,7 +100,7 @@ class Service_Post{
       );
       $actionService->addAction('create', $post_id, 'event', $content);
             
-			return $item_tag_table_data['slug_name'];
+			return $item_table_data['slug_name'];
 		} catch (Exception $e) {
 			return $e->getMessage();
 		}

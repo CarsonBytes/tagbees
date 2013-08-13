@@ -91,7 +91,7 @@ class NewEventController extends Zend_Controller_Action {
           $postService=new Service_Post();
           $slug_name=$postService->add($input_vals);
           
-          $this->_helper->FlashMessenger(array('error'=>'Your event \"'.$_POST['name'].'\" has been created.'));
+          $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$input->getEscaped('new_event_name').'\" has been created.'));
           
           $this->_redirect('/event/' . urlencode($slug_name));
         } else if (isset($input_vals['new_event_save'])){
