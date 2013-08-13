@@ -7,13 +7,14 @@ class Service_Setting {
     $this -> db = Zend_Db_Table::getDefaultAdapter();
   }
 
-  /*
-   * get user's saved weather location(s)
-   */
   public function get($id = '') {
     if ($id == '')
       $id = $this -> identity -> item_id;
-    $select = $this -> db -> select() -> from(array('user')) -> joinLeft('item', 'item.id=user.item_id', array('name', 'description', 'place', 'lat', 'lng', 'zoom')) -> joinLeft('user_account', 'user_account.user_id = user.item_id', array('identifiers' => new Zend_Db_Expr('GROUP_CONCAT(identifier)'), 'provider_ids' => new Zend_Db_Expr('GROUP_CONCAT(provider_id)'))) -> joinLeft('account_provider', 'account_provider.id = user_account.provider_id', array('account_provider_names' => new Zend_Db_Expr('GROUP_CONCAT(account_provider.name)'))) -> where('item_id= ?', $id) -> group('user.item_id');
+    $select = $this -> db -> select() 
+      -> from(array('user')) 
+      -> joinLeft('item', 'item.id=user.item_id', array('name', 'description', 'place', 'lat', 'lng', 'zoom')) 
+      -> joinLeft('user_account', 'user_account.user_id = user.item_id', array('identifiers' => new Zend_Db_Expr('GROUP_CONCAT(identifier)'), 'user_providers' => new Zend_Db_Expr('GROUP_CONCAT(provider)'))) 
+      -> where('item_id= ?', $id) -> group('user.item_id');
     return $this -> db -> fetchRow($select);
   }
 

@@ -268,7 +268,7 @@ class AuthController extends Zend_Controller_Action
                 
                 $userService = new Service_User ();
                 
-                $username = $userService->getUsernameByProvider($serviceAuth->getProviderIdByName(Common::getSession()->login_provider_name), $identifier);
+                $username = $userService->getUsernameByProvider(Common::getSession()->login_provider_name, $identifier);
                 if ($username == false){
                    // direct user to create a new account
                    $this->_redirect('auth/signup');

@@ -15,7 +15,7 @@ class Ajax_SettingsController extends Zend_Controller_Action
         if (Zend_Auth::getInstance()->hasIdentity()){
           $authService = new Service_Auth();
           $authService->removeProviderAccount(
-            $this->params['provider_id'],$this->params['identifier']
+            $this->params['provider'],$this->params['identifier']
           );
           $array['result'] = true;
         } else{

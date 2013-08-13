@@ -74,11 +74,11 @@ class SettingsController extends Zend_Controller_Action {
             // check if others have link their account using duplicate credential
             
             $userService = new Service_User();            
-            $username = $userService->getUsernameByProvider($authService->getProviderIdByName($_SESSION['add_login_provider_name']), $identifier);
+            $username = $userService->getUsernameByProvider($_SESSION['add_login_provider_name'], $identifier);
             
             if ($username == false){
                 // no one is using this account credential so the provider should be added
-                $authService->addProviderAccount($authService->getProviderIdByName($_SESSION['add_login_provider_name']), $identifier);
+                $authService->addProviderAccount($_SESSION['add_login_provider_name'], $identifier);
                 echo "The account is successfully associated!";
             }else{
                 echo "Someone is already using this credential in another account!";
@@ -89,8 +89,8 @@ class SettingsController extends Zend_Controller_Action {
       $settingService = new Service_Setting();
       $settingService->save($this->_request->getPost());
     }
-    $this->view->all_account_providers = $authService->getAllProviders();
-    $this->view->authUrl = $authService->getAllProviderLinks();
+    $this->view->all_providers = $authService->getAllProviders();
+    $this->view->authUrl = $authService->getAllUserProviderLinks($this->view->baseUrl('settings'));
 
     $settingService = new Service_Setting();
     $this -> view -> form_data = $settingService->get();

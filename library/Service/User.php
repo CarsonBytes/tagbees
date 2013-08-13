@@ -79,7 +79,7 @@ class Service_User{
                 $serviceAuth = new Service_Auth();
                 $packed_data = array(
                     'user_id' => $userId,
-                    'provider_id' => $serviceAuth->getProviderIdByName($provider_name),
+                    'provider' => $provider_name,
                     'identifier' => $user_identifier,
                     'create_time'=>date('Y-m-d H:i:s')
                 );
@@ -205,13 +205,13 @@ class Service_User{
 		);
 	}
     
-    public function getUsernameByProvider($provider_id, $identifier){
+    public function getUsernameByProvider($provider, $identifier){
         $select = 
             $this->db->select()
                 ->from('user','username')
-                ->joinLeft('user_account', 'user.item_id = user_account.user_id')
-                ->where('user_account.provider_id = ?',$provider_id)
-                ->where('user_account.identifier = ?',$identifier);
+                ->joinLeft('user_account', "user.item_id = user_account.user_id")
+                ->where('user_account.identifier = ?',$identifier)
+                ->where('user_account.provider = ?',$provider);
         return $this->db->fetchOne($select);
     }
     

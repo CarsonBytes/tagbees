@@ -15,7 +15,7 @@ if ($_SESSION['timezone_id']!=''){?>var timezone_id = '<?php echo $_SESSION['tim
       $.ajax({
           url: "<?php echo $this->baseUrl('ajax/settings/delete_social_connection') ?>",
           data: {
-              'provider_id':$(this).data('provider-id'),
+              'provider':$(this).data('provider'),
               'identifier':$(this).data('identifier'),
           },
           success: function(msg){

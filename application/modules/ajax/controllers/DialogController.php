@@ -40,14 +40,7 @@ class Ajax_DialogController extends Zend_Controller_Action
     }
     public function addLoginsAction(){
         $serviceAuth = new Service_Auth();
-        $provider_ids = explode(',',$serviceAuth->getUserProviderIdsByUserId());
-        
-        if (!in_array($serviceAuth->getProviderIdByName('google'), $provider_ids))
-            $this->view->googleAuthUrl = TBS\Auth\Adapter\Google::getAuthorizationUrl($this->view->serverUrl() . $this->view->baseUrl('setting?provider=google'));
-        if (!in_array($serviceAuth->getProviderIdByName('facebook'), $provider_ids))
-            $this->view->facebookAuthUrl = TBS\Auth\Adapter\Facebook::getAuthorizationUrl($this->view->serverUrl() . $this->view->baseUrl('setting?provider=facebook'));
-        if (!in_array($serviceAuth->getProviderIdByName('twitter'), $provider_ids))
-            $this->view->twitterAuthUrl = \TBS\Auth\Adapter\Twitter::getAuthorizationUrl($this->view->serverUrl() . $this->view->baseUrl('setting?provider=twitter'));
+        $this->view->authUrls = $serviceAuth->getAllUserProviderLinks($this->view->baseUrl('setting'));
         
     }
 }

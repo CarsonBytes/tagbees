@@ -1,14 +1,9 @@
-<?php if (isset($this->googleAuthUrl)) { ?>
-    <a href="<?= $this->googleAuthUrl ?>"><img src="<?php echo $this->baseUrl('images/google_icon.jpg')?>"/> google</a><br />
+<?php if (isset($this->authUrls['google'])) { ?>
+    <a href="<?= $this->authUrls['google'] ?>"><img src="<?php echo $this->baseUrl('images/google_icon.jpg')?>"/> google</a><br />
 <?php } ?>
-<?php if (isset($this->facebookAuthUrl)) { ?>
-<a href="<?= $this->facebookAuthUrl ?>"><img src="<?php echo $this->baseUrl('images/facebook-icon.jpg')?>"/> facebook</a><br />
+<?php if (isset($this->authUrls['facebook'])) { ?>
+<a href="<?= $this->authUrls['facebook'] ?>"><img src="<?php echo $this->baseUrl('images/facebook-icon.jpg')?>"/> facebook</a><br />
 <?php } ?>
-<?php if (isset($this->twitterAuthUrl)) { ?>
-<a href="<?= $this->twitterAuthUrl ?>"><img src="<?php echo $this->baseUrl('images/twitter_icon.png')?>"/> twitter</a><br />
-<?php } ?>
-
-
-<?php if (!isset($this->googleAuthUrl) && !isset($this->facebookAuthUrl) && !isset($this->twitterAuthUrl)) { ?>
-    No other available logins at the moment!
+<?php if (isset($this->authUrls['twitter'])) { ?>
+<a href="<?= $this->authUrls['twitter'] ?>"><img src="<?php echo $this->baseUrl('images/twitter_icon.png')?>"/> twitter</a><br />
 <?php } ?>
