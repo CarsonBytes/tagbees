@@ -18,7 +18,7 @@ class NewEventController extends Zend_Controller_Action {
     if( $this->getRequest()->isPost() ){
       
       $data = $this->_request->getParams();
-      //echo '<pre>';var_dump($data);echo '</pre>';
+      echo '<pre>';var_dump($data);echo '</pre>';
       $filters=array(
           'new_event_event_type'   => 'Digits',
           'new_event_name'   => 'StringTrim',
@@ -79,7 +79,8 @@ class NewEventController extends Zend_Controller_Action {
       );
         
       $input = new Zend_Filter_Input($filters, $validators,$data,$options);
-      //echo '<pre>';var_dump($input->getMessages());echo '</pre>';die();
+      echo '<pre>';var_dump($input->getEscaped());echo '</pre>';
+      echo '<pre>';var_dump($input->getMessages());echo '</pre>';die();
       if ($input->hasInvalid() || $input->hasMissing()) {
         $this->_helper-> FlashMessenger(array('error' => 'Please correct the errors and submit the form again'.'.'));
         $this->view->errors = $input->getMessages();

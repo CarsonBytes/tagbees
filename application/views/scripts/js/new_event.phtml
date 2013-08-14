@@ -3,17 +3,15 @@
 var ns_new_event = {};
 var event_form_data = {};
 jQuery(function($){
+  $('body').on('click','input[name="new_event_save"]',function(){
+      saveFormToCookie($('.event_form form').prop('id'));
+      showFlashMessages([{'success' : '<?php echo $this->translate('This form input has been saved!'); ?>'}]);
+      return false;
+  })
   ns_new_event = {
     event_dates: null,
      init: function(is_reload){
       if (typeof is_reload == 'undefined') var is_reload=true;
-      
-      $('#new_event_begin_time').watermark("<?php echo $this->translate('new_event_begin_time') ?>");
-      $('#new_event_end_time').watermark("<?php echo $this->translate('new_event_end_time') ?>");
-      $('#new_event_begin_date').watermark("<?php echo $this->translate('new_event_begin_date') ?>");
-      $('#new_event_end_date').watermark("<?php echo $this->translate('new_event_end_date') ?>");
-      $('#new_event_max_price').watermark("<?php echo $this->translate('new_event_max_price') ?>");
-      $('#new_event_min_price').watermark("<?php echo $this->translate('new_event_min_price') ?>");
       
       $('.timepicker').timepicker({ 'timeFormat': 'H:i', step : 15 });
       
@@ -34,7 +32,10 @@ jQuery(function($){
       });
       
       if (is_reload){
-        $('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
+        
+        loadCookieToForm($('.event_form form').prop('id'));
+      
+        //$('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
         
         $('body').on('click','.timezone_trigger',function(){
             $('.timezone_input ').slideToggle();
@@ -46,7 +47,7 @@ jQuery(function($){
           $('.new_event_type_caption div').hide();
           $("#new_event_type_caption_"+value).show();
           if( ! $(this).hasClass('active') ) {
-              $( ".new_event_event_type a" ).removeClass( "active" );
+              $( ".new_event_event_types a" ).removeClass( "active" );
               $(this).addClass( "active" );
               $("#new_event_event_type").val($(this).data('value'));
           }
@@ -62,15 +63,24 @@ jQuery(function($){
             $('#priceFree').slideDown('fast')
           }
         }).on('change','#new_event_is_any_time, #new_event_is_all_day', function(){
-              ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+              ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
         }).on('click');
       
-        ns_new_event.updatePeriod($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+        //check inputs
+        ns_new_event.updateFromHiddenInputs();
+        
+        ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
         
         tinymce_ns.init('#new_event_description_toggle_editor',$('#new_event_description'));
-        }
+      }
+      $('#new_event_begin_time').watermark("<?php echo $this->translate('new_event_begin_time') ?>");
+      $('#new_event_end_time').watermark("<?php echo $this->translate('new_event_end_time') ?>");
+      $('#new_event_begin_date').watermark("<?php echo $this->translate('new_event_begin_date') ?>");
+      $('#new_event_end_date').watermark("<?php echo $this->translate('new_event_end_date') ?>");
+      $('#new_event_max_price').watermark("<?php echo $this->translate('new_event_max_price') ?>");
+      $('#new_event_min_price').watermark("<?php echo $this->translate('new_event_min_price') ?>");
      },
-     updatePeriod: function(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
+     updatePeriodInputs: function(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
       if (is_any_time_input.is(':checked')){
         begin_date_input.prop('disabled',true);
         end_date_input.prop('disabled',true);
@@ -89,6 +99,22 @@ jQuery(function($){
           begin_time_input.prop('disabled',false);
           end_time_input.prop('disabled',false);
         }
+      }
+    },
+    updateFromHiddenInputs: function(){
+      if ($('#new_event_event_type').val()!=''){
+          $("#new_event_type_caption_"+$('#new_event_event_type').val()).show();
+          $('.new_event_event_types a[data-value="'+$('#new_event_event_type').val()+'"]').addClass( "active" );
+      }
+      if ($('#tree_text').val()!=''){
+          $('p.tree_line_hidden').text($('#tree_text').val()).css('display','inline-block');
+          $('.tree_line_hidden').show();
+          $('label.tree_line_hidden').css('display','inline-block');
+          $('p.tree_line_hidden').css('display','inline-block');
+      }
+      if ($('#new_event_is_free').is(':checked')){
+        $('#priceFree').hide();
+        $('#new_event_min_price, #new_event_max_price').prop('disabled', true);
       }
     }
   }

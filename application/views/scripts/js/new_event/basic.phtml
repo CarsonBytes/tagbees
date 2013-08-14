@@ -1,58 +1,58 @@
 <script type="text/javascript">
 jQuery(function($){
-    jQuery.validator.addMethod("custom_numeric", function(value, element) {
-      return isNumber(value);
-    }, "Value should be numeric");
-    
-    
-    $('#new_event_basic').validate({
-      ignore: [],
-      rules: {
-        new_event_event_type: "required",
-        new_event_name: {required: true, minlength: 4} ,
-        new_event_begin_date: {required: true, date: true},
-        new_event_end_date: {required: true, date: true},
-        new_event_begin_time: "required",
-        new_event_end_time: "required",
-        new_event_min_price: {required: true, custom_numeric: true} ,
-        new_event_max_price: {required: true, custom_numeric: true} ,
-        cat1: "required",
-        cat2: "required",
-        cat3: "required"
-      },
-      messages: {
-        cat3: '<?php $this->translate("Please make sure to specify 3 levels of category");?>'
-      },
-      groups: {
-          begin_end_date_time: "new_event_begin_date new_event_end_date new_event_begin_time new_event_end_time",
-          new_event_price: "new_event_min_price new_event_max_price",
-          tree: "cat1 cat2 cat3"
-      },
-     errorPlacement: function(error, element) {
-       var element_arr = ["new_event_begin_date", "new_event_end_date", "new_event_begin_time", "new_event_end_time"];
-       if ($.inArray(element.attr("name"), element_arr) != -1){ 
-        error.insertAfter("#new_event_end_time");
-        return true;
-       }
-       element_arr = ["new_event_min_price", "new_event_max_price"];
-       if ($.inArray(element.attr("name"), element_arr) != -1){ 
-        error.insertAfter("#new_event_max_price");
-        return true;
-       }
-       element_arr = ["cat1", "cat2", "cat3"];
-       if ($.inArray(element.attr("name"), element_arr) != -1){ 
-        error.insertAfter("#cat3");
-        return true;
-       }
-       error.insertAfter(element);
-     },
-     submitHandler: function(form) {
-       form.submit();
-     },
-     invalidHandler: function(event, validator) {
-       ns_new_event.init(false);
-       showFlashMessages([{'error' : 'please correct the input(s).'}]);
+  jQuery.validator.addMethod("custom_numeric", function(value, element) {
+    return isNumber(value);
+  }, "Value should be numeric");
+  
+  
+  $('#new_event_basic').validate({
+    ignore: [],
+    rules: {
+      new_event_event_type: "required",
+      new_event_name: {required: true, minlength: 4, maxlength: 20} ,
+      new_event_begin_date: {required: true, date: true},
+      new_event_end_date: {required: true, date: true},
+      new_event_begin_time: "required",
+      new_event_end_time: "required",
+      new_event_min_price: {required: true, custom_numeric: true} ,
+      new_event_max_price: {required: true, custom_numeric: true} ,
+      cat1: "required",
+      cat2: "required",
+      cat3: "required"
+    },
+    messages: {
+      cat3: '<?php $this->translate("Please make sure to specify 3 levels of category");?>'
+    },
+    groups: {
+        begin_end_date_time: "new_event_begin_date new_event_end_date new_event_begin_time new_event_end_time",
+        new_event_price: "new_event_min_price new_event_max_price",
+        tree: "cat1 cat2 cat3"
+    },
+   errorPlacement: function(error, element) {
+     var element_arr = ["new_event_begin_date", "new_event_end_date", "new_event_begin_time", "new_event_end_time"];
+     if ($.inArray(element.attr("name"), element_arr) != -1){ 
+      error.insertAfter("#new_event_end_time");
+      return true;
      }
-   });
+     element_arr = ["new_event_min_price", "new_event_max_price"];
+     if ($.inArray(element.attr("name"), element_arr) != -1){ 
+      error.insertAfter("#new_event_max_price");
+      return true;
+     }
+     element_arr = ["cat1", "cat2", "cat3"];
+     if ($.inArray(element.attr("name"), element_arr) != -1){ 
+      error.insertAfter("#cat3");
+      return true;
+     }
+     error.insertAfter(element);
+   },
+   submitHandler: function(form) {
+     form.submit();
+   },
+   invalidHandler: function(event, validator) {
+     ns_new_event.init(false);
+     showFlashMessages([{'error' : 'please correct the input(s).'}]);
+   }
+ });
 });
 </script>

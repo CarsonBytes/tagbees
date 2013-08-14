@@ -30,7 +30,8 @@
         ->appendFile('jquery.uqr.js')
         ->appendFile('jquery.timepicker.min.js')
         ->appendFile('validate/jquery.validate.min.js')
-        ->appendFile('tinymce/jquery.tinymce.js');
+        ->appendFile('tinymce/jquery.tinymce.js')
+        ->appendFile('jquery.cookie.js');
     
         if (Zend_Registry::get('config_ini')->server->online==1){
             echo $this->minifyHeadScript()->appendFile('map/distancewidget.js');

@@ -247,19 +247,51 @@ function navigateToUrl(url) {
 //from form data to object
 $.fn.serializeObject = function()
 {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
+  var o = {};
+  var a = this.serializeArray();
+  $.each(a, function() {
+      if (o[this.name] !== undefined) {
+          if (!o[this.name].push) {
+              o[this.name] = [o[this.name]];
           }
-      });
-      return o;
-  };
+          o[this.name].push(this.value || '');
+      } else {
+          o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+function saveFormToCookie(form_id){
+  console.log('saveFormCookie')
+  var form_data =  $.extend(form_data,$('#'+form_id).serializeObject());
+  console.log(form_data);
+  console.log(JSON.stringify(form_data));
+  $.cookie(form_id, JSON.stringify(form_data), {path: '/'});
+}
+function loadCookieToForm(form_id){
+  if ($.cookie(form_id) != '' && $.cookie(form_id) != null){
+    console.log($.cookie(form_id))
+    var form_data = JSON.parse($.cookie(form_id));
+
+    $('#'+form_id).find('input, textarea').each(function(){
+        if ($(this).prop('name').length && $(this).prop('name') in form_data){
+          if (form_data[$(this).prop('name')]!=''){
+        console.log($(this))
+        console.log($(this).prop('value'))
+            //if checkbox 
+            if ($(this).is(':checkbox')){
+              $(this).prop('checked','checked');
+            //if text input
+            }else if ($(this).prop('value')==''){
+        console.log($(this))
+              
+              $(this).val(form_data[$(this).prop('name')]);
+            }
+          }
+        }
+    });
+  }
+}
   
 </script>
