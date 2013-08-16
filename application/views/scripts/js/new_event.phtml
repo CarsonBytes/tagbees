@@ -7,6 +7,9 @@ jQuery(function($){
       saveFormToCookie($('.event_form form').prop('id'));
       showFlashMessages([{'success' : '<?php echo $this->translate('This form input has been saved!'); ?>'}]);
       return false;
+  }).on('click','input[name="new_event_more_detail"]',function(){
+      saveFormToCookie($('.event_form form').prop('id'));
+      return false;
   })
   ns_new_event = {
     event_dates: null,

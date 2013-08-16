@@ -144,7 +144,6 @@
                 if(msg['result']==true){
                     window.location.hash = ''; //if you want to reload with an empty hash
                     window.location.reload(true); //reload the page and bypass the cache
-                    window.location.replace($(location).attr('href'));
                 }else{
                     alert('Unkown error occured. Please try again later.')
                 }
