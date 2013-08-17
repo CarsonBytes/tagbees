@@ -95,10 +95,11 @@ class Service_Post{
 			//return 1;
 			
       $actionService=new Service_Action();
-      $content = array(
-          'fields' => $vars
-      );
-      $actionService->addAction('create', $post_id, 'event', $content);
+      /* for event creation we don't need to add field in content
+       * $content = array(
+          'fields' => $item_table_data
+      );*/
+      $actionService->addAction('create', $post_id, 'event');
             
 			return $item_table_data['slug_name'];
 		} catch (Exception $e) {

@@ -1,6 +1,6 @@
 SetEnvIf Host "127.0.0.1" APPLICATION_ENV=development 
 SetEnvIf Host "localhost" APPLICATION_ENV=development 
-SetEnvIf Host "carsonng.no-ip.biz" APPLICATION_ENV=development
+SetEnvIf Host "carsonng.no-ip.biz" APPLICATION_ENV=testing
 SetEnvIf Host "tagbees.com" APPLICATION_ENV=production
 SetEnvIf Host "www.tagbees.com" APPLICATION_ENV=production
 SetEnvIf Host "staging.tagbees.com" APPLICATION_ENV=staging

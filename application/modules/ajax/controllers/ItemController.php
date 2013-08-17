@@ -97,15 +97,15 @@ class Ajax_ItemController extends Zend_Controller_Action
 
     public function addAction(){
     	$values = $_POST;
-        foreach($_POST as $key => $value){
-			if ($value=='') unset($values[$key]);
-        }
+      foreach($_POST as $key => $value){
+		     if ($value=='') unset($values[$key]);
+      }
 
-        $postService=new Service_Post();
-        $slug_name=$postService->add($values);
-        
-        $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$_POST['name'].'\" has been created.'));
-		$this->_helper->json(array('result'=>1,'slug_name'=>$slug_name));
+      $postService=new Service_Post();
+      $slug_name=$postService->add($values);
+      
+      $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$_POST['name'].'\" has been created.'));
+		  $this->_helper->json(array('result'=>1,'slug_name'=>$slug_name));
     }
 
     private function subval_sort($a,$subkey) {
