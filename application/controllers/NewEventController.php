@@ -61,6 +61,7 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_end_time' => array(
             new Zend_Validate_Date(array('format' => 'HH:mm'))
           ),
+          //'new_event_is_description_editor_toggled'=> array(),
           'new_event_timezone_id'   => array(),
           'new_event_tree_ids'   => array(),
           'new_event_new_tags' => array(),

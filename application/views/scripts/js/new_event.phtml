@@ -8,7 +8,8 @@ jQuery(function($){
       showFlashMessages([{'success' : '<?php echo $this->translate('This form input has been saved!'); ?>'}]);
       return false;
   }).on('click','input[name="new_event_more_detail"]',function(){
-      saveFormToCookie($('.event_form form').prop('id'));
+      saveFormToCookie('new_event_basic');
+      saveFormToCookie('new_event_advanced');
       return false;
   })
   ns_new_event = {
@@ -74,8 +75,9 @@ jQuery(function($){
         
         ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
         
-        tinymce_ns.init('#new_event_description_toggle_editor',$('#new_event_description'));
+        tinymce_ns.init('#new_event_description');
       }
+      
       $('#new_event_begin_time').watermark("<?php echo $this->translate('new_event_begin_time') ?>");
       $('#new_event_end_time').watermark("<?php echo $this->translate('new_event_end_time') ?>");
       $('#new_event_begin_date').watermark("<?php echo $this->translate('new_event_begin_date') ?>");
