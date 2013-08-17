@@ -1,11 +1,3 @@
-<?php
-if (isset(Common::getSession()->user_signup->display_lang)){
-    if (Common::getSession()->user_signup->display_lang=='zh-hk')$language='zh-tw';
-    else $language=Common::getSession()->user_signup->display_lang;
-}else{
-    $language='en';
-}?>
-
 <script type="text/javascript">
 var bounds;
 var markersArray = [];
@@ -153,7 +145,7 @@ function updateRadiusFromMapDistance() {
 function reverseGeocodePosition() {
   var pos = distanceWidget.get('position');
   var geocoder = new google.maps.Geocoder();
-  geocoder.geocode({'location': pos,'language':'<?php echo $language; ?>'}, function(results, status) {
+  geocoder.geocode({'location': pos,'language':'<?php echo Common::getSiteDisplayLang(); ?>'}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       if (results[1]) {
         $('#of').html(results[1].formatted_address);

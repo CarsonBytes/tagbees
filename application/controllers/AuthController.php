@@ -402,14 +402,14 @@ class AuthController extends Zend_Controller_Action
             $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
             
             if (isset ($profile['locale']))
-                Common::getSession()->user_signup->display_lang = $profile['locale'];
+                Common::getSession()->display_lang = $profile['locale'];
                         
         }else if ($provider_name == 'twitter'){
             $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
             $cookie['username'] = isset ($profile['screen_name']) ? $profile['screen_name'] : '';
             
             if (isset ($profile['lang']))
-                Common::getSession()->user_signup->display_lang = $profile['lang'];
+                Common::getSession()->display_lang = $profile['lang'];
             
         }else if ($provider_name == 'facebook'){
             $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
@@ -418,7 +418,7 @@ class AuthController extends Zend_Controller_Action
             $cookie['gender'] = (isset ($profile['gender']) && $profile['gender'] == 'female') ? 'f' : 'm';
             
             if (isset ($profile['locale']))
-                Common::getSession()->user_signup->display_lang = $profile['locale'];
+                Common::getSession()->display_lang = $profile['locale'];
         }
         return $cookie;
     }

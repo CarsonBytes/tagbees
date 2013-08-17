@@ -1,4 +1,5 @@
-<?php //echo '<pre>';var_dump(Common::getSession()->user);echo '</pre>'; ?>
+<?php 
+//echo '<pre>';var_dump(Common::getSession()->user);echo '</pre>'; ?>
 <head>
     <?php echo $this->headTitle(); ?>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -33,6 +34,9 @@
         ->appendFile('tinymce/jquery.tinymce.js')
         ->appendFile('jquery.cookie.js');
     
+        if (Common::getSiteDisplayLang() == 'zh-hk'){
+          $this->minifyHeadScript()->appendFile('jquery.validate.messages_zh_TW.js');
+        }
         if (Zend_Registry::get('config_ini')->server->online==1){
             echo $this->minifyHeadScript()->appendFile('map/distancewidget.js');
         }else{

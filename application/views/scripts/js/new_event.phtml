@@ -3,6 +3,10 @@
 var ns_new_event = {};
 var event_form_data = {};
 jQuery(function($){
+  jQuery.validator.addMethod("custom_numeric", function(value, element) {
+    return isNumber(value);
+  }, "Value should be numeric");
+  
   $('body').on('click','input[name="new_event_save"]',function(){
       saveFormToCookie($('.event_form form').prop('id'));
       showFlashMessages([{'success' : '<?php echo $this->translate('This form input has been saved!'); ?>'}]);
