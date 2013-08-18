@@ -1,0 +1,32 @@
+<script type="text/javascript">
+jQuery(function($){
+  $.validator.addMethod("pageRequired", function(value, element) {
+    var $element = $(element)
+    function match(index) {
+      return current == index && $(element).parents("#sf" + (index + 1)).length;
+    }
+    if (match(0) || match(1) || match(2) || match(3)) {
+      return !this.optional(element);
+    }
+    return "dependency-mismatch";
+  }, $.validator.messages.required)
+  
+  var new_event_advanced_validate_options = $.extend({}, new_event_basic_validate_options, {
+    rules:{
+      organiser_tel:{
+        number: true
+      },
+      organiser_email: {
+        email: true
+      },
+      organiser_website: {
+        url: true
+      }
+    }
+    onkeyup: false,
+    onblur: false,
+  });
+  
+  var v = $("#new_event_advanced").validate(new_event_advanced_validate_options);
+});
+</script>
