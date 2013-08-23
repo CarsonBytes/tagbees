@@ -22,11 +22,13 @@ jQuery(function($){
       organiser_website: {
         url: true
       }
-    }
+    },
     onkeyup: false,
-    onblur: false,
+    onblur: false
   });
   
   var v = $("#new_event_advanced").validate(new_event_advanced_validate_options);
+  
+  $('.accordion').accordion();
 });
 </script>

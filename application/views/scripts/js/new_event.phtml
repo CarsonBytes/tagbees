@@ -92,7 +92,7 @@ jQuery(function($){
       
       if (is_reload){
         
-        loadCookieToForm($('.event_form form').prop('id'));
+        loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
       
         //$('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
         
@@ -167,7 +167,8 @@ jQuery(function($){
           $('.new_event_event_types a[data-value="'+$('#new_event_event_type').val()+'"]').addClass( "active" );
       }
       if ($('#tree_text').val()!=''){
-          $('p.tree_line_hidden').text($('#tree_text').val()).css('display','inline-block');
+          $('p.tree_line_hidden').text($('#tree_text').val())
+          $('p.tree_line_hidden').css('display','inline-block');
           $('.tree_line_hidden').show();
           $('label.tree_line_hidden').css('display','inline-block');
           $('p.tree_line_hidden').css('display','inline-block');
@@ -183,5 +184,4 @@ jQuery(function($){
 </script>
 <?php if (Zend_Registry::get('config_ini')->server->online==1){
     echo $this->partial('js/new_event/map.phtml');
-    echo $this->partial('js/new_event/init_map.phtml', array('mapDiv_ID'=>'new_event_map', 'ac_input_ID'=>'new_event_place', 'lat_input_ID'=>'new_event_lat', 'lng_input_ID'=>'new_event_lng', 'geo_locate_ID'=>'new_event_geo_locate'));
 } ?>
