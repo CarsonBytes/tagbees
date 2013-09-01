@@ -1,17 +1,23 @@
 <script type="text/javascript">
 jQuery(function($){
+  var current = 0;
   $.validator.addMethod("pageRequired", function(value, element) {
     var $element = $(element)
+    console.log($element)
     function match(index) {
-      return current == index && $(element).parents("#sf" + (index + 1)).length;
+    //console.log(index)
+    //console.log(current)
+      return current == index && $element.parents("#step" + (index + 1)).length;
     }
+    console.log("result = " +match(0) || match(1) || match(2) || match(3));
     if (match(0) || match(1) || match(2) || match(3)) {
+    //console.log("this.optional(element) " +this.optional(element));
       return !this.optional(element);
     }
     return "dependency-mismatch";
   }, $.validator.messages.required)
   
-  var new_event_advanced_validate_options = $.extend({}, new_event_basic_validate_options, {
+  var new_event_advanced_validate_options = $.extend(true, {}, new_event_basic_validate_options, {
     rules:{
       organiser_tel:{
         number: true
@@ -27,8 +33,21 @@ jQuery(function($){
     onblur: false
   });
   
+  
   var v = $("#new_event_advanced").validate(new_event_advanced_validate_options);
   
-  $('.accordion').accordion();
+  var accordion = $('.accordion-new').accordion({ 
+    heightStyle: "content"
+  });
+  
+  $('body').on('click','.next',function(){
+    if (v.form()) {
+      accordion.accordion("option", "active", $(this).data('value'));
+      current = $(this).data('value');
+    }
+  }).on('click','.prev',function(){
+      accordion.accordion("option", "active", $(this).data('value'));
+      current = $(this).data('value');
+  });
 });
 </script>

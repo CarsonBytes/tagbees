@@ -12,7 +12,7 @@ jQuery(function($){
     ignore: [],
     rules: {
       new_event_event_type: "pageRequired",
-      new_event_name: {required: true, minlength: 4, maxlength: 20} ,
+      new_event_name: {pageRequired: true, minlength: 4, maxlength: 20} ,
       new_event_begin_date: {pageRequired: true, date: true},
       new_event_end_date: {pageRequired: true, date: true},
       new_event_begin_time: "pageRequired",
@@ -54,7 +54,7 @@ jQuery(function($){
    },
    invalidHandler: function(event, validator) {
      ns_new_event.init(false);
-     showFlashMessages([{'error' : 'please correct the input(s).'}]);
+     //showFlashMessages([{'error' : 'please correct the input(s).'}]);
    }
  };
   
@@ -179,6 +179,7 @@ jQuery(function($){
       }
     }
   }
+  
   ns_new_event.init();
 });
 </script>

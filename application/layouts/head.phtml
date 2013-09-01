@@ -8,17 +8,17 @@
         //->appendStylesheet('tooltip.css')
         //->appendStylesheet('bootstrap.css')
         //->appendStylesheet('normalize.css')
-        ->appendStylesheet('main.css')
         ->appendStylesheet('jquery.qtip.css')
-        ->appendStylesheet('ui-lightness/jquery-ui-1.9.2.custom.css');
+        ->appendStylesheet('ui-lightness/jquery-ui-1.10.3.custom.min.css')
+        ->appendStylesheet('main.css');
     ?>
     
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-        <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&amp;region=hk&amp;language=<?php echo Common::getSiteDisplayLang();?>" type="text/javascript"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?key=<?php echo Zend_Registry::get('config_ini')->google->api_key ?>&sensor=false&amp;libraries=places&amp;region=hk&amp;language=<?php echo Common::getSiteDisplayLang();?>" type="text/javascript"></script>
     <?php } ?>
     
     <?php $this->minifyHeadScript()
-        ->prependFile('jquery-ui-1.8.23.custom.min.js')
+        ->prependFile('jquery-ui-1.10.3.custom.min.js')
         ->prependFile('jquery-1.8.3.min.js')
         ->appendFile('jquery.tmpl.min.js')
         ->appendFile('jquery.qtip.min.js')

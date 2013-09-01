@@ -1,0 +1,33 @@
+<?php if (isset($this->name) ){
+  $this->name .= '_';
+} else{
+  $this->name = '';
+}
+?>
+<div class="f_div">
+  <label><?php echo $this->translate('new_event_'.$this->name.'time');?></label>
+  <div class="f_div1">
+    <input type="checkbox" id="new_event_<?php echo $this->name ?>is_any_time" name="new_event_is_any_time"/>
+    <label class="l-a" for="new_event_<?php echo $this->name ?>is_any_time"><?php echo $this->translate('new_event_is_any_time');?></label>
+  </div>
+  <div class="f_div1 f_div2">
+    <input type="checkbox" id="new_event_<?php echo $this->name ?>is_all_day" name="new_event_is_all_day" />
+    <label class="l-a" for="new_event_<?php echo $this->name ?>is_all_day"><?php echo $this->translate('new_event_is_all_day');?></label>
+  </div>
+</div>
+<div class="f_div">
+  <label>&nbsp;</label>
+  <input type="text" class="date_input" id="new_event_<?php echo $this->name ?>begin_date" name="new_event_<?php echo $this->name ?>begin_date" pageRequired  readonly="true" />
+  <label class="l-a1"><strong>-</strong></label>
+  <input type="text" class="date_input" id="new_event_<?php echo $this->name ?>end_date" name="new_event_<?php echo $this->name ?>end_date" pageRequired readonly="true" />
+  &nbsp;
+  <?php //<label class="l-a1"><strong>From</strong></label> ?>
+  <input id="new_event_<?php echo $this->name ?>begin_time" name="new_event_<?php echo $this->name ?>begin_time" type="text" class="timepicker" pageRequired />
+  <label class="l-a1"><strong>-</strong></label>
+  <input id="new_event_<?php echo $this->name ?>end_time" name="new_event_<?php echo $this->name ?>end_time" type="text" class="timepicker" pageRequired />
+  <a class="l-a2 timezone_trigger text_link" href="#"><?php echo $this->translate('Time Zone');?></a>
+</div>
+<div class="f_div timezone_input">
+  <label><?php echo $this->translate('Time Zone');?></label>
+    <?php echo $this->partial('partials/new-event/input/timezone.phtml', array('name'=>$this->name)); ?>
+</div>

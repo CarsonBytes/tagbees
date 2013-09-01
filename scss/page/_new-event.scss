@@ -1,25 +1,38 @@
 @import "../_init.scss";
 
 .event_form, .advanced_event_form{
-  /* new advanced event */
-  .accordion_button1{ 
-      @include yellow-gradient; 
-      color:#2f3031; 
-      font-size:13px; 
-      font-weight:bold; 
-      @include border-radius(4px); 
-      margin-bottom:1px;
-      cursor:pointer; 
-      color:#2f3031; 
-      text-decoration:none; 
-      padding:6px 0 8px 17px; 
-      display:block;
-      &:link { @include yellow-gradient;}
-      &:hover{@include black-gradient; color:white;}
-      &:active{ background:#E6E6E6; color:black;}
+  ul.accordion-new{
+    li{
+      &>div{
+        padding:0;
+      }
+      &#step1{
+        label{
+          width: auto;
+        }
+      }
+      fieldset{
+        legend{
+          display: block;
+          width: 100%;
+          text-align: center;
+          @include yellow-gradient; 
+          @include border-radius(4px);
+          color:#2f3031; 
+          font-size:13px; 
+          font-weight:bold; 
+          padding:6px 0 8px; 
+        }
+        .horizontal-padding{
+          padding: 30px 0;
+          text-align: center;
+        }
+      }
+      .ui-accordion-link{
+        display: none;
+      }
+    }
   }
-  .accordion_button1.active {@include black-gradient; color:white;}
-  
   
   .grey_area{ 
     @include border-radius(4px); 
