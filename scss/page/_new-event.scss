@@ -1,14 +1,16 @@
 @import "../_init.scss";
 
 .event_form, .advanced_event_form{
+  list-style-position: inherit;
   ul.accordion-new{
+    font-size: inherit;
     li{
       &>div{
         padding:0;
       }
       &#step1{
         label{
-          width: auto;
+          width: 80px;
         }
       }
       fieldset{
@@ -22,10 +24,6 @@
           font-size:13px; 
           font-weight:bold; 
           padding:6px 0 8px; 
-        }
-        .horizontal-padding{
-          padding: 30px 0;
-          text-align: center;
         }
       }
       .ui-accordion-link{
@@ -69,7 +67,7 @@
       text-decoration:underline; 
     }
   }
-  label{ width:108px; display:inline-block; padding:3px 10px 0 0; text-align:right; font-weight:bold; vertical-align: top}
+  label{ width:106px; display:inline-block; padding:3px 5px 0 0; text-align:right; font-weight:bold; vertical-align: top}
   label.place_res{ width:118px; margin-left:-12px;}
   label.l-a, label.l-a1, label.l-a2, label.l-a3{ width:auto; font-weight:normal;}
   label.l-a{ /*padding-top:0; */padding-right:5px;}
@@ -137,6 +135,12 @@ label.l-a3{ padding-left:0; padding-right:6px;}
         width: 470px;
       }
     }
+    &.event_map{
+      .map{
+        width: 494px;
+        display: inline-block;
+      }
+    }
   }
   .f_div1{ display:inline-block;
       .checkbox{ display:inline-block;}
@@ -178,7 +182,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
     float:right;
   }
   .toggle_editor{
-    width: 498px;
+    width: 503px;
     display: block;
     clear: both;
     float: right;
@@ -187,8 +191,8 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   #new_event_description_parent{
     float:right;
     #new_event_description_tbl{
-      margin-right:3px;
-      width: 494px !important;
+      margin-right:9px;
+      width: 493px !important;
     }
   }
 }

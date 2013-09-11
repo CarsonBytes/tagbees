@@ -20,7 +20,7 @@
 .p-div{ padding-bottom:5px; display:block;}
 .profile_form{
     label{ width:127px; display:inline-block; font-size:13px; font-weight:bold; padding:3px 5px 0 0;}
-    input, textarea, select{ border:1px solid #e0e0e0; background-color:white;font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#6f6f6f;}
+    input, textarea, select{ border:1px solid #e0e0e0; background-color:white; font-size:13px; color:#6f6f6f;}
     input{ padding:2px 10px; height:19px; width:144px;}
 }
 .profile_field{ font-size:13px; color:#6f6f6f; width:144px; height:19px; overflow:hidden; padding-top:3px; display:inline-block;}
@@ -47,7 +47,7 @@
 .open{ text-align:right; text-decoration:none; margin-right:15px; float:right;}
 .tag_table input[type="submit"]{ cursor:pointer; border:none;}
 .tag_table{ font-size:13px;
-    input, select{ border:1px solid #e0e0e0; background-color:white;font-family:Arial, Helvetica, sans-serif; font-size:13px; @include border-radius(4px); padding:2px; color:$in-color; }
+    input, select{ border:1px solid #e0e0e0; background-color:white; font-size:13px; @include border-radius(4px); padding:2px; color:$in-color; }
     input{  width:20px; height:19px;}
     input.groupInp{ width:90px;}
     select{ height:23px; display:inline-block;}
@@ -60,7 +60,7 @@
     tr th a{ text-decoration:none; color:white;}
 }
 .tag_table1{ font-size:13px;
-    input, select{ border:1px solid #e0e0e0; background-color:white;font-family:Arial, Helvetica, sans-serif; font-size:13px; @include border-radius(4px); padding:2px; color:$in-color; }
+    input, select{ border:1px solid #e0e0e0; background-color:white; font-size:13px; @include border-radius(4px); padding:2px; color:$in-color; }
     input{  width:20px; height:19px;}
     input.groupInp{ width:90px;}
     select{ height:23px; display:inline-block;}
@@ -95,7 +95,7 @@
     label{ display:inline-block; font-size:13px; font-weight:bold; padding:5px 5px 0 0; width:135px;}
     label.tag_label{ width:80px;}
     label.site_alert{ width:auto; padding:0 0 0 10px;}
-    input, select, textarea{ border:1px solid #e0e0e0; background-color:white;font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#6f6f6f; @include border-radius(5px);}
+    input, select, textarea{ border:1px solid #e0e0e0; background-color:white; font-size:13px; color:#6f6f6f; @include border-radius(5px);}
     input, textarea{ width:400px; padding:2px 5px;}
 	input.txt, textarea.txt{ width:332px; padding:2px 5px;}
     input{ height:21px;}
@@ -173,7 +173,7 @@
 }
 .p_field{ width:100%; display:inline-block; padding-bottom:10px;}
 .modal_close, .window_close, .window_close1{ @include background_img; background-position:-86px -4px; display: block; height: 12px; position: absolute; right: 0px; top:0px; width: 12px; z-index: 2;}
-.not_found{ padding:10px; width:510px; margin:0 auto; text-align:center; font-family:'Century Gothic', Arial, Helvetica, sans-serif;
+.not_found{ padding:10px; width:510px; margin:0 auto; text-align:center;
     .subtitle{  color:$color; font-size:15px; text-align:center; margin-left:300px;}
     h1{ font-size:80px; font-weight:bold; line-height:61px;}
     h2{ font-size:16px; font-weight:normal; padding:15px 0;}

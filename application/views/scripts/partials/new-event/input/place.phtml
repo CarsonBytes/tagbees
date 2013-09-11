@@ -4,6 +4,7 @@
   <img id="new_event_geo_locate" class="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
 </div>
 <div class="f_div event_map">
+  <label> </label>
   <input type="hidden" name="<?php echo $this->name ?>_lat" id="<?php echo $this->name ?>_lat" value="<?php echo $this->form_data['lat'] ?>"/>
   <input type="hidden" name="<?php echo $this->name ?>_lng" id="<?php echo $this->name ?>_lng" value="<?php echo $this->form_data['lng'] ?>"/>
   <div id="<?php echo $this->name ?>_map" class="map"></div>
