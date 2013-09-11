@@ -192,8 +192,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
     }
   }
 }
-#new_event_add_tree {
-  margin-left: 2px;
+#add_tree_popup {
   select {
     float: left; 
     height: auto;
@@ -208,7 +207,7 @@ label.l-a3{ padding-left:0; padding-right:6px;}
 #add_tags_popup{
   width:640px;
   height:260px;
-  padding:10px;
+  /*padding:10px;*/
   #new_event_tag_items {
     background: white;
     border: 1px solid #e0e0e0;

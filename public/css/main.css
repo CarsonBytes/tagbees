@@ -619,11 +619,10 @@ $pie-base-class: pie-element;*/
 .event_form #new_event_description_parent, .advanced_event_form #new_event_description_parent { float: right; }
 .event_form #new_event_description_parent #new_event_description_tbl, .advanced_event_form #new_event_description_parent #new_event_description_tbl { margin-right: 3px; width: 494px !important; }
 
-#new_event_add_tree { margin-left: 2px; }
-#new_event_add_tree select { float: left; height: auto; padding: 5px; width: 33%; }
-#new_event_add_tree label.error { color: red; }
+#add_tree_popup select { float: left; height: auto; padding: 5px; width: 33%; }
+#add_tree_popup label.error { color: red; }
 
-#add_tags_popup { width: 640px; height: 260px; padding: 10px; }
+#add_tags_popup { width: 640px; height: 260px; /*padding:10px;*/ }
 #add_tags_popup #new_event_tag_items { background: white; border: 1px solid #e0e0e0; height: 178px; line-height: 1; margin: 10px 0; overflow-y: scroll; width: 100%; }
 #add_tags_popup #new_event_tag_items .inner { padding: 5px 5px 5px 10px; }
 #add_tags_popup #new_event_tag_items .inner .item { cursor: pointer; float: left; line-height: 1.5; padding: 0 5px; width: 135px; }
@@ -796,8 +795,6 @@ $pie-base-class: pie-element;*/
 .tree_tag .mainhead { background: #f3b90d; padding: 5px 10px; font-size: 13px; font-weight: bold; color: #020202; }
 
 .add_category_div { padding: 10px; }
-
-.div_category { margin: 10px 0; }
 
 .tag_category_inner { height: 130px; overflow-y: auto; border: 1px solid #e0e0e0; padding: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; }
 

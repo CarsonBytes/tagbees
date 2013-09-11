@@ -185,7 +185,7 @@
       //if (!height) var height='500';
       
       //close previous dialog if existed...
-      jQuery(".dialog").dialog('close');
+      //jQuery(".dialog").dialog('close');
       
       var dialog = jQuery(".dialog").dialog(
         {
@@ -198,7 +198,7 @@
             resizable: false,
             autoOpen: false,
             minHeight: false,
-            maxHeight: 400,
+            maxHeight: false,
             draggable: false,
             modal: true,
             open: function(event, ui) { 
