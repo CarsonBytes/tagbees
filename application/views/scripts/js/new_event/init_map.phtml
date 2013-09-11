@@ -11,7 +11,7 @@ jQuery(function($){
       });
     
     
-    $("#"+'<?php echo $this->ac_input_ID ?>')
+    $('#<?php echo $this->ac_input_ID ?>')
       .focusin(function () {
           $(document).keypress(function (e) {
               if (e.which == 13) {

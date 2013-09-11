@@ -49,12 +49,7 @@
                 <label><?php echo $this->translate('new_event_tree_ids');?></label>
                 <?php echo $this -> partial('partials/new-event/input/tree.phtml'); ?>
               </div>
-              <div class="f_div">
-                <label for="description"><?php echo $this->translate('new_event_description');?></label>
-                <textarea class="full" rows="5" cols="25" id="new_event_description" name="new_event_description" ></textarea>
-                <a href="#" class="toggle_editor text_link" id="new_event_description_toggle_editor">[<?php echo $this->translate('new_event_description_toggle_editor');?>]</a>
-                <input type="hidden" value="" name="new_event_description_is_toggled" id="new_event_description_is_toggled">
-              </div>
+              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_description')); ?>
               
               <?php echo $this -> partial('partials/new-event/input/tags.phtml', array('title' => 'Tags')); ?>
               
@@ -71,12 +66,8 @@
           <fieldset>
             <legend><?php echo $this->translate('new_event_application_time_note');?></legend>
             <div class="horizontal-padding">
-              <div class="f_div">
-                <label for="description"><?php echo $this->translate('new_event_application_time_note');?></label>
-                <textarea class="full" rows="5" cols="25" id="new_event_date_note" name="new_event_description" ></textarea>
-                <a href="#" class="toggle_editor text_link" id="new_event_application_time_note_toggle_editor">[<?php echo $this->translate('new_event_application_time_note_toggle_editor');?>]</a>
-                <input type="hidden" value="" name="new_event_application_time_note_is_toggled" id="new_event_application_time_note_is_toggled">
-              </div>
+              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_time_note')); ?>
+              
               <?php echo $this->partial('partials/new-event/input/place.phtml', array('name'=>'new_event_application_place')); ?> 
               <?php echo $this->partial('partials/new-event/input/price.phtml', array('name'=>'new_event')); ?>
               <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_price_note')); ?>
