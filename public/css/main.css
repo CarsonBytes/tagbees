@@ -617,8 +617,8 @@ $pie-base-class: pie-element;*/
 .event_form .tree_line_hidden, .advanced_event_form .tree_line_hidden { display: none; }
 .event_form label.error, .advanced_event_form label.error { display: inline-block; width: auto; color: red; padding: 3px; margin: 5px auto; float: right; }
 .event_form .toggle_editor, .advanced_event_form .toggle_editor { width: 503px; display: block; clear: both; float: right; margin-bottom: 10px; }
-.event_form #new_event_description_parent, .advanced_event_form #new_event_description_parent { float: right; }
-.event_form #new_event_description_parent #new_event_description_tbl, .advanced_event_form #new_event_description_parent #new_event_description_tbl { margin-right: 9px; width: 493px !important; }
+.event_form .mceEditor, .advanced_event_form .mceEditor { float: right; }
+.event_form .mceEditor .mceLayout, .advanced_event_form .mceEditor .mceLayout { margin-right: 9px; width: 493px !important; }
 
 #add_tree_popup select { float: left; height: auto; padding: 5px; width: 33%; }
 #add_tree_popup label.error { color: red; }
