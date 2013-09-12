@@ -547,6 +547,7 @@ $pie-base-class: pie-element;*/
 .event_form ul.accordion-new li#step1 label, .advanced_event_form ul.accordion-new li#step1 label { width: 80px; }
 .event_form ul.accordion-new li fieldset legend, .advanced_event_form ul.accordion-new li fieldset legend { display: block; width: 100%; text-align: center; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZkZDUyNSIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZmFjZDE4Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjNiNTBhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fdd525), color-stop(50%, #facd18), color-stop(100%, #f3b50a)); background-image: -webkit-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: -moz-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: -o-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: linear-gradient(#fdd525, #facd18, #f3b50a); -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; color: #2f3031; font-size: 13px; font-weight: bold; padding: 6px 0 8px; }
 .event_form ul.accordion-new li .ui-accordion-link, .advanced_event_form ul.accordion-new li .ui-accordion-link { display: none; }
+.event_form ul.accordion-new li .div_center, .advanced_event_form ul.accordion-new li .div_center { margin-top: 10px; }
 .event_form .grey_area, .advanced_event_form .grey_area { -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; background: #f2f2f2; padding: 10px 0 0; line-height: 17px; }
 .event_form .grey_area .has_error, .advanced_event_form .grey_area .has_error { margin: 5px 20px; }
 .event_form .grey_area .errors, .advanced_event_form .grey_area .errors { list-style-type: disc; margin: 0 20px 30px; color: red; }
@@ -596,7 +597,6 @@ $pie-base-class: pie-element;*/
 .event_form .allgap, .advanced_event_form .allgap { margin-right: 40px; }
 .event_form .e_type_div, .advanced_event_form .e_type_div { padding-bottom: 10px; }
 .event_form .new_event_event_types, .advanced_event_form .new_event_event_types { display: inline-block; width: 486px; }
-.event_form .new_event_event_types .inner, .advanced_event_form .new_event_event_types .inner { padding-bottom: 23px; }
 .event_form .new_event_event_types .inner li a.active, .advanced_event_form .new_event_event_types .inner li a.active { background: #f5f5f5; }
 .event_form .new_event_event_types .inner p, .advanced_event_form .new_event_event_types .inner p { padding: 0 0 0 7px; }
 .event_form .f_div, .advanced_event_form .f_div { width: 100%; padding-bottom: 6px; position: relative; clear: both; }
