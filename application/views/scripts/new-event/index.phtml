@@ -18,88 +18,14 @@
     <?php } ?>
       <form id="new_event_basic" name="new_event_basic" action="" method="post">
         <div class="horizontal-padding">
-          <div class="e_type_div">
-            <label><?php echo $this->translate('new_event_event_type');?></label>
-            <div class="new_event_event_types">
-              <div class="inner clearfix">
-                <ul>
-                  <li>
-                    <a href="#" class="profile_pic allgap" data-value="1"> <img src="<?php echo $this->baseUrl('images/public_event.gif')?>" alt="Public Event"/> <h6><?php echo $this->translate('Public Event'); ?></h6> </a>
-                  </li>
-                  <li>
-                    <a href="#" class="profile_pic allgap" data-value="2"> <img src="<?php echo $this->baseUrl('images/private_event.gif')?>" alt="Private Event"/> <h6><?php echo $this->translate('Private Event');?></h6> </a>
-                  </li>
-                  <li>
-                    <a href="#" class="profile_pic" data-value="3"> <img src="<?php echo $this->baseUrl('images/attraction.gif')?>" alt="Attraction"/> <h6><?php echo $this->translate('Attraction');?></h6> </a>
-                  </li>
-                </ul>
-                <input type="hidden" id="new_event_event_type" name="new_event_event_type" value="" required />
-              </div>
-              <div class="new_event_type_caption">
-                <div id="new_event_type_caption_1" style="display:none">
-                  <p>
-                    <?php echo $this->translate('For events either you are the representative of the organizer or the information supplier of an event organized for the public.'); ?>
-                  </p>
-                </div>
-
-                <div id="new_event_type_caption_2" style="display:none">
-                  <p>
-                    <?php echo $this->translate('For events either you are the representative of the organizer or the information supplier of an event organized for the Private.'); ?>
-                  </p>
-                </div>
-
-                <div id="new_event_type_caption_3" style="display:none">
-                  <p>
-                    <?php echo $this->translate('For events either you are the representative of the organizer or the information supplier of an event organized for the Attraction.'); ?>
-                  </p>
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-          <div class="f_div">
-            <label><?php echo $this->translate('new_event_name');?></label>
-            <input type="text" id="new_event_name" name="new_event_name" class="full" required  />
-          </div>
-          <div class="f_div">
-            <label for="new_event_place"><?php echo $this->translate('new_event_place');?></label>
-            <input id="new_event_place" class="place_ac full" type="text" name="new_event_place" class="full" value="<?php echo $this->form_data['place'] ?>" />
-            <img id="new_event_geo_locate" class="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
-          </div>
-          <div class="f_div event_map">
-            <label> </label>
-            <input type="hidden" name="new_event_lat" id="new_event_lat" value="<?php echo $this->form_data['lat'] ?>"/>
-            <input type="hidden" name="new_event_lng" id="new_event_lng" value="<?php echo $this->form_data['lng'] ?>"/>
-            <div id="new_event_map" class="map"></div>
-          </div>
-          <div class="f_div">
-            <label><?php echo $this->translate('Period');?></label>
-            <div class="f_div1">
-              <input type="checkbox" id="new_event_is_any_time" name="new_event_is_any_time"/>
-              <label class="l-a" for="new_event_is_any_time"><?php echo $this->translate('new_event_is_any_time');?></label>
-            </div>
-            <div class="f_div1 f_div2">
-              <input type="checkbox" id="new_event_is_all_day" name="new_event_is_all_day" />
-              <label class="l-a" for="new_event_is_all_day"><?php echo $this->translate('new_event_is_all_day');?></label>
-            </div>
-          </div>
-          <div class="f_div">
-            <label>&nbsp;</label>
-            <input type="text" class="date_input" id="new_event_begin_date" name="new_event_begin_date" required  readonly="true" />
-            <label class="l-a1"><strong>-</strong></label>
-            <input type="text" class="date_input" id="new_event_end_date" name="new_event_end_date" required readonly="true" />
-            &nbsp;
-            <?php //<label class="l-a1"><strong>From</strong></label> ?>
-            <input id="new_event_begin_time" name="new_event_begin_time" type="text" class="timepicker" required />
-            <label class="l-a1"><strong>-</strong></label>
-            <input id="new_event_end_time" name="new_event_end_time" type="text" class="timepicker" required />
-            <a class="l-a2 timezone_trigger text_link" href="#"><?php echo $this->translate('Time Zone');?></a>
-          </div>
-          <div class="f_div timezone_input">
-            <label><?php echo $this->translate('Time Zone');?></label>
-              <?php echo $this->partial('partials/new-event/input/timezone.phtml'); ?>
-          </div>
+          <?php echo $this->partial('partials/new-event/input/event_types.phtml'); ?> 
+          
+          <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_name')); ?> 
+              
+          <?php echo $this->partial('partials/new-event/input/place.phtml', array('name'=>'new_event_place')); ?> 
+          
+          <?php echo $this->partial('partials/new-event/input/datetime.phtml'); ?>
+          
         </div>
         <div class="deep_grey_area">
           <div class="horizontal-padding clearfix">
@@ -109,44 +35,23 @@
                 The following fields are optional but we strongly recommend you to provide
               </div>
             </div>
-            <div class="f_div">
-              <label><?php echo $this->translate('new_event_tree_ids');?></label>
-              <?php echo $this -> partial('partials/new-event/input/tree.phtml'); ?>
-            </div>
-            <div class="f_div">
-              <label for="description"><?php echo $this->translate('new_event_description');?></label>
-              <textarea class="full" rows="5" cols="25" id="new_event_description" name="new_event_description" ></textarea>
-              <a href="#" class="toggle_editor text_link" id="new_event_description_toggle_editor">[<?php echo $this->translate('new_event_description_toggle_editor');?>]</a>
-              <input type="hidden" value="" name="new_event_description_is_toggled" id="new_event_description_is_toggled">
-            </div>
-            <div class="f_div">
-              <label><?php echo $this->translate('Price');?></label>
-              <div class="f_div1">
-                <input type="checkbox" id="new_event_is_free" name="new_event_is_free"/>
-                <label class="l-a" for="new_event_is_free" name="new_event_is_free"><?php echo $this->translate('new_event_is_free');?></label>
-              </div>
-            </div>
-            <div id="priceFree" class="f_div">
-              <label>Range</label>
-              <input type="text" name="new_event_min_price" id="new_event_min_price" class="smallInput" value="">
-              <label class="l-a1"><strong>To</strong></label>
-              <input type="text" name="new_event_max_price" id="new_event_max_price"class="smallInput" value="" >
-              <?php /*&nbsp;
-                 <label class="l-a1"><strong>The highest and lowest prices</strong></label>*/
-              ?>
-            </div>
+            
+            <?php echo $this -> partial('partials/new-event/input/tree.phtml', array('name'=>'new_event_tree_ids')); ?>
+            
+            <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_description')); ?>
+            
+            <?php echo $this->partial('partials/new-event/input/price.phtml', array('name'=>'new_event')); ?>
+
             <?php echo $this -> partial('partials/new-event/input/tags.phtml', array('title' => 'Tags')); ?>
           </div>
 
         </div>
         <div class="horizontal-padding">
-          <div class="f_div"></div>
           <div class="f_div">
             <label>&nbsp;</label>
             <input type="button" value="<?php echo $this->translate('new_event_save');?>"  class="submit1 new_event_save"/>
             <input type="submit" value="<?php echo $this->translate('new_event_submit');?>" name="new_event_submit" class="submit2" id="new_event_submit" />
             <input type="button" value="<?php echo $this->translate('new_event_more_detail');?>" class="submit3" id="new_event_more_detail"/>
-
           </div>
         </div>
       </form>

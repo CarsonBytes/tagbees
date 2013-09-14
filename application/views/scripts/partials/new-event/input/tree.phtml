@@ -1,9 +1,12 @@
-	    <p class="tree_text tree_line_hidden"></p>
+<div class="f_div">
+  <label><?php echo $this->translate($this->name); ?></label>
+    <p class="tree_text tree_line_hidden"></p>
 	    <div class="clearfix tree_line_hidden"></div>
 	    <label class="tree_line_hidden"></label>
       <a href="#" class="choose tree_popup" id="addToCategory"><?php echo $this->translate('Please choose correct tree path to help your event easier to reach target group')?></a>
 		<input id="tree_text" name="tree_text" value="" type="hidden" />
-		<input name="new_event_tree_ids" id="new_event_tree_ids" value="" type="hidden" />
+		<input name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" value="" type="hidden" />
+</div>
 <script type="text/javascript">
 	jQuery(function($){
 		$('.tree_text').text($('#tree_text').val());
@@ -26,7 +29,7 @@
                   text += ' > ' + $('#cat3 :selected').text();
                 }
               }
-              $('#new_event_tree_ids').val(value);
+              $('#<?php echo $this->name ?>').val(value);
               $('.tree_text').text(text);
               $('#tree_text').val(text);
               $('.tree_line_hidden').show();

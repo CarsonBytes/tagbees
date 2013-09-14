@@ -46,10 +46,8 @@
               
               <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_date_note')); ?>
                 
-              <div class="f_div">
-                <label><?php echo $this->translate('new_event_tree_ids');?></label>
-                <?php echo $this -> partial('partials/new-event/input/tree.phtml'); ?>
-              </div>
+              <?php echo $this -> partial('partials/new-event/input/tree.phtml', array('name'=>'new_event_tree_ids')); ?>
+            
               <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_description')); ?>
               
               <?php echo $this -> partial('partials/new-event/input/tags.phtml', array('title' => 'Tags')); ?>

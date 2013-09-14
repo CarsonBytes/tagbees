@@ -45,8 +45,8 @@ class NewEventController extends Zend_Controller_Action {
               )
           ),
           'new_event_place'   => array(),
-          'new_event_lat'   => array(new Zend_Validate_Float('en_US')),
-          'new_event_lng'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_place_lat'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_place_lng'   => array(new Zend_Validate_Float('en_US')),
           'new_event_is_any_time' => array('default' => 0),
           'new_event_is_all_day' => array('default' => 0),
           'new_event_begin_date' => array(
@@ -139,8 +139,8 @@ class NewEventController extends Zend_Controller_Action {
               )
           ),
           'new_event_place'   => array(),
-          'new_event_lat'   => array(new Zend_Validate_Float('en_US')),
-          'new_event_lng'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_place_lat'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_place_lng'   => array(new Zend_Validate_Float('en_US')),
           'new_event_is_any_time' => array('default' => 0),
           'new_event_is_all_day' => array('default' => 0),
           'new_event_begin_date' => array(
