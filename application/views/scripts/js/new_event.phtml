@@ -57,16 +57,6 @@ jQuery(function($){
      //showFlashMessages([{'error' : 'please correct the input(s).'}]);
    }
  };
-  
-  $('body').on('click','input[name="new_event_save"]',function(){
-      saveFormToCookie($('.event_form form').prop('id'));
-      showFlashMessages([{'success' : '<?php echo $this->translate('This form input has been saved!'); ?>'}]);
-      return false;
-  }).on('click','input[name="new_event_more_detail"]',function(){
-      saveFormToCookie('new_event_basic');
-      saveFormToCookie('new_event_advanced');
-      return false;
-  })
   ns_new_event = {
     event_dates: null,
      init: function(is_reload){

@@ -62,6 +62,11 @@ jQuery(function($){
       accordion.accordion("option", "active", $(this).data('value'));
       current = $(this).data('value');
       ns_new_event_advanced.init();
+  }).on('click','input.new_event_save',function(){
+      saveFormToCookie('new_event_advanced');
+      saveFormToCookie('new_event_basic', $.cookie('new_event_advanced'));
+      showFlashMessages([{'success' : '<?php echo $this->translate('form saved!'); ?>'}]);
+      return false;
   });
 });
 </script>

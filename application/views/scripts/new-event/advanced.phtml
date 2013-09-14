@@ -16,7 +16,7 @@
       ?> 
     </ul>
     <?php } ?>
-    <form id="new_event_advanced" name="new_event_basic" action="" method="post" >
+    <form id="new_event_advanced" name="new_event_advanced" action="" method="post" >
     	<ul id="stepForm" class="accordion-new">
       <li id="step1"><a href='#' class="ui-accordion-link"> </a>
         <div>
@@ -25,7 +25,8 @@
             <div class="horizontal-padding">
               <?php echo $this->partial('partials/new-event/input/event_types.phtml'); ?> 
               <div class="f_div div_center">
-                <input name="formNext1" data-value="1" type="button" class="next submit4" value="Next" alt="Next" title="Next"/>
+               <input type="button" value="<?php echo $this->translate('new_event_save');?>" class="submit1 new_event_save"/>
+                <input data-value="1" type="button" class="next submit4" value="Next" alt="Next" title="Next"/>
               </div>
             </div>
           </fieldset>
@@ -54,8 +55,9 @@
               <?php echo $this -> partial('partials/new-event/input/tags.phtml', array('title' => 'Tags')); ?>
               
               <div class="f_div div_center">
-                <input name="formBack0" data-value="0" type="button" alt="Back" title="Back" value="Back" class="submit1 prev" />
-                <input name="formNext2" data-value="2" type="button" class="next submit4" value="Next" alt="Next" title="Next"/>
+               <input type="button" value="<?php echo $this->translate('new_event_save');?>" class="submit1 new_event_save"/>
+                <input data-value="0" type="button" alt="Back" title="Back" value="Back" class="submit1 prev" />
+                <input data-value="2" type="button" class="next submit4" value="Next" alt="Next" title="Next"/>
               </div>
             </div>
           </fieldset>
@@ -73,8 +75,9 @@
               <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_price_note')); ?>
               <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_traffic_note')); ?>
               <div class="f_div div_center" >
-                <input name="formBack1" data-value="1" type="button" alt="Back" title="Back" value="Back"  class="submit1 prev" />
-                <input name="formNext3" data-value="3" type="button" class="next submit4" value="Next" alt="Next" title="Next"/>
+               <input type="button" value="<?php echo $this->translate('new_event_save');?>" class="submit1 new_event_save"/>
+                <input data-value="1" type="button" alt="Back" title="Back" value="Back"  class="submit1 prev" />
+                <input data-value="3" type="button" class="next submit4" value="Next" alt="Next" title="Next"/>
               </div>
             </div>
           </fieldset>
@@ -95,9 +98,9 @@
               
               <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_detail')); ?> 
               <div class="f_div div_center">
-                <input type="button" value="Save" name="formSave" class="submit1" />
-                <input name="formBack2" data-value="2" type="button" alt="Back" title="Back" value="Back" class="submit2 prev" />
-                <input type="submit" value="Submit" class="submit3" />
+               <input type="button" value="<?php echo $this->translate('new_event_save');?>" class="submit1 new_event_save"/>
+                <input data-value="2" type="button" alt="Back" title="Back" value="Back" class="submit1 prev" />
+              <input type="submit" value="<?php echo $this->translate('new_event_submit');?>" name="new_event_submit" class="submit1" id="new_event_submit" />
               </div>
             </div>
           </fieldset>

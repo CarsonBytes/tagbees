@@ -240,12 +240,14 @@ $.fn.serializeObject = function()
     return o;
 };
 
-function saveFormToCookie(form_id){
-  console.log('saveFormCookie')
-  var form_data =  $.extend(form_data,$('#'+form_id).serializeObject());
-  console.log(form_data);
-  console.log(JSON.stringify(form_data));
-  $.cookie(form_id, JSON.stringify(form_data), {path: '/'});
+function saveFormToCookie(form_id, data){
+  console.log('saveFormCookie')    
+  if (typeof data == 'undefined'){
+    data =  $.extend(data,$('#'+form_id).serializeObject());
+  }
+  console.log(data);
+  console.log(JSON.stringify(data));
+  $.cookie(form_id, JSON.stringify(data), {path: '/'});
 }
 function loadCookieToForm(form_id){
   if ($.cookie(form_id) != '' && $.cookie(form_id) != null){

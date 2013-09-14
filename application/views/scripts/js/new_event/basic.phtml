@@ -4,6 +4,18 @@ jQuery(function($){
     return jQuery.validator.methods.required.call(this, value, element);
   }, $.validator.messages.required);
   
+  $('body').on('click','input.new_event_save',function(){
+      saveFormToCookie('new_event_basic');
+      saveFormToCookie('new_event_advanced', $.cookie('new_event_basic'));
+      showFlashMessages([{'success' : '<?php echo $this->translate('form saved!'); ?>'}]);
+      return false;
+  }).on('click','input.new_event_more_detail',function(){
+      saveFormToCookie('new_event_basic');
+      saveFormToCookie('new_event_advanced', $.cookie('new_event_basic'));
+      window.location.replace('http://'+window.location.hostname+':'+window.location.port+'<?php echo $this->baseUrl('new-event/advanced')?>');
+      return false;
+  })
+  
   $('#new_event_basic').validate(new_event_basic_validate_options);
 });
 </script>
