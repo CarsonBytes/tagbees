@@ -27,8 +27,8 @@
                   },
                   getFeedItem: function(){
                       var subfeeds = [];
-                      subfeeds.data = user_logs.feeds[this.data.object_id];
-                      subfeeds.tree_tags = subfeeds.data.tree_tags;
+                      subfeeds.data = user_logs.feeds.data;
+                      subfeeds.tree_tags = user_logs.feeds.tree_tags;
                       return generateIndexFeeds(subfeeds).clone().wrap('<p>').parent().html();
                   }
               } 

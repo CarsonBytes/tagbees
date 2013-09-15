@@ -45,7 +45,7 @@
                         {{if degree}}
                             <a href="#" title="${degree}&deg;"><img class="direction-arrow ${degree}" height="10" src="<?php echo $this->baseUrl('images/direction-arrow.jpg');?>" /></a>
                         {{/if}}
-                        {{if lat && lng}}<a class="place" data-coord="${lat},${lng}" title="${place}" href="#">{{else}}<span class="place">{{/if}}${place}{{if lat && lng}}</a>{{else}}</span>{{/if}}
+                        {{if place_lat && place_lng}}<a class="place" data-coord="${place_lat},${place_lng}" title="${place}" href="#">{{else}}<span class="place">{{/if}}${place}{{if place_lat && place_lng}}</a>{{else}}</span>{{/if}}
                     </li>
                     {{/if}}
                 </ul>

@@ -176,10 +176,16 @@ class Service_Feed{
                 $this->feed_query->order('f.id desc');
             } 
 
+      // limit rpp
 			if (isset($user_para['rpp']) && $user_para['rpp']!=0){
 				$this->feed_query->limit($user_para['rpp']);
 			}
 			
+      // get by ids
+      if (isset($user_para['item_ids'])){
+        $this->feed_query->where("f.id in (?)", $user_para['item_ids']);
+      }
+      $this->feed_query->where("f.type = 'event'");
 			
 			// general type(s) for feed
 			$this->feed_query->where("f.type = 'event'");

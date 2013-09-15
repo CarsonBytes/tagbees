@@ -50,6 +50,8 @@ jQuery(function($){
      error.insertAfter(element);
    },
    submitHandler: function(form) {
+     saveFormToCookie('new_event_basic');
+     saveFormToCookie('new_event_advanced', $.cookie('new_event_basic'));
      form.submit();
    },
    invalidHandler: function(event, validator) {

@@ -111,9 +111,14 @@ class Service_Action{
           );
         }
         
-        $itemService=new Service_Item();
-        $feeds = $itemService->getItemsByIds($feed_item_ids);
-
+        //$itemService=new Service_Item();
+        //$feeds = $itemService->getItemsByIds($feed_item_ids);
+        $feeds=array();
+        if (!empty($feed_item_ids)){
+          $feedService=new Service_Feed();
+          $feeds=$feedService->getFeed(array('item_ids'=>$feed_item_ids,'rpp'=>0));
+        }
+        
         return array(
             'data' => $db_data,
             'user_id' => $user_id,

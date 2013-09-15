@@ -24,6 +24,7 @@ jQuery(function($){
   }, $.validator.messages.required)
   
   var new_event_advanced_validate_options = $.extend(true, {}, new_event_basic_validate_options, {
+    ignore:".new_event_save, .prev, .next",
     rules:{
       organiser_tel:{
         number: true
@@ -36,7 +37,12 @@ jQuery(function($){
       }
     },
     onkeyup: false,
-    onblur: false
+    onblur: false,
+    submitHandler: function(form) {
+      saveFormToCookie('new_event_advanced');
+      saveFormToCookie('new_event_basic', $.cookie('new_event_advanced'));
+      form.submit();
+    }
   });
   
   ns_new_event_advanced = {

@@ -125,7 +125,7 @@
                         <a href="#">Edit</a><a href="#">Cancel</a>
                     </div>
                 </div>
-                <?php if ($this->item->lat!=null && $this->item->lng!=null && Zend_Registry::get('config_ini')->server->online){?>
+                <?php if ($this->item->place_lat!=null && $this->item->place_lng!=null && Zend_Registry::get('config_ini')->server->online){?>
                     <div id="event-map" style="float:right;width:220px;height:220px;"></div>
                     <script type="text/javascript">
                     jQuery(function($){
@@ -135,13 +135,13 @@
                     function initialize() {
                       var mapDiv = document.getElementById('event-map');
                       map = new google.maps.Map(mapDiv, {
-                        center: new google.maps.LatLng(<?php echo $this->item->lat?>, <?php echo $this->item->lng?>),
+                        center: new google.maps.LatLng(<?php echo $this->item->place_lat?>, <?php echo $this->item->place_lng?>),
                         zoom: 13,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                       });
                     
                     var marker = new google.maps.Marker({
-                      map: map, position: new google.maps.LatLng(<?php echo $this->item->lat?>, <?php echo $this->item->lng?>)
+                      map: map, position: new google.maps.LatLng(<?php echo $this->item->place_lat?>, <?php echo $this->item->place_lng?>)
                     });
                     
                     }

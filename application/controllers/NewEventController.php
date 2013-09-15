@@ -112,7 +112,7 @@ class NewEventController extends Zend_Controller_Action {
     if( $this->getRequest()->isPost() ){
       
       $data = $this->_request->getParams();
-      echo '<pre>';var_dump($data);echo '</pre>';
+      //echo '<pre>';var_dump($data);echo '</pre>';
       $filters=array(
           'new_event_event_type'   => 'Digits',
           'new_event_name'   => 'StringTrim',
@@ -141,6 +141,9 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_place'   => array(),
           'new_event_place_lat'   => array(new Zend_Validate_Float('en_US')),
           'new_event_place_lng'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_application_place'   => array(),
+          'new_event_application_place_lat'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_application_place_lng'   => array(new Zend_Validate_Float('en_US')),
           'new_event_is_any_time' => array('default' => 0),
           'new_event_is_all_day' => array('default' => 0),
           'new_event_begin_date' => array(
@@ -161,12 +164,19 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_new_tags' => array(),
           'new_event_tag_ids' => array(),
           'new_event_description'   => array(),
+          'new_event_date_note'   => array(),
+          'new_event_price_note'   => array(),
+          'new_event_traffic_note'   => array(),
+          'new_event_application_time_note'   => array(),
           'new_event_is_free' => array('default' => 0),
           'new_event_min_price' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
           'new_event_max_price' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
-          'new_event_submit'   => array(),
-          'new_event_save'   => array(),
-          'new_event_more_detail'   => array()
+          'new_event_organiser_name'   => array(),
+          'new_event_organiser_email'   => array(),
+          'new_event_organiser_tel'   => array(),
+          'new_event_organiser_website'   => array(),
+          'new_event_organiser_detail'   => array(),
+          'new_event_submit'   => array()
       );
       $options = array(
           'missingMessage' => "'%field%' is required",
@@ -174,8 +184,8 @@ class NewEventController extends Zend_Controller_Action {
       );
         
       $input = new Zend_Filter_Input($filters, $validators,$data,$options);
-      echo '<pre>';var_dump($input->getEscaped());echo '</pre>';
-      echo '<pre>';var_dump($input->getMessages());echo '</pre>';die();
+      //echo '<pre>';var_dump($input->getEscaped());echo '</pre>';
+      //echo '<pre>';var_dump($input->getMessages());echo '</pre>';die();
       if ($input->hasInvalid() || $input->hasMissing()) {
         $this->_helper-> FlashMessenger(array('error' => 'Please correct the errors and submit the form again'.'.'));
         $this->view->errors = $input->getMessages();
@@ -190,12 +200,7 @@ class NewEventController extends Zend_Controller_Action {
           $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$input->getEscaped('new_event_name').'\" has been created.'));
           
           $this->_redirect('/event/' . urlencode($slug_name));
-        } /*else if (isset($input_vals['new_event_save'])){
-          unset($input_vals['new_event_save']);
-          
-        } */else if (isset($input_vals['new_event_more_detail'])){
-          unset($input_vals['new_event_more_detail']);
-        } 
+        }
       }
     }
   }
