@@ -29,7 +29,7 @@ class Service_Post{
       foreach($inputs as $key => $value){
         $name = str_replace($prefix, '', $key);
         if (in_array($name, $to_be_customed)) $customed_inputs[$name] = $value;
-        else $item_table_data[$name]=$value;
+        else if ($value!='') $item_table_data[$name]=$value;
       }
       if ($customed_inputs['is_any_time']==0  && isset($customed_inputs['begin_date']) && isset($customed_inputs['end_date'])){
       $item_table_data['begin_datetime'] = $customed_inputs['begin_date'] . ' ' . ($customed_inputs['is_all_day'] == 0 ? $customed_inputs['begin_time'] : "");

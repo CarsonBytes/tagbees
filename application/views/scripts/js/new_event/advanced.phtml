@@ -1,15 +1,16 @@
 <script type="text/javascript">
 var ns_new_event_advanced={}
 jQuery(function($){
-  tinymce_ns.init('#new_event_date_note');
-  tinymce_ns.init('#new_event_application_time_note');
+  tinymce_ns.init('#new_event_datetime_note');
+  tinymce_ns.init('#new_event_application_datetime_note');
   tinymce_ns.init('#new_event_price_note');
   tinymce_ns.init('#new_event_traffic_note');
+  tinymce_ns.init('#new_event_organiser_detail');
   
   var current = 0;
   $.validator.addMethod("pageRequired", function(value, element) {
     var $element = $(element)
-    console.log($element)
+    //console.log($element)
     function match(index) {
     //console.log(index)
     //console.log(current)

@@ -44,7 +44,7 @@
               
               <?php echo $this->partial('partials/new-event/input/datetime.phtml'); ?>
               
-              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_date_note')); ?>
+              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_datetime_note')); ?>
                 
               <?php echo $this -> partial('partials/new-event/input/tree.phtml', array('name'=>'new_event_tree_ids')); ?>
             
@@ -64,9 +64,9 @@
       <li id="step3"><a href='#' class="ui-accordion-link"> </a>
         <div>
           <fieldset>
-            <legend><?php echo $this->translate('new_event_application_time_note');?></legend>
+            <legend><?php echo $this->translate('new_event_application');?></legend>
             <div class="horizontal-padding">
-              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_time_note')); ?>
+              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_datetime_note')); ?>
               
               <?php echo $this->partial('partials/new-event/input/place.phtml', array('name'=>'new_event_application_place')); ?> 
               <?php echo $this->partial('partials/new-event/input/price.phtml', array('name'=>'new_event')); ?>
@@ -94,7 +94,7 @@
               
               <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_website')); ?> 
               
-              <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_detail')); ?> 
+              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_detail')); ?>
               <div class="f_div div_center">
                <input type="button" value="<?php echo $this->translate('new_event_save');?>" class="submit1 new_event_save"/>
                 <input data-value="2" type="button" alt="Back" title="Back" value="Back" class="submit1 prev" />
