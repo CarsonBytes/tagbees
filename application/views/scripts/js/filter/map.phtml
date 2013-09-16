@@ -55,7 +55,7 @@ jQuery(function($){
 function initMap() {
   var mapDiv = document.getElementById('feed_filter_map');
       map = new google.maps.Map(mapDiv, {
-        center: new google.maps.LatLng(feed_para['lat'], feed_para['lng']),
+        center: new google.maps.LatLng(feed_para['place_lat'], feed_para['place_lng']),
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         zoomControl:true,
@@ -81,9 +81,19 @@ function initMap() {
 <?php } ?>
 }
 
-function refreshMarkers() {
+function refreshMarkers(markers) {
   <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
       deleteOverlays();
+      addMarker(map_markers_data);
+  <?php } ?>
+}
+function removeMarkers(markers) {
+  <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+      deleteOverlays();
+  <?php } ?>
+}
+function addMarkers(markers) {
+  <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
       addMarker(map_markers_data);
   <?php } ?>
 }
@@ -116,21 +126,21 @@ function updatePositionByDraggingMarker() {
   setGeocodeTriggerTimer();
   
   // Carson
-  feed_para['lat']=distanceWidget.get('position').lat();
-  feed_para['lng']=distanceWidget.get('position').lng();
-  updateUrlParam('lat',feed_para['lat']);
-  updateUrlParam('lng',feed_para['lng']);
+  feed_para['place_lat']=distanceWidget.get('position').lat();
+  feed_para['place_lng']=distanceWidget.get('position').lng();
+  updateUrlParam('place_lat',feed_para['place_lat']);
+  updateUrlParam('place_lng',feed_para['place_lng']);
   refreshFeed();
   $(".user_saved_location_list option[value='last']").prop("selected","selected");
   //map.fitBounds(radiusWidget.get('bounds'));
 }
 
-function loadPosition(lat, lng) {
+function loadPosition(place_lat, place_lng) {
   setGeocodeTriggerTimer();
   
   // Carson
   refreshFeed(); //done in loadRadius event
-  distanceWidget.set('position',new google.maps.LatLng(lat, lng));
+  distanceWidget.set('position',new google.maps.LatLng(place_lat, place_lng));
   map.fitBounds(radiusWidget.get('bounds'));
 }
 function updateRadiusFromMapDistance() {
@@ -163,12 +173,13 @@ function addMarker(json) {
   infoWindow = new google.maps.InfoWindow({
     maxWidth: 500
   });
+  console.log(json)
   for (x in json){
     data_array = [];
-    if (typeof json[x].lat != 'undefined' && typeof json[x].lng != 'undefined'){
+    if (typeof json[x].place_lat != 'undefined' && typeof json[x].place_lng != 'undefined'){
         data_array.push(json[x]);
         jQuery( "#info-window-tmpl" ).tmpl( data_array ).appendTo('#info-window');
-        location = new google.maps.LatLng(json[x].lat,json[x].lng);
+        location = new google.maps.LatLng(json[x].place_lat,json[x].place_lng);
         marker = new google.maps.Marker({
             position: location,
             map: map,
@@ -228,11 +239,11 @@ function handle_geolocation_query(position){
         feed_para['is_show_map']=1;
         $('.feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
     }
-    feed_para['lat']=position.coords.latitude;
-    feed_para['lng']=position.coords.longitude;
-    updateUrlParam('lat',feed_para['lat']);
-    updateUrlParam('lng',feed_para['lng']);
-    loadPosition(feed_para['lat'], feed_para['lng']);
+    feed_para['place_lat']=position.coords.latitude;
+    feed_para['place_lng']=position.coords.longitude;
+    updateUrlParam('place_lat',feed_para['place_lat']);
+    updateUrlParam('place_lng',feed_para['place_lng']);
+    loadPosition(feed_para['place_lat'], feed_para['place_lng']);
     $(".user_saved_location_list option[value='last']").prop("selected","selected");
 }
 function handle_errors(error)
@@ -264,7 +275,7 @@ jQuery(function($){
 })
 
 var merged;
-function getEventThumbnailUrl(data){
+/*function getEventThumbnailUrl(data){
     merged = jQuery.merge(data.images['main'], data.images['general']);
     if (!jQuery.isEmptyObject(merged)){
         var x;
@@ -274,13 +285,13 @@ function getEventThumbnailUrl(data){
             } 
         }
     }
-    return '<?php echo Common::getUploadedImageUrl(NULL, 'event_default_pic'); ?>';
-}
+    return '<?php //echo Common::getUploadedImageUrl(NULL, 'event_default_pic'); ?>';
+}*/
 </script>
 <script id="info-window-tmpl" type="text/x-jquery-tmpl">
-        <img src="${getEventThumbnailUrl($data)}" width="100" style="float:left;margin:5px;" />
+        <?php //<img src="${getEventThumbnailUrl($data)}" width="100" style="float:left;margin:5px;" /> ?>
         <h1>${name}</h1>
-        <p>${description}</p>
-        <button onclick="jQuery('.Post').css('background','none');jQuery('#item_${id}').css('background','#E8FFF7');goToByScroll('item_${id}');">go to the feed</button>
+        <p>${teaser}</p>
+        <button onclick="jQuery('.Post').css('background','none');jQuery('#item_${id}').css('background','#E8FFF7');goToByScroll('article[data-id=\'${id}\']');">go to the feed</button>
 </script>
 <div id="info-window" style="display:none;"></div>

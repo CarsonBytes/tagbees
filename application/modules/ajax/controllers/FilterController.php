@@ -44,8 +44,8 @@ class Ajax_FilterController extends Zend_Controller_Action
         $filterService=new Service_Filter();
         $result=$filterService->save(
             $this->params['name'], 
-            $this->params['lat'], 
-            $this->params['lng'], 
+            $this->params['place_lat'], 
+            $this->params['place_lng'], 
             $this->params['radius'],
             $this->params['override']
         );

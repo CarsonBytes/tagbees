@@ -90,14 +90,14 @@ jQuery(function($){
                           url: "<?php echo $this->baseUrl('ajax/location/save') ?>",
                             data: {
                                 name:location_name,
-                                lat:feed_para['lat'],
-                                lng:feed_para['lng'],
+                                place_lat:feed_para['place_lat'],
+                                place_lng:feed_para['place_lng'],
                                 radius:feed_para['radius'],
                                 override:flagOverrideSavedLocation
                             },
                           success: function(msg){
                                 if (msg['result']==1){
-                                    savedLocation[location_name]=[feed_para['lat'],feed_para['lng'],feed_para['radius']];
+                                    savedLocation[location_name]=[feed_para['place_lat'],feed_para['place_lng'],feed_para['radius']];
                                     if (flagOverrideSavedLocation==0){
                                         $(".user_saved_location_list").append("<option value=\""+location_name+"\">"+location_name+"</option>")
                                         $(".user_saved_location_list option:last").prop("selected","selected");
@@ -218,8 +218,8 @@ jQuery(function($){
             }
           feed_para['radius'] = ui.value;
           updateUrlParam('radius', feed_para['radius']);
-          updateUrlParam('lat', feed_para['lat']);
-          updateUrlParam('lng', feed_para['lng']);
+          updateUrlParam('place_lat', feed_para['place_lat']);
+          updateUrlParam('place_lng', feed_para['place_lng']);
           refreshFeed();
         }
     });

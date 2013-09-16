@@ -6,7 +6,7 @@
 		<tr>
 			<td class="name"><?php echo $location['name']?></td>
 			<td>
-				<img src="http://maps.google.com/maps/api/staticmap?markers=<?php echo $location['lat']?>,<?php echo $location['lng']?>&zoom=13&size=100x100&sensor=false" />
+				<img src="http://maps.google.com/maps/api/staticmap?markers=<?php echo $location['place_lat']?>,<?php echo $location['place_lng']?>&zoom=13&size=100x100&sensor=false" />
 			</td>
 			<td>
 				<a class="delete_user_saved_location" href="#"><?php echo $this->translate('delete')?></a>

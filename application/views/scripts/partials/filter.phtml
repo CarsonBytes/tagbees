@@ -5,8 +5,8 @@
     $is_match_location = (isset($_GET['is_match_location']) && ($_GET['is_match_location']==0||$_GET['is_match_location']==1)) ? $_GET['is_match_location'] : Zend_Registry::get('config')->filter->user_para->is_match_location;
     $is_show_map = (isset($_GET['is_show_map']) && ($_GET['is_show_map']==0||$_GET['is_show_map']==1)) ? $_GET['is_show_map'] : Zend_Registry::get('config')->filter->user_para->is_show_map;
     $radius = isset($_GET['radius']) && (is_numeric($_GET['radius'])) ? $_GET['radius'] : Zend_Registry::get('config')->filter->user_para->radius;
-    $lat = isset($_GET['lat']) && (is_numeric($_GET['lat'])) ? $_GET['lat'] : Zend_Registry::get('config')->filter->user_para->lat;
-    $lng = isset($_GET['lng']) && (is_numeric($_GET['lng'])) ? $_GET['lng'] : Zend_Registry::get('config')->filter->user_para->lat;
+    $place_lat = isset($_GET['place_lat']) && (is_numeric($_GET['place_lat'])) ? $_GET['place_lat'] : Zend_Registry::get('config')->filter->user_para->place_lat;
+    $place_lng = isset($_GET['place_lng']) && (is_numeric($_GET['place_lng'])) ? $_GET['place_lng'] : Zend_Registry::get('config')->filter->user_para->place_lat;
 ?>
 
 <?php /*<form action="" id="feed_filter" name="feed_filter" class="search"> */ ?>
@@ -49,8 +49,8 @@
         <?php } ?>
     </section>
     <section style="display:none;width:100%;height:300px;border:1px solid black" id="map_wrapper">
-        <input type="hidden" class="feed_filter_input" name="lat" value="<?php echo $lat ?>"/>
-        <input type="hidden" class="feed_filter_input" name="lng" value="<?php echo $lng ?>"/>
+        <input type="hidden" class="feed_filter_input" name="place_lat" value="<?php echo $place_lat ?>"/>
+        <input type="hidden" class="feed_filter_input" name="place_lng" value="<?php echo $place_lng ?>"/>
         <?php //<article> <img src="images/map2.gif" alt=" "> </article> ?>
         <div id="feed_filter_map" style="height: 300px;width: 100%;background-color: #E5E3DF;overflow: hidden;position: relative;"></div>
       </section>

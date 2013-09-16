@@ -16,10 +16,11 @@ function validateSidebarSearchInputs(){
     }
 }
 
-function refreshFeed(type, more_flag, para){
+function refreshFeed(type, more_flag, para, is_refresh_markers){
     if(typeof type == 'undefined') var type = 'index';
     if(typeof more_flag == 'undefined') var more_flag = false;
     if(typeof para == 'undefined') var para = [];
+    if(typeof is_refresh_markers == 'undefined') var is_refresh_markers = true;
     
     if (type == 'index'){
         if ( !more_flag ){
@@ -47,12 +48,14 @@ function refreshFeed(type, more_flag, para){
                 success: function(response){
                     if ($.isEmptyObject(response.data)){
                         hideMoreButton(more_flag);
+                        removeMarkers();
                     } else {
                         if (type == 'index') {
                             <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                                if (!map_markers_data) var map_markers_data = [];
-                                map_markers_data.push = response.data;
-                                refreshMarkers();
+                                map_markers_data = response.data;
+                                if (is_refresh_markers) 
+                                  refreshMarkers();
+                                else addMarkers();
                             <?php } ?>
                             renderIndexFeeds(response, more_flag);
                         } else if (type == 'user_log'){

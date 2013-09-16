@@ -69,8 +69,8 @@ function updateMapByPlace(place, mapDiv_ID, lat_input_ID, lng_input_ID){
     markers[mapDiv_ID].setPosition(place.geometry.location);
     markers[mapDiv_ID].setVisible(true);
      
-    jQuery('#'+lat_input_ID).val(place.geometry.location.lat());
-    jQuery('#'+lng_input_ID).val(place.geometry.location.lng());
+    jQuery('#'+lat_input_ID).val(place.geometry.location.place_lat());
+    jQuery('#'+lng_input_ID).val(place.geometry.location.place_lng());
 
 }
 

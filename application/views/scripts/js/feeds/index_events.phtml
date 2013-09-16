@@ -140,7 +140,7 @@
                     // Parse coordinates of event target
                     coords = target.attr('data-coord').split(',');
      
-                    // Setup lat/long coordinates
+                    // Setup place_lat/long coordinates
                     latlong = new google.maps.LatLng(parseFloat(coords[0]), parseFloat(coords[1]));
      
                     // Create marker at the new location and center map there
@@ -206,13 +206,16 @@
         });
     }
 
-    
+    var map_markers_data = [];
     jQuery(function($){
+        <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+            map_markers_data = index_feeds.data;
+            refreshMarkers();
+        <?php } ?>
         //when user clicks load more
         $('body#index').on("click",'.load_more_feeds',function() {
-          console.log('loaded');
             feed_para.last_id = $('.feeds > article:last').data("id");
-            refreshFeed('index', true);
+            refreshFeed('index', true, [], false);
             return false;
         });
     })

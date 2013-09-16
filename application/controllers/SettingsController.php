@@ -96,8 +96,8 @@ class SettingsController extends Zend_Controller_Action {
     $this -> view -> form_data = $settingService->get();
     
     // for global map js
-    Common::getSession()->settings_form->lat = $this->view->form_data['lat'];
-    Common::getSession()->settings_form->lng = $this->view->form_data['lng'];
+    Common::getSession()->settings_form->place_lat = $this->view->form_data['place_lat'];
+    Common::getSession()->settings_form->place_lng = $this->view->form_data['place_lng'];
   }
 
 }

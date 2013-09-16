@@ -31,7 +31,7 @@ class Service_Feed{
      *  $sort_by=0,
      *  $is_match_interest=0,
      *  $is_match_location=0,
-     *  $lat=22.2,$lng=114.2,$radius=5,
+     *  $place_lat=22.2,$place_lng=114.2,$radius=5,
      *  $user_id='',
      *  $tag_id='',
      *  $tag_range = '',
@@ -58,8 +58,8 @@ class Service_Feed{
         } else {
             if (!isset($user_para['rpp'])) $user_para['rpp'] =  Zend_Registry::get('config')->filter->user_para->rpp;
             if (isset($user_para['is_match_location'])) {
-                if (!isset($user_para['lat'])) $user_para['lat'] =  Zend_Registry::get('config')->filter->user_para->lat;
-                if (!isset($user_para['lng'])) $user_para['lng'] =  Zend_Registry::get('config')->filter->user_para->lng;
+                if (!isset($user_para['place_lat'])) $user_para['place_lat'] =  Zend_Registry::get('config')->filter->user_para->place_lat;
+                if (!isset($user_para['place_lng'])) $user_para['place_lng'] =  Zend_Registry::get('config')->filter->user_para->place_lng;
             }
         }
         //get general feed sql query and feed interest ids of the logined user
@@ -90,7 +90,7 @@ class Service_Feed{
 			
 			// is match location
 			if (isset($user_para['is_match_location']) && $user_para['is_match_location']==1){
-				$select_cols['distance']='( 6371 * acos( cos( radians('.$user_para['lat'].') ) * cos( radians( f.lat ) ) * cos( radians( f.lng ) - radians('.$user_para['lng'].') ) + sin( radians('.$user_para['lat'].') ) * sin( radians( f.lat ) ) ) )';
+				$select_cols['distance']='( 6371 * acos( cos( radians('.$user_para['place_lat'].') ) * cos( radians( f.place_lat ) ) * cos( radians( f.place_lng ) - radians('.$user_para['place_lng'].') ) + sin( radians('.$user_para['place_lat'].') ) * sin( radians( f.place_lat ) ) ) )';
 			}
 	
 	
@@ -317,15 +317,15 @@ class Service_Feed{
                 $item->traffic_note = urlencode($item->traffic_note);
                 
                 
-                //calculate and insert linear direction between points. refer to application/../docs/long-lat-direction.bmp
+                //calculate and insert linear direction between points. refer to application/../docs/long-place_lat-direction.bmp
                 if (isset($user_para['is_match_location']) && $user_para['is_match_location']==1){
-                    if ($item->lat<$user_para['lat']){
-                        $base_lat=$item->lat;
+                    if ($item->place_lat<$user_para['place_lat']){
+                        $base_lat=$item->place_lat;
                     }else{
-                        $base_lat=$user_para['lat'];
+                        $base_lat=$user_para['place_lat'];
                     }
-                    $delta_lat=$item->lat-$user_para['lat'];
-                    $delta_lng=$item->lng-$user_para['lng'];
+                    $delta_lat=$item->place_lat-$user_para['place_lat'];
+                    $delta_lng=$item->place_lng-$user_para['place_lng'];
                     $item->delta_lng=$delta_lng;
                     $item->delta_lat=$delta_lat;
                     $item->base_lat=$base_lat;

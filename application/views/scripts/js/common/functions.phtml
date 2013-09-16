@@ -124,8 +124,8 @@ function getNow () {
 
 
 
-function goToByScroll(id){
-        $('html,body').animate({scrollTop: $("#"+id).offset().top},'slow');
+function goToByScroll(element){
+  $('html,body').animate({scrollTop: $(element).offset().top},'slow');
 }
 
 /*
@@ -143,7 +143,7 @@ function clone (source, append) {
 }
 //RETURN KEYS OF AN OBJECT
 $.extend({
-    keys:    function(obj){
+    keys: function(obj){
         var a = [];
         $.each(obj, function(k){ a.push(k) });
         return a;
@@ -212,7 +212,7 @@ function isFeedParameterValid(key, value){
         if (value == 2 || value == 1 || value == 0) return true;
     } else if (key == 'q') {
          return true;
-    } else if (key == 'radius' || key == 'lat' || key == 'lng') {
+    } else if (key == 'radius' || key == 'place_lat' || key == 'place_lng') {
         if (isNumber(value) || value == "") return true;
     } else if (key == 'begin_date' || key == 'end_date') {
         if (value == "") return true;

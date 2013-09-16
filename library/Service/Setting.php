@@ -12,7 +12,7 @@ class Service_Setting {
       $id = $this -> identity -> item_id;
     $select = $this -> db -> select() 
       -> from(array('user')) 
-      -> joinLeft('item', 'item.id=user.item_id', array('name', 'description', 'place', 'lat', 'lng', 'zoom')) 
+      -> joinLeft('item', 'item.id=user.item_id', array('name', 'description', 'place', 'place_lat', 'place_lng', 'zoom')) 
       -> joinLeft('user_account', 'user_account.user_id = user.item_id', array('identifiers' => new Zend_Db_Expr('GROUP_CONCAT(identifier)'), 'user_providers' => new Zend_Db_Expr('GROUP_CONCAT(provider)'))) 
       -> where('item_id= ?', $id) -> group('user.item_id');
     return $this -> db -> fetchRow($select);
@@ -93,7 +93,7 @@ class Service_Setting {
     /*if (isset($data['birth_date']))
      $data['birth_date']=Common::spaceToNull($data['birth_date']);*/
 
-    $item_table_col_names = array('name', 'description', 'place', 'lat', 'lng', 'zoom');
+    $item_table_col_names = array('name', 'description', 'place', 'place_lat', 'place_lng', 'zoom');
     $user_table_col_names = array('gender', 'email', 'homepage', 'privacy_gender', 'privacy_place', 'timezone_id', 'social_post_bookmark_add', 'social_post_event_add', 'privacy_timezone', 'privacy_homepage', 'privacy_email', 'privacy_description');
     $item_data = array();
     $user_data = array();

@@ -15,9 +15,9 @@ class Ajax_LocationController extends Zend_Controller_Action
     	//$fLat='22.33';
     	//$fLon='114.19';
     	$radius=$this->params['radius'];
-    	$fLat=$this->params['lat'];
-    	$fLon=$this->params['lng'];
-		$sql="SELECT id, lat,lng, ( 6371 * acos( cos( radians($fLat) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($fLon) ) + sin( radians($fLat) ) * sin( radians( lat ) ) ) ) AS distance FROM item
+    	$fLat=$this->params['place_lat'];
+    	$fLon=$this->params['place_lng'];
+		$sql="SELECT id, place_lat,place_lng, ( 6371 * acos( cos( radians($fLat) ) * cos( radians( place_lat ) ) * cos( radians( place_lng ) - radians($fLon) ) + sin( radians($fLat) ) * sin( radians( place_lat ) ) ) ) AS distance FROM item
 		having distance < $radius
 		ORDER BY distance LIMIT 0 , 20;";
 		
@@ -30,8 +30,8 @@ class Ajax_LocationController extends Zend_Controller_Action
 		$locationService=new Service_Location();
 		$result=$locationService->save(
 			$this->params['name'], 
-			$this->params['lat'], 
-			$this->params['lng'], 
+			$this->params['place_lat'], 
+			$this->params['place_lng'], 
 			$this->params['radius'],
 			$this->params['override']
 		);

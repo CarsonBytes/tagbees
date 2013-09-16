@@ -153,7 +153,7 @@ class Service_User{
 	public function getUsers($item_ids=array()){
 		$select = $this->db->select()
 				->from(array('user'),
-					array('item_id','firstname','lastname','username',/*'description',*/'feed_type','feed_is_match_interest',/*'address','lat','lng', 'create_time'*/)
+					array('item_id','firstname','lastname','username',/*'description',*/'feed_type','feed_is_match_interest',/*'address','place_lat','place_lng', 'create_time'*/)
 					);
 					if (!empty($item_ids)){
 						$select->where('item_id in (?)',$item_ids);
@@ -173,8 +173,8 @@ class Service_User{
 			$data[$value["id"]]["feed_type"]=$value["feed_type"];
 			$data[$value["id"]]["feed_is_match_interest"]=$value["feed_is_match_interest"];
 			$data[$value["id"]]["address"]=$value["address"];
-			$data[$value["id"]]["lat"]=$value["lat"];
-			$data[$value["id"]]["lng"]=$value["lng"];
+			$data[$value["id"]]["place_lat"]=$value["place_lat"];
+			$data[$value["id"]]["place_lng"]=$value["place_lng"];
 			$data[$value["id"]]["create_time"]=$value["create_time"];
 		}
 		return $data;

@@ -14,7 +14,7 @@ class Service_Post{
 		$payment_method=array('any'),
 		$time_zone_id=0,
 		$begin_time='',$has_end_time=0,$end_time='',
-		$place='',$lat='',$lng='',$zoom='',
+		$place='',$place_lat='',$place_lng='',$zoom='',
 		$relateds=array(),$related_types=array(),
 		$imgs=array(),$img_descriptions=array()
 	 *
