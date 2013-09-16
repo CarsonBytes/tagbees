@@ -308,7 +308,15 @@ class Service_Feed{
                 $item = $itemService->getCatAndTreeIdsByCategoryIdsString($item->tree_ids, $item);
                 $cat_ids = array_merge($cat_ids, $item->cat_ids);
                 
+                // encode all html related content to avoid annoying json parse error
                 $item->description = urlencode($item->description);
+                $item->datetime_note = urlencode($item->datetime_note);
+                $item->price_note = urlencode($item->price_note);
+                $item->application_datetime_note = urlencode($item->application_datetime_note);
+                $item->organiser_detail = urlencode($item->organiser_detail);
+                $item->traffic_note = urlencode($item->traffic_note);
+                
+                
                 //calculate and insert linear direction between points. refer to application/../docs/long-lat-direction.bmp
                 if (isset($user_para['is_match_location']) && $user_para['is_match_location']==1){
                     if ($item->lat<$user_para['lat']){
