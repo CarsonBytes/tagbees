@@ -182,8 +182,14 @@
                 .accordion_button { 
                     background-color:#cbcbcb;
                     background-image:none;
+                    cursor:default;
                 }
-                &.editing{ display:block; }
+                &.editing{ 
+                    display:block;
+                    &:hover a.hide_toggle{
+                        display:block;
+                    }
+                }
             }
         }
         #watchlist_tab{

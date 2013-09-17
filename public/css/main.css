@@ -253,8 +253,9 @@ $pie-base-class: pie-element;*/
 #sidebar .tab_div #category_tab .shown_categories .accordion .accordion_button.editing:hover a.hide_toggle { display: block; }
 #sidebar .tab_div #category_tab .shown_categories .accordion .accordion_content { padding: 5px 5px 5px 15px; line-height: 17px; display: none; }
 #sidebar .tab_div #category_tab .hidden_categories { display: none; }
-#sidebar .tab_div #category_tab .hidden_categories .accordion_button { background-color: #cbcbcb; background-image: none; }
+#sidebar .tab_div #category_tab .hidden_categories .accordion_button { background-color: #cbcbcb; background-image: none; cursor: default; }
 #sidebar .tab_div #category_tab .hidden_categories.editing { display: block; }
+#sidebar .tab_div #category_tab .hidden_categories.editing:hover a.hide_toggle { display: block; }
 #sidebar .tab_div #watchlist_tab .event_head { background: #ececec; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; padding: 4px 11px 5px 13px; }
 #sidebar .tab_div #watchlist_tab .event_head h4 { font-size: 13px; font-weight: bold; color: #494a4e; display: inline-block; padding: 4px 0 0; }
 #sidebar .tab_div #watchlist_tab .event_links { /*.watcher_event{ padding-bottom:15px;}*/ /*.asaid_popup{ position:absolute; top:0; left:290px; width:450px; z-index:10; @include border-radius(5px); cursor:auto;}*/ }

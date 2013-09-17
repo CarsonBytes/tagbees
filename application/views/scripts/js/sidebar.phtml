@@ -105,26 +105,27 @@
         //$('.accordion_content_sub').hide();
         
         // click to trigger edit list order mode
-        $('body').on('click', '.edit_list_order', function() {
-            if ($(this).data('flag') == 0) {
-                $('#category_tab .shown_categories .movable').show();
-                $(this).data('flag', 1).text('finish editing!');
-                $('.shown_categories .accordion_button').unbind('click', accordion_expand_handler).addClass('editing');
-                $('.hidden_categories').addClass('editing');
-                $('.accordion_content').hide();
-                $('.shown_categories .accordions').sortable({
-                    handle : ".movable",
-                    placeholder : "ui-state-highlight tab_placeholder"
-                }).sortable("enable");
-            } else {
-                $('.hidden_categories').removeClass('editing');
-                $('#category_tab .shown_categories .movable').hide();
-                $(this).data('flag', 0).text('edit list order...');
-                $(".accordions").sortable("disable").enableSelection();
-                $('.shown_categories .accordion_button').bind('click', accordion_expand_handler).removeClass('editing');
-                $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
-            }
-            return false;
+        $('body').on('click', '.edit_list_order', function(e) {
+          e.preventDefault()
+          if ($(this).data('flag') == 0) {
+              $('#category_tab .shown_categories .movable').show();
+              $(this).data('flag', 1).text('finish editing!');
+              $('.shown_categories .accordion_button').unbind('click', accordion_expand_handler).addClass('editing');
+              $('.hidden_categories').addClass('editing');
+              $('.accordion_content').hide();
+              $('.shown_categories .accordions').sortable({
+                  handle : ".movable",
+                  placeholder : "ui-state-highlight tab_placeholder"
+              }).sortable("enable");
+          } else {
+              $('.hidden_categories').removeClass('editing');
+              $('#category_tab .shown_categories .movable').hide();
+              $(this).data('flag', 0).text('edit list order...');
+              $(".accordions").sortable("disable").enableSelection();
+              $('.shown_categories .accordion_button').bind('click', accordion_expand_handler).removeClass('editing');
+              $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
+          }
+          return false;
         });
 
         //show/hide toggle
