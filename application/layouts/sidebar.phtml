@@ -22,10 +22,13 @@
         <nav class="tab_link clearfix">
             <ul class="home_tab">
                 <li>
-                    <a href="#category_tab" class="category_icon">category</a>
+                    <a href="#category_tab" class="category_icon"></a>
                 </li>
                 <li>
-                    <a href="#watchlist_tab" class="watchlist_icon">watchlist</a>
+                    <a href="#hightlight_tab" class="watchlist_icon"></a>
+                </li>
+                <li>
+                    <a href="#reminder_tab" class="watchlist_icon"></a>
                 </li>
             </ul>
         </nav>
@@ -296,19 +299,19 @@
                     </ul>
                 </div>
             </div>
-            <div id="watchlist_tab" class="tab">
+            <div id="hightlight_tab" class="tab">
                 <div class="event_head">
                     <h4>Event Highlights</h4>
                 </div>
                 <nav class="event_links">
                     <ul>
-                        <li id="parent1" class="parent">
+                        <li>
+                            <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
+                            <?php /*<span class="event_icon" ><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span> */ ?>
                             <div class="star">
                                 <div class="star_inner"></div>
                             </div>
-                            <span class="e_date">6/5</span><span class="e_title"><a href="event.php">Monumenta - Paris</a></span>
-                            <span class="event_icon" ><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                            <div class="positionable asaid_popup " id="positionable1" style="display:none;">
+                            <?php /*<div class="positionable asaid_popup " id="positionable1" style="display:none;">
                                 <div class="arrow" style="display: block; ">
                                     &lt;
                                 </div>
@@ -320,9 +323,15 @@
                                         ?>
                                     </div>
                                 </div>
+                            </div> */ ?>
+                        </li>
+                        <li class="bookmarked">
+                            <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
+                            <div class="star">
+                                <div class="star_inner"></div>
                             </div>
                         </li>
-                        <li>
+                       <?php /* <li>
                             <div class="star">
                                 <div class="star_inner"></div>
                             </div>
@@ -388,9 +397,11 @@
                                 <div class="star_inner"></div>
                             </div>
                             <span class="e_date">12/27</span><span class="e_title"><a href="#">San Pellegrino Cooking...</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
+                        </li> */?>
                     </ul>
                 </nav>
+            </div>
+            <div id="reminder_tab" class="tab">
                 <div class="event_head clearfix">
                     <h4>Event Reminder</h4>
                     <a href="#" class="more_dot">....</a><a class="simple_personal_event add" href="#"></a>
