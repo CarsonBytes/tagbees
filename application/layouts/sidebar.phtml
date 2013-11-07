@@ -25,7 +25,7 @@
                     <a href="#category_tab" class="category_icon"></a>
                 </li>
                 <li>
-                    <a href="#hightlight_tab" class="watchlist_icon"></a>
+                    <a href="#highlight_tab" class="watchlist_icon"></a>
                 </li>
                 <li>
                     <a href="#reminder_tab" class="watchlist_icon"></a>
@@ -299,107 +299,57 @@
                     </ul>
                 </div>
             </div>
-            <div id="hightlight_tab" class="tab">
+            <div id="highlight_tab" class="tab">
                 <div class="event_head">
                     <h4>Event Highlights</h4>
                 </div>
-                <nav class="event_links">
-                    <ul>
-                        <li>
-                            <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
-                            <?php /*<span class="event_icon" ><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span> */ ?>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <?php /*<div class="positionable asaid_popup " id="positionable1" style="display:none;">
-                                <div class="arrow" style="display: block; ">
-                                    &lt;
-                                </div>
-                                <div class="popup_bor left_gap">
-                                    <div class="asaid_popup_main">
-                                        <a title="Close" class="watcher_close" href="#">X</a>
-                                        <?php
-                                        include ("event_brief.php");
-                                        ?>
-                                    </div>
-                                </div>
-                            </div> */ ?>
-                        </li>
-                        <li class="bookmarked">
-                            <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                        </li>
-                       <?php /* <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/5</span><span class="e_title"><a href="#">Letterature - International...</a></span>
-                            <span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/4</span><span class="e_title"><a href="event.php">British Asparagus Festival</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/4</span><span class="e_title"><a href="event.php">Friday Market</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/3</span><span class="e_title"><a href="#">San Pellegrino Cooking</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/3</span><span class="e_title"><a href="#">Midsummer Celebrations</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/2</span><span class="e_title"><a href="#">Sydney Good Food...</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/1</span><span class="e_title"><a href="#">Rally del Salento</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">5/31</span><span class="e_title"><a href="#">Dragonboat Cup</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">5/28</span><span class="e_title"><a href="#">San Pellegrino Cooking...</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">5/27</span><span class="e_title"><a href="#">Midsummer Celebrations 2</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">12/27</span><span class="e_title"><a href="#">San Pellegrino Cooking...</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li> */?>
-                    </ul>
-                </nav>
+                <ul class="event_highlights_list">
+                    <li>
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">BAPS Shri Swaminarayan...</a></span>
+                        <?php /*<span class="event_icon" ><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span> */ ?>
+                        <div class="star gold">
+                            <div class="star_inner"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                    <li>
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
+                        <?php /*<span class="event_icon" ><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span> */ ?>
+                        <div class="star">
+                            <div class="star_inner gold"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                    <li class="bookmarked">
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Benjamin Franklin House</a></span>
+                        <div class="star">
+                            <div class="star_inner gold"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                    <li class="bookmarked">
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
+                        <div class="star">
+                            <div class="star_inner gold"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                    <li>
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
+                        <?php /*<span class="event_icon" ><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span> */ ?>
+                        <div class="star">
+                            <div class="star_inner"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                    <li class="bookmarked">
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
+                        <div class="star">
+                            <div class="star_inner gold"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                </ul>
             </div>
             <div id="reminder_tab" class="tab">
                 <div class="event_head clearfix">
@@ -407,84 +357,34 @@
                     <a href="#" class="more_dot">....</a><a class="simple_personal_event add" href="#"></a>
                     <select class="alltime">
                         <option>All time</option>
+                        <option>In a week</option>
+                        <option>In a month</option>
+                        <option>Unbookmarked</option>
                     </select>
                 </div>
-                <nav class="event_links">
-                    <ul>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/5</span><span class="e_title"><a href="#">BAPS Shri Swaminarayan...</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/5</span><span class="e_title"><a href="#">Benjamin Franklin House</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/3</span><span class="e_title"><a href="#">British Music Experience</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/3</span><span class="e_title"><a href="#">Cartoon Museum</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/2</span><span class="e_title"><a href="#">Football Match - Eagle</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/1</span><span class="e_title"><a href="#">Chelsea Physic Garden</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">6/1</span><span class="e_title"><a href="#">Martin Farewell</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">5/31</span><span class="e_title"><a href="#">Churchill War Rooms</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">5/28</span><span class="e_title"><a href="#">Nancy Party</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">5/26</span><span class="e_title"><a href="#">Jewel Tower</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">5/26</span><span class="e_title"><a href="#">Kensington Palace</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                        <li>
-                            <div class="star">
-                                <div class="star_inner"></div>
-                            </div>
-                            <span class="e_date">5/24</span><span class="e_title"><a href="#">Kew Gardens</a></span><span class="event_icon"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=" " width="29" /></span>
-                        </li>
-                    </ul>
-                </nav>
+                <ul class="event_reminder_list">
+                    <li class="bookmarked">
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Benjamin Franklin House</a></span>
+                        <div class="star">
+                            <div class="star_inner gold"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                    <li class="bookmarked">
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Benjamin Franklin House</a></span>
+                        <div class="star">
+                            <div class="star_inner gold"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                    <li class="bookmarked">
+                        <span class="e_date">6/5</span><span class="e_title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></span>
+                        <div class="star">
+                            <div class="star_inner gold"></div>
+                        </div>
+                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>

@@ -2,8 +2,10 @@
 @import "compass/reset";
 /*@import "_normalize.scss";*/
 
-
 /************************************ general start ****************************************/
+*{
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+}
 .left{ float:left;}
 .right{ float:right;}
 .shadow{ @include box-shadow(0 0 8px rgba(0,0,0,0.2));}

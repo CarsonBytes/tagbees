@@ -191,7 +191,7 @@
                 }
             }
         }
-        #hightlight_tab, #reminder_tab{
+        #highlight_tab, #reminder_tab{
             .event_head{ 
                 background:$light-grey; 
                 @include border-radius(4px); 
@@ -203,89 +203,130 @@
                     display:inline-block; 
                     padding:4px 0 0;
                 }
+                .more_dot, .add{ float:right; color:$left-event; }
+                .more_dot{ text-decoration:none; font-weight:bold; line-height:21px;}
+                .add{ background:url(../images/plus.png) no-repeat center white; border:1px solid #c7c7c7; width:23px; height:19px; margin-right:11px;}
+                .alltime{ border:1px solid #c7c7c7; width:90px; height:21px; padding:2px 2px 2px 6px; float:right; margin-right:7px;}
             }
-            .event_links{
-                ul{ 
-                  padding-top:6px;
-                  li{
-                      border-bottom:1px solid #e4e4e4; 
-                      display:block; 
-                      padding:6px 0 6px 12px; 
-                      color:$left-event; 
-                      position:relative; 
-                      
-                      .star_inner, .star_gold{  
-                        background-image:url(../images/sprites.png); 
-                        background-repeat:no-repeat; 
-                        float:left; 
-                        width:14px; 
-                        height:13px;
+            ul{
+              padding-top:6px;
+              li{
+                  @include user-select(none);
+                  border-bottom:1px solid #e4e4e4; 
+                  display:block; 
+                  padding:6px 0 6px 12px; 
+                  color:$left-event; 
+                  position:relative; 
+                  .sidebar_bookmark_popup{
+                    width: 270px;
+                    position: absolute;
+                    left: 305px;
+                    z-index: 100;
+                    top: 0;
+                    display:none;
+                    background:#F1F1F1;
+                    cursor: auto;
+                    .sidebar_bookmark_popup_inner{
+                      margin:10px;
+                      h2{
+                        font-size: 14px;
                       }
-                      .star_inner{ background-position:-14px 0; display:none;}
-                      .star_gold{  background-position:0 0;}
-                      &.bookmarked{
-                        cursor:pointer;
-                          .star_inner{ 
-                            display:block;
-                            background-position:0 0;
-                          }
+                      h3{
+                        font-weight:bold;
                       }
-                      &:hover{
-                          background:#f6f6f6;
-                          .star_inner{ 
-                              display:block;
-                              &:hover{ 
-                                  background-position:0 0;
-                              }
-                          }
-                          .event_icon{ display:block;}
+                      .yellow{
+                        background:#FFFF94;
+                        padding: 5px;
                       }
-                      li.asaid_link{ position: relative;}
-                      &:last-child{ border:none;}
+                      .white{
+                        margin-top:10px;
+                        display:none;
+                      }
+                      .sidebar_bookmark_popup_reminder_title{
+                        width: 245px;
+                        padding: 2px;
+                      }
+                      .sidebar_bookmark_popup_reminder_detail{
+                        width: 245px;
+                        padding: 2px;
+                        border: 1px solid #dfdfdf;
+                      }
+                      .sidebar_bookmark_popup_reminder_save{
+                        float:right;
+                      }
+                      .sidebar_bookmark_popup_set_reminder{
+                        float: right;
+                        margin-top:5px;
+                      }
+                      .sidebar_bookmark_popup_more_reminder_fields{
+                        float:left;
+                      }
+                    }
                   }
-                  .asaid_popup_main{
-                      background:url(../images/pop_bg.jpg) repeat-x top left #fff; 
-                      margin: 5px; padding: 15px; 
-                      @include border-radius(5px); 
-                      position:relative;
-                      .tag_top ul, .watcher_form ul{ padding-top:0;} 
-                      .tag_top li{ padding:0 3px;}
-                      /*.event_con p{ padding-top:0;}*/
-                      .watcher_form li{ padding:0 0 12px 0;}
-                      .watcher_form li.none{ padding:0 !important;}
-                      .arrow{ position:absolute; top:3px; left:12px; color:#E5E5E7; font-weight:bold; font-size:19px; width:12px; height:12px;}
-                      li{ 
-                          border:none; 
-                          padding:none; 
-                          cursor:auto;
-                          &:hover{ background:none;}
-                      }
-                      .asaid_close, .watcher_close, .right_watcher_close{ background:#000; color:#fff !important; @include border-radius(25px); width:15px; height:15px; padding-top:1px; text-align:center; position:absolute; top:10px; right:10px; font-size:10px; text-decoration:none;}
+                  .arrow{
+                    display: none;
+                    position: absolute;
+                    left: 295px;
+                    top: 0;
+                    line-height: 30px;
+                    font-size: 25px;
                   }
+                  .star{
+                    cursor:pointer;
+                    width:14px; height:13px; position: absolute;
+                    right: 5px;
+                    top: 9px;
+                    .star_inner{  
+                      background-image:url(../images/sprites.png); 
+                      background-repeat:no-repeat; 
+                      float:left; 
+                      width:14px; 
+                      height:13px;
+                    }
+                    .star_inner{ background-position:-14px 0; display:none;}
+                    .gold{  background-position:0 0 !important;}
+                  }
+                  .e_date{ display:inline-block; width:39px;}
+                  .e_title{ color:$left-event; }
+                  .event_icon{ position:absolute; right:20px; top:3px; display:none;}
                   a{ color:$left-event; text-decoration:none;
                       &:link {color:$color;}
                       &:hover{color:#F0BC05;}
                       /*&:visited {color:$color;} */
                       &:active {color:#096DB9;}
                   }
-                }
-                
-                /*.watcher_event{ padding-bottom:15px;}*/
-                /*.asaid_popup{ position:absolute; top:0; left:290px; width:450px; z-index:10; @include border-radius(5px); cursor:auto;}*/
-                .e_date{ display:inline-block; width:39px;}
-                .e_title{ color:$left-event; }
-                .star{  
-                  width:14px; height:13px; position: absolute;
-                  right: 5px;
-                  top: 9px;
-                }
-                .event_icon{ position:absolute; right:20px; top:3px; display:none;}
-            }
-            .event_head{
-                .more_dot, .add{ float:right; color:$left-event; }
-                .more_dot{ text-decoration:none; font-weight:bold; line-height:21px;}
-                .add{ background:url(../images/plus.png) no-repeat center white; border:1px solid #c7c7c7; width:23px; height:19px; margin-right:11px;}
-                .alltime{ border:1px solid #c7c7c7; width:90px; height:21px; padding:2px 2px 2px 6px; float:right; margin-right:7px;}
+                  &.bookmarked{
+                    cursor:pointer;
+                    .star_inner{ 
+                      display:block;
+                      background-position:0 0;
+                    }
+                    /*&:hover{
+                      .sidebar_bookmark_popup, .arrow{
+                        display:block;
+                      }
+                    }*/
+                  }
+                  &:hover{
+                    background:#f6f6f6;
+                    &.bookmarked{
+                      .star_inner{ 
+                          display:block;
+                          /*&:hover{ 
+                              background-position:-14px 0 !important;
+                          }*/
+                      }
+                    }
+                    .star_inner{ 
+                        display:block;
+                        /*&:hover{ 
+                            background-position:0 0;
+                        }*/
+                    }
+                    .event_icon{ display:block;}
+                  }
+                  &:last-child{ border:none;}
+              }
             }
         }
     }
