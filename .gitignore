@@ -3,4 +3,4 @@
 .project
 *.sql
 *.bak
-application/configs/application.ini
+application.ini
