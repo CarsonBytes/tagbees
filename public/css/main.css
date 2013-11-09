@@ -268,7 +268,10 @@ $pie-base-class: pie-element;*/
 #sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup { width: 270px; position: absolute; left: 305px; z-index: 100; top: 0; display: none; background: #F1F1F1; cursor: auto; }
 #sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner { margin: 10px; }
 #sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner h2, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner h2 { font-size: 14px; }
-#sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner h3, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner h3 { font-weight: bold; }
+#sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title { font-size: 15px; color: black; font-weight: bold; cursor: pointer; width: auto; }
+#sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title:link, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title:link { color: #333333; }
+#sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title:hover, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title:hover { color: #F0BC05; }
+#sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title:active, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title:active { color: #096DB9; }
 #sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .yellow, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .yellow { background: #FFFF94; padding: 5px; }
 #sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .white, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .white { margin-top: 10px; display: none; }
 #sidebar .tab_div #highlight_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_reminder_title, #sidebar .tab_div #reminder_tab ul li .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_reminder_title { width: 245px; padding: 2px; }
@@ -290,7 +293,7 @@ $pie-base-class: pie-element;*/
 #sidebar .tab_div #highlight_tab ul li a:active, #sidebar .tab_div #reminder_tab ul li a:active { color: #096DB9; }
 #sidebar .tab_div #highlight_tab ul li.bookmarked, #sidebar .tab_div #reminder_tab ul li.bookmarked { /*&:hover{ .sidebar_bookmark_popup, .arrow{ display:block; }
 }*/ }
-#sidebar .tab_div #highlight_tab ul li.bookmarked .sidebar_bookmark_popup_set_reminder, #sidebar .tab_div #reminder_tab ul li.bookmarked .sidebar_bookmark_popup_set_reminder { display: block !important; }
+#sidebar .tab_div #highlight_tab ul li.bookmarked .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder, #sidebar .tab_div #reminder_tab ul li.bookmarked .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder { display: block; }
 #sidebar .tab_div #highlight_tab ul li.bookmarked .star_inner, #sidebar .tab_div #reminder_tab ul li.bookmarked .star_inner { display: block; background-position: 0 0; }
 #sidebar .tab_div #highlight_tab ul li:hover, #sidebar .tab_div #reminder_tab ul li:hover { background: #f6f6f6; }
 #sidebar .tab_div #highlight_tab ul li:hover.bookmarked .star_inner, #sidebar .tab_div #reminder_tab ul li:hover.bookmarked .star_inner { display: block; /*&:hover{  background-position:-14px 0 !important;

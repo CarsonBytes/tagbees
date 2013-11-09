@@ -231,8 +231,15 @@
                       h2{
                         font-size: 14px;
                       }
-                      h3{
+                      a.title{
+                        font-size:15px;
+                        color: black;
                         font-weight:bold;
+                        cursor:pointer;
+                        width: auto;
+                        &:link {color:$color;}
+                        &:hover{color:#F0BC05;}
+                        &:active {color:#096DB9;}
                       }
                       .yellow{
                         background:#FFFF94;
@@ -297,8 +304,8 @@
                       &:active {color:#096DB9;}
                   }
                   &.bookmarked{
-                    .sidebar_bookmark_popup_set_reminder{
-                      display:block !important;
+                    .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder{
+                      display:block;
                     }
                     .star_inner{ 
                       display:block;
