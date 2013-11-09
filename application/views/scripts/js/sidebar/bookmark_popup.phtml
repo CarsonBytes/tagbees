@@ -14,7 +14,6 @@ var ns_sidebar_bookmark_poup = {
       }
   },
   togglePopup: function(list_item){
-    console.log('toggled popup')
     var this_popup = list_item.find('.sidebar_bookmark_popup, .arrow');
     if ($('.sidebar_bookmark_popup, .arrow').not(this_popup).is(':visible')){
       $('.sidebar_bookmark_popup, .arrow').not(this_popup).hide();
@@ -23,7 +22,6 @@ var ns_sidebar_bookmark_poup = {
       this_popup.hide();
     }else{
       this_popup.show();
-      console.log(this_popup);
       ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(list_item.find('.sidebar_bookmark_popup'));
       
     }
@@ -102,7 +100,7 @@ jQuery(function($){
       if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li, #reminder_tab li').length) {
       $(".sidebar_bookmark_popup, .arrow").hide();
       };
-  })
+  });
 <?php /* //pending hover effect...
   var over_timer;
   var out_timer;

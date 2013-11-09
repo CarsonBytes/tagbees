@@ -1,5 +1,20 @@
 <script type="text/javascript">
     
+var ns_sidebar = {
+  initTabs: function(activeTab){
+    if (activeTab == "#highlight_tab" ){
+      $(activeTab).find("li .title").dotdotdot({
+          wrap : 'letter',
+          height: 18
+      });
+    }else if (activeTab == "#reminder_tab" ){
+      $(activeTab).find("li .teaser, li .title").dotdotdot({
+          wrap : 'letter',
+          height: 18
+      });
+    }
+  },
+}
     var feed_search_form;
     jQuery(function($) {
         //form date validation
@@ -25,6 +40,8 @@
             $(".sidebar_tabs .tab").hide(); //Hide all tab content
             var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
             $(activeTab).fadeIn(); //Fade in the active content
+            ns_sidebar.initTabs(activeTab);
+            
             return false;
         });
         

@@ -288,7 +288,7 @@
                     .gold{  background-position:0 0 !important;}
                   }
                   .e_date{ display:inline-block; width:39px;}
-                  .e_title{ color:$left-event; }
+                  .title{ width: 180px; color:$left-event; display:inline-block;}
                   .event_icon{ position:absolute; right:20px; top:3px; display:none;}
                   a{ color:$left-event; text-decoration:none;
                       &:link {color:$color;}
@@ -353,15 +353,19 @@
               }
               .teaser{
                 /*color: grey;*/
-                overflow: hidden;
-                height: 15px;
+                /*overflow: hidden;
+                height: 15px;*/
                 width: 180px;
                 font-size: 10px;
-                color: Grey;
+                color: grey;
               }
             }
             .star{
               top: 23px;
+            }
+            
+            .arrow{
+              top:14px;
             }
           }
         }

@@ -282,7 +282,7 @@ $pie-base-class: pie-element;*/
 #sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #reminder_tab ul li .star .star_inner { background-position: -14px 0; display: none; }
 #sidebar .tab_div #highlight_tab ul li .star .gold, #sidebar .tab_div #reminder_tab ul li .star .gold { background-position: 0 0 !important; }
 #sidebar .tab_div #highlight_tab ul li .e_date, #sidebar .tab_div #reminder_tab ul li .e_date { display: inline-block; width: 39px; }
-#sidebar .tab_div #highlight_tab ul li .e_title, #sidebar .tab_div #reminder_tab ul li .e_title { color: #494a4e; }
+#sidebar .tab_div #highlight_tab ul li .title, #sidebar .tab_div #reminder_tab ul li .title { width: 180px; color: #494a4e; display: inline-block; }
 #sidebar .tab_div #highlight_tab ul li .event_icon, #sidebar .tab_div #reminder_tab ul li .event_icon { position: absolute; right: 20px; top: 3px; display: none; }
 #sidebar .tab_div #highlight_tab ul li a, #sidebar .tab_div #reminder_tab ul li a { color: #494a4e; text-decoration: none; /*&:visited {color:$color;} */ }
 #sidebar .tab_div #highlight_tab ul li a:link, #sidebar .tab_div #reminder_tab ul li a:link { color: #333333; }
@@ -306,8 +306,10 @@ $pie-base-class: pie-element;*/
 #sidebar .tab_div #reminder_tab ul li .info .title:link { color: #333333; }
 #sidebar .tab_div #reminder_tab ul li .info .title:hover { color: #F0BC05; }
 #sidebar .tab_div #reminder_tab ul li .info .title:active { color: #096DB9; }
-#sidebar .tab_div #reminder_tab ul li .info .teaser { /*color: grey;*/ overflow: hidden; height: 15px; width: 180px; font-size: 10px; color: Grey; }
+#sidebar .tab_div #reminder_tab ul li .info .teaser { /*color: grey;*/ /*overflow: hidden;
+height: 15px;*/ width: 180px; font-size: 10px; color: grey; }
 #sidebar .tab_div #reminder_tab ul li .star { top: 23px; }
+#sidebar .tab_div #reminder_tab ul li .arrow { top: 14px; }
 #sidebar .tag_cloud, #sidebar .info_block { padding: 15px 20px 30px; }
 #sidebar .tag_cloud { font-size: 12px; color: #2e75ab; }
 #sidebar .tag_cloud .cloudhead { background: url(../images/cloud.gif) no-repeat top right; margin-bottom: 10px; }
