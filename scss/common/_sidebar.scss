@@ -209,7 +209,6 @@
                 .alltime{ border:1px solid #c7c7c7; width:90px; height:21px; padding:2px 2px 2px 6px; float:right; margin-right:7px;}
             }
             ul{
-              padding-top:6px;
               li{
                   @include user-select(none);
                   border-bottom:1px solid #e4e4e4; 
@@ -217,6 +216,7 @@
                   padding:6px 0 6px 12px; 
                   color:$left-event; 
                   position:relative; 
+                  cursor: pointer;
                   .sidebar_bookmark_popup{
                     width: 270px;
                     position: absolute;
@@ -257,6 +257,7 @@
                       .sidebar_bookmark_popup_set_reminder{
                         float: right;
                         margin-top:5px;
+                        display:none;
                       }
                       .sidebar_bookmark_popup_more_reminder_fields{
                         float:left;
@@ -296,7 +297,9 @@
                       &:active {color:#096DB9;}
                   }
                   &.bookmarked{
-                    cursor:pointer;
+                    .sidebar_bookmark_popup_set_reminder{
+                      display:block !important;
+                    }
                     .star_inner{ 
                       display:block;
                       background-position:0 0;
@@ -328,6 +331,39 @@
                   &:last-child{ border:none;}
               }
             }
+        }
+        #reminder_tab{
+          ul li{
+            padding-top:12px;
+            padding-bottom:12px;
+            .date{
+              display:inline-block; 
+              width:39px;
+              float:left;
+              margin-top:10px;
+            }
+            .info{
+              float:left;
+              .title{
+                color:$left-event;
+                &:link {color:$color;}
+                &:hover{color:#F0BC05;}
+                /*&:visited {color:$color;} */
+                &:active {color:#096DB9;}
+              }
+              .teaser{
+                /*color: grey;*/
+                overflow: hidden;
+                height: 15px;
+                width: 180px;
+                font-size: 10px;
+                color: Grey;
+              }
+            }
+            .star{
+              top: 23px;
+            }
+          }
         }
     }
     .tag_cloud, .info_block{ padding:15px 20px 30px;}

@@ -14,6 +14,7 @@ var ns_sidebar_bookmark_poup = {
       }
   },
   togglePopup: function(list_item){
+    console.log('toggled popup')
     var this_popup = list_item.find('.sidebar_bookmark_popup, .arrow');
     if ($('.sidebar_bookmark_popup, .arrow').not(this_popup).is(':visible')){
       $('.sidebar_bookmark_popup, .arrow').not(this_popup).hide();
@@ -22,8 +23,7 @@ var ns_sidebar_bookmark_poup = {
       this_popup.hide();
     }else{
       this_popup.show();
-      $('.sidebar_bookmark_popup_reminder_title').watermark("<?php echo $this->translate('Reminder Title') ?>");
-      $('.sidebar_bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
+      console.log(this_popup);
       ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(list_item.find('.sidebar_bookmark_popup'));
       
     }
@@ -75,7 +75,7 @@ var ns_sidebar_bookmark_poup = {
   }
 };
 jQuery(function($){
-  $('body').on('click', '#highlight_tab li.bookmarked, #reminder_tab li.bookmarked' , function(event) {
+  $('body').on('click', '#highlight_tab li, #reminder_tab li' , function(event) {
     if ($(event.target).closest('a').length) {
       //console.log('is link!');
       //return false;
@@ -94,14 +94,16 @@ jQuery(function($){
     e.stopPropagation();
     $(this).parents('.sidebar_bookmark_popup').find('.white').show();
     $(this).hide();
+    $('.sidebar_bookmark_popup_reminder_title').watermark("<?php echo $this->translate('Reminder Title') ?>");
+    $('.sidebar_bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
     return false;
   })
  .on('click', function(event) {
-      if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li.bookmarked, #reminder_tab li.bookmarked').length) {
+      if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li, #reminder_tab li').length) {
       $(".sidebar_bookmark_popup, .arrow").hide();
       };
   })
-/* //pending hover effect...
+<?php /* //pending hover effect...
   var over_timer;
   var out_timer;
   $('#highlight_tab li.bookmarked, #reminder_tab li.bookmarked, sidebar_bookmark_popup').hover(
@@ -132,7 +134,7 @@ jQuery(function($){
           $('.sidebar_bookmark_popup, .arrow').hide();
       }, 500)
     }
-  )*/
+  )*/ ?>
 })  
 </script>
 <?php //echo $this->partial('js/template/sidebar/event_detail_popup_item.phtml') ?>
