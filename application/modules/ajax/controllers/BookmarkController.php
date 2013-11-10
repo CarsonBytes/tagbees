@@ -26,8 +26,7 @@ class Ajax_BookmarkController extends Zend_Controller_Action
     
     public function getHighlightsAction()
     {
-      $array["result"] = $this->bookmarkService->getHighlights();
-      $this->_helper->json($array);
+      $this->_helper->json($this->bookmarkService->getHighlights());
     }
 }
 

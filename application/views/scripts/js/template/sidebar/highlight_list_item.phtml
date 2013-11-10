@@ -1,13 +1,13 @@
 <script id="sidebar_highlight_list_item" type="text/x-jquery-tmpl">
   <li>
-    <span class="e_date">${begin_datetime}</span><div class="title"><a href="<?php echo $this->baseUrl()?>/${slug_name}" target="_blank">$(name)</a></div>
+    <span class="e_date">{{if begin_datetime}}${$item.formatMysqlDate2($data.begin_datetime)}{{/if}}</span><div class="title"><a href="<?php echo $this->baseUrl('event');?>/${slug_name}" target="_blank">${name}</a></div>
     <div class="star gold">
         <div class="star_inner"></div>
     </div>
     <div class="sidebar_bookmark_popup">
       <div class="sidebar_bookmark_popup_inner">
         <div class="yellow">
-          <a href="http://www.google.com" target="_blank" class="title">$(name)</a>
+          <a href="http://www.google.com" target="_blank" class="title">${name}</a>
           <?php /*<p class="info_line">
             Music | Dec 23, 2013, 9:00 | City Hall
           </p>*/ ?>
@@ -42,6 +42,7 @@
               </li>
               {{/if}}
           </ul>
+          <div class="clr"></div>
           <p class="teaser">
              ${teaser}
           </p>

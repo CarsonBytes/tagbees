@@ -1,44 +1,54 @@
 <script type="text/javascript">
-    
 var ns_sidebar = {
-  initTabsContent: function(){
-    $.ajax({
-        type: "POST",
-        url: "<?php echo $this->baseUrl('ajax/bookmark/get_highlights') ?>",
-        success: function(msg){
-          console.log(msg.data)
-          content = ns_feed.getHTML(msg, 'sidebar_highlight_list_item');
-          console.log(content);
-          $("#highlight_tab .event_highlights_list").html(content);
-        },
-        error: function(){
-        $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
-        },
-        dataType:"json"
-    });
-  },
-  initTabs: function(activeTab){
-    if (activeTab == "#highlight_tab" ){
-      $(activeTab).find("li .title").dotdotdot({
+  activeTab: "#category_tab",
+  isFirstLoadHighlight: true,
+  isFirstLoadBookmark: true,
+  loadTab: function(isRefreshList){
+    if (typeof isRefreshList == "undefined") var isRefreshList = false;
+      if (ns_sidebar.activeTab == "#highlight_tab" ){
+        $('#sidebar .options .edit_list_order').hide();
+        $('#sidebar .options .refresh').show();
+        if (isRefreshList == true || ns_sidebar.isFirstLoadHighlight == true){
+          $.ajax({
+            type: "POST",
+            url: "<?php echo $this->baseUrl('ajax/bookmark/get_highlights') ?>",
+            success: function(msg){
+              console.log('content');
+              var content = ns_feed.getHTML(msg, 'sidebar_highlight_list_item', {
+                formatMysqlDate2: function() { 
+                    if (typeof arguments[0] == 'string') 
+                      return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
+                }
+              });
+              $("#highlight_tab .event_highlights_list").html(content);
+              $(ns_sidebar.activeTab).find("li .title").dotdotdot({
+                  wrap : 'letter',
+                  height: 18
+              });
+            },
+            error: function(){
+            $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
+            },
+            dataType:"json"
+        });
+        ns_sidebar.isFirstLoadHighlight = false;
+      }
+    }else if (ns_sidebar.activeTab == "#reminder_tab" ){
+      $('#sidebar .options .edit_list_order').hide();
+      $('#sidebar .options .refresh').show();
+      $(ns_sidebar.activeTab).find("li .teaser, li .title").dotdotdot({
           wrap : 'letter',
           height: 18
       });
-      $('#sidebar .options').hide();
-    }else if (activeTab == "#reminder_tab" ){
-      $(activeTab).find("li .teaser, li .title").dotdotdot({
-          wrap : 'letter',
-          height: 18
-      });
-      $('#sidebar .options').hide();
-    }else if (activeTab == "#category_tab"){
-      $('#sidebar .options').show();
+    }else if (ns_sidebar.activeTab == "#category_tab"){
+      $('#sidebar .options .edit_list_order').show();
+      $('#sidebar .options .refresh').hide();
     }
   }
 }
 var feed_search_form;
 jQuery(function($) {
-  ns_sidebar.initTabsContent();
-  ns_sidebar.initTabs('#category_tab');
+  ns_sidebar.loadTab();
   //form date validation
   feed_search_form = $("#feed_search").validate({
     rules: {
@@ -60,9 +70,9 @@ jQuery(function($) {
       $("ul.home_tab li").removeClass("active"); //Remove any "active" class
       $(this).addClass("active"); //Add "active" class to selected tab
       $(".sidebar_tabs .tab").hide(); //Hide all tab content
-      var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-      $(activeTab).fadeIn(); //Fade in the active content
-      ns_sidebar.initTabs(activeTab);
+      ns_sidebar.activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+      $(ns_sidebar.activeTab).fadeIn(); //Fade in the active content
+      ns_sidebar.loadTab();
       
       return false;
   });
@@ -169,19 +179,24 @@ jQuery(function($) {
 
   //show/hide toggle
   $('body').on('click', '.hide_toggle', function() {
-      var element = $(this).parents('.accordion');
-      if ($(this).data('flag') == 1) {
-          element.appendTo($('.hidden_categories .accordions'));
-          $('#category_tab .hidden_categories .movable').css('display', 'none');
-          $(this).text('Show');
-          $(this).data('flag', 0);
-      } else {
-          element.appendTo($('.shown_categories .accordions'));
-          $('#category_tab .shown_categories .movable').css('display', 'block');
-          $(this).text('Hide');
-          $(this).data('flag', 1);
-      }
-      return false;
+    var element = $(this).parents('.accordion');
+    if ($(this).data('flag') == 1) {
+        element.appendTo($('.hidden_categories .accordions'));
+        $('#category_tab .hidden_categories .movable').css('display', 'none');
+        $(this).text('Show');
+        $(this).data('flag', 0);
+    } else {
+        element.appendTo($('.shown_categories .accordions'));
+        $('#category_tab .shown_categories .movable').css('display', 'block');
+        $(this).text('Hide');
+        $(this).data('flag', 1);
+    }
+    return false;
+  }).on('click', '.options .refresh', function(e){
+    e.preventDefault();
+    console.log('clicked refresh');
+    ns_sidebar.loadTab(true);
+    return false;
   });
     
     

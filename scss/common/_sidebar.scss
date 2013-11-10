@@ -210,7 +210,7 @@
             }
             ul{
               li{
-                  @include user-select(none);
+                  /*@include user-select(none);*/
                   border-bottom:1px solid #e4e4e4; 
                   display:block; 
                   padding:6px 0 6px 12px; 
@@ -244,6 +244,16 @@
                       .yellow{
                         background:#FFFF94;
                         padding: 5px;
+                        ul.info_line{
+                          li{
+                            display: inline-block;
+                            background: none;
+                            float: left;
+                            cursor: auto;
+                            padding: 0 2px;
+                            border:0;
+                          }
+                        }
                       }
                       .white{
                         margin-top:10px;
@@ -294,7 +304,7 @@
                     .star_inner{ background-position:-14px 0; display:none;}
                     .gold{  background-position:0 0 !important;}
                   }
-                  .e_date{ display:inline-block; width:39px;}
+                  .e_date{ display:inline-block; width:49px;overflow:hidden;height:18px;}
                   .title{ width: 180px; color:$left-event; display:inline-block;}
                   .event_icon{ position:absolute; right:20px; top:3px; display:none;}
                   a{ color:$left-event; text-decoration:none;
