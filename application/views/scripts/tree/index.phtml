@@ -21,7 +21,7 @@
     var tree_feeds = jQuery.parseJSON('<?php echo json_encode($this->tree_feeds) ?>');
     jQuery(function($){
         //renderTreeFeeds(tree_feeds, false);
-        renderIndexFeeds(tree_feeds, false);
+        ns_feed.render(tree_feeds, false);
     });
     </script>
     <?php echo $this -> partial('js/feeds/tree_events.phtml'); ?>

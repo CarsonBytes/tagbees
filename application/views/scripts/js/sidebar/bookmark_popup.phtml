@@ -22,11 +22,11 @@ var ns_sidebar_bookmark_poup = {
       this_popup.hide();
     }else{
       this_popup.show();
-      ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(list_item.find('.sidebar_bookmark_popup'));
       $('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
           wrap : 'letter',
           height: 50
-      });
+     });
+    ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(list_item.find('.sidebar_bookmark_popup'));
     }
   },
   adjustSidebarPopupPosition: function(elem){

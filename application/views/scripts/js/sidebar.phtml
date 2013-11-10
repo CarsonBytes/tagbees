@@ -1,220 +1,246 @@
 <script type="text/javascript">
     
 var ns_sidebar = {
+  initTabsContent: function(){
+    $.ajax({
+        type: "POST",
+        url: "<?php echo $this->baseUrl('ajax/bookmark/get_highlights') ?>",
+        success: function(msg){
+          console.log(msg.data)
+          content = ns_feed.getHTML(msg, 'sidebar_highlight_list_item');
+          console.log(content);
+          $("#highlight_tab .event_highlights_list").html(content);
+        },
+        error: function(){
+        $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
+        },
+        dataType:"json"
+    });
+  },
   initTabs: function(activeTab){
     if (activeTab == "#highlight_tab" ){
       $(activeTab).find("li .title").dotdotdot({
           wrap : 'letter',
           height: 18
       });
+      $('#sidebar .options').hide();
     }else if (activeTab == "#reminder_tab" ){
       $(activeTab).find("li .teaser, li .title").dotdotdot({
           wrap : 'letter',
           height: 18
       });
+      $('#sidebar .options').hide();
+    }else if (activeTab == "#category_tab"){
+      $('#sidebar .options').show();
     }
-  },
+  }
 }
-    var feed_search_form;
-    jQuery(function($) {
-        //form date validation
-        feed_search_form = $("#feed_search").validate({
-          rules: {
-            begin_date: {
-              date: true
-            }, 
-            end_date: {
-              date: true
-            }
-          }
-        });
-        
-        $(".sidebar_tabs .tab").hide(); //Hide all content
-        $("ul.home_tab li:first").addClass("active").show(); //Activate first tab
-        $(".sidebar_tabs .tab:first").show(); //Show first tab content
-        
-        //On Click Event
-        $("ul.home_tab li").click(function() {
-            $("ul.home_tab li").removeClass("active"); //Remove any "active" class
-            $(this).addClass("active"); //Add "active" class to selected tab
-            $(".sidebar_tabs .tab").hide(); //Hide all tab content
-            var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-            $(activeTab).fadeIn(); //Fade in the active content
-            ns_sidebar.initTabs(activeTab);
-            
-            return false;
-        });
-        
-        var check_all_day = function(){
-            if ($('#feed_search input[name="is_all_time"]').is(':checked')) {
-                $('#feed_search input[name="begin_date"]').datepicker('disable');
-                $('#feed_search input[name="end_date"]').datepicker('disable');
-            } else {
-                $('#feed_search input[name="begin_date"]').datepicker('enable');
-                $('#feed_search input[name="end_date"]').datepicker('enable');
-            }
-        };
-        check_all_day();
-        $('body').on('change', '#feed_search input[name="is_all_time"]', function() {check_all_day()});
+var feed_search_form;
+jQuery(function($) {
+  ns_sidebar.initTabsContent();
+  ns_sidebar.initTabs('#category_tab');
+  //form date validation
+  feed_search_form = $("#feed_search").validate({
+    rules: {
+      begin_date: {
+        date: true
+      }, 
+      end_date: {
+        date: true
+      }
+    }
+  });
+  
+  $(".sidebar_tabs .tab").hide(); //Hide all content
+  $("ul.home_tab li:first").addClass("active").show(); //Activate first tab
+  $(".sidebar_tabs .tab:first").show(); //Show first tab content
+  
+  //On Click Event
+  $("ul.home_tab li").click(function() {
+      $("ul.home_tab li").removeClass("active"); //Remove any "active" class
+      $(this).addClass("active"); //Add "active" class to selected tab
+      $(".sidebar_tabs .tab").hide(); //Hide all tab content
+      var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+      $(activeTab).fadeIn(); //Fade in the active content
+      ns_sidebar.initTabs(activeTab);
+      
+      return false;
+  });
+  
+  var check_all_day = function(){
+      if ($('#feed_search input[name="is_all_time"]').is(':checked')) {
+          $('#feed_search input[name="begin_date"]').datepicker('disable');
+          $('#feed_search input[name="end_date"]').datepicker('disable');
+      } else {
+          $('#feed_search input[name="begin_date"]').datepicker('enable');
+          $('#feed_search input[name="end_date"]').datepicker('enable');
+      }
+  };
+  check_all_day();
+  $('body').on('change', '#feed_search input[name="is_all_time"]', function() {check_all_day()});
 
-        //tuning date range (no reversed date range)
-        var sidebar_dates = $('#feed_search input[name="begin_date"], #feed_search input[name="end_date"]').datepicker({
-            defaultDate: "+1w",
-            changeMonth: true,
-            changeYear: true,
-            onSelect: function( selectedDate ) {
-                var option = this.name == "begin_date" ? "minDate" : "maxDate",
-                    instance = $( this ).data( "datepicker" ),
-                    date = $.datepicker.parseDate(
-                        instance.settings.dateFormat ||
-                        $.datepicker._defaults.dateFormat,
-                        selectedDate, instance.settings );
-                sidebar_dates.not( this ).datepicker( "option", option, date );
-            }
-        });
-        
-        
-        //expand accordions        
-        var accordion_expand_handler = function() {
-            var accordion = $(this).parents('.accordion');
-            if (accordion.data('expanded') == 0) {
-                $(this).addClass('on');
-                accordion.find('.accordion_content').slideDown('fast');
-                accordion.data('expanded', 1);
-            } else {
-                $(this).removeClass('on');
-                accordion.find('.accordion_content').slideUp('fast');
-                accordion.data('expanded', 0);
-            }
-        };
-        var accordion_init_expand_handler = function(){
-            var accordion = $(this).parents('.accordion');
-            if (accordion.data('expanded') == 1) {
-                $(this).addClass('on');
-                accordion.find('.accordion_content').show();
-            } else {
-                $(this).removeClass('on');
-                accordion.find('.accordion_content').hide();
-            }
-        }
-        $('.shown_categories .accordion_button').bind('click', accordion_expand_handler);
+  //tuning date range (no reversed date range)
+  var sidebar_dates = $('#feed_search input[name="begin_date"], #feed_search input[name="end_date"]').datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      changeYear: true,
+      onSelect: function( selectedDate ) {
+          var option = this.name == "begin_date" ? "minDate" : "maxDate",
+              instance = $( this ).data( "datepicker" ),
+              date = $.datepicker.parseDate(
+                  instance.settings.dateFormat ||
+                  $.datepicker._defaults.dateFormat,
+                  selectedDate, instance.settings );
+          sidebar_dates.not( this ).datepicker( "option", option, date );
+      }
+  });
+  
+  
+  //expand accordions        
+  var accordion_expand_handler = function() {
+      var accordion = $(this).parents('.accordion');
+      if (accordion.data('expanded') == 0) {
+          $(this).addClass('on');
+          accordion.find('.accordion_content').slideDown('fast');
+          accordion.data('expanded', 1);
+      } else {
+          $(this).removeClass('on');
+          accordion.find('.accordion_content').slideUp('fast');
+          accordion.data('expanded', 0);
+      }
+  };
+  var accordion_init_expand_handler = function(){
+      var accordion = $(this).parents('.accordion');
+      if (accordion.data('expanded') == 1) {
+          $(this).addClass('on');
+          accordion.find('.accordion_content').show();
+      } else {
+          $(this).removeClass('on');
+          accordion.find('.accordion_content').hide();
+      }
+  }
+  $('.shown_categories .accordion_button').bind('click', accordion_expand_handler);
+  $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
+
+  //change arrow during accordion mouseover and mouseout 
+  $('.accordion_button, .accordion_button_sub').mouseover(function() {
+      $(this).addClass('over');
+  }).mouseout(function() {
+      $(this).removeClass('over');
+  });
+  
+  
+  //clicking sub accordion button
+  $('.accordion_button_sub').click(function() {
+      $('.accordion_button_sub').removeClass('active');
+      $('.accordion_content_sub').slideUp('normal');
+      
+      if($(this).next().is(':hidden') == true) {
+          $(this).addClass('active');
+          $(this).next().slideDown('normal');
+       } 
+   });
+   
+  //$('.accordion_content_sub').hide();
+  
+  // click to trigger edit list order mode
+  $('body').on('click', '.edit_list_order', function(e) {
+    e.preventDefault()
+    if ($(this).data('flag') == 0) {
+        $('#category_tab .shown_categories .movable').show();
+        $(this).data('flag', 1).text('finish editing!');
+        $('.shown_categories .accordion_button').unbind('click', accordion_expand_handler).addClass('editing');
+        $('.hidden_categories').addClass('editing');
+        $('.accordion_content').hide();
+        $('.shown_categories .accordions').sortable({
+            handle : ".movable",
+            placeholder : "ui-state-highlight tab_placeholder"
+        }).sortable("enable");
+    } else {
+        $('.hidden_categories').removeClass('editing');
+        $('#category_tab .shown_categories .movable').hide();
+        $(this).data('flag', 0).text('edit list order...');
+        $(".accordions").sortable("disable").enableSelection();
+        $('.shown_categories .accordion_button').bind('click', accordion_expand_handler).removeClass('editing');
         $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
+    }
+    return false;
+  });
 
-        //change arrow during accordion mouseover and mouseout 
-        $('.accordion_button, .accordion_button_sub').mouseover(function() {
-            $(this).addClass('over');
-        }).mouseout(function() {
-            $(this).removeClass('over');
-        });
-        
-        
-        //clicking sub accordion button
-        $('.accordion_button_sub').click(function() {
-            $('.accordion_button_sub').removeClass('active');
-            $('.accordion_content_sub').slideUp('normal');
-            
-            if($(this).next().is(':hidden') == true) {
-                $(this).addClass('active');
-                $(this).next().slideDown('normal');
-             } 
-         });
-         
-        //$('.accordion_content_sub').hide();
-        
-        // click to trigger edit list order mode
-        $('body').on('click', '.edit_list_order', function(e) {
-          e.preventDefault()
-          if ($(this).data('flag') == 0) {
-              $('#category_tab .shown_categories .movable').show();
-              $(this).data('flag', 1).text('finish editing!');
-              $('.shown_categories .accordion_button').unbind('click', accordion_expand_handler).addClass('editing');
-              $('.hidden_categories').addClass('editing');
-              $('.accordion_content').hide();
-              $('.shown_categories .accordions').sortable({
-                  handle : ".movable",
-                  placeholder : "ui-state-highlight tab_placeholder"
-              }).sortable("enable");
-          } else {
-              $('.hidden_categories').removeClass('editing');
-              $('#category_tab .shown_categories .movable').hide();
-              $(this).data('flag', 0).text('edit list order...');
-              $(".accordions").sortable("disable").enableSelection();
-              $('.shown_categories .accordion_button').bind('click', accordion_expand_handler).removeClass('editing');
-              $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
-          }
-          return false;
-        });
-
-        //show/hide toggle
-        $('body').on('click', '.hide_toggle', function() {
-            var element = $(this).parents('.accordion');
-            if ($(this).data('flag') == 1) {
-                element.appendTo($('.hidden_categories .accordions'));
-                $('#category_tab .hidden_categories .movable').css('display', 'none');
-                $(this).text('Show');
-                $(this).data('flag', 0);
-            } else {
-                element.appendTo($('.shown_categories .accordions'));
-                $('#category_tab .shown_categories .movable').css('display', 'block');
-                $(this).text('Hide');
-                $(this).data('flag', 1);
-            }
-            return false;
-        });
-        
-        //popup for simple personal events
-        $('#sidebar .event_head .simple_personal_event').qtip({
-            content: {
-                text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
-                ajax: {
-                    url: '<?php echo $this->baseUrl('ajax/sidebar/open_simple_personal_event')?>',
-                    success: function(data, status) {
-                        if (data.result == 'false'){
-                            this.set('content.text', 'Error occured! Please try again later.');
-                        } else {
-                            this.set('content.text', $( "#simple_personal_event" ).tmpl());
-                            $('.simple_personal_event_form input.title').watermark("<?php echo $this->translate('Event Title') ?>");
-                            $('.simple_personal_event_form textarea.description').watermark("<?php echo $this->translate('Description') ?>");
-                            $('.simple_personal_event_form input#popup_simple_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
-                            $('.simple_personal_event_form input#popup_simple_event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
-                            $('.simple_personal_event_form input#popup_simple_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
-                            $('.simple_personal_event_form input#popup_simple_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
-                            
-                            //tuning date range (no reversed date range)
-                            var sidebar_dates3 = $('#popup_simple_event_begin_date, #popup_simple_event_end_date').datepicker({
-                                defaultDate: "+1w",
-                                changeMonth: true,
-                                changeYear: true,
-                                onSelect: function( selectedDate ) {
-                                    var option = this.id == "popup_simple_event_begin_date" ? "minDate" : "maxDate",
-                                        instance = $( this ).data( "datepicker" ),
-                                        date = $.datepicker.parseDate(
-                                            instance.settings.dateFormat ||
-                                            $.datepicker._defaults.dateFormat,
-                                            selectedDate, instance.settings );
-                                    sidebar_dates.not( this ).datepicker( "option", option, date );
-                                }
-                            });
-                        }
+  //show/hide toggle
+  $('body').on('click', '.hide_toggle', function() {
+      var element = $(this).parents('.accordion');
+      if ($(this).data('flag') == 1) {
+          element.appendTo($('.hidden_categories .accordions'));
+          $('#category_tab .hidden_categories .movable').css('display', 'none');
+          $(this).text('Show');
+          $(this).data('flag', 0);
+      } else {
+          element.appendTo($('.shown_categories .accordions'));
+          $('#category_tab .shown_categories .movable').css('display', 'block');
+          $(this).text('Hide');
+          $(this).data('flag', 1);
+      }
+      return false;
+  });
+    
+    
+    <?php /*
+     //popup for simple personal events
+    $('#sidebar .event_head .simple_personal_event').qtip({
+        content: {
+            text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
+            ajax: {
+                url: '<?php echo $this->baseUrl('ajax/sidebar/open_simple_personal_event')?>',
+                success: function(data, status) {
+                    if (data.result == 'false'){
+                        this.set('content.text', 'Error occured! Please try again later.');
+                    } else {
+                        this.set('content.text', $( "#simple_personal_event" ).tmpl());
+                        $('.simple_personal_event_form input.title').watermark("<?php echo $this->translate('Event Title') ?>");
+                        $('.simple_personal_event_form textarea.description').watermark("<?php echo $this->translate('Description') ?>");
+                        $('.simple_personal_event_form input#popup_simple_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
+                        $('.simple_personal_event_form input#popup_simple_event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
+                        $('.simple_personal_event_form input#popup_simple_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
+                        $('.simple_personal_event_form input#popup_simple_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
+                        
+                        //tuning date range (no reversed date range)
+                        var sidebar_dates3 = $('#popup_simple_event_begin_date, #popup_simple_event_end_date').datepicker({
+                            defaultDate: "+1w",
+                            changeMonth: true,
+                            changeYear: true,
+                            onSelect: function( selectedDate ) {
+                                var option = this.id == "popup_simple_event_begin_date" ? "minDate" : "maxDate",
+                                    instance = $( this ).data( "datepicker" ),
+                                    date = $.datepicker.parseDate(
+                                        instance.settings.dateFormat ||
+                                        $.datepicker._defaults.dateFormat,
+                                        selectedDate, instance.settings );
+                                sidebar_dates.not( this ).datepicker( "option", option, date );
+                            }
+                        });
                     }
-                },
-                title: {
-                    text: 'Create Personal Event'
                 }
             },
-            show: {
-                event: 'click',
-                modal: {
-                    on: true
-                }
-            },
-            position: {
-                my: 'center',
-                at: 'center',
-                target: $(window)
-            },
-            style: 'qtip-light qtip-rounded'
-        });
-    }); 
+            title: {
+                text: 'Create Personal Event'
+            }
+        },
+        show: {
+            event: 'click',
+            modal: {
+                on: true
+            }
+        },
+        position: {
+            my: 'center',
+            at: 'center',
+            target: $(window)
+        },
+        style: 'qtip-light qtip-rounded'
+    });
+     * 
+     */?>
+}); 
 </script>
-<?php echo $this->partial('js/template/sidebar/simple_personal_event.phtml')?>
+<?php echo $this->partial('js/template/sidebar/highlight_list_item.phtml')?>

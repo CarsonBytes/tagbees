@@ -42,6 +42,8 @@ class Service_Feed{
      *  $is_all_time=1,
      *  $rpp=20,
      *  $last_id=''
+     *  $is_random=false
+     *  $is_bookmarked (true is only bookmarked, false is to only not bookmarked, undefined is both of them)
      * @params $sys_para
      *  max_distance = 50, 
      *  min_distance = 0.5, 
@@ -163,18 +165,20 @@ class Service_Feed{
                 }
 				$this->feed_query->order('f.end_datetime asc');
                 $this->feed_query->order('f.id asc');
-			}else{
-                //new
-                if (isset($user_para['last_id']) && $user_para['last_id']!=''){
-                    // load more feeds after last_id
-                    $last_feed_sub_select = $this->db->select()
-                        ->from('item',array('create_time'))
-                        ->where('id = ?', $user_para['last_id']);
-                    $this->feed_query->where('f.create_time < ?', $last_feed_sub_select);
-                }
-                $this->feed_query->order('f.create_time desc');
-                $this->feed_query->order('f.id desc');
-            } 
+      }else if ( isset($user_para['sort_by']) && $user_para['sort_by']=='random'){
+        $this->feed_query->order("rand()"); // order randomly, may cause problem when it comes to MSSQL adapter
+      } else{
+        //new
+        if (isset($user_para['last_id']) && $user_para['last_id']!=''){
+            // load more feeds after last_id
+            $last_feed_sub_select = $this->db->select()
+                ->from('item',array('create_time'))
+                ->where('id = ?', $user_para['last_id']);
+            $this->feed_query->where('f.create_time < ?', $last_feed_sub_select);
+        }
+        $this->feed_query->order('f.create_time desc');
+        $this->feed_query->order('f.id desc');
+      } 
 
       // limit rpp
 			if (isset($user_para['rpp']) && $user_para['rpp']!=0){
@@ -185,8 +189,18 @@ class Service_Feed{
       if (isset($user_para['item_ids'])){
         $this->feed_query->where("f.id in (?)", $user_para['item_ids']);
       }
-      $this->feed_query->where("f.type = 'event'");
-			
+        
+      if (isset($user_para['is_bookmarked'])){
+        $bookmarked_ids = $bookmarkService->getUserBookmarkIds();
+        if (!empty($user_para['is_bookmarked'])){
+          if ($user_para['is_bookmarked']==true){
+            $this->feed_query->where('f.id in (?)', $bookmarked_ids);
+          } else{
+            $this->feed_query->where('f.id not in (?)', $bookmarked_ids);
+          }
+        }
+      }
+        			
 			// general type(s) for feed
 			$this->feed_query->where("f.type = 'event'");
 
@@ -293,117 +307,8 @@ class Service_Feed{
             
 
 			//fetch and pack result
-			$feed_result=$this->db->fetchAll($this->feed_query, array(),Zend_Db::FETCH_OBJ);
-            //$this->debug=$this->db->getProfiler()->getLastQueryProfile()->getQuery();
-            
-            // get involved cat ids
-            $cat_ids=array();
-            //$trees_ids['main'] = array();
-            //$trees_ids['others'] = array();
-            $data=array();
-            foreach($feed_result as &$item){
-                $itemService = new Service_Item();
-                
-                //get tree(s)
-                $item = $itemService->getCatAndTreeIdsByCategoryIdsString($item->tree_ids, $item);
-                $cat_ids = array_merge($cat_ids, $item->cat_ids);
-                
-                // encode all html related content to avoid annoying json parse error
-                $item->description = urlencode($item->description);
-                $item->datetime_note = urlencode($item->datetime_note);
-                $item->price_note = urlencode($item->price_note);
-                $item->application_datetime_note = urlencode($item->application_datetime_note);
-                $item->organiser_detail = urlencode($item->organiser_detail);
-                $item->traffic_note = urlencode($item->traffic_note);
-                
-                
-                //calculate and insert linear direction between points. refer to application/../docs/long-place_lat-direction.bmp
-                if (isset($user_para['is_match_location']) && $user_para['is_match_location']==1){
-                    if ($item->place_lat<$user_para['place_lat']){
-                        $base_lat=$item->place_lat;
-                    }else{
-                        $base_lat=$user_para['place_lat'];
-                    }
-                    $delta_lat=$item->place_lat-$user_para['place_lat'];
-                    $delta_lng=$item->place_lng-$user_para['place_lng'];
-                    $item->delta_lng=$delta_lng;
-                    $item->delta_lat=$delta_lat;
-                    $item->base_lat=$base_lat;
-                    $item->degree=intval(rad2deg(atan2($delta_lng * cos(deg2rad($base_lat)),$delta_lat)));
-                    if ($item->degree<0)$item->degree=$item->degree+360;
-                }
-                
-                //check if tags are unqiue 
-                $tag_slug_names = explode(',',$item->tag_slug_names);
-                $tag_names = explode(',',$item->tag_names);
-                $tag_types = explode(',',$item->tag_types);
-                
-                $unique_tags = array();
-                $duplicate_index = array();
-                for($i=0;$i<count($tag_slug_names);$i++){
-                    if (array_search($tag_slug_names[$i].';;'.$tag_types[$i], $unique_tags) == array()){
-                        $unique_tags[] = $tag_slug_names[$i].';;'.$tag_types[$i];
-                    } else {
-                        $duplicate_index[] = $i;
-                    }
-                }
-                
-                //remove duplicate tags 
-                foreach($duplicate_index as $value){
-                    unset($tag_slug_names[$value]);
-                    unset($tag_names[$value]);
-                    unset($tag_types[$value]);
-                }
-                $item->tag_slug_names=implode(',', $tag_slug_names);
-                $item->tag_names=implode(',', $tag_names);
-                $item->tag_types=implode(',', $tag_types);
-                
-                /*$item->images = $itemService->getImagePaths($item);
-                unset($item->img_titles);
-                unset($item->img_descriptions);
-                unset($item->img_positions);
-                unset($item->img_filenames);
-                unset($item->img_is_main_pics);
-                
-                $item->tags_html = $itemService->getTagsHTML($item);
-                unset($item->tag_names);
-                unset($item->tag_slug_names);
-                unset($item->tag_types);*/
-                
-                $data[]=$item;
-            }
-			//$tags=$comment=$image=array();
-			//if (!empty($packed_result['item_ids'])){
-			    /* we use join query for item tags*/
-				//get tags for each item
-				//$tagService=new Service_Tag();
-				//$tags=$tagService->getItemTags($packed_result['item_ids']);
-
-				/* we use facebook comment plugin for simplicity */
-				//get comments for each item
-				//$commentService=new Service_Comment();
-				//$comment=$commentService->get($packed_result['item_ids']);
-
-                /* we use join query for item images*/
-				//get image(s) for each item
-				//$imageService=new Service_Image();
-				//$image=$imageService->getImages($packed_result['item_ids']);
-			//}
-			$tree_tags=array();
-			if (!empty($cat_ids)){
-				//get category tags for items
-				$tagService=new Service_Tag();
-				$tree_tags=$tagService->getCategoryTags($cat_ids);
-			}
-
-			return array(
-				'data'=>$data,
-				//'comment'=>$comment,
-				//'image'=>$image,
-				//'tags'=>$tags,
-				'tree_tags'=>$tree_tags,
-				//'debug'=>$this->debug
-			);
+      return $this->packFeeds($this->db->fetchAll($this->feed_query, array(),Zend_Db::FETCH_OBJ));
+      
 		}else{
 			return array(
 				'data'=>array(),
@@ -415,6 +320,118 @@ class Service_Feed{
 			);
 		}
 	}
+
+  public function packFeeds($feed_result){
+  //$this->debug=$this->db->getProfiler()->getLastQueryProfile()->getQuery();
+    // get involved cat ids
+    $cat_ids=array();
+    //$trees_ids['main'] = array();
+    //$trees_ids['others'] = array();
+    $data=array();
+    foreach($feed_result as &$item){
+      $itemService = new Service_Item();
+      
+      //get tree(s)
+      $item = $itemService->getCatAndTreeIdsByCategoryIdsString($item->tree_ids, $item);
+      $cat_ids = array_merge($cat_ids, $item->cat_ids);
+      
+      // encode all html related content to avoid annoying json parse error
+      $item->description = urlencode($item->description);
+      $item->datetime_note = urlencode($item->datetime_note);
+      $item->price_note = urlencode($item->price_note);
+      $item->application_datetime_note = urlencode($item->application_datetime_note);
+      $item->organiser_detail = urlencode($item->organiser_detail);
+      $item->traffic_note = urlencode($item->traffic_note);
+      
+      
+      //calculate and insert linear direction between points. refer to application/../docs/long-place_lat-direction.bmp
+      if (isset($user_para['is_match_location']) && $user_para['is_match_location']==1){
+          if ($item->place_lat<$user_para['place_lat']){
+              $base_lat=$item->place_lat;
+          }else{
+              $base_lat=$user_para['place_lat'];
+          }
+          $delta_lat=$item->place_lat-$user_para['place_lat'];
+          $delta_lng=$item->place_lng-$user_para['place_lng'];
+          $item->delta_lng=$delta_lng;
+          $item->delta_lat=$delta_lat;
+          $item->base_lat=$base_lat;
+          $item->degree=intval(rad2deg(atan2($delta_lng * cos(deg2rad($base_lat)),$delta_lat)));
+          if ($item->degree<0)$item->degree=$item->degree+360;
+      }
+      
+      //check if tags are unqiue 
+      $tag_slug_names = explode(',',$item->tag_slug_names);
+      $tag_names = explode(',',$item->tag_names);
+      $tag_types = explode(',',$item->tag_types);
+      
+      $unique_tags = array();
+      $duplicate_index = array();
+      for($i=0;$i<count($tag_slug_names);$i++){
+          if (array_search($tag_slug_names[$i].';;'.$tag_types[$i], $unique_tags) == array()){
+              $unique_tags[] = $tag_slug_names[$i].';;'.$tag_types[$i];
+          } else {
+              $duplicate_index[] = $i;
+          }
+      }
+      
+      //remove duplicate tags 
+      foreach($duplicate_index as $value){
+          unset($tag_slug_names[$value]);
+          unset($tag_names[$value]);
+          unset($tag_types[$value]);
+      }
+      $item->tag_slug_names=implode(',', $tag_slug_names);
+      $item->tag_names=implode(',', $tag_names);
+      $item->tag_types=implode(',', $tag_types);
+      
+      /*$item->images = $itemService->getImagePaths($item);
+      unset($item->img_titles);
+      unset($item->img_descriptions);
+      unset($item->img_positions);
+      unset($item->img_filenames);
+      unset($item->img_is_main_pics);
+      
+      $item->tags_html = $itemService->getTagsHTML($item);
+      unset($item->tag_names);
+      unset($item->tag_slug_names);
+      unset($item->tag_types);*/
+      
+      $data[]=$item;
+  }
+  $tree_tags=array();
+  if (!empty($cat_ids)){
+    //get category tags for items
+    $tagService=new Service_Tag();
+    $tree_tags=$tagService->getCategoryTags($cat_ids);
+  }
+
+  return array(
+    'data'=>$data,
+    //'comment'=>$comment,
+    //'image'=>$image,
+    //'tags'=>$tags,
+    'tree_tags'=>$tree_tags,
+    //'debug'=>$this->debug
+  );
+//$tags=$comment=$image=array();
+//if (!empty($packed_result['item_ids'])){
+  /* we use join query for item tags*/
+//get tags for each item
+//$tagService=new Service_Tag();
+//$tags=$tagService->getItemTags($packed_result['item_ids']);
+
+/* we use facebook comment plugin for simplicity */
+//get comments for each item
+//$commentService=new Service_Comment();
+//$comment=$commentService->get($packed_result['item_ids']);
+
+        /* we use join query for item images*/
+//get image(s) for each item
+//$imageService=new Service_Image();
+//$image=$imageService->getImages($packed_result['item_ids']);
+//}
+  }
 
 	public function updateBookmarkedUserCount($type,$item_id){
 		$select = $this->db->select()

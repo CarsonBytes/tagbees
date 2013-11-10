@@ -311,85 +311,91 @@ class Service_Bookmark{
 		return $this->db->fetchAll($select, array() ,$fetch_mode);
 	}
 
-	public function getUserBookmarkId($user_id='', $bookmarked_only=true,$fetch_mode=Zend_Db::FETCH_OBJ){
-		if ($user_id==''){
+	public function getUserBookmarkIds($user_id=''){
+    if ($user_id=='' && Zend_Auth::getInstance()->hasIdentity()){
 			$user_id=$this->identity->item_id;
-		}
-		$select=$this->db->select()
-			->from(array('user_bookmark'))
-			->where('user_bookmark.user_id=?',$user_id)
-			->where('user_bookmark.status > 0');
-
-		return $this->db->fetchCol($select, array() ,$fetch_mode);
+  		$select=$this->db->select()
+  			->from(array('user_bookmark'))
+  			->where('user_bookmark.user_id=?',$user_id)
+  			->where('user_bookmark.status > 0');
+  
+  		return $this->db->fetchCol($select);
+    } else{
+      return array();
+    }
 	}
 
-	public function getSuggestionList($user_id='', $total=10){
-		if ($user_id=='' && Zend_Auth::getInstance()->hasIdentity()){
-				$user_id=$this->identity->item_id;
-		}
+  public function getSuggestionList($user_id='', $total=10){
+    if ($user_id=='' && Zend_Auth::getInstance()->hasIdentity()){
+        $user_id=$this->identity->item_id;
+    }
 
-		$result=array();
-		if ($user_id!=''){
-			$interestService=new Service_Interest();
-			$result=$interestService->getUserInterest($user_id, Zend_DB::FETCH_OBJ);
-		}
+    $result=array();
+    if ($user_id!=''){
+      $interestService=new Service_Interest();
+      $result=$interestService->getUserInterest($user_id, Zend_DB::FETCH_OBJ);
+    }
 
-		$select=$this->db->select()
-			->from(array('item'))
-			->where('type= ?','event')
-			->order("rand()"); // order randomly, may cause problem when it comes to MSSQL adapter
-		$select=$this->getBookmarkCountQuery($select);
-		
+    $select=$this->db->select()
+      ->from(array('item'))
+      ->where('type= ?','event')
+      ->order("rand()"); // order randomly, may cause problem when it comes to MSSQL adapter
+    $select=$this->getBookmarkCountQuery($select);
+    
 
-		if ($result){ // if user has his/her own interest defined
+    if ($result){ // if user has his/her own interest defined
 
-			$select=$this->getSelfIsBookmarkQuery($select,'item');
-			$select->where('type= ?','event');
+      $select=$this->getSelfIsBookmarkQuery($select,'item');
+      $select->where('type= ?','event');
 
-			$bookmark = $this->getUserBookmarkId($user_id, true, Zend_Db::FETCH_ASSOC);
+      $bookmark = $this->getUserBookmarkIds($user_id, true);
 
-			$select->limit(rand(1, $total));
-			// get tagged result of user interest first
-			$interested_tag_ids=array();
-			$tagService=new Service_Tag();
-			foreach ($result as $value){
-				if (!in_array($value->tag_id, $bookmark))
-					$interested_tag_ids[]=$value->tag_id;
-			}
-			$select=$tagService->getTaggedItemsNestedQuery($select, 'item', $interested_tag_ids);
+      $select->limit(rand(1, $total));
+      // get tagged result of user interest first
+      $interested_tag_ids=array();
+      $tagService=new Service_Tag();
+      foreach ($result as $value){
+        if (!in_array($value->tag_id, $bookmark))
+          $interested_tag_ids[]=$value->tag_id;
+      }
+      $select=$tagService->getTaggedItemsNestedQuery($select, 'item', $interested_tag_ids);
 
-			$interested_result = $this->db->fetchAll($select);
+      $interested_result = $this->db->fetchAll($select);
 
-			// get the remaining quotas of tagged result
-			$select=$this->db->select()
-				->from(array('item'))
-				->where('type= ?','event')
-				->order("rand()") // order randomly, may cause problem when it comes to MSSQL adapter
-				->limit($total-count($interested_result));
+      // get the remaining quotas of tagged result
+      $select=$this->db->select()
+        ->from(array('item'))
+        ->where('type= ?','event')
+        ->order("rand()") // order randomly, may cause problem when it comes to MSSQL adapter
+        ->limit($total-count($interested_result));
 
-			$select=$this->getBookmarkCountQuery($select);
-		
-			$normal_result =$this->db->fetchAll($select);
+      $select=$this->getBookmarkCountQuery($select);
+    
+      $normal_result =$this->db->fetchAll($select);
 
-			//merge and shuffle result
-			//$merged_result=array_merge($tagged_result, $untagged_result);
-			//shuffle ($merged_result);
+      //merge and shuffle result
+      //$merged_result=array_merge($tagged_result, $untagged_result);
+      //shuffle ($merged_result);
 
-			return array(
-				'intersted'=>$interested_result,
-				'normal'=>$normal_result
-			);
+      return array(
+        'intersted'=>$interested_result,
+        'normal'=>$normal_result
+      );
 
-		}else{
-			//if not simply return random suggestions
-			$select->limit($total*2);
+    }else{
+      //if not simply return random suggestions
+      $select->limit($total*2);
 
-			return array(
-				'normal'=>$this->db->fetchAll($select)
-			);
-		}
+      return array(
+        'normal'=>$this->db->fetchAll($select)
+      );
+    }
 
-	}
+  }
+  public function getHighlights($total=10){
+    $feedService = new Service_Feed();
+    return $feedService->getFeed(array('is_bookmarked'=>false, 'sort_by'=>'random'));
+  }
 
 	public function getUserBookmarkList($user_id='', $total=10, $fetch_mode=Zend_DB::FETCH_OBJ){
 		if ($user_id==''){
