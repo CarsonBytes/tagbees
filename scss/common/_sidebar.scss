@@ -87,6 +87,9 @@
             }
             img{ display:block;}
         }
+        .tab_link li{
+          cursor:pointer;
+        }
         .options{
             position:absolute; right:5px;top:20px;
             a{ color:$left-event; text-decoration:none;
@@ -211,13 +214,13 @@
             ul{
               li{
                   /*@include user-select(none);*/
-                  border-bottom:1px solid #e4e4e4; 
-                  display:block; 
-                  padding:6px 0 6px 12px; 
-                  color:$left-event; 
-                  position:relative; 
-                  cursor: pointer;
-                  .sidebar_bookmark_popup{
+                cursor: pointer;
+                border-bottom:1px solid #e4e4e4; 
+                display:block; 
+                padding:6px 0 6px 12px; 
+                color:$left-event; 
+                position:relative; 
+                .sidebar_bookmark_popup{
                     width: 270px;
                     position: absolute;
                     left: 305px;
@@ -292,8 +295,9 @@
                   .star{
                     cursor:pointer;
                     width:14px; height:13px; position: absolute;
-                    right: 5px;
+                    right: 9px;
                     top: 9px;
+                    background-position:0 0;
                     .star_inner{  
                       background-image:url(../images/sprites.png); 
                       background-repeat:no-repeat; 
@@ -302,10 +306,19 @@
                       height:13px;
                     }
                     .star_inner{ background-position:-14px 0; display:none;}
-                    .gold{  background-position:0 0 !important;}
                   }
-                  .e_date{ display:inline-block; width:49px;overflow:hidden;height:18px;}
-                  .title{ width: 180px; color:$left-event; display:inline-block;}
+                  > .more{
+                    display: none;
+                    position: absolute;
+                    top: 5px;
+                    right:-16px;
+                    padding: 2px 5px;
+                    color:black;
+                    background:lightGrey;
+                    cursor: pointer;
+                  }
+                  .e_date{ float:left; width: 49px; height:18px; overflow:hidden;}
+                  .title{ float:left; width: 180px; height:18px; color:$left-event;}
                   .event_icon{ position:absolute; right:20px; top:3px; display:none;}
                   a{ color:$left-event; text-decoration:none;
                       &:link {color:$color;}
@@ -342,6 +355,9 @@
                         /*&:hover{ 
                             background-position:0 0;
                         }*/
+                    }
+                    > .more{
+                       /*display: block;*/
                     }
                     .event_icon{ display:block;}
                   }

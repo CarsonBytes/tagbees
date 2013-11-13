@@ -25,9 +25,18 @@ var ns_sidebar = {
                   wrap : 'letter',
                   height: 18
               });
+              /*
+              var popup_content = ns_feed.getHTML(msg, 'sidebar_popup', {
+                formatMysqlDate2: function() { 
+                    if (typeof arguments[0] == 'string') 
+                      return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
+                }
+              });
+              $('body').append(popup_content);*/
+              
             },
             error: function(){
-            $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
+              $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
             },
             dataType:"json"
         });
@@ -61,20 +70,21 @@ jQuery(function($) {
     }
   });
   
-  $(".sidebar_tabs .tab").hide(); //Hide all content
+  //$(".sidebar_tabs .tab").hide(); //Hide all content
+  //$(".sidebar_tabs .tab:first").show(); //Show first tab content
   $("ul.home_tab li:first").addClass("active").show(); //Activate first tab
-  $(".sidebar_tabs .tab:first").show(); //Show first tab content
   
   //On Click Event
-  $("ul.home_tab li").click(function() {
-      $("ul.home_tab li").removeClass("active"); //Remove any "active" class
-      $(this).addClass("active"); //Add "active" class to selected tab
-      $(".sidebar_tabs .tab").hide(); //Hide all tab content
-      ns_sidebar.activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-      $(ns_sidebar.activeTab).fadeIn(); //Fade in the active content
-      ns_sidebar.loadTab();
-      
-      return false;
+  $("ul.home_tab li").click(function(e) {
+    e.preventDefault();
+    $("ul.home_tab li").removeClass("active"); //Remove any "active" class
+    $(this).addClass("active"); //Add "active" class to selected tab
+    $(".sidebar_tabs .tab").hide(); //Hide all tab content
+    ns_sidebar.activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+    $(ns_sidebar.activeTab).fadeIn(); //Fade in the active content
+    ns_sidebar.loadTab();
+    
+    return false;
   });
   
   var check_all_day = function(){
@@ -259,3 +269,4 @@ jQuery(function($) {
 }); 
 </script>
 <?php echo $this->partial('js/template/sidebar/highlight_list_item.phtml')?>
+<?php //echo $this->partial('js/template/sidebar/popup.phtml')?>

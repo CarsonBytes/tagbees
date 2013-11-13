@@ -6,30 +6,40 @@ var ns_sidebar_bookmark_poup = {
       if (parent_li.hasClass("bookmarked")){
         bookmark_star_elem.removeClass('gold');
         parent_li.removeClass("bookmarked");
-        this_popup.hide();
+        this_popup.find('.white').hide();
+        //this_popup.hide();
       } else {
         bookmark_star_elem.addClass('gold');
         parent_li.addClass("bookmarked");
-        ns_sidebar_bookmark_poup.togglePopup(parent_li);
+        this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
+        if (! this_popup.is(':visible')){ ns_sidebar_bookmark_poup.togglePopup(parent_li); }
       }
   },
   togglePopup: function(list_item){
-    var this_popup = list_item.find('.sidebar_bookmark_popup, .arrow');
-    if ($('.sidebar_bookmark_popup, .arrow').not(this_popup).is(':visible')){
-      $('.sidebar_bookmark_popup, .arrow').not(this_popup).hide();
-    }
-    if (this_popup.is(':visible')){
-      this_popup.hide();
-    }else{
-      this_popup.show();
-      $('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
-          wrap : 'letter',
-          height: 50
-     });
-    ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(list_item.find('.sidebar_bookmark_popup'));
+    var this_popup = list_item.find('.sidebar_bookmark_popup, .more<?php /*, .arrow*/ ?>');
+    if (this_popup.length){
+      if ($('.sidebar_bookmark_popup, .more<?php /*, .arrow*/ ?>').not(this_popup).is(':visible')){
+        $('.sidebar_bookmark_popup, .more<?php /*, .arrow*/ ?>').not(this_popup).hide();
+       <?php //$('#highlight_tab li > .more, #reminder_tab li > .more').not($(this).find('.more')).css('display',''); ?>
+      }
+      if (this_popup.is(':visible')){
+       this_popup.hide();
+       <?php //list_item.find('.more').css('display','');?>
+      }else{
+        this_popup.show();
+        this_popup.find('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
+            wrap : 'letter',
+            height: 50
+       });
+      <?php //list_item.find('.more').css('display','block');?>
+      //console.log('in toggle popup...');
+      //console.log(list_item);
+       ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(list_item.find('.sidebar_bookmark_popup'));
+      }
     }
   },
   adjustSidebarPopupPosition: function(elem){
+    //console.log(elem);
     //init
     elem.css('top', 0);
     
@@ -37,7 +47,7 @@ var ns_sidebar_bookmark_poup = {
     
     var offset = elem.offset();
     var parent_offset = parent.offset();
-  
+    
     if (offset.top + elem.height() > $(window).height() + $(window).scrollTop()){
   
       console.log('exceeded below!');
@@ -73,16 +83,26 @@ var ns_sidebar_bookmark_poup = {
     }else{
       console.log('inside');
     }
+    console.log(elem.offset());
+    //$('body').append('<div style="background:blue;width:100px;height:100px;position:absolute;top:'+ elem.offset().top +'px;left:'+elem.offset().left+'px;"></div>')
   }
 };
 jQuery(function($){
-  $('body').on('click', '#highlight_tab li, #reminder_tab li' , function(event) {
-    if ($(event.target).closest('a').length) {
+  $('body').on('click', '#highlight_tab li , #reminder_tab li' , function(e) {
+    e.stopPropagation();
+    /*if ($(event.target).closest('a').length) {
       //console.log('is link!');
       //return false;
-    }else{
-      ns_sidebar_bookmark_poup.togglePopup($(this));
-    }
+    }else{*/
+    ns_sidebar_bookmark_poup.togglePopup($(this));
+    //}
+    return false;
+  })
+  .on('mouseover', '#highlight_tab li, #reminder_tab li' , function(event) {
+      var this_popup = $(this).find('.sidebar_bookmark_popup<?php /*, .arrow*/ ?>');
+      if (! this_popup.is(':visible') && $('.sidebar_bookmark_popup<?php /*, .arrow*/ ?>').is(':visible')){
+       ns_sidebar_bookmark_poup.togglePopup($(this));
+      }
   })
   .on('click',".sidebar_bookmark_popup",function(e){
     e.stopPropagation();
@@ -101,7 +121,7 @@ jQuery(function($){
   })
  .on('click', function(event) {
       if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li, #reminder_tab li').length) {
-      $(".sidebar_bookmark_popup, .arrow").hide();
+        ns_sidebar_bookmark_poup.togglePopup($('.sidebar_bookmark_popup:visible').parents('li'));
       };
   });
 <?php /* //pending hover effect...

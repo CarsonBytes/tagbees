@@ -42,6 +42,7 @@ class Service_Feed{
      *  $is_all_time=1,
      *  $rpp=20,
      *  $last_id=''
+     *  $used_ids,
      *  $is_random=false
      *  $is_bookmarked (true is only bookmarked, false is to only not bookmarked, undefined is both of them)
      * @params $sys_para
