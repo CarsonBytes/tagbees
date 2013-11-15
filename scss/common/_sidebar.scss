@@ -195,175 +195,90 @@
             }
         }
         #highlight_tab, #reminder_tab{
-            .event_head{ 
-                background:$light-grey; 
-                @include border-radius(4px); 
-                padding:4px 11px 5px 13px;
-                h4{ 
-                    font-size:13px; 
-                    font-weight:bold; 
-                    color:$left-event; 
-                    display:inline-block; 
-                    padding:4px 0 0;
-                }
-                .more_dot, .add{ float:right; color:$left-event; }
-                .more_dot{ text-decoration:none; font-weight:bold; line-height:21px;}
-                .add{ background:url(../images/plus.png) no-repeat center white; border:1px solid #c7c7c7; width:23px; height:19px; margin-right:11px;}
-                .alltime{ border:1px solid #c7c7c7; width:90px; height:21px; padding:2px 2px 2px 6px; float:right; margin-right:7px;}
-            }
-            ul{
-              li{
-                  /*@include user-select(none);*/
-                cursor: pointer;
-                border-bottom:1px solid #e4e4e4; 
-                display:block; 
-                padding:6px 0 6px 12px; 
-                color:$left-event; 
-                position:relative; 
-                .sidebar_bookmark_popup{
-                    width: 270px;
-                    position: absolute;
-                    left: 305px;
-                    z-index: 100;
-                    top: 0;
-                    display:none;
-                    background:#F1F1F1;
-                    cursor: auto;
-                    .sidebar_bookmark_popup_inner{
-                      margin:10px;
-                      h2{
-                        font-size: 14px;
-                      }
-                      a.title{
-                        font-size:15px;
-                        color: black;
-                        font-weight:bold;
-                        cursor:pointer;
-                        width: auto;
-                        &:link {color:$color;}
-                        &:hover{color:#F0BC05;}
-                        &:active {color:#096DB9;}
-                      }
-                      .yellow{
-                        background:#FFFF94;
-                        padding: 5px;
-                        ul.info_line{
-                          li{
-                            display: inline-block;
-                            background: none;
-                            float: left;
-                            cursor: auto;
-                            padding: 0 2px;
-                            border:0;
-                          }
-                        }
-                      }
-                      .white{
-                        margin-top:10px;
-                        display:none;
-                      }
-                      .sidebar_bookmark_popup_reminder_title{
-                        width: 245px;
-                        padding: 2px;
-                      }
-                      .sidebar_bookmark_popup_reminder_detail{
-                        width: 245px;
-                        padding: 2px;
-                        border: 1px solid #dfdfdf;
-                      }
-                      .sidebar_bookmark_popup_reminder_save{
-                        float:right;
-                      }
-                      .sidebar_bookmark_popup_set_reminder{
-                        float: right;
-                        margin-top:5px;
-                        display:none;
-                      }
-                      .sidebar_bookmark_popup_more_reminder_fields{
-                        float:left;
-                      }
-                    }
-                  }
-                  .arrow{
-                    display: none;
-                    position: absolute;
-                    left: 295px;
-                    top: 0;
-                    line-height: 30px;
-                    font-size: 25px;
-                  }
-                  .star{
-                    cursor:pointer;
-                    width:14px; height:13px; position: absolute;
-                    right: 9px;
-                    top: 9px;
-                    background-position:0 0;
-                    .star_inner{  
-                      background-image:url(../images/sprites.png); 
-                      background-repeat:no-repeat; 
-                      float:left; 
-                      width:14px; 
-                      height:13px;
-                    }
-                    .star_inner{ background-position:-14px 0; display:none;}
-                  }
-                  > .more{
-                    display: none;
-                    position: absolute;
-                    top: 5px;
-                    right:-16px;
-                    padding: 2px 5px;
-                    color:black;
-                    background:lightGrey;
-                    cursor: pointer;
-                  }
-                  .e_date{ float:left; width: 49px; height:18px; overflow:hidden;}
-                  .title{ float:left; width: 180px; height:18px; color:$left-event;}
-                  .event_icon{ position:absolute; right:20px; top:3px; display:none;}
-                  a{ color:$left-event; text-decoration:none;
-                      &:link {color:$color;}
-                      &:hover{color:#F0BC05;}
-                      /*&:visited {color:$color;} */
-                      &:active {color:#096DB9;}
-                  }
-                  &.bookmarked{
-                    .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder{
-                      display:block;
-                    }
-                    .star_inner{ 
-                      display:block;
-                      background-position:0 0;
-                    }
-                    /*&:hover{
-                      .sidebar_bookmark_popup, .arrow{
-                        display:block;
-                      }
-                    }*/
-                  }
-                  &:hover{
-                    background:#f6f6f6;
-                    &.bookmarked{
-                      .star_inner{ 
-                          display:block;
-                          /*&:hover{ 
-                              background-position:-14px 0 !important;
-                          }*/
-                      }
-                    }
-                    .star_inner{ 
-                        display:block;
-                        /*&:hover{ 
-                            background-position:0 0;
-                        }*/
-                    }
-                    > .more{
-                       /*display: block;*/
-                    }
-                    .event_icon{ display:block;}
-                  }
-                  &:last-child{ border:none;}
+          .event_head{ 
+              background:$light-grey; 
+              @include border-radius(4px); 
+              padding:4px 11px 5px 13px;
+              h4{ 
+                  font-size:13px; 
+                  font-weight:bold; 
+                  color:$left-event; 
+                  display:inline-block; 
+                  padding:4px 0 0;
               }
+              .more_dot, .add{ float:right; color:$left-event; }
+              .more_dot{ text-decoration:none; font-weight:bold; line-height:21px;}
+              .add{ background:url(../images/plus.png) no-repeat center white; border:1px solid #c7c7c7; width:23px; height:19px; margin-right:11px;}
+              .alltime{ border:1px solid #c7c7c7; width:90px; height:21px; padding:2px 2px 2px 6px; float:right; margin-right:7px;}
+          }
+          ul{
+            li{
+                /*@include user-select(none);*/
+              cursor: pointer;
+              border-bottom:1px solid #e4e4e4; 
+              display:block; 
+              padding:6px 0 6px 12px; 
+              color:$left-event; 
+              position:relative; 
+              .star{
+                cursor:pointer;
+                width:14px; height:13px; position: absolute;
+                right: 9px;
+                top: 9px;
+                background-position:0 0;
+                .star_inner{  
+                  background-image:url(../images/sprites.png); 
+                  background-repeat:no-repeat; 
+                  float:left; 
+                  width:14px; 
+                  height:13px;
+                }
+                .star_inner{ background-position:-14px 0; display:none;}
+              }
+              .e_date{ float:left; width: 49px; height:18px; overflow:hidden;}
+              .title{ float:left; width: 180px; height:18px; color:$left-event;}
+              .event_icon{ position:absolute; right:20px; top:3px; display:none;}
+              a{ color:$left-event; text-decoration:none;
+                  &:link {color:$color;}
+                  &:hover{color:#F0BC05;}
+                  /*&:visited {color:$color;} */
+                  &:active {color:#096DB9;}
+              }
+              &.bookmarked{
+                .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder{
+                  display:block;
+                }
+                .star_inner{ 
+                  display:block;
+                  background-position:0 0;
+                }
+                /*&:hover{
+                  .sidebar_bookmark_popup, .arrow{
+                    display:block;
+                  }
+                }*/
+              }
+              &:hover{
+                background:#f6f6f6;
+                &.bookmarked{
+                  .star_inner{ 
+                      display:block;
+                      /*&:hover{ 
+                          background-position:-14px 0 !important;
+                      }*/
+                  }
+                }
+                .star_inner{ 
+                    display:block;
+                    /*&:hover{ 
+                        background-position:0 0;
+                    }*/
+                }
+                .event_icon{ display:block;}
+              }
+              &:last-child{ border:none;}
             }
+          }
         }
         #reminder_tab{
           ul li{
@@ -434,4 +349,75 @@
         }
     }
 }
+.sidebar_bookmark_popup{
+    position: relative;
+    z-index: 100;
+    display:none;
+    background:#F1F1F1;
+    cursor: auto;
+    width:310px;
+    .trigger_popup_icon{
+      position: absolute;
+      top: 0px;
+      left:-17px;
+      padding: 2px 5px;
+      color:black;
+      background:lightGrey;
+      cursor: pointer;
+    }
+    .sidebar_bookmark_popup_inner{
+      margin:10px;
+      h2{
+        font-size: 14px;
+      }
+      a.title{
+        font-size:15px;
+        color: black;
+        font-weight:bold;
+        cursor:pointer;
+        width: auto;
+        &:link {color:$color;}
+        &:hover{color:#F0BC05;}
+        &:active {color:#096DB9;}
+      }
+      .yellow{
+        background:#FFFF94;
+        padding: 5px;
+        ul.info_line{
+          li{
+            display: inline-block;
+            background: none;
+            float: left;
+            cursor: auto;
+            padding: 0 2px;
+            border:0;
+          }
+        }
+      }
+      .white{
+        margin-top:10px;
+        display:none;
+      }
+      .sidebar_bookmark_popup_reminder_title{
+        width: 245px;
+        padding: 2px;
+      }
+      .sidebar_bookmark_popup_reminder_detail{
+        width: 245px;
+        padding: 2px;
+        border: 1px solid #dfdfdf;
+      }
+      .sidebar_bookmark_popup_reminder_save{
+        float:right;
+      }
+      .sidebar_bookmark_popup_set_reminder{
+        float: right;
+        margin-top:5px;
+        display:none;
+      }
+      .sidebar_bookmark_popup_more_reminder_fields{
+        float:left;
+      }
+    }
+  }
 /************** sidebar end **************/

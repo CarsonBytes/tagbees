@@ -1,5 +1,6 @@
 <script id="sidebar_popup" type="text/x-jquery-tmpl">
-    <div class="sidebar_bookmark_popup">
+    <div data-id="${id}" class="sidebar_bookmark_popup">
+      <a href="#" class="trigger_popup_icon">></a>
       <div class="sidebar_bookmark_popup_inner">
         <div class="yellow">
           <a href="<?php echo $this->baseUrl('event');?>/${slug_name}" target="_blank" class="title">${name}</a>
@@ -47,7 +48,6 @@
           <form class="sidebar_bookmark_popup_form" name="sidebar_bookmark_popup_form" action="" method="post" >
             <input type="text" name="reminder_title" class="sidebar_bookmark_popup_reminder_title" value=""/>
             <textarea name="reminder_detail" class="sidebar_bookmark_popup_reminder_detail" ></textarea>
-            <?php /*<input type="submit" name="save" value="Save" class="sidebar_bookmark_popup_reminder_save">*/ ?>
           </form>
           <a class="sidebar_bookmark_popup_more_reminder_fields" href="#">More reminder fields....</a>
         </div>
