@@ -392,9 +392,9 @@ class Service_Bookmark{
     }
 
   }
-  public function getHighlights($rpp=10, $used_ids=''){
+  public function getHighlights($used_ids='',$rpp=5){
     $feedService = new Service_Feed();
-    return $feedService->getFeed(array('is_bookmarked'=>false, 'sort_by'=>'random', 'rpp'=>10));
+    return $feedService->getFeed(array('is_bookmarked'=>false, 'sort_by'=>'random', 'used_ids'=>$used_ids, 'rpp'=>$rpp));
   }
 
 	public function getUserBookmarkList($user_id='', $total=10, $fetch_mode=Zend_DB::FETCH_OBJ){

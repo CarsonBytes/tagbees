@@ -187,7 +187,7 @@ class Service_Feed{
 			}
 			
       // get by ids
-      if (isset($user_para['item_ids'])){
+      if (isset($user_para['item_ids']) && !empty($user_para['item_ids'])){
         $this->feed_query->where("f.id in (?)", $user_para['item_ids']);
       }
         
@@ -200,6 +200,10 @@ class Service_Feed{
             $this->feed_query->where('f.id not in (?)', $bookmarked_ids);
           }
         }
+      }
+      
+      if (isset($user_para['used_ids']) && !empty($user_para['used_ids'])){
+        $this->feed_query->where('f.id not in (?)', $user_para['used_ids']);
       }
         			
 			// general type(s) for feed

@@ -1,14 +1,21 @@
 <script type="text/javascript">
 var ns_sidebar_highlight_tab = {
+  used_ids: [],
   fetch: function(){
     $.ajax({
       type: "POST",
       url: "<?php echo $this->baseUrl('ajax/bookmark/get_highlights') ?>",
+      data: {used_ids: ns_sidebar_highlight_tab.used_ids},
       success: function(msg){
         var content = ns_feed.getHTML(msg, 'sidebar_highlight_list_item', {
+          getID: function() { 
+            if ($.inArray( this.data.id, ns_sidebar_highlight_tab.used_ids ) ==-1)
+              ns_sidebar_highlight_tab.used_ids.push(this.data.id);
+            return this.data.id;
+          },
           formatMysqlDate2: function() { 
-              if (typeof arguments[0] == 'string') 
-                return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
+            if (typeof arguments[0] == 'string') 
+              return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
           }
         });
         $("#highlight_tab .event_highlights_list .load_more").before(content);
@@ -39,6 +46,9 @@ jQuery(function($){
     if (scroll_pos +35 >= scroll_height){
       ns_sidebar_highlight_tab.fetch();
     }
+  })
+  $('#highlight_tab .event_highlights_list .load_more').click(function(){
+    ns_sidebar_highlight_tab.fetch();
   })
   <?php /*
      //popup for simple personal events
