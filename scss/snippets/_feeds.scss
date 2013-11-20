@@ -72,7 +72,16 @@
     .load_more_feeds {
         text-align:center;
         .more{ 
-          background:url(../images/more_bg.gif) repeat-x bottom center; @include border-radius(4px); text-align:center; display:block; color:$main-blue; text-decoration:none; padding: 5px 0; border:1px solid #ebebeb; border-bottom:1px solid #cbcbcb; font-weight:bold; 
+          background:url(../images/more_bg.gif) repeat-x bottom center; 
+          @include border-radius(4px); 
+          text-align:center; 
+          display:block; 
+          color:$main-blue; 
+          text-decoration:none; 
+          padding: 5px 0; 
+          border:1px solid #ebebeb; 
+          border-bottom:1px solid #cbcbcb; 
+          font-weight:bold; 
           &:hover{ color:$color;}
         }
     }

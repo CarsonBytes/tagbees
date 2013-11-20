@@ -267,8 +267,19 @@ $pie-base-class: pie-element;*/
 #sidebar .tab_div #highlight_tab .event_head .more_dot, #sidebar .tab_div #reminder_tab .event_head .more_dot { text-decoration: none; font-weight: bold; line-height: 21px; }
 #sidebar .tab_div #highlight_tab .event_head .add, #sidebar .tab_div #reminder_tab .event_head .add { background: url(../images/plus.png) no-repeat center white; border: 1px solid #c7c7c7; width: 23px; height: 19px; margin-right: 11px; }
 #sidebar .tab_div #highlight_tab .event_head .alltime, #sidebar .tab_div #reminder_tab .event_head .alltime { border: 1px solid #c7c7c7; width: 90px; height: 21px; padding: 2px 2px 2px 6px; float: right; margin-right: 7px; }
+#sidebar .tab_div #highlight_tab ul.scrollpanel, #sidebar .tab_div #reminder_tab ul.scrollpanel { /*float: left; border: 1px solid #ccc;
+margin: 30px;
+*/ width: 288px; height: 150px; }
+#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar, #sidebar .tab_div #reminder_tab ul.scrollpanel .sp-scrollbar { width: 10px; background-color: #ccc; cursor: pointer; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; }
+#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar .sp-thumb, #sidebar .tab_div #reminder_tab ul.scrollpanel .sp-scrollbar .sp-thumb { background-color: #aaa; transition: height 0.2s ease-in-out; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; }
+#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar.active .sp-thumb, #sidebar .tab_div #reminder_tab ul.scrollpanel .sp-scrollbar.active .sp-thumb { background-color: #999; }
 #sidebar .tab_div #highlight_tab ul li, #sidebar .tab_div #reminder_tab ul li { /*@include user-select(none);*/ cursor: pointer; border-bottom: 1px solid #e4e4e4; display: block; padding: 6px 0 6px 12px; color: #494a4e; position: relative; }
-#sidebar .tab_div #highlight_tab ul li .star, #sidebar .tab_div #reminder_tab ul li .star { cursor: pointer; width: 14px; height: 13px; position: absolute; right: 9px; top: 9px; background-position: 0 0; }
+#sidebar .tab_div #highlight_tab ul li.load_more, #sidebar .tab_div #reminder_tab ul li.load_more { padding: 5px 0; text-align: center; }
+#sidebar .tab_div #highlight_tab ul li.load_more:hover, #sidebar .tab_div #reminder_tab ul li.load_more:hover { background: none; }
+#sidebar .tab_div #highlight_tab ul li.load_more .more, #sidebar .tab_div #reminder_tab ul li.load_more .more { background: url(../images/more_bg.gif) repeat-x bottom center; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; text-align: center; display: block; color: #096db9; text-decoration: none; padding: 5px 0; border: 1px solid #ebebeb; border-bottom: 1px solid #cbcbcb; font-weight: bold; }
+#sidebar .tab_div #highlight_tab ul li.load_more .more:hover, #sidebar .tab_div #reminder_tab ul li.load_more .more:hover { background: #f6f6f6; }
+#sidebar .tab_div #highlight_tab ul li.load_more .more:hover, #sidebar .tab_div #reminder_tab ul li.load_more .more:hover { color: #333333; }
+#sidebar .tab_div #highlight_tab ul li .star, #sidebar .tab_div #reminder_tab ul li .star { cursor: pointer; width: 14px; height: 13px; position: absolute; right: 5px; top: 9px; background-position: 0 0; }
 #sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #reminder_tab ul li .star .star_inner { background-image: url(../images/sprites.png); background-repeat: no-repeat; float: left; width: 14px; height: 13px; }
 #sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #reminder_tab ul li .star .star_inner { background-position: -14px 0; display: none; }
 #sidebar .tab_div #highlight_tab ul li .e_date, #sidebar .tab_div #reminder_tab ul li .e_date { float: left; width: 49px; height: 18px; overflow: hidden; }
@@ -314,8 +325,7 @@ height: 15px;*/ width: 180px; font-size: 10px; color: grey; }
 #sidebar .info_block p { font-size: 11px; line-height: 17px; padding-top: 17px; }
 #sidebar .info_block .block_img { float: left; margin: 0 20px 10px 0; }
 
-.sidebar_bookmark_popup { position: relative; z-index: 100; display: none; background: #F1F1F1; cursor: auto; width: 310px; }
-.sidebar_bookmark_popup .trigger_popup_icon { position: absolute; top: 0px; left: -17px; padding: 2px 5px; color: black; background: lightGrey; cursor: pointer; }
+.sidebar_bookmark_popup { position: absolute; z-index: 100; display: none; background: #F1F1F1; cursor: auto; width: 310px; }
 .sidebar_bookmark_popup .sidebar_bookmark_popup_inner { margin: 10px; }
 .sidebar_bookmark_popup .sidebar_bookmark_popup_inner h2 { font-size: 14px; }
 .sidebar_bookmark_popup .sidebar_bookmark_popup_inner a.title { font-size: 15px; color: black; font-weight: bold; cursor: pointer; width: auto; }
@@ -330,6 +340,8 @@ height: 15px;*/ width: 180px; font-size: 10px; color: grey; }
 .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_reminder_save { float: right; }
 .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder { float: right; margin-top: 5px; display: none; }
 .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_more_reminder_fields { float: left; }
+
+.trigger_popup_icon { position: absolute; top: 0px; padding: 2px 5px; color: black; background: lightGrey; cursor: pointer; display: none; }
 
 /************** sidebar end **************/
 /*@import "compass/css3/pie";*/

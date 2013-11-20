@@ -2,7 +2,8 @@
 var ns_sidebar_bookmark_poup = {
   toggleBookmark: function(bookmark_star_elem){
       var parent_li = bookmark_star_elem.parents('li');
-      var this_popup = parent_li.find('.sidebar_bookmark_popup, .arrow');
+      var id = parent_li.data('id');
+      var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
       if (parent_li.hasClass("bookmarked")){
         bookmark_star_elem.removeClass('gold');
         parent_li.removeClass("bookmarked");
@@ -11,78 +12,81 @@ var ns_sidebar_bookmark_poup = {
         bookmark_star_elem.addClass('gold');
         parent_li.addClass("bookmarked");
         this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
-        if (! this_popup.is(':visible')){ ns_sidebar_bookmark_poup.togglePopup(parent_li); }
+        if (! this_popup.is(':visible')){ 
+          console.log(id);
+          ns_sidebar_bookmark_poup.togglePopup(id); 
+        }
       }
   },
-  togglePopup: function(list_item){
-    var this_popup = list_item.find('.sidebar_bookmark_popup, .more');
+  togglePopup: function(id){
+    var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
+    var trigger_popup_icon = $('.trigger_popup_icon');
     if (this_popup.length){
-      if ($('.sidebar_bookmark_popup, .more').not(this_popup).is(':visible')){
+      if ($('.sidebar_bookmark_popup').not(this_popup).is(':visible')){
         $('.sidebar_bookmark_popup, .more').not(this_popup).hide();
       }
       if (this_popup.is(':visible')){
        this_popup.hide();
+       trigger_popup_icon.hide();
       }else{
-        this_popup.show();
         this_popup.find('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
             wrap : 'letter',
             height: 50
        });
-       ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(list_item.find('.sidebar_bookmark_popup'));
+       ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(id);
+        this_popup.show();
+        trigger_popup_icon.show();
       }
     }
   },
-  adjustSidebarPopupPosition: function(elem){
-    //init
-    elem.css('top', 0);
+  adjustSidebarPopupPosition: function(id){
+    var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
+    var trigger_popup_icon = $('.trigger_popup_icon');
     
-    var parent = elem.parents('li');
+    var parent = $('#sidebar li[data-id="'+id+'"]');
+    var grandparent = parent.parents('ul');
     
-    var offset = elem.offset();
     var parent_offset = parent.offset();
     
-    if (offset.top + elem.height() > $(window).height() + $(window).scrollTop()){
+    console.log(parent_offset)
+    //init
+    trigger_popup_icon.css('top', parent_offset.top + 5);
+    trigger_popup_icon.css('left',grandparent.offset().left+grandparent.outerWidth( true ));
+    this_popup.css('top', parent_offset.top);
+    this_popup.css('left',grandparent.offset().left+grandparent.outerWidth( true )+trigger_popup_icon.outerWidth( true ));
+    
+    if (parent_offset.top + this_popup.height() > $(window).height() + $(window).scrollTop()){
   
       console.log('exceeded below!');
   
-      if ($(window).height() < elem.height()){
+      if ($(window).height() < this_popup.height()){
         console.log('not enough window size!');
-        var top_to_parent_height =  parent_offset.top - $(window).scrollTop();
-        elem.css('top', (10 - top_to_parent_height) +'px');
-  
+        this_popup.css('top', $(window).scrollTop()+5);
       }else{
         console.log('enough window size!');
-        var parent_to_bottom_height = $(window).height() + $(window).scrollTop() - parent_offset.top - parent.height();
-        var popuptop_to_parent_height =  Math.abs(parseInt(elem.css('top')));
-        var remaining_height = elem.height() - parent.height() - parent_to_bottom_height - popuptop_to_parent_height + 10;
-        var sum = parseInt(elem.css('top')) - remaining_height;
-        elem.css('top', sum +'px');
-      }
-      
-      if (parent_to_bottom_height <= 10){
-        parent.find('.arrow').hide();
+        var parent_to_bottom_height = $(window).height() + $(window).scrollTop() - parent_offset.top;
+        var remaining_height = this_popup.height() - parent_to_bottom_height;
+        var sum = parseInt(this_popup.css('top')) - remaining_height - 5;
+        this_popup.css('top', sum +'px');
       }
   
-    }else if (offset.top <= $(window).scrollTop()+10){
+    }else if (parent_offset.top <= $(window).scrollTop()+10){
       console.log('exceeded above!');
       
       var top_to_parent_height =  parent_offset.top - $(window).scrollTop();
       
-      elem.css('top', (10 - top_to_parent_height) +'px');
+      this_popup.css('top', parent_offset.top + (10 - top_to_parent_height) +'px');
       
-      if (top_to_parent_height <= 10){
-        parent.find('.arrow').hide();
-      }
     }else{
       console.log('inside');
     }
-    console.log(elem.offset());
+    console.log(this_popup.offset());
   }
 };
 jQuery(function($){
   $('body').on('click', '#highlight_tab li , #reminder_tab li' , function(e) {
     e.stopPropagation();
-    ns_sidebar_bookmark_poup.togglePopup($(this));
+    ns_sidebar_bookmark_poup.togglePopup($(this).data('id'));
     return false;
   })
   .on('mouseover', '#highlight_tab li, #reminder_tab li' , function(event) {
@@ -107,10 +111,12 @@ jQuery(function($){
     return false;
   })
  .on('click', function(event) {
-      if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li, #reminder_tab li').length) {
-        ns_sidebar_bookmark_poup.togglePopup($('.sidebar_bookmark_popup:visible').parents('li'));
+      if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li, #reminder_tab li').length) {ns_sidebar_bookmark_poup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
       };
   });
+  $('#highlight_tab ul').mousewheel(function(){
+    $('.sidebar_bookmark_popup, .trigger_popup_icon').hide();
+  })
 <?php /* //pending hover effect...
   var over_timer;
   var out_timer;

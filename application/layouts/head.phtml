@@ -30,6 +30,8 @@
         ->appendFile('jquery.lazyload.js')
         ->appendFile('jquery.uqr.js')
         ->appendFile('jquery.timepicker.min.js')
+        ->appendFile('jquery.mousewheel-3.1.6.js')
+        ->appendFile('jquery.scrollpanel-0.1.min.js')
         ->appendFile('validate/jquery.validate.min.js')
         ->appendFile('tinymce/jquery.tinymce.js')
         ->appendFile('jquery.cookie.js');
@@ -322,7 +324,7 @@ var ns_feed = {
         }
     } , custom_functions);
     
-    console.log(data_arr);
+    //console.log(data_arr);
     return $( "#"+template_id ).tmpl(data_arr.data,functions);
   },
   attachEvents: function(){

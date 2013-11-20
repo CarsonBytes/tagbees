@@ -1,7 +1,7 @@
 @import "../_init.scss";
 
 /************** sidebar start **************/
-#sidebar{ 
+#sidebar{
     width:298px; color:$aside-color; 
     
     h1{ color:$left-event; font-size:22px; font-weight:bold;}
@@ -131,7 +131,7 @@
                         @include border-radius(4px);
                         &.active{
                             background:$light-grey;
-                            border-radius:4px 4px 0 0 !important;
+                            border-radius: 4px 4px 0 0 !important;
                         }
                         &.over{
                             background:$light-grey; 
@@ -212,6 +212,29 @@
               .alltime{ border:1px solid #c7c7c7; width:90px; height:21px; padding:2px 2px 2px 6px; float:right; margin-right:7px;}
           }
           ul{
+            &.scrollpanel {
+              /*float: left;
+               border: 1px solid #ccc;
+              margin: 30px;
+              */
+              width: 288px;
+              height: 150px;
+              .sp-scrollbar {
+                width: 10px;
+                background-color: #ccc;
+                cursor: pointer;
+                @include border-radius(5px);
+          
+                .sp-thumb {
+                  background-color: #aaa;
+                  transition: height 0.2s ease-in-out;
+                  @include border-radius(5px);
+                }
+                &.active .sp-thumb {
+                  background-color: #999;
+                }
+              }
+            }
             li{
                 /*@include user-select(none);*/
               cursor: pointer;
@@ -219,11 +242,35 @@
               display:block; 
               padding:6px 0 6px 12px; 
               color:$left-event; 
-              position:relative; 
+              position:relative;
+              
+              &.load_more {
+                padding:5px 0; 
+                text-align:center;
+                &:hover{
+                  background: none;
+                }
+                .more{ 
+                  &:hover{
+                    background: #f6f6f6;
+                  }
+                  background:url(../images/more_bg.gif) repeat-x bottom center; 
+                  @include border-radius(4px); 
+                  text-align:center; 
+                  display:block; 
+                  color:$main-blue; 
+                  text-decoration:none; 
+                  padding: 5px 0; 
+                  border:1px solid #ebebeb; 
+                  border-bottom:1px solid #cbcbcb; 
+                  font-weight:bold; 
+                  &:hover{ color:$color;}
+                }
+              }
               .star{
                 cursor:pointer;
                 width:14px; height:13px; position: absolute;
-                right: 9px;
+                right: 5px;
                 top: 9px;
                 background-position:0 0;
                 .star_inner{  
@@ -350,74 +397,75 @@
     }
 }
 .sidebar_bookmark_popup{
-    position: relative;
-    z-index: 100;
-    display:none;
-    background:#F1F1F1;
-    cursor: auto;
-    width:310px;
-    .trigger_popup_icon{
-      position: absolute;
-      top: 0px;
-      left:-17px;
-      padding: 2px 5px;
-      color:black;
-      background:lightGrey;
-      cursor: pointer;
+  position: absolute;
+  z-index: 100;
+  display:none;
+  background:#F1F1F1;
+  cursor: auto;
+  width:310px;
+  .sidebar_bookmark_popup_inner{
+    margin:10px;
+    h2{
+      font-size: 14px;
     }
-    .sidebar_bookmark_popup_inner{
-      margin:10px;
-      h2{
-        font-size: 14px;
-      }
-      a.title{
-        font-size:15px;
-        color: black;
-        font-weight:bold;
-        cursor:pointer;
-        width: auto;
-        &:link {color:$color;}
-        &:hover{color:#F0BC05;}
-        &:active {color:#096DB9;}
-      }
-      .yellow{
-        background:#FFFF94;
-        padding: 5px;
-        ul.info_line{
-          li{
-            display: inline-block;
-            background: none;
-            float: left;
-            cursor: auto;
-            padding: 0 2px;
-            border:0;
-          }
+    a.title{
+      font-size:15px;
+      color: black;
+      font-weight:bold;
+      cursor:pointer;
+      width: auto;
+      &:link {color:$color;}
+      &:hover{color:#F0BC05;}
+      &:active {color:#096DB9;}
+    }
+    .yellow{
+      background:#FFFF94;
+      padding: 5px;
+      ul.info_line{
+        li{
+          display: inline-block;
+          background: none;
+          float: left;
+          cursor: auto;
+          padding: 0 2px;
+          border:0;
         }
       }
-      .white{
-        margin-top:10px;
-        display:none;
-      }
-      .sidebar_bookmark_popup_reminder_title{
-        width: 245px;
-        padding: 2px;
-      }
-      .sidebar_bookmark_popup_reminder_detail{
-        width: 245px;
-        padding: 2px;
-        border: 1px solid #dfdfdf;
-      }
-      .sidebar_bookmark_popup_reminder_save{
-        float:right;
-      }
-      .sidebar_bookmark_popup_set_reminder{
-        float: right;
-        margin-top:5px;
-        display:none;
-      }
-      .sidebar_bookmark_popup_more_reminder_fields{
-        float:left;
-      }
+    }
+    .white{
+      margin-top:10px;
+      display:none;
+    }
+    .sidebar_bookmark_popup_reminder_title{
+      width: 245px;
+      padding: 2px;
+    }
+    .sidebar_bookmark_popup_reminder_detail{
+      width: 245px;
+      padding: 2px;
+      border: 1px solid #dfdfdf;
+    }
+    .sidebar_bookmark_popup_reminder_save{
+      float:right;
+    }
+    .sidebar_bookmark_popup_set_reminder{
+      float: right;
+      margin-top:5px;
+      display:none;
+    }
+    .sidebar_bookmark_popup_more_reminder_fields{
+      float:left;
     }
   }
+}
+.trigger_popup_icon{
+  position: absolute;
+  top: 0px;
+  padding: 2px 5px;
+  color:black;
+  background:lightGrey;
+  cursor: pointer;
+  display:none;
+}
+
 /************** sidebar end **************/

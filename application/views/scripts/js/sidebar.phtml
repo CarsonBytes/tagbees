@@ -1,3 +1,4 @@
+<?php echo $this->partial('js/sidebar/highlight_tab.phtml')?>
 <script type="text/javascript">
 var ns_sidebar = {
   activeTab: "#category_tab",
@@ -7,45 +8,21 @@ var ns_sidebar = {
     if (typeof isRefreshList == "undefined") var isRefreshList = false;
       if (ns_sidebar.activeTab == "#highlight_tab" ){
         $('#sidebar .options .edit_list_order').hide();
-        $('#sidebar .options .refresh').show();
+        //$('#sidebar .options .refresh').show();
         if (isRefreshList == true || ns_sidebar.isFirstLoadHighlight == true){
-          $.ajax({
-            type: "POST",
-            url: "<?php echo $this->baseUrl('ajax/bookmark/get_highlights') ?>",
-            success: function(msg){
-              var content = ns_feed.getHTML(msg, 'sidebar_highlight_list_item', {
-                formatMysqlDate2: function() { 
-                    if (typeof arguments[0] == 'string') 
-                      return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
-                }
-              });
-              $("#highlight_tab .event_highlights_list").html(content);
-              $(ns_sidebar.activeTab).find("li .title").dotdotdot({
-                  wrap : 'letter',
-                  height: 18
-              });
-              
-              var popup_content = ns_feed.getHTML(msg, 'sidebar_popup');
-              $('body').append(popup_content);
-              
-            },
-            error: function(){
-              $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
-            },
-            dataType:"json"
-        });
+        ns_sidebar_highlight_tab.fetch();
         ns_sidebar.isFirstLoadHighlight = false;
       }
     }else if (ns_sidebar.activeTab == "#reminder_tab" ){
       $('#sidebar .options .edit_list_order').hide();
-      $('#sidebar .options .refresh').show();
+      //$('#sidebar .options .refresh').show();
       $(ns_sidebar.activeTab).find("li .teaser, li .title").dotdotdot({
           wrap : 'letter',
           height: 18
       });
     }else if (ns_sidebar.activeTab == "#category_tab"){
       $('#sidebar .options .edit_list_order').show();
-      $('#sidebar .options .refresh').hide();
+      //$('#sidebar .options .refresh').hide();
     }
   }
 }
@@ -196,70 +173,19 @@ jQuery(function($) {
         $(this).data('flag', 1);
     }
     return false;
-  }).on('click', '.options .refresh', function(e){
-    e.preventDefault();
-    console.log('clicked refresh');
-    ns_sidebar.loadTab(true);
-    return false;
-  });
+  })
+ 
+  $('#highlight_tab ul').mousewheel(function(){
+    $('.sidebar_bookmark_popup, .trigger_popup_icon').hide();
+    var parent_div = $('.sp-viewport'); 
+    var scroll_pos = parent_div.scrollTop()+parent_div.innerHeight();
+    var scroll_height = parent_div[0].scrollHeight;
+    if (scroll_pos +35 >= scroll_height){
+      $("#highlight_tab .event_highlights_list .load_more .more").hide();
+      $("#highlight_tab .event_highlights_list .load_more .loading").show();
+    }
+  })
     
-    
-    <?php /*
-     //popup for simple personal events
-    $('#sidebar .event_head .simple_personal_event').qtip({
-        content: {
-            text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
-            ajax: {
-                url: '<?php echo $this->baseUrl('ajax/sidebar/open_simple_personal_event')?>',
-                success: function(data, status) {
-                    if (data.result == 'false'){
-                        this.set('content.text', 'Error occured! Please try again later.');
-                    } else {
-                        this.set('content.text', $( "#simple_personal_event" ).tmpl());
-                        $('.simple_personal_event_form input.title').watermark("<?php echo $this->translate('Event Title') ?>");
-                        $('.simple_personal_event_form textarea.description').watermark("<?php echo $this->translate('Description') ?>");
-                        $('.simple_personal_event_form input#popup_simple_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
-                        $('.simple_personal_event_form input#popup_simple_event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
-                        $('.simple_personal_event_form input#popup_simple_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
-                        $('.simple_personal_event_form input#popup_simple_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
-                        
-                        //tuning date range (no reversed date range)
-                        var sidebar_dates3 = $('#popup_simple_event_begin_date, #popup_simple_event_end_date').datepicker({
-                            defaultDate: "+1w",
-                            changeMonth: true,
-                            changeYear: true,
-                            onSelect: function( selectedDate ) {
-                                var option = this.id == "popup_simple_event_begin_date" ? "minDate" : "maxDate",
-                                    instance = $( this ).data( "datepicker" ),
-                                    date = $.datepicker.parseDate(
-                                        instance.settings.dateFormat ||
-                                        $.datepicker._defaults.dateFormat,
-                                        selectedDate, instance.settings );
-                                sidebar_dates.not( this ).datepicker( "option", option, date );
-                            }
-                        });
-                    }
-                }
-            },
-            title: {
-                text: 'Create Personal Event'
-            }
-        },
-        show: {
-            event: 'click',
-            modal: {
-                on: true
-            }
-        },
-        position: {
-            my: 'center',
-            at: 'center',
-            target: $(window)
-        },
-        style: 'qtip-light qtip-rounded'
-    });
-     * 
-     */?>
 }); 
 </script>
 <?php echo $this->partial('js/template/sidebar/highlight_list_item.phtml')?>

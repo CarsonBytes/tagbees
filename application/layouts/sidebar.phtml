@@ -34,7 +34,7 @@
         </nav>
         <div class="options">
             <a class="edit_list_order" data-flag="0" href="#">edit list order...</a>
-            <a class="refresh" data-flag="0" href="#" style="display:none;">refresh...</a>
+            <a style="display:none" class="refresh" data-flag="0" href="#" style="display:none;">refresh...</a>
         </div>
         <div class="sidebar_tabs">
             <div id="category_tab" class="tab">
@@ -304,50 +304,11 @@
                 <div class="event_head">
                     <h4>Event Highlights</h4>
                 </div>
-                <ul data-isfirstloaded="0" class="event_highlights_list">
-                  <li>Loading...</li>
-                  <?php /*<li>
-                        <span class="e_date">6/5</span><div class="title"><a href="http://google.com" target="_blank">BAPS Shri SwaminarayanBAPS Shri Swaminarayan</a></div>
-                        <div class="star gold">
-                            <div class="star_inner"></div>
-                        </div>
-                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
-                    </li>
-                    <li>
-                        <span class="e_date">6/5</span><div class="title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></div>
-                        <div class="star">
-                            <div class="star_inner gold"></div>
-                        </div>
-                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
-                    </li>
-                    <li class="bookmarked">
-                        <span class="e_date">6/5</span><div class="title"><a href="http://google.com" target="_blank">Benjamin Franklin House</a></div>
-                        <div class="star">
-                            <div class="star_inner gold"></div>
-                        </div>
-                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
-                    </li>
-                    <li class="bookmarked">
-                        <span class="e_date">6/5</span><div class="title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></div>
-                        <div class="star">
-                            <div class="star_inner gold"></div>
-                        </div>
-                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
-                    </li>
-                    <li>
-                        <span class="e_date">6/5</span><div class="title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></div>
-                        <div class="star">
-                            <div class="star_inner"></div>
-                        </div>
-                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
-                    </li>
-                    <li class="bookmarked">
-                        <span class="e_date">6/5</span><div class="title"><a href="http://google.com" target="_blank">Monumenta - Paris</a></div>
-                        <div class="star">
-                            <div class="star_inner gold"></div>
-                        </div>
-                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
-                    </li>*/ ?>
+                <ul data-isfirstloaded="0" class="event_highlights_list scrollpanel">
+                  <li class="load_more">
+                      <a style="display:none;" class="more" href="#"> More &gt; </a>
+                      <img class="loading" alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
+                  </li>
                 </ul>
             </div>
             <div id="reminder_tab" style="display:none;" class="tab">
