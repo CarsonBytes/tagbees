@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var ns_sidebar_bookmark_poup = {
+var ns_sidebar_bookmark_popup = {
   toggleBookmark: function(bookmark_star_elem){
       var parent_li = bookmark_star_elem.parents('li');
       var id = parent_li.data('id');
@@ -14,7 +14,7 @@ var ns_sidebar_bookmark_poup = {
         this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
         if (! this_popup.is(':visible')){ 
           console.log(id);
-          ns_sidebar_bookmark_poup.togglePopup(id); 
+          ns_sidebar_bookmark_popup.togglePopup(id); 
         }
       }
   },
@@ -29,7 +29,7 @@ var ns_sidebar_bookmark_poup = {
        this_popup.hide();
        trigger_popup_icon.hide();
       }else{
-       ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(id);
+       ns_sidebar_bookmark_popup.adjustSidebarPopupPosition(id);
        this_popup.show();
        trigger_popup_icon.show();
        this_popup.find('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
@@ -86,13 +86,13 @@ var ns_sidebar_bookmark_poup = {
 jQuery(function($){
   $('body').on('click', '#highlight_tab li , #reminder_tab li' , function(e) {
     e.stopPropagation();
-    ns_sidebar_bookmark_poup.togglePopup($(this).data('id'));
+    ns_sidebar_bookmark_popup.togglePopup($(this).data('id'));
     return false;
   })
   .on('mouseover', '#highlight_tab li, #reminder_tab li' , function(event) {
       var this_popup = $(this).find('.sidebar_bookmark_popup<?php /*, .arrow*/ ?>');
       if (! this_popup.is(':visible') && $('.sidebar_bookmark_popup<?php /*, .arrow*/ ?>').is(':visible')){
-       ns_sidebar_bookmark_poup.togglePopup($(this));
+       ns_sidebar_bookmark_popup.togglePopup($(this));
       }
   })
   .on('click',".sidebar_bookmark_popup",function(e){
@@ -100,7 +100,7 @@ jQuery(function($){
   })
   .on('click',".star_inner",function(e){
     e.stopPropagation();
-    ns_sidebar_bookmark_poup.toggleBookmark($(this));
+    ns_sidebar_bookmark_popup.toggleBookmark($(this));
   })
   .on('click', '.sidebar_bookmark_popup_set_reminder',function(e){
     e.stopPropagation();
@@ -111,12 +111,16 @@ jQuery(function($){
     return false;
   })
  .on('click', function(event) {
-      if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li, #reminder_tab li').length) {ns_sidebar_bookmark_poup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
+      if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li, #reminder_tab li').length) {ns_sidebar_bookmark_popup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
       };
   });
   $('#highlight_tab ul').mousewheel(function(){
     $('.sidebar_bookmark_popup, .trigger_popup_icon').hide();
-  })
+  });
+  $(window).resize(function(){
+    if ($('.sidebar_bookmark_popup').is(':visible'))
+      ns_sidebar_bookmark_popup.adjustSidebarPopupPosition($('.sidebar_bookmark_popup:visible').data('id'));
+  }); 
 <?php /* //pending hover effect...
   var over_timer;
   var out_timer;
@@ -131,7 +135,7 @@ jQuery(function($){
       console.log('start over timer')
       over_timer = setTimeout(function() {
         if (!$(e.target).closest('.sidebar_bookmark_popup').length) {
-          ns_sidebar_bookmark_poup.togglePopup(this_elem);
+          ns_sidebar_bookmark_popup.togglePopup(this_elem);
         }
       }, 500)
     },
