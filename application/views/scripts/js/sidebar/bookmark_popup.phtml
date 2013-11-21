@@ -29,13 +29,13 @@ var ns_sidebar_bookmark_poup = {
        this_popup.hide();
        trigger_popup_icon.hide();
       }else{
-        this_popup.find('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
-            wrap : 'letter',
-            height: 50
-       });
        ns_sidebar_bookmark_poup.adjustSidebarPopupPosition(id);
-        this_popup.show();
-        trigger_popup_icon.show();
+       this_popup.show();
+       trigger_popup_icon.show();
+       this_popup.find('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
+            wrap : 'letter',
+            height: 60
+       });
       }
     }
   },
