@@ -193,7 +193,7 @@ class Service_Feed{
         
       if (isset($user_para['is_bookmarked'])){
         $bookmarked_ids = $bookmarkService->getUserBookmarkIds();
-        if (!empty($user_para['is_bookmarked'])){
+        if (!empty($bookmarked_ids)){
           if ($user_para['is_bookmarked']==true){
             $this->feed_query->where('f.id in (?)', $bookmarked_ids);
           } else{

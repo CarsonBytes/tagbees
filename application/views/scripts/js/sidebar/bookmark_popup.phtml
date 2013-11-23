@@ -4,18 +4,31 @@ var ns_sidebar_bookmark_popup = {
       var parent_li = bookmark_star_elem.parents('li');
       var id = parent_li.data('id');
       var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
-      if (parent_li.hasClass("bookmarked")){
-        bookmark_star_elem.removeClass('gold');
-        parent_li.removeClass("bookmarked");
-        this_popup.find('.white, .sidebar_bookmark_popup_set_reminder').hide();
-      } else {
-        bookmark_star_elem.addClass('gold');
-        parent_li.addClass("bookmarked");
-        this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
-        if (! this_popup.is(':visible')){ 
-          ns_sidebar_bookmark_popup.togglePopup(id); 
-        }
-      }
+      var set_status = parent_li.hasClass("bookmarked") ? 0 : 1;
+      jQuery.ajax({
+          type: "POST",
+          url: "<?php echo $this->baseUrl('ajax/bookmark/trigger') ?>",
+          data: "id="+id+"&set_status="+set_status,
+          success: function(msg){
+            if (parent_li.hasClass("bookmarked")){
+              bookmark_star_elem.removeClass('gold');
+              parent_li.removeClass("bookmarked");
+              this_popup.find('.white, .sidebar_bookmark_popup_set_reminder').hide();
+            } else {
+              bookmark_star_elem.addClass('gold');
+              parent_li.addClass("bookmarked");
+              this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
+              /*if (! this_popup.is(':visible')){ 
+                ns_sidebar_bookmark_popup.togglePopup(id); 
+              }*/
+            }
+          },
+          error: function(){
+            alert ("<?php echo $this->translate('Connection failed. Please try again later.') ?>");
+          },
+          dataType:"json"
+      });
+      
   },
   togglePopup: function(id){
     var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
@@ -170,7 +183,7 @@ jQuery(function($){
             if (clicked_id != null) return false;
             ns_sidebar_bookmark_popup.togglePopup(to_touch_id);
             touching_id = to_touch_id;
-          }, 1000)
+          }, 1500)
         }else if (touching_id !=null && $(e.target).closest('[data-id="'+touching_id+'"]').length){
           // if it is the same list item
           return false;

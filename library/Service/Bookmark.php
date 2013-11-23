@@ -55,7 +55,7 @@ class Service_Bookmark{
 				$this->db->insert('user_bookmark',$vars);
 			}
 
-			$interestService=new Service_Interest();
+			/*$interestService=new Service_Interest();
 			$result=$interestService->getUserInterestScore();
 
 			foreach($result as $value){
@@ -65,7 +65,7 @@ class Service_Bookmark{
 				$sql.='('.$this->identity->item_id.','. $value['tag_id'].','.$value['score'].',NOW())';
 				$sql.=" ON DUPLICATE KEY UPDATE score=".$value['score'].", update_time=NOW()";
 				$this->db->query($sql);
-			}
+			}*/
 
 
 			//save like log
@@ -315,7 +315,7 @@ class Service_Bookmark{
     if ($user_id=='' && Zend_Auth::getInstance()->hasIdentity()){
 			$user_id=$this->identity->item_id;
   		$select=$this->db->select()
-  			->from(array('user_bookmark'))
+  			->from(array('user_bookmark'), 'item_id')
   			->where('user_bookmark.user_id=?',$user_id)
   			->where('user_bookmark.status > 0');
   

@@ -14,6 +14,15 @@ class Ajax_BookmarkController extends Zend_Controller_Action
   		}
     }
     
+    public function triggerAction()
+    {
+      $array["result"]=$this->bookmarkService->trigger(
+        $this->params['id'],
+        $this->params['set_status']
+      );
+      $this->_helper->json($array);
+    }
+    
     public function openBoxTriggerAction(){
         $this->_helper->json(array());
     }
