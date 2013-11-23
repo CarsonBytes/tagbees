@@ -1,40 +1,44 @@
 <script type="text/javascript">
 var ns_sidebar_highlight_tab = {
+  is_fetching: false,
   used_ids: [],
   fetch: function(){
-    $.ajax({
-      type: "POST",
-      url: "<?php echo $this->baseUrl('ajax/bookmark/get_highlights') ?>",
-      data: {used_ids: ns_sidebar_highlight_tab.used_ids},
-      success: function(msg){
-        var content = ns_feed.getHTML(msg, 'sidebar_highlight_list_item', {
-          getID: function() { 
-            if ($.inArray( this.data.id, ns_sidebar_highlight_tab.used_ids ) ==-1)
-              ns_sidebar_highlight_tab.used_ids.push(this.data.id);
-            return this.data.id;
-          },
-          formatMysqlDate2: function() { 
-            if (typeof arguments[0] == 'string') 
-              return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
-          }
-        });
-        $("#highlight_tab .event_highlights_list .load_more").before(content);
-        $("#highlight_tab .event_highlights_list .loading").hide();
-        $(ns_sidebar.activeTab).find("li .title").dotdotdot({
-            wrap : 'letter',
-            height: 25
-        });
-        $('#highlight_tab ul.event_highlights_list').scrollpanel();
-        $("#highlight_tab .event_highlights_list .load_more .more").show();
-        
-        var popup_content = ns_feed.getHTML(msg, 'sidebar_popup');
-        $('body').append(popup_content);
-      },
-      error: function(){
-        $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
-      },
-      dataType:"json"
-    });
+    if (ns_sidebar_highlight_tab.is_fetching == false){
+      ns_sidebar_highlight_tab.is_fetching=true;
+      $.ajax({
+        type: "POST",
+        url: "<?php echo $this->baseUrl('ajax/bookmark/get_highlights') ?>",
+        data: {used_ids: ns_sidebar_highlight_tab.used_ids},
+        success: function(msg){
+          var content = ns_feed.getHTML(msg, 'sidebar_highlight_list_item', {
+            getID: function() { 
+              if ($.inArray( this.data.id, ns_sidebar_highlight_tab.used_ids ) ==-1)
+                ns_sidebar_highlight_tab.used_ids.push(this.data.id);
+              return this.data.id;
+            },
+            formatMysqlDate2: function() { 
+              if (typeof arguments[0] == 'string') 
+                return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
+            }
+          });
+          $("#highlight_tab .event_highlights_list .load_more").before(content);
+          $("#highlight_tab .event_highlights_list .loading").hide();
+          $(ns_sidebar.activeTab).find("li .title").dotdotdot({
+              wrap : 'letter',
+              height: 25
+          });
+          $('#highlight_tab ul.event_highlights_list').scrollpanel();
+          $("#highlight_tab .event_highlights_list .load_more .more").show();
+          var popup_content = ns_feed.getHTML(msg, 'sidebar_popup');
+          $('body').append(popup_content);
+          ns_sidebar_highlight_tab.is_fetching=false;
+        },
+        error: function(){
+          $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
+        },
+        dataType:"json"
+      });
+    }
   }
 };
 jQuery(function($){
@@ -50,61 +54,5 @@ jQuery(function($){
   $('#highlight_tab .event_highlights_list .load_more').click(function(){
     ns_sidebar_highlight_tab.fetch();
   })
-  <?php /*
-     //popup for simple personal events
-    $('#sidebar .event_head .simple_personal_event').qtip({
-        content: {
-            text: '<div style="text-align:center"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></div>',
-            ajax: {
-                url: '<?php echo $this->baseUrl('ajax/sidebar/open_simple_personal_event')?>',
-                success: function(data, status) {
-                    if (data.result == 'false'){
-                        this.set('content.text', 'Error occured! Please try again later.');
-                    } else {
-                        this.set('content.text', $( "#simple_personal_event" ).tmpl());
-                        $('.simple_personal_event_form input.title').watermark("<?php echo $this->translate('Event Title') ?>");
-                        $('.simple_personal_event_form textarea.description').watermark("<?php echo $this->translate('Description') ?>");
-                        $('.simple_personal_event_form input#popup_simple_event_begin_date').watermark("<?php echo $this->translate('Begin Date') ?>");
-                        $('.simple_personal_event_form input#popup_simple_event_end_date').watermark("<?php echo $this->translate('End Date') ?>");
-                        $('.simple_personal_event_form input#popup_simple_event_begin_time').watermark("<?php echo $this->translate('Begin Time') ?>");
-                        $('.simple_personal_event_form input#popup_simple_event_end_time').watermark("<?php echo $this->translate('End Time') ?>");
-                        
-                        //tuning date range (no reversed date range)
-                        var sidebar_dates3 = $('#popup_simple_event_begin_date, #popup_simple_event_end_date').datepicker({
-                            defaultDate: "+1w",
-                            changeMonth: true,
-                            changeYear: true,
-                            onSelect: function( selectedDate ) {
-                                var option = this.id == "popup_simple_event_begin_date" ? "minDate" : "maxDate",
-                                    instance = $( this ).data( "datepicker" ),
-                                    date = $.datepicker.parseDate(
-                                        instance.settings.dateFormat ||
-                                        $.datepicker._defaults.dateFormat,
-                                        selectedDate, instance.settings );
-                                sidebar_dates.not( this ).datepicker( "option", option, date );
-                            }
-                        });
-                    }
-                }
-            },
-            title: {
-                text: 'Create Personal Event'
-            }
-        },
-        show: {
-            event: 'click',
-            modal: {
-                on: true
-            }
-        },
-        position: {
-            my: 'center',
-            at: 'center',
-            target: $(window)
-        },
-        style: 'qtip-light qtip-rounded'
-    });
-     * 
-     */?>
 })  
 </script>

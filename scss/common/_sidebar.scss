@@ -323,6 +323,9 @@
                 }
                 .event_icon{ display:block;}
               }
+              &.clicked{
+                background:#CCCCCC;
+              }
               &:last-child{ border:none;}
             }
           }

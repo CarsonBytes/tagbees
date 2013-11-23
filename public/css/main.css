@@ -299,6 +299,7 @@ margin: 30px;
 #sidebar .tab_div #highlight_tab ul li:hover .star_inner, #sidebar .tab_div #reminder_tab ul li:hover .star_inner { display: block; /*&:hover{  background-position:0 0;
 }*/ }
 #sidebar .tab_div #highlight_tab ul li:hover .event_icon, #sidebar .tab_div #reminder_tab ul li:hover .event_icon { display: block; }
+#sidebar .tab_div #highlight_tab ul li.clicked, #sidebar .tab_div #reminder_tab ul li.clicked { background: #CCCCCC; }
 #sidebar .tab_div #highlight_tab ul li:last-child, #sidebar .tab_div #reminder_tab ul li:last-child { border: none; }
 #sidebar .tab_div #reminder_tab ul li { padding-top: 12px; padding-bottom: 12px; }
 #sidebar .tab_div #reminder_tab ul li .date { display: inline-block; width: 39px; float: left; margin-top: 10px; }

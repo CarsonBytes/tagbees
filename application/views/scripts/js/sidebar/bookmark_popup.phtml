@@ -84,23 +84,20 @@ var ns_sidebar_bookmark_popup = {
   }
 };
 jQuery(function($){
-  $('body').on('click', '#highlight_tab li , #reminder_tab li' , function(e) {
-    e.stopPropagation();
-    ns_sidebar_bookmark_popup.togglePopup($(this).data('id'));
-    return false;
-  })
-  .on('mouseover', '#highlight_tab li, #reminder_tab li' , function(event) {
-      var this_popup = $(this).find('.sidebar_bookmark_popup<?php /*, .arrow*/ ?>');
-      if (! this_popup.is(':visible') && $('.sidebar_bookmark_popup<?php /*, .arrow*/ ?>').is(':visible')){
-       ns_sidebar_bookmark_popup.togglePopup($(this));
-      }
-  })
+  $('body')
   .on('click',".sidebar_bookmark_popup",function(e){
     e.stopPropagation();
   })
   .on('click',".star_inner",function(e){
     e.stopPropagation();
     ns_sidebar_bookmark_popup.toggleBookmark($(this));
+  })
+  .on('click', function(event) {
+    if (!$(event.target).closest('.sidebar_bookmark_popup, #highlight_tab li, #reminder_tab li').length) {
+      ns_sidebar_bookmark_popup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
+      touching_id = null;clicked_id = null;
+      $('#highlight_tab li, #reminder_tab li').removeClass('clicked');
+    };
   })
   .on('click', '.sidebar_bookmark_popup_set_reminder',function(e){
     e.stopPropagation();
@@ -110,10 +107,6 @@ jQuery(function($){
     $('.sidebar_bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
     return false;
   })
- .on('click', function(event) {
-      if (!$(event.target).closest('.sidebar_bookmark_popup, .arrow, #highlight_tab li, #reminder_tab li').length) {ns_sidebar_bookmark_popup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
-      };
-  });
   $('#highlight_tab ul').mousewheel(function(){
     $('.sidebar_bookmark_popup, .trigger_popup_icon').hide();
   });
@@ -121,37 +114,86 @@ jQuery(function($){
     if ($('.sidebar_bookmark_popup').is(':visible'))
       ns_sidebar_bookmark_popup.adjustSidebarPopupPosition($('.sidebar_bookmark_popup:visible').data('id'));
   }); 
-<?php /* //pending hover effect...
-  var over_timer;
-  var out_timer;
-  $('#highlight_tab li.bookmarked, #reminder_tab li.bookmarked, sidebar_bookmark_popup').hover(
-    function(e){
-      if ($(this).find('.sidebar_bookmark_popup, .arrow').is(':visible')) return false
-      var this_elem =$(this);
-      if(over_timer) {
-        clearTimeout(over_timer);
-        over_timer = null;
-      }
-      console.log('start over timer')
-      over_timer = setTimeout(function() {
-        if (!$(e.target).closest('.sidebar_bookmark_popup').length) {
-          ns_sidebar_bookmark_popup.togglePopup(this_elem);
+<?php //pending hover effect... ?>
+  var over_timer = null;
+  var out_timer = null;
+  var to_touch_id = null;
+  var touching_id = null;
+  var clicked_id = null;
+  $('body')
+    .on('click', '#highlight_tab li , #reminder_tab li' , function(e) {
+      e.stopPropagation();
+     if (clicked_id == null){
+        $('#highlight_tab li, #reminder_tab li').removeClass('clicked');
+        if (! $('.sidebar_bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible'))
+          ns_sidebar_bookmark_popup.togglePopup($(this).data('id'));
+        clicked_id = $(this).data('id');
+        $(this).addClass('clicked');
+      } else {
+        ns_sidebar_bookmark_popup.togglePopup($(this).data('id'));
+        $('#highlight_tab li, #reminder_tab li').removeClass('clicked');
+        if ($('.sidebar_bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible')){
+          clicked_id = $(this).data('id');
+          $(this).addClass('clicked');
+        }else{
+          clicked_id = null;
+          $(this).removeClass('clicked');
         }
-      }, 500)
-    },
-    function(e){
-      if (! $(this).find('.sidebar_bookmark_popup, .arrow').is(':visible')) return false
-      var this_elem =$(this);
-      clearTimeout(over_timer);
-      if(out_timer) {
-        clearTimeout(out_timer);
-        out_timer = null;
       }
-      console.log('start out timer')
-      out_timer = setTimeout(function() {
-          $('.sidebar_bookmark_popup, .arrow').hide();
-      }, 500)
-    }
-  )*/ ?>
+      console.log(clicked_id);
+    })
+    .on({
+      mouseenter : function(e){
+        $(this).data('hover',1);
+      },
+      mouseleave : function(e){
+        $(this).data('hover',0);
+      }
+    }, '.sidebar_bookmark_popup')
+    .on({
+      mouseenter : function(e){
+        console.log('hover');
+        if (over_timer != null){
+          clearTimeout(over_timer);
+          over_timer = null;
+        }
+        if(out_timer!=null) {
+          clearTimeout(out_timer);
+          out_timer = null;
+        }
+        if (clicked_id != null) return false;
+        
+        if (touching_id == null){
+        // if it is the first list item to touch
+          to_touch_id = $(this).data('id');
+          over_timer = setTimeout(function() {
+            console.log('over timeout');
+            if (clicked_id != null) return false;
+            ns_sidebar_bookmark_popup.togglePopup(to_touch_id);
+            touching_id = to_touch_id;
+          }, 1000)
+        }else if (touching_id !=null && $(e.target).closest('[data-id="'+touching_id+'"]').length){
+          // if it is the same list item
+          return false;
+        } else {
+          // if it is different list item
+          to_touch_id = $(this).data('id');
+          ns_sidebar_bookmark_popup.togglePopup(to_touch_id);
+          touching_id = to_touch_id;
+        }
+      },
+      mouseleave: function(e){
+        if (clicked_id != null) return false;
+        out_timer = setTimeout(function() {
+            console.log('out timeout');
+            if (touching_id != null && $('.sidebar_bookmark_popup:visible').data('hover')!=1){
+              console.log('this is outside popup too');
+              if (clicked_id != null) return false;
+              ns_sidebar_bookmark_popup.togglePopup(touching_id);
+              touching_id = null;
+            }
+        }, 500);
+      }
+    }, '#highlight_tab li, #reminder_tab li, .sidebar_bookmark_popup');
 })  
 </script>
