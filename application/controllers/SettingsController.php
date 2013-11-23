@@ -56,7 +56,7 @@ class SettingsController extends Zend_Controller_Action {
             $this->view->errorMessage="no such provider!";
         }else if (!$result->isValid()) {
             $auth->clearIdentity($_SESSION['add_login_provider_name']);
-            echo $_SESSION['add_login_provider_name']." login failed! Please try other method !";
+              $this->_helper->FlashMessenger(array('error'=>$_SESSION['add_login_provider_name']." login failed! Please try other method !"));
             //throw new Exception('Error!!'); // should return to failed page with error
         } else {
             //get user identity
@@ -76,12 +76,13 @@ class SettingsController extends Zend_Controller_Action {
             $userService = new Service_User();            
             $username = $userService->getUsernameByProvider($_SESSION['add_login_provider_name'], $identifier);
             
+            echo '<pre>';var_dump($username);echo '</pre>';
             if ($username == false){
                 // no one is using this account credential so the provider should be added
                 $authService->addProviderAccount($_SESSION['add_login_provider_name'], $identifier);
-                echo "The account is successfully associated!";
+              $this->_helper->FlashMessenger(array('success'=>"The account is successfully associated!"));
             }else{
-                echo "Someone is already using this credential in another account!";
+              $this->_helper->FlashMessenger(array('error'=>"Someone is already using this credential in another account!"));
             }
         }
         $this->_redirect('settings');

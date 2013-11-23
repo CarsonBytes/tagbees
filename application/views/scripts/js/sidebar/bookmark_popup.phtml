@@ -7,13 +7,12 @@ var ns_sidebar_bookmark_popup = {
       if (parent_li.hasClass("bookmarked")){
         bookmark_star_elem.removeClass('gold');
         parent_li.removeClass("bookmarked");
-        this_popup.find('.white').hide();
+        this_popup.find('.white, .sidebar_bookmark_popup_set_reminder').hide();
       } else {
         bookmark_star_elem.addClass('gold');
         parent_li.addClass("bookmarked");
         this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
         if (! this_popup.is(':visible')){ 
-          console.log(id);
           ns_sidebar_bookmark_popup.togglePopup(id); 
         }
       }

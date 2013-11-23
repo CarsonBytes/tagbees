@@ -33,7 +33,7 @@ class Service_Auth{
     if ($absUrl == ''){
       $absUrl = 'http://' . $_SERVER['HTTP_HOST'] . Zend_Controller_Front::getInstance()->getRequest()->getRequestUri().'?provider=';
     } else{
-      $absUrl = $absUrl.'?provider=';
+      $absUrl = 'http://' . $_SERVER['HTTP_HOST'] .$absUrl.'?provider=';
     }
     
     $authUrl = array();
