@@ -11,9 +11,10 @@ var ns_sidebar_highlight_tab = {
         data: {used_ids: ns_sidebar_highlight_tab.used_ids},
         success: function(msg){
           var content = ns_feed.getHTML(msg, 'sidebar_highlight_list_item', {
-            getID: function() { 
+            getID: function() {
               if ($.inArray( this.data.id, ns_sidebar_highlight_tab.used_ids ) ==-1)
                 ns_sidebar_highlight_tab.used_ids.push(this.data.id);
+              $('.sidebar_bookmark_popup[data-id="'+this.data.id+'"]').remove();
               return this.data.id;
             },
             formatMysqlDate2: function() { 
@@ -21,20 +22,20 @@ var ns_sidebar_highlight_tab = {
                 return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
             }
           });
-          $("#highlight_tab .event_highlights_list .load_more").before(content);
-          $("#highlight_tab .event_highlights_list .loading").hide();
+          $("#highlight_tab .highlight_list .load_more").before(content);
+          $("#highlight_tab .highlight_list .loading").hide();
           $(ns_sidebar.activeTab).find("li .title").dotdotdot({
               wrap : 'letter',
               height: 25
           });
-          $('#highlight_tab ul.event_highlights_list').scrollpanel();
-          $("#highlight_tab .event_highlights_list .load_more .more").show();
+          $('#highlight_tab .highlight_list').scrollpanel();
+          $("#highlight_tab .highlight_list .load_more .more").show();
           var popup_content = ns_feed.getHTML(msg, 'sidebar_popup');
           $('body').append(popup_content);
           ns_sidebar_highlight_tab.is_fetching=false;
         },
         error: function(){
-          $("#highlight_tab .event_highlights_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
+          $("#highlight_tab .highlight_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
         },
         dataType:"json"
       });
@@ -51,7 +52,7 @@ jQuery(function($){
       ns_sidebar_highlight_tab.fetch();
     }
   })
-  $('#highlight_tab .event_highlights_list .load_more').click(function(){
+  $('#highlight_tab .highlight_list .load_more').click(function(){
     ns_sidebar_highlight_tab.fetch();
   })
 })  

@@ -1,0 +1,59 @@
+<script type="text/javascript">
+var ns_sidebar_bookmark_tab = {
+  is_fetching: false,
+  used_ids: [],
+  fetch: function(){
+    if (ns_sidebar_bookmark_tab.is_fetching == false){
+      ns_sidebar_bookmark_tab.is_fetching=true;
+      $.ajax({
+        type: "POST",
+        url: "<?php echo $this->baseUrl('ajax/bookmark/get_bookmarks') ?>",
+        data: {used_ids: ns_sidebar_bookmark_tab.used_ids},
+        success: function(msg){
+          var content = ns_feed.getHTML(msg, 'sidebar_bookmark_list_item', {
+            getID: function() { 
+              if ($.inArray( this.data.id, ns_sidebar_bookmark_tab.used_ids ) ==-1)
+                ns_sidebar_bookmark_tab.used_ids.push(this.data.id);
+                $('.sidebar_bookmark_popup[data-id="'+this.data.id+'"]').remove();
+              return this.data.id;
+            },
+            formatMysqlDate2: function() { 
+              if (typeof arguments[0] == 'string') 
+                return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
+            }
+          });
+          $("#bookmark_tab .bookmark_list .load_more").before(content);
+          $("#bookmark_tab .bookmark_list .loading").hide();
+          $(ns_sidebar.activeTab).find("li .teaser, li .title").dotdotdot({
+            wrap : 'letter',
+            height: 25
+          });
+          $('#bookmark_tab ul.bookmark_list').scrollpanel();
+          $("#bookmark_tab .bookmark_list .load_more .more").show();
+          var popup_content = ns_feed.getHTML(msg, 'sidebar_popup');
+          $('body').append(popup_content);
+          ns_sidebar_bookmark_tab.is_fetching=false;
+        },
+        error: function(){
+          $("#bookmark_tab .bookmark_list").html('<li><?php echo $this->translate('Connection failed. Please try again later.') ?></li>');
+        },
+        dataType:"json"
+      });
+    }
+  }
+};
+jQuery(function($){
+  $('#bookmark_tab ul').mousewheel(function(){
+    $('.sidebar_bookmark_popup, .trigger_popup_icon').hide();
+    var parent_div = $('.sp-viewport'); 
+    var scroll_pos = parent_div.scrollTop()+parent_div.innerHeight();
+    var scroll_height = parent_div[0].scrollHeight;
+    if (scroll_pos +35 >= scroll_height){
+      ns_sidebar_bookmark_tab.fetch();
+    }
+  })
+  $('#bookmark_tab .bookmark_list .load_more').click(function(){
+    ns_sidebar_bookmark_tab.fetch();
+  })
+})  
+</script>

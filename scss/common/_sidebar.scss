@@ -194,7 +194,7 @@
                 }
             }
         }
-        #highlight_tab, #reminder_tab{
+        #highlight_tab, #bookmark_tab{
           .event_head{ 
               background:$light-grey; 
               @include border-radius(4px); 
@@ -330,38 +330,32 @@
             }
           }
         }
-        #reminder_tab{
+        #bookmark_tab{
           ul li{
-            padding-top:12px;
-            padding-bottom:12px;
-            .date{
-              display:inline-block; 
-              width:39px;
-              float:left;
-              margin-top:10px;
+            height:35px;
+            .e_date{
+              position: absolute;
+              top: 13px;
+              left: 0;
+              float: left;
+              width: 49px;
+              height: 18px;
             }
-            .info{
-              float:left;
-              .title{
-                color:$left-event;
-                &:link {color:$color;}
-                &:hover{color:#F0BC05;}
-                /*&:visited {color:$color;} */
-                &:active {color:#096DB9;}
-              }
-              .teaser{
-                /*color: grey;*/
-                /*overflow: hidden;
-                height: 15px;*/
-                width: 180px;
-                font-size: 10px;
-                color: grey;
-              }
+            .title{
+              color: #494a4e;
+              left: 60px;
+              top: 5px;
+              position: absolute;
+            }
+            .teaser{
+              width: 180px;
+              position: absolute;
+              top: 23px;
+              left: 60px;
             }
             .star{
-              top: 23px;
+              top: 15px;
             }
-            
             .arrow{
               top:14px;
             }

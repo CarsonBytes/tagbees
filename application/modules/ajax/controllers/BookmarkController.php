@@ -33,6 +33,13 @@ class Ajax_BookmarkController extends Zend_Controller_Action
       $this->_helper->json($array);
     }
     
+    public function getBookmarksAction()
+    {
+      $used_ids = array();
+      if (isset($this->params['used_ids'])) $used_ids = $this->params['used_ids'];
+      $this->_helper->json($this->bookmarkService->getHighlights($used_ids));
+    }
+    
     public function getHighlightsAction()
     {
       $used_ids = array();

@@ -1,4 +1,5 @@
 <?php echo $this->partial('js/sidebar/highlight_tab.phtml')?>
+<?php echo $this->partial('js/sidebar/bookmark_tab.phtml')?>
 <script type="text/javascript">
 var ns_sidebar = {
   activeTab: "#category_tab",
@@ -13,13 +14,17 @@ var ns_sidebar = {
         ns_sidebar_highlight_tab.fetch();
         ns_sidebar.isFirstLoadHighlight = false;
       }
-    }else if (ns_sidebar.activeTab == "#reminder_tab" ){
+    }else if (ns_sidebar.activeTab == "#bookmark_tab" ){
       $('#sidebar .options .edit_list_order').hide();
       //$('#sidebar .options .refresh').show();
-      $(ns_sidebar.activeTab).find("li .teaser, li .title").dotdotdot({
-          wrap : 'letter',
-          height: 18
-      });
+      if (isRefreshList == true || ns_sidebar.isFirstLoadBookmark == true){
+        ns_sidebar_bookmark_tab.fetch();
+        ns_sidebar.isFirstLoadBookmark = false;
+      }
+        <?php /*$(ns_sidebar.activeTab).find("li .teaser, li .title").dotdotdot({
+            wrap : 'letter',
+            height: 18
+        });*/ ?>
     }else if (ns_sidebar.activeTab == "#category_tab"){
       $('#sidebar .options .edit_list_order').show();
       //$('#sidebar .options .refresh').hide();
@@ -175,18 +180,19 @@ jQuery(function($) {
     return false;
   })
  
-  $('#highlight_tab ul').mousewheel(function(){
+  $('#highlight_tab ul, #bookmark_tab ul').mousewheel(function(){
     $('.sidebar_bookmark_popup, .trigger_popup_icon').hide();
     var parent_div = $('.sp-viewport'); 
     var scroll_pos = parent_div.scrollTop()+parent_div.innerHeight();
     var scroll_height = parent_div[0].scrollHeight;
     if (scroll_pos +35 >= scroll_height){
-      $("#highlight_tab .event_highlights_list .load_more .more").hide();
-      $("#highlight_tab .event_highlights_list .load_more .loading").show();
+      $(this).find(".load_more .more").hide();
+      $(this).find('.load_more .loading').show();
     }
   })
     
 }); 
 </script>
 <?php echo $this->partial('js/template/sidebar/highlight_list_item.phtml')?>
+<?php echo $this->partial('js/template/sidebar/bookmark_list_item.phtml')?>
 <?php echo $this->partial('js/template/sidebar/popup.phtml')?>

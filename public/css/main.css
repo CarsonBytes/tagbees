@@ -261,57 +261,52 @@ $pie-base-class: pie-element;*/
 #sidebar .tab_div #category_tab .hidden_categories .accordion_button { background-color: #cbcbcb; background-image: none; cursor: default; }
 #sidebar .tab_div #category_tab .hidden_categories.editing { display: block; }
 #sidebar .tab_div #category_tab .hidden_categories.editing:hover a.hide_toggle { display: block; }
-#sidebar .tab_div #highlight_tab .event_head, #sidebar .tab_div #reminder_tab .event_head { background: #ececec; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; padding: 4px 11px 5px 13px; }
-#sidebar .tab_div #highlight_tab .event_head h4, #sidebar .tab_div #reminder_tab .event_head h4 { font-size: 13px; font-weight: bold; color: #494a4e; display: inline-block; padding: 4px 0 0; }
-#sidebar .tab_div #highlight_tab .event_head .more_dot, #sidebar .tab_div #highlight_tab .event_head .add, #sidebar .tab_div #reminder_tab .event_head .more_dot, #sidebar .tab_div #reminder_tab .event_head .add { float: right; color: #494a4e; }
-#sidebar .tab_div #highlight_tab .event_head .more_dot, #sidebar .tab_div #reminder_tab .event_head .more_dot { text-decoration: none; font-weight: bold; line-height: 21px; }
-#sidebar .tab_div #highlight_tab .event_head .add, #sidebar .tab_div #reminder_tab .event_head .add { background: url(../images/plus.png) no-repeat center white; border: 1px solid #c7c7c7; width: 23px; height: 19px; margin-right: 11px; }
-#sidebar .tab_div #highlight_tab .event_head .alltime, #sidebar .tab_div #reminder_tab .event_head .alltime { border: 1px solid #c7c7c7; width: 90px; height: 21px; padding: 2px 2px 2px 6px; float: right; margin-right: 7px; }
-#sidebar .tab_div #highlight_tab ul.scrollpanel, #sidebar .tab_div #reminder_tab ul.scrollpanel { /*float: left; border: 1px solid #ccc;
+#sidebar .tab_div #highlight_tab .event_head, #sidebar .tab_div #bookmark_tab .event_head { background: #ececec; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; padding: 4px 11px 5px 13px; }
+#sidebar .tab_div #highlight_tab .event_head h4, #sidebar .tab_div #bookmark_tab .event_head h4 { font-size: 13px; font-weight: bold; color: #494a4e; display: inline-block; padding: 4px 0 0; }
+#sidebar .tab_div #highlight_tab .event_head .more_dot, #sidebar .tab_div #highlight_tab .event_head .add, #sidebar .tab_div #bookmark_tab .event_head .more_dot, #sidebar .tab_div #bookmark_tab .event_head .add { float: right; color: #494a4e; }
+#sidebar .tab_div #highlight_tab .event_head .more_dot, #sidebar .tab_div #bookmark_tab .event_head .more_dot { text-decoration: none; font-weight: bold; line-height: 21px; }
+#sidebar .tab_div #highlight_tab .event_head .add, #sidebar .tab_div #bookmark_tab .event_head .add { background: url(../images/plus.png) no-repeat center white; border: 1px solid #c7c7c7; width: 23px; height: 19px; margin-right: 11px; }
+#sidebar .tab_div #highlight_tab .event_head .alltime, #sidebar .tab_div #bookmark_tab .event_head .alltime { border: 1px solid #c7c7c7; width: 90px; height: 21px; padding: 2px 2px 2px 6px; float: right; margin-right: 7px; }
+#sidebar .tab_div #highlight_tab ul.scrollpanel, #sidebar .tab_div #bookmark_tab ul.scrollpanel { /*float: left; border: 1px solid #ccc;
 margin: 30px;
 */ width: 288px; height: 150px; }
-#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar, #sidebar .tab_div #reminder_tab ul.scrollpanel .sp-scrollbar { width: 10px; background-color: #ccc; cursor: pointer; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; }
-#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar .sp-thumb, #sidebar .tab_div #reminder_tab ul.scrollpanel .sp-scrollbar .sp-thumb { background-color: #aaa; transition: height 0.2s ease-in-out; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; }
-#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar.active .sp-thumb, #sidebar .tab_div #reminder_tab ul.scrollpanel .sp-scrollbar.active .sp-thumb { background-color: #999; }
-#sidebar .tab_div #highlight_tab ul li, #sidebar .tab_div #reminder_tab ul li { /*@include user-select(none);*/ cursor: pointer; border-bottom: 1px solid #e4e4e4; display: block; padding: 6px 0 6px 12px; color: #494a4e; position: relative; }
-#sidebar .tab_div #highlight_tab ul li.load_more, #sidebar .tab_div #reminder_tab ul li.load_more { padding: 5px 0; text-align: center; }
-#sidebar .tab_div #highlight_tab ul li.load_more:hover, #sidebar .tab_div #reminder_tab ul li.load_more:hover { background: none; }
-#sidebar .tab_div #highlight_tab ul li.load_more .more, #sidebar .tab_div #reminder_tab ul li.load_more .more { background: url(../images/more_bg.gif) repeat-x bottom center; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; text-align: center; display: block; color: #096db9; text-decoration: none; padding: 5px 0; border: 1px solid #ebebeb; border-bottom: 1px solid #cbcbcb; font-weight: bold; }
-#sidebar .tab_div #highlight_tab ul li.load_more .more:hover, #sidebar .tab_div #reminder_tab ul li.load_more .more:hover { background: #f6f6f6; }
-#sidebar .tab_div #highlight_tab ul li.load_more .more:hover, #sidebar .tab_div #reminder_tab ul li.load_more .more:hover { color: #333333; }
-#sidebar .tab_div #highlight_tab ul li .star, #sidebar .tab_div #reminder_tab ul li .star { cursor: pointer; width: 14px; height: 13px; position: absolute; right: 5px; top: 9px; background-position: 0 0; }
-#sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #reminder_tab ul li .star .star_inner { background-image: url(../images/sprites.png); background-repeat: no-repeat; float: left; width: 14px; height: 13px; }
-#sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #reminder_tab ul li .star .star_inner { background-position: -14px 0; display: none; }
-#sidebar .tab_div #highlight_tab ul li .e_date, #sidebar .tab_div #reminder_tab ul li .e_date { float: left; width: 49px; height: 18px; overflow: hidden; }
-#sidebar .tab_div #highlight_tab ul li .title, #sidebar .tab_div #reminder_tab ul li .title { float: left; width: 180px; height: 18px; color: #494a4e; }
-#sidebar .tab_div #highlight_tab ul li .event_icon, #sidebar .tab_div #reminder_tab ul li .event_icon { position: absolute; right: 20px; top: 3px; display: none; }
-#sidebar .tab_div #highlight_tab ul li a, #sidebar .tab_div #reminder_tab ul li a { color: #494a4e; text-decoration: none; /*&:visited {color:$color;} */ }
-#sidebar .tab_div #highlight_tab ul li a:link, #sidebar .tab_div #reminder_tab ul li a:link { color: #333333; }
-#sidebar .tab_div #highlight_tab ul li a:hover, #sidebar .tab_div #reminder_tab ul li a:hover { color: #F0BC05; }
-#sidebar .tab_div #highlight_tab ul li a:active, #sidebar .tab_div #reminder_tab ul li a:active { color: #096DB9; }
-#sidebar .tab_div #highlight_tab ul li.bookmarked, #sidebar .tab_div #reminder_tab ul li.bookmarked { /*&:hover{ .sidebar_bookmark_popup, .arrow{ display:block; }
+#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar, #sidebar .tab_div #bookmark_tab ul.scrollpanel .sp-scrollbar { width: 10px; background-color: #ccc; cursor: pointer; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; }
+#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar .sp-thumb, #sidebar .tab_div #bookmark_tab ul.scrollpanel .sp-scrollbar .sp-thumb { background-color: #aaa; transition: height 0.2s ease-in-out; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; }
+#sidebar .tab_div #highlight_tab ul.scrollpanel .sp-scrollbar.active .sp-thumb, #sidebar .tab_div #bookmark_tab ul.scrollpanel .sp-scrollbar.active .sp-thumb { background-color: #999; }
+#sidebar .tab_div #highlight_tab ul li, #sidebar .tab_div #bookmark_tab ul li { /*@include user-select(none);*/ cursor: pointer; border-bottom: 1px solid #e4e4e4; display: block; padding: 6px 0 6px 12px; color: #494a4e; position: relative; }
+#sidebar .tab_div #highlight_tab ul li.load_more, #sidebar .tab_div #bookmark_tab ul li.load_more { padding: 5px 0; text-align: center; }
+#sidebar .tab_div #highlight_tab ul li.load_more:hover, #sidebar .tab_div #bookmark_tab ul li.load_more:hover { background: none; }
+#sidebar .tab_div #highlight_tab ul li.load_more .more, #sidebar .tab_div #bookmark_tab ul li.load_more .more { background: url(../images/more_bg.gif) repeat-x bottom center; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; text-align: center; display: block; color: #096db9; text-decoration: none; padding: 5px 0; border: 1px solid #ebebeb; border-bottom: 1px solid #cbcbcb; font-weight: bold; }
+#sidebar .tab_div #highlight_tab ul li.load_more .more:hover, #sidebar .tab_div #bookmark_tab ul li.load_more .more:hover { background: #f6f6f6; }
+#sidebar .tab_div #highlight_tab ul li.load_more .more:hover, #sidebar .tab_div #bookmark_tab ul li.load_more .more:hover { color: #333333; }
+#sidebar .tab_div #highlight_tab ul li .star, #sidebar .tab_div #bookmark_tab ul li .star { cursor: pointer; width: 14px; height: 13px; position: absolute; right: 5px; top: 9px; background-position: 0 0; }
+#sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #bookmark_tab ul li .star .star_inner { background-image: url(../images/sprites.png); background-repeat: no-repeat; float: left; width: 14px; height: 13px; }
+#sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #bookmark_tab ul li .star .star_inner { background-position: -14px 0; display: none; }
+#sidebar .tab_div #highlight_tab ul li .e_date, #sidebar .tab_div #bookmark_tab ul li .e_date { float: left; width: 49px; height: 18px; overflow: hidden; }
+#sidebar .tab_div #highlight_tab ul li .title, #sidebar .tab_div #bookmark_tab ul li .title { float: left; width: 180px; height: 18px; color: #494a4e; }
+#sidebar .tab_div #highlight_tab ul li .event_icon, #sidebar .tab_div #bookmark_tab ul li .event_icon { position: absolute; right: 20px; top: 3px; display: none; }
+#sidebar .tab_div #highlight_tab ul li a, #sidebar .tab_div #bookmark_tab ul li a { color: #494a4e; text-decoration: none; /*&:visited {color:$color;} */ }
+#sidebar .tab_div #highlight_tab ul li a:link, #sidebar .tab_div #bookmark_tab ul li a:link { color: #333333; }
+#sidebar .tab_div #highlight_tab ul li a:hover, #sidebar .tab_div #bookmark_tab ul li a:hover { color: #F0BC05; }
+#sidebar .tab_div #highlight_tab ul li a:active, #sidebar .tab_div #bookmark_tab ul li a:active { color: #096DB9; }
+#sidebar .tab_div #highlight_tab ul li.bookmarked, #sidebar .tab_div #bookmark_tab ul li.bookmarked { /*&:hover{ .sidebar_bookmark_popup, .arrow{ display:block; }
 }*/ }
-#sidebar .tab_div #highlight_tab ul li.bookmarked .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder, #sidebar .tab_div #reminder_tab ul li.bookmarked .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder { display: block; }
-#sidebar .tab_div #highlight_tab ul li.bookmarked .star_inner, #sidebar .tab_div #reminder_tab ul li.bookmarked .star_inner { display: block; background-position: 0 0; }
-#sidebar .tab_div #highlight_tab ul li:hover, #sidebar .tab_div #reminder_tab ul li:hover { background: #f6f6f6; }
-#sidebar .tab_div #highlight_tab ul li:hover.bookmarked .star_inner, #sidebar .tab_div #reminder_tab ul li:hover.bookmarked .star_inner { display: block; /*&:hover{  background-position:-14px 0 !important;
+#sidebar .tab_div #highlight_tab ul li.bookmarked .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder, #sidebar .tab_div #bookmark_tab ul li.bookmarked .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder { display: block; }
+#sidebar .tab_div #highlight_tab ul li.bookmarked .star_inner, #sidebar .tab_div #bookmark_tab ul li.bookmarked .star_inner { display: block; background-position: 0 0; }
+#sidebar .tab_div #highlight_tab ul li:hover, #sidebar .tab_div #bookmark_tab ul li:hover { background: #f6f6f6; }
+#sidebar .tab_div #highlight_tab ul li:hover.bookmarked .star_inner, #sidebar .tab_div #bookmark_tab ul li:hover.bookmarked .star_inner { display: block; /*&:hover{  background-position:-14px 0 !important;
 }*/ }
-#sidebar .tab_div #highlight_tab ul li:hover .star_inner, #sidebar .tab_div #reminder_tab ul li:hover .star_inner { display: block; /*&:hover{  background-position:0 0;
+#sidebar .tab_div #highlight_tab ul li:hover .star_inner, #sidebar .tab_div #bookmark_tab ul li:hover .star_inner { display: block; /*&:hover{  background-position:0 0;
 }*/ }
-#sidebar .tab_div #highlight_tab ul li:hover .event_icon, #sidebar .tab_div #reminder_tab ul li:hover .event_icon { display: block; }
-#sidebar .tab_div #highlight_tab ul li.clicked, #sidebar .tab_div #reminder_tab ul li.clicked { background: #CCCCCC; }
-#sidebar .tab_div #highlight_tab ul li:last-child, #sidebar .tab_div #reminder_tab ul li:last-child { border: none; }
-#sidebar .tab_div #reminder_tab ul li { padding-top: 12px; padding-bottom: 12px; }
-#sidebar .tab_div #reminder_tab ul li .date { display: inline-block; width: 39px; float: left; margin-top: 10px; }
-#sidebar .tab_div #reminder_tab ul li .info { float: left; }
-#sidebar .tab_div #reminder_tab ul li .info .title { color: #494a4e; /*&:visited {color:$color;} */ }
-#sidebar .tab_div #reminder_tab ul li .info .title:link { color: #333333; }
-#sidebar .tab_div #reminder_tab ul li .info .title:hover { color: #F0BC05; }
-#sidebar .tab_div #reminder_tab ul li .info .title:active { color: #096DB9; }
-#sidebar .tab_div #reminder_tab ul li .info .teaser { /*color: grey;*/ /*overflow: hidden;
-height: 15px;*/ width: 180px; font-size: 10px; color: grey; }
-#sidebar .tab_div #reminder_tab ul li .star { top: 23px; }
-#sidebar .tab_div #reminder_tab ul li .arrow { top: 14px; }
+#sidebar .tab_div #highlight_tab ul li:hover .event_icon, #sidebar .tab_div #bookmark_tab ul li:hover .event_icon { display: block; }
+#sidebar .tab_div #highlight_tab ul li.clicked, #sidebar .tab_div #bookmark_tab ul li.clicked { background: #CCCCCC; }
+#sidebar .tab_div #highlight_tab ul li:last-child, #sidebar .tab_div #bookmark_tab ul li:last-child { border: none; }
+#sidebar .tab_div #bookmark_tab ul li { height: 35px; }
+#sidebar .tab_div #bookmark_tab ul li .e_date { position: absolute; top: 13px; left: 0; float: left; width: 49px; height: 18px; }
+#sidebar .tab_div #bookmark_tab ul li .title { color: #494a4e; left: 60px; top: 5px; position: absolute; }
+#sidebar .tab_div #bookmark_tab ul li .teaser { width: 180px; position: absolute; top: 23px; left: 60px; }
+#sidebar .tab_div #bookmark_tab ul li .star { top: 15px; }
+#sidebar .tab_div #bookmark_tab ul li .arrow { top: 14px; }
 #sidebar .tag_cloud, #sidebar .info_block { padding: 15px 20px 30px; }
 #sidebar .tag_cloud { font-size: 12px; color: #2e75ab; }
 #sidebar .tag_cloud .cloudhead { background: url(../images/cloud.gif) no-repeat top right; margin-bottom: 10px; }

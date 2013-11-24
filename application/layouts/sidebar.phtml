@@ -28,7 +28,7 @@
                     <a href="#highlight_tab" class="watchlist_icon"></a>
                 </li>
                 <li>
-                    <a href="#reminder_tab" class="watchlist_icon"></a>
+                    <a href="#bookmark_tab" class="watchlist_icon"></a>
                 </li>
             </ul>
         </nav>
@@ -304,14 +304,14 @@
                 <div class="event_head">
                     <h4>Event Highlights</h4>
                 </div>
-                <ul data-isfirstloaded="0" class="event_highlights_list scrollpanel">
+                <ul data-isfirstloaded="0" class="highlight_list scrollpanel">
                   <li class="load_more">
                       <a style="display:none;" class="more" href="#"> More &gt; </a>
                       <img class="loading" alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
                   </li>
                 </ul>
             </div>
-            <div id="reminder_tab" style="display:none;" class="tab">
+            <div id="bookmark_tab" style="display:none;" class="tab">
                 <div class="event_head clearfix">
                     <h4>Event Reminder</h4>
                     <a href="#" class="more_dot">....</a><a class="simple_personal_event add" href="#"></a>
@@ -322,38 +322,38 @@
                         <option>Unbookmarked</option>
                     </select>
                 </div>
-                <ul class="event_reminder_list">
-                    <li class="bookmarked">
-                        <div class="date">6/5</div>
-                        <div class="info">
-                          <div class="title"><a href="http://google.com" target="_blank">高永文指私人醫保屬輔助性計劃</a></div>
-                          <div class="teaser">
-                                                         食物及衞生局局長高永文說，政府近年保持公私營雙軌醫療制度，以公營醫療系統作為全民的安全網，政府對此承諾不會退縮，會繼續透過適當撥款支持公營醫療體系的發展。
+                <ul data-isfirstloaded="0" class="bookmark_list scrollpanel">
+                 <?php /* <li class="bookmarked">
+                      <div class="date">6/5</div>
+                      <div class="info">
+                        <div class="title"><a href="http://google.com" target="_blank">高永文指私人醫保屬輔助性計劃</a></div>
+                        <div class="teaser">
+                                                       食物及衞生局局長高永文說，政府近年保持公私營雙軌醫療制度，以公營醫療系統作為全民的安全網，政府對此承諾不會退縮，會繼續透過適當撥款支持公營醫療體系的發展。
 
-                          </div>
-                          <div class="clr"></div>
                         </div>
-                        <div class="star">
-                            <div class="star_inner gold"></div>
+                        <div class="clr"></div>
+                      </div>
+                      <div class="star">
+                          <div class="star_inner gold"></div>
+                      </div>
+                      <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                        <div class="clr"></div>
+                  </li>
+                  <li class="bookmarked">
+                      <div class="date">6/5</div>
+                      <div class="info">
+                        <div class="title"><a href="http://google.com" target="_blank">蔣公子惹禍／第四度出面</a></div>
+                        <div class="teaser">
+                                                    關於 Sophie Koh 在往洛杉磯來回奔波了四次，共耗時十八個月之後
                         </div>
-                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
-                          <div class="clr"></div>
-                    </li>
-                    <li class="bookmarked">
-                        <div class="date">6/5</div>
-                        <div class="info">
-                          <div class="title"><a href="http://google.com" target="_blank">蔣公子惹禍／第四度出面</a></div>
-                          <div class="teaser">
-                                                      關於 Sophie Koh 在往洛杉磯來回奔波了四次，共耗時十八個月之後
-                          </div>
-                        </div>
-                        <div class="star">
-                            <div class="star_inner gold"></div>
-                        </div>
-                        <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
-                          <div class="clr"></div>
-                    </li>
-                    <li class="bookmarked">
+                      </div>
+                      <div class="star">
+                          <div class="star_inner gold"></div>
+                      </div>
+                      <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
+                        <div class="clr"></div>
+                  </li>
+                  <li class="bookmarked">
                         <div class="date">6/5</div>
                         <div class="info">
                           <div class="title"><a href="http://google.com" target="_blank">地深52層樓污水隧道慶貫通</a></div>
@@ -369,6 +369,11 @@
                         <?php echo $this->partial('partials/sidebar/bookmark_popup_item.phtml', array()) ?>
                           <div class="clr"></div>
                     </li>
+                */?>
+                  <li class="load_more">
+                      <a style="display:none;" class="more" href="#"> More &gt; </a>
+                      <img class="loading" alt="loading..." src="<?php echo $this->baseUrl('images/ajax-loader.gif') ?>" />
+                  </li>
                 </ul>
             </div>
         </div>
