@@ -21,10 +21,10 @@ var ns_sidebar = {
         ns_sidebar_bookmark_tab.fetch();
         ns_sidebar.isFirstLoadBookmark = false;
       }
-        <?php /*$(ns_sidebar.activeTab).find("li .teaser, li .title").dotdotdot({
-            wrap : 'letter',
-            height: 18
-        });*/ ?>
+      <?php /*$(ns_sidebar.activeTab).find("li .teaser, li .title").dotdotdot({
+          wrap : 'letter',
+          height: 18
+      });*/ ?>
     }else if (ns_sidebar.activeTab == "#category_tab"){
       $('#sidebar .options .edit_list_order').show();
       //$('#sidebar .options .refresh').hide();
@@ -171,13 +171,6 @@ jQuery(function($) {
         $(this).text('Hide');
         $(this).data('flag', 1);
     }
-  })
-  .on('click', '#bookmark_tab .sort', function(e) {
-    $(this).removeClass('disabled')
-    $(this).toggleClass('asc');
-    $('#bookmark_tab .sort').not($(this)).removeClass('asc');
-    $('#bookmark_tab .sort').not($(this)).addClass('disabled');
-    
   });
 }); 
 </script>

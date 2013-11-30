@@ -36,8 +36,14 @@ class Ajax_BookmarkController extends Zend_Controller_Action
     public function getBookmarksAction()
     {
       $used_ids = array();
-      if (isset($this->params['used_ids'])) $used_ids = $this->params['used_ids'];
-      $this->_helper->json($this->bookmarkService->getBookmarks($used_ids));
+      if (isset($this->params['used_ids'])) 
+        $used_ids = $this->params['used_ids'];
+      
+      $this->_helper->json($this->bookmarkService->getBookmarks(
+        $used_ids, 
+        (isset($this->params['sort_by'])) ? $this->params['sort_by'] : 'bookmark_time', 
+        (isset($this->params['sort_order'])) ? $this->params['sort_order'] : 'desc'
+      ));
     }
     
     public function getHighlightsAction()

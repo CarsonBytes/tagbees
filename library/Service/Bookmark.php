@@ -395,10 +395,16 @@ class Service_Bookmark{
 */
   public function getHighlights($used_ids='',$rpp=5){
     $feedService = new Service_Feed();
-    return $feedService->getFeed(array('is_bookmarked'=>false, 'sort_by'=>'random', 'used_ids'=>$used_ids, 'rpp'=>$rpp));
+    $data = array(
+      'sort_by'=>'random', 
+      'used_ids'=>$used_ids, 
+      'rpp'=>$rpp
+    );
+    if (Zend_Auth::getInstance()->hasIdentity()) $data['is_bookmarked'] = false;
+    return $feedService->getFeed($data);
   }
   
-  public function getBookmarks($used_ids='',$rpp=5, $sort_by = 'bookmark_time', $order = 'desc'){
+  public function getBookmarks($used_ids='', $sort_by = 'bookmark_time', $order = 'desc', $rpp=5){
     $feedService = new Service_Feed();
     return $feedService->getFeed(array('is_bookmarked'=>true, 'sort_by'=>$sort_by, 'order'=>$order, 'used_ids'=>$used_ids, 'rpp'=>$rpp));
   }

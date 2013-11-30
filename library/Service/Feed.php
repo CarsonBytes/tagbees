@@ -222,7 +222,7 @@ class Service_Feed{
         } else{
           $this->feed_query->where('ub.status = 0');
         }
-        if (($user_para['sort_by']) && $user_para['sort_by']=='begin_time'){
+        if (($user_para['sort_by']) && $user_para['sort_by']=='event_time'){
           $this->feed_query->order('f.begin_datetime'. (isset ($user_para['order']) ? ' '.$user_para['order'] : ''));
         } else {
           $this->feed_query->order('ub.update_time'. (isset ($user_para['order']) ? ' '.$user_para['order'] : ''));

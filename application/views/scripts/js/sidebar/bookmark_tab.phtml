@@ -5,7 +5,10 @@ var ns_sidebar_bookmark_tab = {
   used_ids: [],
   rpp: 3,
   is_reload: false,
-  fetch: function(){    
+  sort_by: 'bookmark_time',
+  sort_order: 'desc',
+  fetch: function(){
+    <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
     if (ns_sidebar_bookmark_tab.is_fetching == false){
       if (ns_sidebar_bookmark_tab.is_reload){
         $("#bookmark_tab .bookmark_list li[data-id]").remove();
@@ -15,10 +18,16 @@ var ns_sidebar_bookmark_tab = {
         ns_sidebar_bookmark_tab.is_reload = false;
       }
       ns_sidebar_bookmark_tab.is_fetching=true;
+    ns_sidebar_bookmark_tab.sort_by = $('#bookmark_tab .sort.active').data('id');
+    ns_sidebar_bookmark_tab.sort_order = $('#bookmark_tab .sort.active').hasClass('asc') ? 'asc' : 'desc';
       $.ajax({
         type: "POST",
         url: "<?php echo $this->baseUrl('ajax/bookmark/get_bookmarks') ?>",
-        data: {used_ids: ns_sidebar_bookmark_tab.used_ids},
+        data: {
+          used_ids: ns_sidebar_bookmark_tab.used_ids,
+          sort_by: ns_sidebar_bookmark_tab.sort_by,
+          sort_order: ns_sidebar_bookmark_tab.sort_order
+        },
         success: function(msg){
           if (msg.data.length == 0) 
             ns_sidebar_bookmark_tab.has_nth_fetched = true;
@@ -55,6 +64,9 @@ var ns_sidebar_bookmark_tab = {
         dataType:"json"
       });
     }
+    <? } else { ?>
+          $("#bookmark_tab .bookmark_list").html('<li><?php echo $this->translate('Please login to view the bookmarked items.') ?></li>');
+    <?php } ?>
   }
 };
 jQuery(function($){
@@ -71,5 +83,23 @@ jQuery(function($){
     e.preventDefault();
     ns_sidebar_bookmark_tab.fetch();
   })
+  
+  $('body').on('click', '#bookmark_tab .sort', function(e) {
+    e.preventDefault();
+    if ($(this).hasClass('disabled')){
+      $(this).removeClass('disabled');
+      $(this).addClass('active');
+    }else{
+      $(this).toggleClass('asc');
+    }
+    $('#bookmark_tab .sort').not($(this)).removeClass('asc');
+    $('#bookmark_tab .sort').not($(this)).addClass('disabled');
+    $('#bookmark_tab .sort').not($(this)).removeClass('active');
+    
+    ns_sidebar_bookmark_tab.used_ids = [];
+    ns_sidebar_bookmark_tab.is_reload = true;
+    ns_sidebar_bookmark_tab.fetch();
+    
+  });
 })  
 </script>
