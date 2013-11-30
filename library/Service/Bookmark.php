@@ -310,7 +310,7 @@ class Service_Bookmark{
 		$select=$this->getBookmarkCountQuery($select);
 		return $this->db->fetchAll($select, array() ,$fetch_mode);
 	}
-
+/*
 	public function getUserBookmarkIds($user_id=''){
     if ($user_id=='' && Zend_Auth::getInstance()->hasIdentity()){
 			$user_id=$this->identity->item_id;
@@ -392,9 +392,15 @@ class Service_Bookmark{
     }
 
   }
+*/
   public function getHighlights($used_ids='',$rpp=5){
     $feedService = new Service_Feed();
     return $feedService->getFeed(array('is_bookmarked'=>false, 'sort_by'=>'random', 'used_ids'=>$used_ids, 'rpp'=>$rpp));
+  }
+  
+  public function getBookmarks($used_ids='',$rpp=5, $sort_by = 'bookmark_time', $order = 'desc'){
+    $feedService = new Service_Feed();
+    return $feedService->getFeed(array('is_bookmarked'=>true, 'sort_by'=>$sort_by, 'order'=>$order, 'used_ids'=>$used_ids, 'rpp'=>$rpp));
   }
 
 	public function getUserBookmarkList($user_id='', $total=10, $fetch_mode=Zend_DB::FETCH_OBJ){
@@ -413,4 +419,27 @@ class Service_Bookmark{
 		$result = $this->db->fetchAll($select, array(), $fetch_mode);
         return $result;
 	}
+  
+  public function getJoinQuery($select, $linked_item_id='', $is_bookmarked=true, $user_id=''){
+    if ($user_id==''){
+      if (!Zend_Auth::getInstance()->hasIdentity()) return false;
+      $user_id=$this->identity->item_id;
+    }
+        
+    if ($is_bookmarked){
+      $select->where('ub.status > 0');
+    } else{
+      $select->where('ub.status == 0');
+    }
+      return $select
+              ->where('ub.user_id=?',$user_id)
+              ->joinLeft(
+                  array('ub'=>'user_bookmark'),
+                  'ub.item_id='.$linked_item_id,
+                  array(
+                      'ub_create_time' => 'create_time',
+                      'ub_update_time' => 'update_time',
+                  )
+              );
+  }
 }

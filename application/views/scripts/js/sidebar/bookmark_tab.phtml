@@ -1,15 +1,28 @@
 <script type="text/javascript">
 var ns_sidebar_bookmark_tab = {
   is_fetching: false,
+  has_nth_fetched: false,
   used_ids: [],
-  fetch: function(){
+  rpp: 3,
+  is_reload: false,
+  fetch: function(){    
     if (ns_sidebar_bookmark_tab.is_fetching == false){
+      if (ns_sidebar_bookmark_tab.is_reload){
+        $("#bookmark_tab .bookmark_list li[data-id]").remove();
+        ns_sidebar_bookmark_tab.used_ids = [];
+        $("#bookmark_tab .bookmark_list .loading").show();
+        $("#bookmark_tab .bookmark_list .load_more .more").hide();
+        ns_sidebar_bookmark_tab.is_reload = false;
+      }
       ns_sidebar_bookmark_tab.is_fetching=true;
       $.ajax({
         type: "POST",
         url: "<?php echo $this->baseUrl('ajax/bookmark/get_bookmarks') ?>",
         data: {used_ids: ns_sidebar_bookmark_tab.used_ids},
         success: function(msg){
+          if (msg.data.length == 0) 
+            ns_sidebar_bookmark_tab.has_nth_fetched = true;
+          else ns_sidebar_bookmark_tab.has_nth_fetched = false;
           var content = ns_feed.getHTML(msg, 'sidebar_bookmark_list_item', {
             getID: function() { 
               if ($.inArray( this.data.id, ns_sidebar_bookmark_tab.used_ids ) ==-1)
@@ -28,7 +41,9 @@ var ns_sidebar_bookmark_tab = {
             wrap : 'letter',
             height: 25
           });
-          $('#bookmark_tab ul.bookmark_list').scrollpanel();
+          if (ns_sidebar_bookmark_tab.used_ids.length >=  ns_sidebar_bookmark_tab.rpp){
+            $('#bookmark_tab .bookmark_list').scrollpanel();
+          }
           $("#bookmark_tab .bookmark_list .load_more .more").show();
           var popup_content = ns_feed.getHTML(msg, 'sidebar_popup');
           $('body').append(popup_content);
@@ -48,11 +63,12 @@ jQuery(function($){
     var parent_div = $('.sp-viewport'); 
     var scroll_pos = parent_div.scrollTop()+parent_div.innerHeight();
     var scroll_height = parent_div[0].scrollHeight;
-    if (scroll_pos +35 >= scroll_height){
+    if (scroll_pos +35 >= scroll_height && !ns_sidebar_bookmark_tab.has_nth_fetched){
       ns_sidebar_bookmark_tab.fetch();
     }
   })
-  $('#bookmark_tab .bookmark_list .load_more').click(function(){
+  $('#bookmark_tab .bookmark_list .load_more').click(function(e){
+    e.preventDefault();
     ns_sidebar_bookmark_tab.fetch();
   })
 })  

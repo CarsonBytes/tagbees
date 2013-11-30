@@ -1,22 +1,21 @@
 <script type="text/javascript">
 var ns_sidebar_bookmark_popup = {
-  toggleBookmark: function(bookmark_star_elem){
-      var parent_li = bookmark_star_elem.parents('li');
-      var id = parent_li.data('id');
+  toggleBookmark: function(id){
+      var parent_lis = $('#sidebar li.list_item[data-id="'+id+'"]');
       var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
-      var set_status = parent_li.hasClass("bookmarked") ? 0 : 1;
+      var set_status = parent_lis.hasClass("bookmarked") ? 0 : 1;
       jQuery.ajax({
           type: "POST",
           url: "<?php echo $this->baseUrl('ajax/bookmark/trigger') ?>",
           data: "id="+id+"&set_status="+set_status,
           success: function(msg){
-            if (parent_li.hasClass("bookmarked")){
-              bookmark_star_elem.removeClass('gold');
-              parent_li.removeClass("bookmarked");
+            if (parent_lis.hasClass("bookmarked")){
+              parent_lis.find('.star_inner').removeClass('gold');
+              parent_lis.removeClass("bookmarked");
               this_popup.find('.white, .sidebar_bookmark_popup_set_reminder').hide();
             } else {
-              bookmark_star_elem.addClass('gold');
-              parent_li.addClass("bookmarked");
+              parent_lis.find('.star_inner').addClass('gold');
+              parent_lis.addClass("bookmarked");
               this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
               /*if (! this_popup.is(':visible')){ 
                 ns_sidebar_bookmark_popup.togglePopup(id); 
@@ -33,6 +32,7 @@ var ns_sidebar_bookmark_popup = {
   togglePopup: function(id){
     var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
     var trigger_popup_icon = $('.trigger_popup_icon');
+    var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
     if (this_popup.length){
       if ($('.sidebar_bookmark_popup').not(this_popup).is(':visible')){
         $('.sidebar_bookmark_popup, .more').not(this_popup).hide();
@@ -44,6 +44,11 @@ var ns_sidebar_bookmark_popup = {
        ns_sidebar_bookmark_popup.adjustSidebarPopupPosition(id);
        this_popup.show();
        trigger_popup_icon.show();
+       if (parent.hasClass('bookmarked')) 
+        this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
+       else 
+        this_popup.find('.sidebar_bookmark_popup_set_reminder').hide();
+       
        this_popup.find('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
             wrap : 'letter',
             height: 60
@@ -102,9 +107,12 @@ jQuery(function($){
   })
   .on('click',".star_inner",function(e){
     e.stopPropagation();
-    ns_sidebar_bookmark_popup.toggleBookmark($(this));
+    ns_sidebar_bookmark_popup.toggleBookmark($(this).parents('li').data('id'));
+    ns_sidebar_bookmark_tab.is_reload = true;
+    if (ns_sidebar.activeTab=='#bookmark_tab' && ! e.target.closest('#bookmark_tab li').length) ns_sidebar.loadTab(true);
   })
   .on('click', function(event) {
+    console.log('clicked outside')
     if (!$(event.target).closest('.sidebar_bookmark_popup, #highlight_tab li, #bookmark_tab li').length) {
       ns_sidebar_bookmark_popup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
       touching_id = null;clicked_id = null;
@@ -119,9 +127,6 @@ jQuery(function($){
     $('.sidebar_bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
     return false;
   })
-  $('#highlight_tab ul').mousewheel(function(){
-    $('.sidebar_bookmark_popup, .trigger_popup_icon').hide();
-  });
   $(window).resize(function(){
     if ($('.sidebar_bookmark_popup').is(':visible'))
       ns_sidebar_bookmark_popup.adjustSidebarPopupPosition($('.sidebar_bookmark_popup:visible').data('id'));
@@ -133,7 +138,7 @@ jQuery(function($){
   var touching_id = null;
   var clicked_id = null;
   $('body')
-    .on('click', '#highlight_tab li , #bookmark_tab li' , function(e) {
+    .on('click', '#highlight_tab li.list_item , #bookmark_tab li.list_item' , function(e) {
       e.stopPropagation();
      if (clicked_id == null){
         $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
@@ -161,7 +166,7 @@ jQuery(function($){
       mouseleave : function(e){
         $(this).data('hover',0);
       }
-    }, '.sidebar_bookmark_popup, #highlight_tab li , #bookmark_tab li')
+    }, '.sidebar_bookmark_popup, #highlight_tab li.list_item , #bookmark_tab li.list_item')
     .on({
       mouseenter : function(e){
         console.log('hover');
@@ -206,6 +211,6 @@ jQuery(function($){
             }
         }, 500);
       }
-    }, '#highlight_tab li, #bookmark_tab li, .sidebar_bookmark_popup');
+    }, '#highlight_tab li.list_item, #bookmark_tab li.list_item, .sidebar_bookmark_popup');
 })  
 </script>

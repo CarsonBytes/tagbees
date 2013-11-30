@@ -210,23 +210,23 @@ class Service_Tag{
     }
     
     public function getJoinQuery($select, $linked_item_id=''){
-        return $select
-                ->joinLeft(
-                    array('it'=>'item_tag'),
-                    'it.item_id='.$linked_item_id,
-                    array(
-                        'tag_names' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(i2t.name,''))"),
-                        'tag_slug_names' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(i2t.slug_name,''))"),
-                        'tag_types' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(i2t.type,''))")                        
-                    )
-                )
-                ->joinLeft(
-                    array('i2t'=>'item'),
-                    'i2t.id=it.tag_id and it.status = 1',
-                    array()
-                )
-                ->group($linked_item_id);
-    }
+      return $select
+              ->joinLeft(
+                  array('it'=>'item_tag'),
+                  'it.item_id='.$linked_item_id,
+                  array(
+                      'tag_names' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(i2t.name,''))"),
+                      'tag_slug_names' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(i2t.slug_name,''))"),
+                      'tag_types' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(i2t.type,''))")                        
+                  )
+              )
+              ->joinLeft(
+                  array('i2t'=>'item'),
+                  'i2t.id=it.tag_id and it.status = 1',
+                  array()
+              )
+              ->group($linked_item_id);
+  }
 
 	public function getTagBySlugName($slug_name){
 		$select=
@@ -303,7 +303,7 @@ class Service_Tag{
 					->where($item_table_name.".tree_ids LIKE '%|?|%'", intval($tag_id));
 
 			}else{
-				$tagged_item_nested_query->orWhere('tag_id = ?',intval($tag_id));
+				$tagged_item_nested_query->orWhere('item_tag.tag_id = ?',intval($tag_id));
 				$tag_select
 					->orWhere($item_table_name.".tree_ids LIKE '%|?|%'", intval($tag_id));
 			}
