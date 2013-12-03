@@ -4,6 +4,7 @@ var ns_sidebar_bookmark_popup = {
       var parent_lis = $('#sidebar li.list_item[data-id="'+id+'"]');
       var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
       var set_status = parent_lis.hasClass("bookmarked") ? 0 : 1;
+    <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
       jQuery.ajax({
           type: "POST",
           url: "<?php echo $this->baseUrl('ajax/bookmark/trigger') ?>",
@@ -27,7 +28,9 @@ var ns_sidebar_bookmark_popup = {
           },
           dataType:"json"
       });
-      
+    <? } else { ?>
+          alert('Please login to add bookmark.');
+    <?php } ?>
   },
   togglePopup: function(id){
     var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
@@ -110,14 +113,6 @@ jQuery(function($){
     ns_sidebar_bookmark_popup.toggleBookmark($(this).parents('li').data('id'));
     ns_sidebar_bookmark_tab.is_reload = true;
     if (ns_sidebar.activeTab=='#bookmark_tab' && ! e.target.closest('#bookmark_tab li').length) ns_sidebar.loadTab(true);
-  })
-  .on('click', function(event) {
-    console.log('clicked outside')
-    if (!$(event.target).closest('.sidebar_bookmark_popup, #highlight_tab li, #bookmark_tab li').length) {
-      ns_sidebar_bookmark_popup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
-      touching_id = null;clicked_id = null;
-      $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
-    };
   })
   .on('click', '.sidebar_bookmark_popup_set_reminder',function(e){
     e.stopPropagation();

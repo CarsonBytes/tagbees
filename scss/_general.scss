@@ -143,6 +143,7 @@ body {
                   }
                   
                   .nav_content{
+                    margin-left:10px;
                     a{ color:white; text-decoration:none;
                       &:hover{color:#ff1d38;}
                       &:active {color:$color;}

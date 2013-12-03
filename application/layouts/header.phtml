@@ -25,14 +25,39 @@
           <div class="date">Thursday, July 05, 2012</div>
         </div>
         <div class="header_bottom">
-              <div class="login_info">
           <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
+          <div class="login_info">
                 <strong>Hello, <a href="<?php echo $this->baseUrl('user/'.Common::getSession()->user->username)?>"><?php echo Common::getSession()->user->name ?></a></strong> <img class="grid_icon" width="14" src="<?php echo $this->baseUrl('images/setting.jpg') ?>" />
-          <?php }else{ ?>
-                  <a href="<?php echo $this -> baseUrl('auth/login'); ?>" class="login">Login</a>
-                  <?php /*<li><a href="<?php echo $this->baseUrl('auth/signup')?>" class="icon2 register">Register</a></li>*/ ?>
-          <?php } ?>
           </div>
+          <?php }else{ ?>
+            <div class="auth">
+              <ul>
+                <li id="login">
+                  <a id="login-trigger" href="#">
+                    Log in <span>▼</span>
+                  </a>
+                  <div id="login-content">
+                    <form method="post" action="<?php echo $this->baseUrl('auth/login')?>">
+                      <fieldset id="inputs">
+                        <input id="username" type="text" name="username" placeholder="Username" required class="required">   
+                        <input id="password" type="password" name="password" placeholder="Password" required>
+                      </fieldset>
+                      <fieldset id="actions">
+                        <input type="submit" id="submit" value="Log in">
+                        <label><input type="checkbox" checked="checked"> Keep me signed in</label>
+                        <label><a href="<?php echo $this->baseUrl('auth/login')?>">Login with other platforms</a></label>
+                      </fieldset>
+                    </form>
+                  </div>                     
+                </li>
+                <li id="signup">
+                  <a href="<?php echo $this->baseUrl('auth/signup')?>">Sign up FREE</a>
+                </li>
+              </ul>
+            </div>
+             <?php /* <a href="<?php echo $this -> baseUrl('auth/login'); ?>" class="login">Login</a> */ ?>
+              <?php /*<li><a href="<?php echo $this->baseUrl('auth/signup')?>" class="icon2 register">Register</a></li>*/ ?>
+          <?php } ?>
           
           <nav id="menu">
             <ul>

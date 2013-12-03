@@ -157,7 +157,30 @@
             $(this).parents('.flash_message').fadeOut(400);
             return false;
         })
-        $('.login_info .login').qtip({
+        .on('click','#login-trigger',function(e){
+          e.preventDefault();
+          $(this).next('#login-content').slideToggle();
+          $(this).toggleClass('active');
+          
+          if ($(this).hasClass('active')) $(this).find('span').html('&#x25B2;')
+            else $(this).find('span').html('&#x25BC;')
+        })
+        .on('click', function(e) {
+          if (!$(e.target).closest('.sidebar_bookmark_popup, #highlight_tab li, #bookmark_tab li').length) {
+            ns_sidebar_bookmark_popup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
+            touching_id = null;clicked_id = null;
+            $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
+          }
+          if (!$(e.target).closest('#login-trigger, #login-content').length && $('#login-trigger').hasClass('active')) {
+            $('#login-trigger').next('#login-content').slideToggle();
+            $('#login-trigger').removeClass('active');
+            $('#login-trigger').find('span').html('&#x25BC;')
+          };
+        })
+        .on('click', function(e) {
+          
+        })
+        <?php /* ?>$('.login_info .login').qtip({
             content: {
                 text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
                 ajax: {
@@ -194,7 +217,7 @@
                 classes: 'qtip-light qtip-rounded login_dialog'
             }
         });
-        
+        <?php */ ?>
         $('body').on('click', '.watcher_icon' , function() {
             $(this).qtip(
             {
