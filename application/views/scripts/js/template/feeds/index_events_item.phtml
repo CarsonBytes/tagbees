@@ -45,11 +45,12 @@
                         {{if degree}}
                             <a href="#" title="${degree}&deg;"><img class="direction-arrow ${degree}" height="10" src="<?php echo $this->baseUrl('images/direction-arrow.jpg');?>" /></a>
                         {{/if}}
-                        {{if place_lat && place_lng}}<a class="place" data-coord="${place_lat},${place_lng}" title="${place}" href="#">{{else}}<span class="place">{{/if}}${place}{{if place_lat && place_lng}}</a>{{else}}</span>{{/if}}
+                        {{if place_lat && place_lng}}<a class="place" data-lat="${place_lat}" data-lng="${place_lng}" title="${place}" href="#">{{else}}<span class="place">{{/if}}${place}{{if place_lat && place_lng}}</a>{{else}}</span>{{/if}}
                     </li>
                     {{/if}}
                 </ul>
             </header>
+            {{if place_lat && place_lng}}<div class="gmap" data-lat="${place_lat}" data-lng="${place_lng}" ></div>{{/if}}
             <div class="content">
                 <!--{{html $item.urldecode($data.teaser)}}-->
                 ${teaser}
@@ -59,7 +60,7 @@
                     <strong>Tags:</strong>{{html $item.tagHTML()}}
                 </div>
                 <div class="tag_r right">
-                    by <a href="<?php echo $this->baseUrl('user');?>/${submitter_slug_name}">${submitter_name}</a>| <abbr class="timeago" title="${create_time}">
+                    by <a target="_blank" href="<?php echo $this->baseUrl('user');?>/${submitter_slug_name}">${submitter_name}</a>| <abbr class="timeago" title="${create_time}">
                 </div>
             </footer>
         </div>

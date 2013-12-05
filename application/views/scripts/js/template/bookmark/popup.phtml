@@ -1,0 +1,56 @@
+<script id="bookmark_popup" type="text/x-jquery-tmpl">
+    <div data-id="${id}" class="sidebar_bookmark_popup">
+      <div class="sidebar_bookmark_popup_inner">
+        <div class="yellow">
+          <a href="<?php echo $this->baseUrl('event');?>/${slug_name}" target="_blank" class="title">${name}</a>
+          <?php /*<p class="info_line">
+            Music | Dec 23, 2013, 9:00 | City Hall
+          </p>*/ ?>
+            <ul class="info_line">
+              {{if $item.hasMainCat() }}
+              <li>
+                  <a target="blank" href="${$item.getMainCatURL()}"><strong>${$item.getMainCatName()}</strong></a>
+              </li>
+              {{/if}}
+              {{if begin_datetime}}
+                  {{if $item.hasMainCat() }}
+                  <li>
+                      |
+                  </li>
+                  {{/if}}
+              <li>
+                  start: ${$item.formatMysqlDate($data.begin_datetime)}
+              </li>
+              {{/if}}
+              {{if place}}
+                  {{if $item.hasMainCat() || begin_datetime}}
+              <li>
+                  |
+              </li>
+                  {{/if}}
+              <li>
+                  place: 
+                  {{if degree}}
+                      <a href="#" title="${degree}&deg;"><img class="direction-arrow ${degree}" height="10" src="<?php echo $this->baseUrl('images/direction-arrow.jpg');?>" /></a>
+                  {{/if}}
+                  {{if place_lat && place_lng}}<a class="place" data-coord="${place_lat},${place_lng}" title="${place}" href="#">{{else}}<span class="place">{{/if}}${place}{{if place_lat && place_lng}}</a>{{else}}</span>{{/if}}
+              </li>
+              {{/if}}
+          </ul>
+          <div class="clr"></div>
+          <p class="teaser">
+             ${teaser}
+          </p>
+        </div>
+        <a class="sidebar_bookmark_popup_set_reminder" href="#" data-value="0">Set Reminder...</a>
+        <div class="white">
+          <form class="sidebar_bookmark_popup_form" name="sidebar_bookmark_popup_form" action="" method="post" >
+            <input type="text" name="reminder_title" class="sidebar_bookmark_popup_reminder_title" value=""/>
+            <textarea name="reminder_detail" class="sidebar_bookmark_popup_reminder_detail" ></textarea>
+          </form>
+          <a class="sidebar_bookmark_popup_more_reminder_fields" href="#">More reminder fields....</a>
+        </div>
+        <div class="clr"></div>
+      </div>
+    </div>
+</script>

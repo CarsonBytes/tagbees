@@ -176,10 +176,17 @@
             $('#login-trigger').removeClass('active');
             $('#login-trigger').find('span').html('&#x25BC;')
           };
+          if (!$(e.target).closest('a.place, #feeds_map_popup').length) {
+            $('#feeds_map_popup').hide();
+          };
         })
-        .on('click', function(e) {
+        
+        $(window).resize(function(){
+          if ($('.sidebar_bookmark_popup').is(':visible'))
+            ns_sidebar_bookmark_popup.adjustSidebarPopupPosition($('.sidebar_bookmark_popup:visible').data('id'));
           
-        })
+        }); 
+        
         <?php /* ?>$('.login_info .login').qtip({
             content: {
                 text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',

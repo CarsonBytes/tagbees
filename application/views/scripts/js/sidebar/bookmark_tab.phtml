@@ -54,7 +54,7 @@ var ns_sidebar_bookmark_tab = {
             $('#bookmark_tab .bookmark_list').scrollpanel();
           }
           $("#bookmark_tab .bookmark_list .load_more .more").show();
-          var popup_content = ns_feed.getHTML(msg, 'sidebar_popup');
+          var popup_content = ns_feed.getHTML(msg, 'bookmark_popup');
           $('body').append(popup_content);
           ns_sidebar_bookmark_tab.is_fetching=false;
         },
@@ -86,19 +86,21 @@ jQuery(function($){
   
   $('body').on('click', '#bookmark_tab .sort', function(e) {
     e.preventDefault();
-    if ($(this).hasClass('disabled')){
-      $(this).removeClass('disabled');
-      $(this).addClass('active');
-    }else{
-      $(this).toggleClass('asc');
+    if (ns_sidebar_bookmark_tab.is_fetching == false){
+      if ($(this).hasClass('disabled')){
+        $(this).removeClass('disabled');
+        $(this).addClass('active');
+      }else{
+        $(this).toggleClass('asc');
+      }
+      $('#bookmark_tab .sort').not($(this)).removeClass('asc');
+      $('#bookmark_tab .sort').not($(this)).addClass('disabled');
+      $('#bookmark_tab .sort').not($(this)).removeClass('active');
+      
+      ns_sidebar_bookmark_tab.used_ids = [];
+      ns_sidebar_bookmark_tab.is_reload = true;
+      ns_sidebar_bookmark_tab.fetch();
     }
-    $('#bookmark_tab .sort').not($(this)).removeClass('asc');
-    $('#bookmark_tab .sort').not($(this)).addClass('disabled');
-    $('#bookmark_tab .sort').not($(this)).removeClass('active');
-    
-    ns_sidebar_bookmark_tab.used_ids = [];
-    ns_sidebar_bookmark_tab.is_reload = true;
-    ns_sidebar_bookmark_tab.fetch();
     
   });
 })  

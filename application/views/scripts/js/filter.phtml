@@ -1,3 +1,4 @@
+<?php $isLogined = (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null); ?>
 <script type="text/javascript">
 var default_feed_para = $.extend(
     true, 
@@ -8,7 +9,7 @@ var default_feed_para = $.extend(
 var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max_distance ?>;
 var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;
 
-<?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
+<?php if ($isLogined){ ?>
 var savedLocation=[];
 var flagOverrideSavedLocation=0;
 <?php } ?>
@@ -146,7 +147,7 @@ jQuery(function($){
         });
         return false;
     })
-   <?php } ?>
+   <?php }else{ ?>
     $('input[name="is_match_interest"]+ label').qtip({
         content: {
             text: 'Please login to let us find your interest.',
@@ -165,6 +166,7 @@ jQuery(function($){
             event: 'mouseout'
         }
     });
+    <?php } ?>
     <?php /*$('.confirm_location_remove').qtip({
         content: {
             text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
@@ -235,14 +237,8 @@ jQuery(function($){
             }
             refreshFeed('index');
         }
-    }).on('change','.feed_filter_input[name="is_match_interest"]', function(){
-        <?php if (Common::getSession()->user == null) { ?>
-            var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
-            showFlashMessages(content);
-            $(this).removeAttr('checked');
-            var element = $(this).parent('.prettycheckbox').find('a');
-            element.delay(1000).removeClass('checked');
-        <?php }else{ ?>
+    })<?php if ($isLogined) { ?>
+      .on('change','.feed_filter_input[name="is_match_interest"]', function(){
             addChangedFeedInputName($('.feed_filter_input[name="is_match_interest"]'));
             if (validateSidebarSearchInputs()){
                 for( key in changed_feed_input_names){
@@ -250,8 +246,16 @@ jQuery(function($){
                 }
                 refreshFeed('index');
             }
-        <?php } ?>
-    }).on('change','.feed_filter_input[name="is_match_location"]', function(){
+        <?php /* ?>
+            var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
+            showFlashMessages(content);
+            $(this).removeAttr('checked');
+            var element = $(this).parent('.prettycheckbox').find('a');
+            element.delay(1000).removeClass('checked');
+        <?php */?>
+    })   
+        <?php }?>
+        .on('change','.feed_filter_input[name="is_match_location"]', function(){
         if ($(this).is(':checked')){
             jQuery('.match_location_set').css('display','block');
             initDistanceWidget();

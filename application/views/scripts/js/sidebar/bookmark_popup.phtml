@@ -66,16 +66,14 @@ var ns_sidebar_bookmark_popup = {
     var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
     var grandparent = parent.parents('ul');
     
-    var parent_offset = parent.offset();
-    
-    console.log(parent_offset)
+    console.log(parent.offset())
     //init
-    trigger_popup_icon.css('top', parent_offset.top + 5);
+    trigger_popup_icon.css('top', parent.offset().top + 5);
     trigger_popup_icon.css('left',grandparent.offset().left+grandparent.outerWidth( true ));
-    this_popup.css('top', parent_offset.top);
+    this_popup.css('top', parent.offset().top);
     this_popup.css('left',grandparent.offset().left+grandparent.outerWidth( true )+trigger_popup_icon.outerWidth( true ));
     
-    if (parent_offset.top + this_popup.height() > $(window).height() + $(window).scrollTop()){
+    if (parent.offset().top + this_popup.height() > $(window).height() + $(window).scrollTop()){
   
       console.log('exceeded below!');
   
@@ -84,18 +82,18 @@ var ns_sidebar_bookmark_popup = {
         this_popup.css('top', $(window).scrollTop()+5);
       }else{
         console.log('enough window size!');
-        var parent_to_bottom_height = $(window).height() + $(window).scrollTop() - parent_offset.top;
+        var parent_to_bottom_height = $(window).height() + $(window).scrollTop() - parent.offset().top;
         var remaining_height = this_popup.height() - parent_to_bottom_height;
         var sum = parseInt(this_popup.css('top')) - remaining_height - 5;
         this_popup.css('top', sum +'px');
       }
   
-    }else if (parent_offset.top <= $(window).scrollTop()+10){
+    }else if (parent.offset().top <= $(window).scrollTop()+10){
       console.log('exceeded above!');
       
-      var top_to_parent_height =  parent_offset.top - $(window).scrollTop();
+      var top_to_parent_height =  parent.offset().top - $(window).scrollTop();
       
-      this_popup.css('top', parent_offset.top + (10 - top_to_parent_height) +'px');
+      this_popup.css('top', parent.offset().top + (10 - top_to_parent_height) +'px');
       
     }else{
       console.log('inside');
@@ -122,10 +120,6 @@ jQuery(function($){
     $('.sidebar_bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
     return false;
   })
-  $(window).resize(function(){
-    if ($('.sidebar_bookmark_popup').is(':visible'))
-      ns_sidebar_bookmark_popup.adjustSidebarPopupPosition($('.sidebar_bookmark_popup:visible').data('id'));
-  }); 
 <?php //pending hover effect... ?>
   var over_timer = null;
   var out_timer = null;

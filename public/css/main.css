@@ -514,6 +514,7 @@ $pie-base-class: pie-element;*/
 .feeds_and_more .post_content .post_left { width: 143px; float: left; }
 .feeds_and_more .post_content .post_left img { border: 10px solid #f2f2f2; }
 .feeds_and_more .post_content .post_right { width: 474px; float: right; }
+.feeds_and_more .post_content .post_right .gmap { display: none; width: 100%; height: 200px; border: 1px solid black; margin-bottom: 10px; }
 .feeds_and_more .post_content .post_right .tag_top { color: #333333; width: 405px; overflow-x: hidden; }
 .feeds_and_more .post_content .post_right .tag_top ul { margin-left: -3px; width: 1000px; }
 .feeds_and_more .post_content .post_right .tag_top li { float: left; color: #333333; padding: 0 3px; }
@@ -530,6 +531,9 @@ $pie-base-class: pie-element;*/
 .feeds_and_more .load_more_feeds .more { background: url(../images/more_bg.gif) repeat-x bottom center; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; text-align: center; display: block; color: #096db9; text-decoration: none; padding: 5px 0; border: 1px solid #ebebeb; border-bottom: 1px solid #cbcbcb; font-weight: bold; }
 .feeds_and_more .load_more_feeds .more:hover { color: #333333; }
 
+/*
+#feeds_map_popup{ position:absolute; border: 3px solid black; width: 250px;  height: 250px; display:none; .feeds_map{ width: 250px;  height: 250px; }
+}*/
 /*@import "compass/css3/pie";*/
 /*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
 $pie-base-class: pie-element;*/

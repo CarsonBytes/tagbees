@@ -118,20 +118,31 @@ jQuery(function($){
     $.address.autoUpdate(false);
     if ($('.feeds.index').length) initIndexFeed();
     $('body#index')
-        <?php // event that the submit button is needed to be clicked before searching, e.g. search field ?>
-        .on('change keyup', '#feed_search input[name="q"], #feed_search input[name="is_all_time"], #feed_search input[name="begin_date"], #feed_search input[name="end_date"]', function(){
-            addChangedFeedInputName($(this));
-        })
-        .on('click', '#feed_search input[type="submit"]', function(e){
-            e.preventDefault();
-            if (feed_refreshing) return false;
-            if (validateSidebarSearchInputs()){
-                for( key in changed_feed_input_names){
-                    updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
-                }
-            }
-            refreshFeed('index');
-        });
-       
+      <?php // event that the submit button is needed to be clicked before searching, e.g. search field ?>
+      .on('change keyup', '#feed_search input[name="q"], #feed_search input[name="is_all_time"], #feed_search input[name="begin_date"], #feed_search input[name="end_date"]', function(){
+          addChangedFeedInputName($(this));
+      })
+      .on('click', '#feed_search input[type="submit"]', function(e){
+          e.preventDefault();
+          if (feed_refreshing) return false;
+          if (validateSidebarSearchInputs()){
+              for( key in changed_feed_input_names){
+                  updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+              }
+          }
+          refreshFeed('index');
+      });
+    
+    $('body').on('click','.tag_top a.place',function(e){
+      e.preventDefault();
+      var gmap = $(this).parents('article.post_content').find('.gmap');
+      console.log(gmap);
+      if (!gmap.is(':visible') ){
+        gmap.show();
+        ns_feed.initMap(gmap);
+      } else {
+        gmap.hide();
+      }
+    })
 });
 </script>

@@ -45,7 +45,15 @@
         .post_left{ width:143px; float:left;
           img{ border:10px solid #f2f2f2;}
         }
-        .post_right{ width:474px; float:right;
+        .post_right{ 
+          width:474px; float:right;
+          .gmap{
+            display:none;
+            width: 100%;
+            height: 200px;
+            border: 1px solid black;
+            margin-bottom: 10px;
+          }
           .tag_top{ 
             color:$color; 
             width: 405px;
@@ -62,7 +70,7 @@
             }
             .place{max-width:150px;}
           }
-          .taggap{ border-bottom:1px solid #e8e8e8; padding-bottom:8px; }
+          .taggap{ border-bottom:1px solid #e8e8e8; padding-bottom:8px;}
           .tag_bottom{ padding-top:25px;
               a{ padding:0 3px;}
               
@@ -86,3 +94,15 @@
         }
     }
 }
+/*
+#feeds_map_popup{
+  position:absolute;
+  border: 3px solid black;
+  width: 250px; 
+  height: 250px;
+  display:none;
+  .feeds_map{
+    width: 250px; 
+    height: 250px;
+  }
+}*/

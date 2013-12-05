@@ -37,7 +37,7 @@ var ns_sidebar_highlight_tab = {
             $('#highlight_tab .highlight_list').scrollpanel();
           }
           $("#highlight_tab .highlight_list .load_more .more").show();
-          var popup_content = ns_feed.getHTML(msg, 'sidebar_popup');
+          var popup_content = ns_feed.getHTML(msg, 'bookmark_popup');
           $('body').append(popup_content);
           ns_sidebar_highlight_tab.is_fetching=false;
         },
