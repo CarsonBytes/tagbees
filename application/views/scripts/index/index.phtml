@@ -7,6 +7,7 @@ echo trim(preg_replace($to_be_replaced, $replace_to, "傳薄熙來和谷開來�
 
 <script type="text/javascript">
     var index_feeds = jQuery.parseJSON('<?php echo json_encode($this->feed) ?>');
+    console.log(index_feeds );
     jQuery(function($){
         ns_feed.render(index_feeds, false);
     });

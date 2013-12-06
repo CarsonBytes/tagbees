@@ -333,9 +333,8 @@ margin: 30px;
 #sidebar .tab_div #highlight_tab ul li.load_more .more, #sidebar .tab_div #bookmark_tab ul li.load_more .more { background: url(../images/more_bg.gif) repeat-x bottom center; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; text-align: center; display: block; color: #096db9; text-decoration: none; padding: 5px 0; border: 1px solid #ebebeb; border-bottom: 1px solid #cbcbcb; font-weight: bold; }
 #sidebar .tab_div #highlight_tab ul li.load_more .more:hover, #sidebar .tab_div #bookmark_tab ul li.load_more .more:hover { background: #f6f6f6; }
 #sidebar .tab_div #highlight_tab ul li.load_more .more:hover, #sidebar .tab_div #bookmark_tab ul li.load_more .more:hover { color: #333333; }
-#sidebar .tab_div #highlight_tab ul li .star, #sidebar .tab_div #bookmark_tab ul li .star { cursor: pointer; width: 14px; height: 13px; position: absolute; right: 5px; top: 9px; background-position: 0 0; }
-#sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #bookmark_tab ul li .star .star_inner { background-image: url(../images/sprites.png); background-repeat: no-repeat; float: left; width: 14px; height: 13px; }
-#sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #bookmark_tab ul li .star .star_inner { background-position: -14px 0; display: none; }
+#sidebar .tab_div #highlight_tab ul li .star, #sidebar .tab_div #bookmark_tab ul li .star { cursor: pointer; width: 14px; height: 13px; position: absolute; right: 5px; top: 9px; }
+#sidebar .tab_div #highlight_tab ul li .star .star_inner, #sidebar .tab_div #bookmark_tab ul li .star .star_inner { background-image: url(../images/sprites.png); background-repeat: no-repeat; float: left; width: 14px; height: 13px; background-position: -14px 0; display: none; }
 #sidebar .tab_div #highlight_tab ul li .e_date, #sidebar .tab_div #bookmark_tab ul li .e_date { float: left; width: 49px; height: 18px; overflow: hidden; }
 #sidebar .tab_div #highlight_tab ul li .title, #sidebar .tab_div #bookmark_tab ul li .title { float: left; width: 180px; height: 18px; color: #494a4e; }
 #sidebar .tab_div #highlight_tab ul li .event_icon, #sidebar .tab_div #bookmark_tab ul li .event_icon { position: absolute; right: 20px; top: 3px; display: none; }
@@ -479,16 +478,6 @@ $pie-base-class: pie-element;*/
 /*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
 $pie-base-class: pie-element;*/
 /* general */
-.watched { position: absolute; top: 12px; right: 0px; }
-
-.w1 { float: right; position: relative; }
-
-.w1 a { display: block; text-align: right; }
-
-.w_con { clear: both; display: block; color: #096db9; font-size: 11px; padding-top: 3px; }
-
-.w2 { float: left; font-size: 22px; font-weight: normal; color: #3ca94e; padding-top: 5px; }
-
 .remain_time { position: absolute; top: 15px; right: 157px; }
 
 .r_day, .soon, .expired { padding: 2px; text-decoration: none; font-weight: bold; font-size: 12px; -webkit-box-shadow: 4px, 3px, 2px, rgba(0, 0, 0, 0.5); -moz-box-shadow: 4px, 3px, 2px, rgba(0, 0, 0, 0.5); box-shadow: 4px, 3px, 2px, rgba(0, 0, 0, 0.5); border-width: 1px; border-style: solid; display: inline-block; }
@@ -505,28 +494,39 @@ $pie-base-class: pie-element;*/
 
 /* feeds */
 .feeds_and_more { padding: 0 8px 0 9px; }
-.feeds_and_more a.head { font-size: 22px; font-weight: normal; color: #2f3031; display: inline-block; text-decoration: none; }
-.feeds_and_more a.head:link { color: #096db9; }
-.feeds_and_more a.head:hover { color: #f0bc05; }
-.feeds_and_more a.head:active { color: #333333; }
-.feeds_and_more p { line-height: 17px; padding-top: 13px; }
-.feeds_and_more .post_content { padding: 15px 0 40px 0; background: url(../images/post_bg.gif) repeat-x bottom left; position: relative; }
-.feeds_and_more .post_content .post_left { width: 143px; float: left; }
-.feeds_and_more .post_content .post_left img { border: 10px solid #f2f2f2; }
-.feeds_and_more .post_content .post_right { width: 474px; float: right; }
-.feeds_and_more .post_content .post_right .gmap { display: none; width: 100%; height: 200px; border: 1px solid black; margin-bottom: 10px; }
-.feeds_and_more .post_content .post_right .tag_top { color: #333333; width: 405px; overflow-x: hidden; }
-.feeds_and_more .post_content .post_right .tag_top ul { margin-left: -3px; width: 1000px; }
-.feeds_and_more .post_content .post_right .tag_top li { float: left; color: #333333; padding: 0 3px; }
-.feeds_and_more .post_content .post_right .tag_top a { display: inline-block; color: #096db9; text-decoration: none; }
-.feeds_and_more .post_content .post_right .tag_top a:link { color: #096db9; }
-.feeds_and_more .post_content .post_right .tag_top a:hover { color: #f0bc05; }
-.feeds_and_more .post_content .post_right .tag_top a:active { color: #333333; }
-.feeds_and_more .post_content .post_right .tag_top a.place { display: inline; }
-.feeds_and_more .post_content .post_right .tag_top .place { max-width: 150px; }
-.feeds_and_more .post_content .post_right .taggap { border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; }
-.feeds_and_more .post_content .post_right .tag_bottom { padding-top: 25px; }
-.feeds_and_more .post_content .post_right .tag_bottom a { padding: 0 3px; }
+.feeds_and_more article.post_content { padding: 15px 0 40px 0; background: url(../images/post_bg.gif) repeat-x bottom left; position: relative; }
+.feeds_and_more article.post_content.bookmarked header .watched .w1 .star .star_inner { background-position: 0 0; }
+.feeds_and_more article.post_content header .watched { position: absolute; top: 12px; right: 0px; }
+.feeds_and_more article.post_content header .watched .w1 { float: right; position: relative; /*.watcher_icon { cursor: pointer; display: block; float: right;
+}*/ }
+.feeds_and_more article.post_content header .watched .w1 .star { cursor: pointer; float: right; width: 14px; height: 13px; /*position: absolute;
+right: 5px;
+top: 9px;*/ }
+.feeds_and_more article.post_content header .watched .w1 .star .star_inner { display: block; background-image: url(../images/sprites.png); background-repeat: no-repeat; float: left; width: 14px; height: 13px; background-position: -14px 0; }
+.feeds_and_more article.post_content header .watched .w1 a { display: block; text-align: right; }
+.feeds_and_more article.post_content header .watched .w1 .w_con { clear: both; display: block; color: #096db9; font-size: 11px; padding-top: 3px; }
+.feeds_and_more article.post_content header .watched .w2 { float: left; font-size: 22px; font-weight: normal; color: #3ca94e; padding-top: 5px; }
+.feeds_and_more article.post_content header a.head { font-size: 22px; font-weight: normal; color: #2f3031; display: inline-block; text-decoration: none; }
+.feeds_and_more article.post_content header a.head:link { color: #096db9; }
+.feeds_and_more article.post_content header a.head:hover { color: #f0bc05; }
+.feeds_and_more article.post_content header a.head:active { color: #333333; }
+.feeds_and_more article.post_content p { line-height: 17px; padding-top: 13px; }
+.feeds_and_more article.post_content .post_left { width: 143px; float: left; }
+.feeds_and_more article.post_content .post_left img { border: 10px solid #f2f2f2; }
+.feeds_and_more article.post_content .post_right { width: 474px; float: right; }
+.feeds_and_more article.post_content .post_right .gmap { display: none; width: 100%; height: 200px; border: 1px solid black; margin-bottom: 10px; }
+.feeds_and_more article.post_content .post_right .tag_top { color: #333333; width: 405px; overflow-x: hidden; }
+.feeds_and_more article.post_content .post_right .tag_top ul { margin-left: -3px; width: 1000px; }
+.feeds_and_more article.post_content .post_right .tag_top li { float: left; color: #333333; padding: 0 3px; }
+.feeds_and_more article.post_content .post_right .tag_top a { display: inline-block; color: #096db9; text-decoration: none; }
+.feeds_and_more article.post_content .post_right .tag_top a:link { color: #096db9; }
+.feeds_and_more article.post_content .post_right .tag_top a:hover { color: #f0bc05; }
+.feeds_and_more article.post_content .post_right .tag_top a:active { color: #333333; }
+.feeds_and_more article.post_content .post_right .tag_top a.place { display: inline; }
+.feeds_and_more article.post_content .post_right .tag_top .place { max-width: 150px; }
+.feeds_and_more article.post_content .post_right .taggap { border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; }
+.feeds_and_more article.post_content .post_right .tag_bottom { padding-top: 25px; }
+.feeds_and_more article.post_content .post_right .tag_bottom a { padding: 0 3px; }
 .feeds_and_more .load_more_feeds { text-align: center; }
 .feeds_and_more .load_more_feeds .more { background: url(../images/more_bg.gif) repeat-x bottom center; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; text-align: center; display: block; color: #096db9; text-decoration: none; padding: 5px 0; border: 1px solid #ebebeb; border-bottom: 1px solid #cbcbcb; font-weight: bold; }
 .feeds_and_more .load_more_feeds .more:hover { color: #333333; }
@@ -1021,8 +1021,6 @@ $pie-base-class: pie-element;*/
 .ui-state-default { color: #000; }
 
 .bookmark_box_trigger { -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; width: 400px; max-width: 400px; }
-
-.watcher_icon { cursor: pointer; display: block; float: right; }
 
 .hidden_tip { display: block; visibility: hidden; }
 

@@ -1,9 +1,13 @@
 <script id="feed_index_item" type="text/x-jquery-tmpl">
-    <article data-id="${id}" class="post_content clearfix">
+    <article data-id="${id}" class="post_content clearfix <?php echo (rand()%2 ==0 ) ? 'bookmarked' : '' ?> ">
         <header>
             <div class="watched">
                 <div class="w1">
-                    <img class="watcher_icon" src="<?php echo $this->baseUrl('images/watched_icon.png');?>" alt="" /><span class="w_con">Watched: ${like_count}</span>
+                    <?php /*<img class="watcher_icon" src="<?php echo $this->baseUrl('images/watched_icon.png');?>" alt="" />*/ ?>
+                    <div class="star">
+                        <div class="star_inner"></div>
+                    </div>
+                    <span class="w_con">Watched: ${like_count}</span>
                 </div>
                 <div class="w2">
                     ${score}

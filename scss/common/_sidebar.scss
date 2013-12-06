@@ -289,18 +289,19 @@
               }
               .star{
                 cursor:pointer;
-                width:14px; height:13px; position: absolute;
+                width:14px; height:13px; 
+                position: absolute;
                 right: 5px;
                 top: 9px;
-                background-position:0 0;
                 .star_inner{  
                   background-image:url(../images/sprites.png); 
                   background-repeat:no-repeat; 
                   float:left; 
                   width:14px; 
                   height:13px;
+                  background-position:-14px 0; 
+                  display:none;
                 }
-                .star_inner{ background-position:-14px 0; display:none;}
               }
               .e_date{ float:left; width: 49px; height:18px; overflow:hidden;}
               .title{ float:left; width: 180px; height:18px; color:$left-event;}
