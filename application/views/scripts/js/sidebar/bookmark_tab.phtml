@@ -36,7 +36,7 @@ var ns_sidebar_bookmark_tab = {
             getID: function() { 
               if ($.inArray( this.data.id, ns_sidebar_bookmark_tab.used_ids ) ==-1)
                 ns_sidebar_bookmark_tab.used_ids.push(this.data.id);
-                $('.sidebar_bookmark_popup[data-id="'+this.data.id+'"]').remove();
+                $('.bookmark_popup[data-id="'+this.data.id+'"]').remove();
               return this.data.id;
             },
             formatMysqlDate2: function() { 
@@ -71,7 +71,7 @@ var ns_sidebar_bookmark_tab = {
 };
 jQuery(function($){
   $('#bookmark_tab ul').mousewheel(function(){
-    $('.sidebar_bookmark_popup, .trigger_popup_icon').hide();
+    $('.bookmark_popup, .trigger_popup_icon').hide();
     var parent_div = $('.sp-viewport'); 
     var scroll_pos = parent_div.scrollTop()+parent_div.innerHeight();
     var scroll_height = parent_div[0].scrollHeight;

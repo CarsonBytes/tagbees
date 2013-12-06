@@ -313,7 +313,7 @@
                   &:active {color:#096DB9;}
               }
               &.bookmarked{
-                .sidebar_bookmark_popup .sidebar_bookmark_popup_inner .sidebar_bookmark_popup_set_reminder{
+                .bookmark_popup .bookmark_popup_inner .bookmark_popup_set_reminder{
                   display:block;
                 }
                 .star_inner{ 
@@ -321,7 +321,7 @@
                   background-position:0 0;
                 }
                 /*&:hover{
-                  .sidebar_bookmark_popup, .arrow{
+                  .bookmark_popup, .arrow{
                     display:block;
                   }
                 }*/
@@ -414,14 +414,14 @@
         }
     }
 }
-.sidebar_bookmark_popup{
+.bookmark_popup{
   position: absolute;
   z-index: 100;
   display:none;
   background:#F1F1F1;
   cursor: auto;
   width:310px;
-  .sidebar_bookmark_popup_inner{
+  .bookmark_popup_inner{
     margin:10px;
     h2{
       font-size: 14px;
@@ -454,20 +454,20 @@
       margin-top:10px;
       display:none;
     }
-    .sidebar_bookmark_popup_reminder_title, .sidebar_bookmark_popup_reminder_detail{
+    .bookmark_popup_reminder_title, .bookmark_popup_reminder_detail{
       width: 286px;
       padding: 2px;
       border: 1px solid #dfdfdf;
     }
-    .sidebar_bookmark_popup_reminder_save{
+    .bookmark_popup_reminder_save{
       float:right;
     }
-    .sidebar_bookmark_popup_set_reminder{
+    .bookmark_popup_set_reminder{
       float: right;
       margin-top:5px;
       display:none;
     }
-    .sidebar_bookmark_popup_more_reminder_fields{
+    .bookmark_popup_more_reminder_fields{
       float:left;
     }
   }

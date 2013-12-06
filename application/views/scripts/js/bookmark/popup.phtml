@@ -1,9 +1,9 @@
 <script type="text/javascript">
-var ns_sidebar_bookmark_popup = {
+var ns_bookmark_popup = {
   target: null,
   toggleBookmark: function(id){
       var parents = $('#sidebar li.list_item[data-id="'+id+'"], article[data-id="'+id+'"]');
-      var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
+      var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
       var set_status = parents.hasClass("bookmarked") ? 0 : 1;
     <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
       jQuery.ajax({
@@ -14,17 +14,17 @@ var ns_sidebar_bookmark_popup = {
             if (parents.hasClass("bookmarked")){
               parents.find('.star_inner').removeClass('gold');
               parents.removeClass("bookmarked");
-              this_popup.find('.white, .sidebar_bookmark_popup_set_reminder').hide();
+              this_popup.find('.white, .bookmark_popup_set_reminder').hide();
             } else {
               parents.find('.star_inner').addClass('gold');
               parents.addClass("bookmarked");
-              this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
+              this_popup.find('.bookmark_popup_set_reminder').show();
               /*if (! this_popup.is(':visible')){ 
-                ns_sidebar_bookmark_popup.togglePopup(id); 
+                ns_bookmark_popup.togglePopup(id); 
               }*/
             }
-            if (ns_sidebar_bookmark_popup.target == 'feeds'){
-              ns_sidebar_bookmark_popup.togglePopup(id);
+            if (ns_bookmark_popup.target == 'feeds'){
+              ns_bookmark_popup.togglePopup(id);
             }
           },
           error: function(){
@@ -37,37 +37,37 @@ var ns_sidebar_bookmark_popup = {
     <?php } ?>
   },
   togglePopup: function(id){
-    if (ns_sidebar_bookmark_popup.target==null ) ns_sidebar_bookmark_popup.target = 'sidebar';
+    if (ns_bookmark_popup.target==null ) ns_bookmark_popup.target = 'sidebar';
     
-    var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
+    var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
     if (this_popup.length){
-      if ($('.sidebar_bookmark_popup').not(this_popup).is(':visible')){
-        $('.sidebar_bookmark_popup, .more').not(this_popup).hide();
+      if ($('.bookmark_popup').not(this_popup).is(':visible')){
+        $('.bookmark_popup, .more').not(this_popup).hide();
       }
-      if (ns_sidebar_bookmark_popup.target == 'sidebar'){
+      if (ns_bookmark_popup.target == 'sidebar'){
         var trigger_popup_icon = $('.trigger_popup_icon');
         var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
           if (this_popup.is(':visible')){
            this_popup.hide();
            trigger_popup_icon.hide();
           }else{
-           ns_sidebar_bookmark_popup.adjustSidebarPopupPosition(id);
+           ns_bookmark_popup.adjustSidebarPopupPosition(id);
            this_popup.show();
            this_popup.find('.yellow').show();
            trigger_popup_icon.show();
            
-           this_popup.find('.sidebar_bookmark_popup_inner .teaser').dotdotdot({
+           this_popup.find('.bookmark_popup_inner .teaser').dotdotdot({
                 wrap : 'letter',
                 height: 60
            });
           }
          if (parent.hasClass('bookmarked')) {
-          this_popup.find('.sidebar_bookmark_popup_set_reminder').show();
+          this_popup.find('.bookmark_popup_set_reminder').show();
           this_popup.find('.white').hide();
          } else {
-          this_popup.find('.sidebar_bookmark_popup_set_reminder').hide();
+          this_popup.find('.bookmark_popup_set_reminder').hide();
          }
-      } else if (ns_sidebar_bookmark_popup.target == 'feeds'){
+      } else if (ns_bookmark_popup.target == 'feeds'){
         var trigger_popup_icon = $('.trigger_popup_icon');
         var parent = $('article[data-id="'+id+'"]');
         var star = $('article[data-id="'+id+'"] .star');
@@ -82,9 +82,9 @@ var ns_sidebar_bookmark_popup = {
             this_popup.css('top', star.offset().top + 37);
             this_popup.css('left',star.offset().left - 270);
             this_popup.show();
-            this_popup.find('.yellow, .sidebar_bookmark_popup_set_reminder').hide();
+            this_popup.find('.yellow, .bookmark_popup_set_reminder').hide();
             this_popup.find('.white').show();
-            ns_sidebar_bookmark_popup.showReminderFields();
+            ns_bookmark_popup.showReminderFields();
             trigger_popup_icon.show();
           }
         }else{
@@ -94,7 +94,7 @@ var ns_sidebar_bookmark_popup = {
     }
   },
   adjustSidebarPopupPosition: function(id){
-    var this_popup = $('.sidebar_bookmark_popup[data-id="'+id+'"]');
+    var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
     var trigger_popup_icon = $('.trigger_popup_icon');
     
     var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
@@ -135,32 +135,32 @@ var ns_sidebar_bookmark_popup = {
     console.log(this_popup.offset());
   },
   showReminderFields : function(){
-    $('.sidebar_bookmark_popup_reminder_title').watermark("<?php echo $this->translate('Reminder Title') ?>");
-    $('.sidebar_bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
+    $('.bookmark_popup_reminder_title').watermark("<?php echo $this->translate('Reminder Title') ?>");
+    $('.bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
   }
 };
 jQuery(function($){
   $('body')
-  .on('click',".sidebar_bookmark_popup",function(e){
+  .on('click',".bookmark_popup",function(e){
     e.stopPropagation();
   })
   .on('click',".star_inner",function(e){
     e.stopPropagation();
     if ($(e.target).closest('article.post_content').length){
-      ns_sidebar_bookmark_popup.target = 'feeds';
+      ns_bookmark_popup.target = 'feeds';
     } else if ($(e.target).closest('#sidebar li').length){
-      ns_sidebar_bookmark_popup.target = 'sidebar';
+      ns_bookmark_popup.target = 'sidebar';
     }
-    console.log(ns_sidebar_bookmark_popup.target);
-    ns_sidebar_bookmark_popup.toggleBookmark($(this).data('id'));
+    console.log(ns_bookmark_popup.target);
+    ns_bookmark_popup.toggleBookmark($(this).data('id'));
     ns_sidebar_bookmark_tab.is_reload = true;
     <?php /*if (ns_sidebar.activeTab=='#bookmark_tab' && ! $(e.target).closest('#bookmark_tab li').length) ns_sidebar.loadTab(true);*/?>
   })
-  .on('click', '.sidebar_bookmark_popup_set_reminder',function(e){
+  .on('click', '.bookmark_popup_set_reminder',function(e){
     e.stopPropagation();
-    $(this).parents('.sidebar_bookmark_popup').find('.white').show();
+    $(this).parents('.bookmark_popup').find('.white').show();
     $(this).hide();
-    ns_sidebar_bookmark_popup.showReminderFields();
+    ns_bookmark_popup.showReminderFields();
     return false;
   })
 <?php //pending hover effect... ?>
@@ -172,17 +172,17 @@ jQuery(function($){
   $('body')
     .on('click', '#highlight_tab li.list_item , #bookmark_tab li.list_item' , function(e) {
       e.stopPropagation();
-      ns_sidebar_bookmark_popup.target = 'sidebar';
+      ns_bookmark_popup.target = 'sidebar';
      if (clicked_id == null){
         $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
-        if (! $('.sidebar_bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible'))
-          ns_sidebar_bookmark_popup.togglePopup($(this).data('id'));
+        if (! $('.bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible'))
+          ns_bookmark_popup.togglePopup($(this).data('id'));
         clicked_id = $(this).data('id');
         $(this).addClass('clicked');
       } else {
-        ns_sidebar_bookmark_popup.togglePopup($(this).data('id'));
+        ns_bookmark_popup.togglePopup($(this).data('id'));
         $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
-        if ($('.sidebar_bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible')){
+        if ($('.bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible')){
           clicked_id = $(this).data('id');
           $(this).addClass('clicked');
         }else{
@@ -199,7 +199,7 @@ jQuery(function($){
       mouseleave : function(e){
         $(this).data('hover',0);
       }
-    }, '.sidebar_bookmark_popup, #highlight_tab li.list_item , #bookmark_tab li.list_item')
+    }, '.bookmark_popup, #highlight_tab li.list_item , #bookmark_tab li.list_item')
     .on({
       mouseenter : function(e){
         console.log('hover');
@@ -218,9 +218,9 @@ jQuery(function($){
           to_touch_id = $(this).data('id');
           over_timer = setTimeout(function() {
             console.log('over timeout');
-            if (clicked_id != null || out_timer!=null || ns_sidebar_bookmark_popup.target == 'feeds') return false;
-            ns_sidebar_bookmark_popup.target = 'sidebar';
-            ns_sidebar_bookmark_popup.togglePopup(to_touch_id);
+            if (clicked_id != null || out_timer!=null || ns_bookmark_popup.target == 'feeds') return false;
+            ns_bookmark_popup.target = 'sidebar';
+            ns_bookmark_popup.togglePopup(to_touch_id);
             touching_id = to_touch_id;
           }, 1500)
         }else if (touching_id !=null && $(e.target).closest('[data-id="'+touching_id+'"]').length){
@@ -229,8 +229,8 @@ jQuery(function($){
         } else {
           // if it is different list item
           to_touch_id = $(this).data('id');
-          ns_sidebar_bookmark_popup.target = 'sidebar';
-          ns_sidebar_bookmark_popup.togglePopup(to_touch_id);
+          ns_bookmark_popup.target = 'sidebar';
+          ns_bookmark_popup.togglePopup(to_touch_id);
           touching_id = to_touch_id;
         }
       },
@@ -238,17 +238,17 @@ jQuery(function($){
         if (clicked_id != null) return false;
         out_timer = setTimeout(function() {
             console.log('out timeout');
-            if (touching_id != null && $('.sidebar_bookmark_popup:visible').data('hover')!=1 && $('.sidebar_bookmark_popup').is(':visible')
-              && ns_sidebar_bookmark_popup.target != 'feeds'
+            if (touching_id != null && $('.bookmark_popup:visible').data('hover')!=1 && $('.bookmark_popup').is(':visible')
+              && ns_bookmark_popup.target != 'feeds'
             ){
               console.log('this is outside popup too');
               if (clicked_id != null) return false;
-              ns_sidebar_bookmark_popup.target = 'sidebar';
-              ns_sidebar_bookmark_popup.togglePopup(touching_id);
+              ns_bookmark_popup.target = 'sidebar';
+              ns_bookmark_popup.togglePopup(touching_id);
               touching_id = null;
             }
         }, 500);
       }
-    }, '#highlight_tab li.list_item, #bookmark_tab li.list_item, .sidebar_bookmark_popup');
+    }, '#highlight_tab li.list_item, #bookmark_tab li.list_item, .bookmark_popup');
 })  
 </script>

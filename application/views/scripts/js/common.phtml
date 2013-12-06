@@ -1,5 +1,5 @@
 <?php echo $this->partial('js/common/functions.phtml')?>
-<?php echo $this->partial('js/sidebar/bookmark_popup.phtml')?>
+<?php echo $this->partial('js/bookmark/popup.phtml')?>
 <script type="text/javascript">
 (function($) {
       $.timeago = function(timestamp) {
@@ -166,8 +166,8 @@
             else $(this).find('span').html('&#x25BC;')
         })
         .on('click', function(e) {
-          if (!$(e.target).closest('.sidebar_bookmark_popup, #highlight_tab li, #bookmark_tab li').length) {
-            ns_sidebar_bookmark_popup.togglePopup($('.sidebar_bookmark_popup:visible').data('id'));
+          if (!$(e.target).closest('.bookmark_popup, #highlight_tab li, #bookmark_tab li').length) {
+            ns_bookmark_popup.togglePopup($('.bookmark_popup:visible').data('id'));
             touching_id = null;clicked_id = null;
             $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
           }
@@ -182,9 +182,9 @@
         })
         
         $(window).resize(function(){
-          if ($('.sidebar_bookmark_popup').is(':visible'))
-            ns_sidebar_bookmark_popup.togglePopup();
-            <?php //ns_sidebar_bookmark_popup.adjustSidebarPopupPosition($('.sidebar_bookmark_popup:visible').data('id')); ?>
+          if ($('.bookmark_popup').is(':visible'))
+            ns_bookmark_popup.togglePopup();
+            <?php //ns_bookmark_popup.adjustSidebarPopupPosition($('.bookmark_popup:visible').data('id')); ?>
           
         }); 
         
