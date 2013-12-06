@@ -17,6 +17,9 @@ var ns_feed = {
           $('.load_more_feeds .more').show();
       }
       
+      var popup_content = ns_feed.getHTML(data_arr, 'bookmark_popup');
+      $('body').append(popup_content);
+      
       ns_feed.attachEvents();
   },
   getHTML: function(data_arr, template_id, custom_functions){

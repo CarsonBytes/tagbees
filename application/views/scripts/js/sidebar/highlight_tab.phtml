@@ -19,6 +19,7 @@ var ns_sidebar_highlight_tab = {
             getID: function() {
               if ($.inArray( this.data.id, ns_sidebar_highlight_tab.used_ids ) ==-1)
                 ns_sidebar_highlight_tab.used_ids.push(this.data.id);
+              // remove out bookmark popup before adding the new one
               $('.sidebar_bookmark_popup[data-id="'+this.data.id+'"]').remove();
               return this.data.id;
             },

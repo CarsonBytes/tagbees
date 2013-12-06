@@ -183,7 +183,8 @@
         
         $(window).resize(function(){
           if ($('.sidebar_bookmark_popup').is(':visible'))
-            ns_sidebar_bookmark_popup.adjustSidebarPopupPosition($('.sidebar_bookmark_popup:visible').data('id'));
+            ns_sidebar_bookmark_popup.togglePopup();
+            <?php //ns_sidebar_bookmark_popup.adjustSidebarPopupPosition($('.sidebar_bookmark_popup:visible').data('id')); ?>
           
         }); 
         
