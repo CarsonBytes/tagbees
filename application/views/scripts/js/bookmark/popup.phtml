@@ -51,10 +51,13 @@ var ns_bookmark_popup = {
            this_popup.hide();
            trigger_popup_icon.hide();
           }else{
+           this_popup.data('target', ns_bookmark_popup.target);
+           
            ns_bookmark_popup.adjustSidebarPopupPosition(id);
            this_popup.show();
            this_popup.find('.yellow').show();
            trigger_popup_icon.show();
+           
            
            this_popup.find('.bookmark_popup_inner .teaser').dotdotdot({
                 wrap : 'letter',
@@ -77,8 +80,9 @@ var ns_bookmark_popup = {
             trigger_popup_icon.hide();
           } else {
             //init
-            trigger_popup_icon.css('top', star.offset().top + 15);
-            trigger_popup_icon.css('left',star.offset().left);
+            this_popup.data('target', ns_bookmark_popup.target);
+            trigger_popup_icon.css('top', star.offset().top + 18);
+            trigger_popup_icon.css('left',star.offset().left+3);
             this_popup.css('top', star.offset().top + 37);
             this_popup.css('left',star.offset().left - 270);
             this_popup.show();
@@ -144,7 +148,7 @@ jQuery(function($){
   .on('click',".bookmark_popup",function(e){
     e.stopPropagation();
   })
-  .on('click',".star_inner",function(e){
+  .on('click',".star",function(e){
     e.stopPropagation();
     if ($(e.target).closest('article.post_content').length){
       ns_bookmark_popup.target = 'feeds';
@@ -218,7 +222,7 @@ jQuery(function($){
           to_touch_id = $(this).data('id');
           over_timer = setTimeout(function() {
             console.log('over timeout');
-            if (clicked_id != null || out_timer!=null || ns_bookmark_popup.target == 'feeds') return false;
+            if (clicked_id != null || out_timer!=null) return false;
             ns_bookmark_popup.target = 'sidebar';
             ns_bookmark_popup.togglePopup(to_touch_id);
             touching_id = to_touch_id;
@@ -239,7 +243,6 @@ jQuery(function($){
         out_timer = setTimeout(function() {
             console.log('out timeout');
             if (touching_id != null && $('.bookmark_popup:visible').data('hover')!=1 && $('.bookmark_popup').is(':visible')
-              && ns_bookmark_popup.target != 'feeds'
             ){
               console.log('this is outside popup too');
               if (clicked_id != null) return false;
@@ -249,6 +252,55 @@ jQuery(function($){
             }
         }, 500);
       }
-    }, '#highlight_tab li.list_item, #bookmark_tab li.list_item, .bookmark_popup');
+    }, '#highlight_tab li.list_item, #bookmark_tab li.list_item, .bookmark_popup[data-target!="feeds"]')
+    .on({
+      mouseenter : function(e){
+        console.log('hover');
+        if (over_timer != null){
+          clearTimeout(over_timer);
+          over_timer = null;
+        }
+        if(out_timer!=null) {
+          clearTimeout(out_timer);
+          out_timer = null;
+        }
+        if (clicked_id != null) return false;
+        
+        if (touching_id == null){
+        // if it is the first list item to touch
+          to_touch_id = $(this).data('id');
+          over_timer = setTimeout(function() {
+            console.log('over timeout');
+            if (clicked_id != null || out_timer!=null) return false;
+            ns_bookmark_popup.target = 'feeds';
+            ns_bookmark_popup.togglePopup(to_touch_id);
+            touching_id = to_touch_id;
+          }, 500)
+        }else if (touching_id !=null && $(e.target).closest('[data-id="'+touching_id+'"]').length){
+          // if it is the same list item
+          return false;
+        } else {
+          // if it is different list item
+          to_touch_id = $(this).data('id');
+          ns_bookmark_popup.target = 'feeds';
+          ns_bookmark_popup.togglePopup(to_touch_id);
+          touching_id = to_touch_id;
+        }
+      },
+      mouseleave: function(e){
+        if (clicked_id != null) return false;
+        out_timer = setTimeout(function() {
+            console.log('out timeout');
+            if (touching_id != null && $('.bookmark_popup:visible').data('hover')!=1 && $('.bookmark_popup').is(':visible')
+            ){
+              console.log('this is outside popup too');
+              if (clicked_id != null) return false;
+              ns_bookmark_popup.target = 'feeds';
+              ns_bookmark_popup.togglePopup(touching_id);
+              touching_id = null;
+            }
+        }, 500);
+      }
+    }, 'article .star, .bookmark_popup[data-target="feeds"]')
 })  
 </script>

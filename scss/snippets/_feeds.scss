@@ -39,7 +39,8 @@
       padding:15px 0 40px 0;
       background:url(../images/post_bg.gif) repeat-x bottom left; 
       position:relative;
-      header{
+      > header{
+        height: 40px;
         .watched{ 
           position:absolute; top:12px; right:0px;
           .w1{ float:right; position:relative;
@@ -52,6 +53,7 @@
                 cursor:pointer;
                 float: right;
                 width:14px; height:13px; 
+                padding: 5px;
                 /*position: absolute;
                 right: 5px;
                 top: 9px;*/

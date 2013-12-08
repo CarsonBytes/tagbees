@@ -33,8 +33,10 @@
     var map_markers_data = [];
     jQuery(function($){
         <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-            map_markers_data = index_feeds.data;
-            refreshMarkers();
+            if (typeof index_feed != 'undefined'){ 
+              map_markers_data = index_feeds.data;
+              refreshMarkers();
+            }
         <?php } ?>
         //when user clicks load more
         $('body#index').on("click",'.load_more_feeds',function() {

@@ -81,13 +81,13 @@ function initMap() {
 <?php } ?>
 }
 
-function refreshMarkers(markers) {
+function refreshMarkers() {
   <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
       deleteOverlays();
       addMarker(map_markers_data);
   <?php } ?>
 }
-function removeMarkers(markers) {
+function removeMarkers() {
   <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
       deleteOverlays();
   <?php } ?>

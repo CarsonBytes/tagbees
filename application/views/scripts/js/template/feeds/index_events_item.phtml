@@ -4,14 +4,15 @@
             <div class="watched">
                 <div class="w1">
                     <?php /*<img class="watcher_icon" src="<?php echo $this->baseUrl('images/watched_icon.png');?>" alt="" />*/ ?>
-                    <div class="star">
-                        <div data-id="${id}" class="star_inner"></div>
+                    <div data-id="${id}" class="star">
+                        <div class="star_inner"></div>
                     </div>
                     <span class="w_con">Watched: ${like_count}</span>
                 </div>
-                <div class="w2">
+                <?php // temporarily hide the score as we do not have to show it to users and to avoid confusion with like count
+                /*<div class="w2">
                     ${score}
-                </div>
+                </div>*/ ?>
             </div>
             <a class="head" href="<?php echo $this->baseUrl('event');?>/${slug_name}">${name}</a>
         </header>
