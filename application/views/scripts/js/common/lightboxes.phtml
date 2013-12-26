@@ -1,0 +1,33 @@
+<?php echo $this->partial('js/template/event/reminder_form.phtml'); ?>
+<script type="text/javascript">
+jQuery(function($) {
+  $('body').on('click','.bookmark_popup_more_reminder_fields',function(){
+    var item_id = $(this).parents('.bookmark_popup').data('id');
+    $.ajax({
+      url: "<?php echo $this->baseUrl('ajax/event/reminder_form') ?>",
+      data: {item_id: item_id},
+      beforeSend:  function() {
+      },
+      success: function(msg){
+        var data_array = [];
+        if (msg.data != false){
+          data_array.push(msg.data);
+        } else {
+          data_array.push({item_id:item_id})
+        }
+        var colorbox_options = 
+        $.colorbox({
+          transition:"none",
+          fadeOut: 0,
+          closeButton: false,
+          html:$( "#event_reminder_form" ).tmpl(data_array),
+          onComplete:function(){ ns_event_reminder_form.init(); }
+        });
+        return true;
+      }
+    });
+    return false;
+  });
+});
+</script>
+<?php echo $this->partial('js/event/reminder_form.phtml'); ?>

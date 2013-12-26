@@ -568,6 +568,19 @@ $pie-base-class: pie-element;*/
 .event_detail .detail_div .Imggallery .content p a { color: #333333; text-decoration: none; }
 .event_detail .detail_div .Imggallery .content p a:hover { text-decoration: underline; }
 
+#event_reminder_form table { width: 490px; }
+#event_reminder_form table th { color: #333; padding-right: 10px; padding-bottom: 10px; vertical-align: top; text-align: right; white-space: nowrap; }
+#event_reminder_form table td { width: 100%; }
+#event_reminder_form table .textinput { padding: 3px; }
+#event_reminder_form table div.textarea textarea { line-height: 1.4em; }
+#event_reminder_form table textarea, #event_reminder_form table .textinput { width: 100%; }
+#event_reminder_form table .numberinput { padding: 3px; width: 2em; text-align: right; }
+#event_reminder_form table input, #event_reminder_form table textarea, #event_reminder_form table select { /*border:1px solid #e0e0e0;*/ border: 1px solid; border-color: silver #d9d9d9 #d9d9d9; /*background-color:white;
+font-family:Arial, Helvetica, sans-serif; 
+font-size:13px; 
+@include border-radius(4px); */ }
+#event_reminder_form table input.save, #event_reminder_form table input.close { -webkit-border-radius: 6px; -moz-border-radius: 6px; -ms-border-radius: 6px; -o-border-radius: 6px; border-radius: 6px; padding: 3px 13px 6px; font-size: 13px; font-weight: bold; width: auto; height: auto; cursor: pointer; border: 1px solid white; margin: 10px 0 0 0; background: lightGrey; }
+
 /*@import "compass/css3/pie";*/
 /*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");
 $pie-base-class: pie-element;*/

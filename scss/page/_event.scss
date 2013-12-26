@@ -109,3 +109,58 @@
     }
   }
 }
+#event_reminder_form{
+  table{
+    width: 490px;
+    th{
+      color: #333;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      vertical-align: top;
+      text-align: right;
+      white-space: nowrap;
+    }
+    td{
+      width:100%;
+    }
+    .textinput{
+      padding: 3px;
+    }
+    div.textarea{
+      textarea{
+        line-height: 1.4em;
+      }
+    }
+    textarea, .textinput{
+      width: 100%;
+    }
+    .numberinput{
+      padding: 3px;
+      width: 2em;
+      text-align: right;
+    }
+    input, textarea, select{ 
+      /*border:1px solid #e0e0e0;*/
+      border: 1px solid;
+      border-color: #c0c0c0 #d9d9d9 #d9d9d9;
+      
+       
+      /*background-color:white;
+      font-family:Arial, Helvetica, sans-serif; 
+      font-size:13px; 
+      @include border-radius(4px); */
+    }
+    input.save, input.close{ 
+      @include border-radius(6px);
+      padding: 3px 13px 6px;
+      font-size:13px;
+      font-weight:bold;
+      width:auto;
+      height:auto;
+      cursor:pointer; 
+      border:1px solid white; 
+      margin:10px 0 0 0;
+      background: lightGrey;
+    }
+  }
+}

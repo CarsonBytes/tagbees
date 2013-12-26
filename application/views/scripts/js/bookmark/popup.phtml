@@ -155,7 +155,7 @@ jQuery(function($){
     } else if ($(e.target).closest('#sidebar li').length){
       ns_bookmark_popup.target = 'sidebar';
     }
-    console.log(ns_bookmark_popup.target);
+    //console.log(ns_bookmark_popup.target);
     ns_bookmark_popup.toggleBookmark($(this).data('id'));
     ns_sidebar_bookmark_tab.is_reload = true;
     <?php /*if (ns_sidebar.activeTab=='#bookmark_tab' && ! $(e.target).closest('#bookmark_tab li').length) ns_sidebar.loadTab(true);*/?>
@@ -166,6 +166,19 @@ jQuery(function($){
     $(this).hide();
     ns_bookmark_popup.showReminderFields();
     return false;
+  })
+  
+  
+<?php //pending hover keypress... ?>
+  var auto_save_timer;
+  $('body').on('keypress', '.bookmark_popup_form input, .bookmark_popup_form textarea',function(e){
+    var _this = $(this); // copy of this object for further usage
+    if (auto_save_timer) clearTimeout(auto_save_timer);
+    auto_save_timer = setTimeout(function() {
+      console.log(_this.parents('.bookmark_popup_form'));
+      console.log(_this.parents('form'));
+      ns_event_reminder_form.submitForm(_this.parents('.bookmark_popup_form'));
+    }, 1500);
   })
 <?php //pending hover effect... ?>
   var over_timer = null;

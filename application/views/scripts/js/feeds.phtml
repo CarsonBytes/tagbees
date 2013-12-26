@@ -36,38 +36,38 @@ function refreshFeed(type, more_flag, para, is_refresh_markers){
         $('.loading.feed').show();
         feed_refreshing = true;
         jQuery.ajax({
-                url: "<?php echo $this->baseUrl('ajax/feed/refresh') ?>",
-                data: para,
-                beforeSend:  function() {
-                    if (more_flag) {
-                        $(".load_more_feeds .loading").show();
-                        $(".load_more_feeds .more").hide();
-                    }
-                },
-                success: function(response){
-                    if ($.isEmptyObject(response.data)){
-                        hideMoreButton(more_flag);
-                        removeMarkers();
-                    } else {
-                        if (type == 'index') {
-                            <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                                map_markers_data = response.data;
-                                if (is_refresh_markers) 
-                                  refreshMarkers();
-                                else addMarkers();
-                            <?php } ?>
-                            ns_feed.render(response, more_flag);
-                        } else if (type == 'user_log'){
-                            renderUserLogs(response, more_flag);
-                        } else if ((type == 'tree_feeds')|| (type == 'tag_events')){
-                            //renderTreeFeeds(response, more_flag);
-                            ns_feed.render(response, more_flag);
-                        }
-                    }
-                    feed_refreshing = false;
-                    $('.loading.feed').hide();
-                    return true;
-                }
+          url: "<?php echo $this->baseUrl('ajax/feed/refresh') ?>",
+          data: para,
+          beforeSend:  function() {
+              if (more_flag) {
+                  $(".load_more_feeds .loading").show();
+                  $(".load_more_feeds .more").hide();
+              }
+          },
+          success: function(response){
+            if ($.isEmptyObject(response.data)){
+              hideMoreButton(more_flag);
+              removeMarkers();
+            } else {
+              if (type == 'index') {
+                <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+                    map_markers_data = response.data;
+                    if (is_refresh_markers) 
+                      refreshMarkers();
+                    else addMarkers();
+                <?php } ?>
+                ns_feed.render(response, more_flag);
+              } else if (type == 'user_log'){
+                renderUserLogs(response, more_flag);
+              } else if ((type == 'tree_feeds')|| (type == 'tag_events')){
+                  //renderTreeFeeds(response, more_flag);
+                ns_feed.render(response, more_flag);
+              }
+            }
+            feed_refreshing = false;
+            $('.loading.feed').hide();
+            return true;
+          }
         });
     };
 }

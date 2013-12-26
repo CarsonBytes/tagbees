@@ -1,5 +1,5 @@
 <script id="bookmark_popup" type="text/x-jquery-tmpl">
-    <div data-id="${id}" class="bookmark_popup">
+    <div data-id="${$item.getID()}" class="bookmark_popup">
       <div class="bookmark_popup_inner">
         <div class="yellow">
           <a href="<?php echo $this->baseUrl('event');?>/${slug_name}" target="_blank" class="title">${name}</a>
@@ -45,8 +45,9 @@
         <a class="bookmark_popup_set_reminder" href="#" data-value="0">Set Reminder...</a>
         <div class="white">
           <form class="bookmark_popup_form" name="bookmark_popup_form" action="" method="post" >
-            <input type="text" name="reminder_title" class="bookmark_popup_reminder_title" value=""/>
-            <textarea name="reminder_detail" class="bookmark_popup_reminder_detail" ></textarea>
+            <input type="hidden" name="event_reminder_item_id" class="bookmark_popup_reminder_title" value="${id}"/>
+            <input type="text" name="event_reminder_title" class="bookmark_popup_reminder_title" value=""/>
+            <textarea name="event_reminder_description" class="bookmark_popup_reminder_detail" ></textarea>
           </form>
           <a class="bookmark_popup_more_reminder_fields" href="#">More reminder fields....</a>
         </div>

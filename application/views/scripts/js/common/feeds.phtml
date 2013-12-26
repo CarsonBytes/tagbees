@@ -1,0 +1,164 @@
+<script type="text/javascript">
+// feed content including in sidebar, that's why we put feed functions here
+var ns_feed = {
+  render: function(data_arr, more_flag, template_id){
+    if (typeof more_flag == 'undefined') var more_flag=false;
+    if (typeof template_id == 'undefined') var template_id = 'feed_index_item';
+      var feeds_html = ns_feed.getHTML(data_arr, template_id);
+      
+      if (more_flag) feeds_html.appendTo( ".feeds_and_more .feeds");
+      else $(".feeds_and_more .feeds").html(feeds_html);
+      
+      //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
+      if (feeds_html.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
+          hideMoreButton(more_flag);
+      }else{
+          $('.load_more_feeds .loading').hide();
+          $('.load_more_feeds .more').show();
+      }
+      
+      var popup_content = ns_feed.getHTML(data_arr, 'bookmark_popup');
+      $('body').append(popup_content);
+      
+      ns_feed.attachEvents();
+  },
+  getHTML: function(data_arr, template_id, custom_functions){
+    if (typeof template_id == 'undefined') var template_id = 'feed_index_item';
+    if (typeof custom_functions == 'undefined') var custom_functions = {};
+    
+    var functions = $.extend(true, {}, {
+        getID: function() {
+          // remove out bookmark popup before adding the new one
+          $('.bookmark_popup[data-id="'+this.data.id+'"]').remove();
+          return this.data.id;
+        },
+        getMainPicTitle: function(){
+            var img_is_main_pics =this.data.img_is_main_pics.split(',');
+            var img_descriptions =this.data.img_descriptions.split(',');
+            for( index in img_is_main_pics){
+                if (img_is_main_pics[index] == 1){
+                    return img_descriptions[index];
+                }
+            }
+        },
+        getMainPicURL: function(){
+            var img_is_main_pics =this.data.img_is_main_pics.split(',');
+            var img_filenames =this.data.img_filenames.split(',');
+            for( index in img_is_main_pics){
+                if (img_is_main_pics[index] == 1){
+                    return '<?php echo $this->baseUrl('uploads');?>/'+img_filenames[index];
+                }
+            }
+            return '<?php echo Common::changePathToURL(Common::config()->pics->event->public);?>';
+        },
+        hasMainCat: function(){
+            return !(jQuery.isEmptyObject(this.data.tree_ids.main));
+        },
+        getMainCatName: function(){
+            var main_cat_ids = this.data.tree_ids.main;
+            var keys = $.keys(main_cat_ids);
+            return data_arr.tree_tags[main_cat_ids[keys[keys.length-1]]]['name'];
+        },
+        getMainCatURL: function(){
+            var main_cat_ids = this.data.tree_ids.main;
+            var url = [];
+            for (index in main_cat_ids){
+              if (typeof data_arr.tree_tags[main_cat_ids[index]] != 'undefined'){
+                  url.push(data_arr.tree_tags[main_cat_ids[index]]['slug_name']);
+              }else {
+                  //unknown error: data_arr.tree_tags[main_cat_ids[index]] can be undefined...
+                  alert('Error occured, please refresh the page.');
+                  return '';
+              }
+            }
+            url = url.join('/');
+            return '<?php echo $this->baseUrl('tree');?>/'+url;
+        },
+        urldecode: function() {
+           //console.log(this.data);
+          if (typeof arguments[0] == 'string') 
+              return decodeURIComponent((arguments[0]+'').replace(/\+/g, '%20')).replace('\n','<br />');
+              //return $("<div/>").html(arguments[0]).text();
+          else return '';
+        },
+        formatMysqlDate: function() { 
+            if (typeof arguments[0] == 'string') 
+              return $.datepicker.formatDate('dd M yy', mysqlTimeStampToDate(arguments[0]));
+        },
+        tagHTML: function() {
+            var tag_slug_names =this.data.tag_slug_names.split(',');
+            var tag_names =this.data.tag_names.split(',');
+            var tag_types =this.data.tag_types.split(',');
+            var html = [];
+            for( index in tag_slug_names){
+              if (tag_names[index]!='' && tag_slug_names[index]!='' && tag_slug_names[index]!='')
+                  html.push('<a href="<?php echo $this->baseUrl();?>/'+tag_types[index]+'/'+tag_slug_names[index]+'">'+tag_names[index]+'</a>');
+            }
+            return html.join(', ');
+        }
+    } , custom_functions);
+    
+    //console.log(data_arr);
+    return $( "#"+template_id ).tmpl(data_arr.data,functions);
+  },
+  attachEvents: function(){
+    
+    $("abbr.timeago").timeago();
+    
+    $(".post_right div.content").dotdotdot({
+            wrap : 'letter',
+            height: 80
+    });
+    
+    $(".direction-arrow").each( function(){
+        var direction=$(this).attr('class').replace('direction-arrow ','');
+        if (direction!=''){
+            $(this).css('display','inline-block');
+            $(this).rotate(parseInt(direction));
+        }else{
+            //$(this).css('display','none');
+        }
+    })
+  },
+  initMap: function(elem){
+    var map;
+    var elevator;
+    //var latlng=new google.maps.LatLng('44.339565', '-114.960937');
+    var coords = [elem.attr('data-lat'),elem.attr('data-lng')];
+   
+    // Setup place_lat/long coordinates
+    var latlng = new google.maps.LatLng(parseFloat(coords[0]), parseFloat(coords[1]));
+   
+    var styleArray = [
+        {
+            featureType: "all",
+            stylers: [{ visibility: "off" }]
+        },
+        {
+            featureType: "road",
+            stylers: [{ visibility: "on" }]
+        },
+        {
+            featureType: "administrative",
+            stylers: [{ visibility: "on" }]
+        }
+    ];
+    var myOptions = {
+      styles: styleArray,
+      scrollwheel: false,
+      zoom: 12, // Close zoom!
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP // Use the classic roadmap
+    };
+    
+    map = new google.maps.Map(elem[0], myOptions);
+    
+    var marker = new google.maps.Marker({
+        position: latlng,
+        map: map,
+        //icon: 'http://google-maps-icons.googlecode.com/files/walking-tour.png',
+        draggable: true
+    });
+  }
+}
+</script>

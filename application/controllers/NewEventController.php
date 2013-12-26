@@ -90,8 +90,8 @@ class NewEventController extends Zend_Controller_Action {
         
         if (isset($input_vals['new_event_submit'])){
           unset($input_vals['new_event_submit']);
-          $postService=new Service_Post();
-          $slug_name=$postService->add($input_vals);
+          $eventService=new Service_Event();
+          $slug_name=$eventService->add($input_vals);
           
           $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$input->getEscaped('new_event_name').'\" has been created.'));
           
@@ -194,8 +194,8 @@ class NewEventController extends Zend_Controller_Action {
         
         if (isset($input_vals['new_event_submit'])){
           unset($input_vals['new_event_submit']);
-          $postService=new Service_Post();
-          $slug_name=$postService->add($input_vals);
+          $eventService=new Service_Event();
+          $slug_name=$eventService->add($input_vals);
           
           $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$input->getEscaped('new_event_name').'\" has been created.'));
           

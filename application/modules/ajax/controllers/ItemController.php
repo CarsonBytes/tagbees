@@ -101,8 +101,8 @@ class Ajax_ItemController extends Zend_Controller_Action
 		     if ($value=='') unset($values[$key]);
       }
 
-      $postService=new Service_Post();
-      $slug_name=$postService->add($values);
+      $eventService=new Service_Event();
+      $slug_name=$eventService->add($values);
       
       $this->_helper->FlashMessenger(array('success'=>'Your event \"'.$_POST['name'].'\" has been created.'));
 		  $this->_helper->json(array('result'=>1,'slug_name'=>$slug_name));

@@ -14,46 +14,6 @@ var savedLocation=[];
 var flagOverrideSavedLocation=0;
 <?php } ?>
 
-<?php /*
-// prepare to fetch new feed based on updated filter input
-function updateFilterByChangedInput(selector){
-    if (validateSidebarSearchInputs()){
-         if (selector.is('.feed_filter_input[name="is_match_location"]')){
-            jQuery( ".radius_amt span#filter_radius" ).text( jQuery( "#radius_slider" ).slider( "option", "value" ));
-            if (jQuery('.feed_filter_input[name="is_match_location"]').is(':checked')){
-                jQuery( ".match_location_set" ).css('display','block');
-                $('#locate_somewhere').prop('disabled',false);
-                initDistanceWidget();
-            }else{
-                jQuery( ".match_location_set" ).hide();
-                $('#locate_somewhere').prop('disabled',true);
-                distanceWidget.set('map', null);
-            }
-        } else if (selector.is('.feed_filter_input[name="is_show_map"]')) {
-            <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                    if (selector.val() == 1) {
-                        $('#map_wrapper').show();
-                    } else {
-                        $('#map_wrapper').hide();
-                    }
-                    initMap();
-                    return true;
-            <?php } else { ?>
-                var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
-                showFlashMessages(content);
-            <?php } ?>
-        }
-    <?php if (! Zend_Auth::getInstance()->hasIdentity()) { ?>
-        else if (selector.is('.feed_filter_input[name="is_match_interest"]')) {
-            var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
-            showFlashMessages(content);
-            selector.prop('checked',false);
-            return false;
-        }
-    <?php } ?>
-    }
-}
-*/ ?>
 function updateSortByInput(value){
     $('nav.sort_by ul li').removeClass('current');
     $('nav.sort_by ul li[data-value="'+value+'"]').addClass('current');

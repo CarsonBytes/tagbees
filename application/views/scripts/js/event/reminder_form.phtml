@@ -1,0 +1,65 @@
+<script type="text/javascript">
+var ns_event_reminder_form = {
+  init : function(){
+    $('input[name="event_reminder_name"]').watermark("<?php echo $this->translate('Please enter name') ?>");
+    $('textarea[name="event_reminder_description"]').watermark("<?php echo $this->translate('Please enter description') ?>");
+    $('input[name="event_reminder_tags"]').watermark("<?php echo $this->translate('Please enter tags (seperated with comma)') ?>");
+    $('.event_reminder_has_alarm').each(function(){
+      if (! $(this).is(':checked')){
+        $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',true);
+        $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',true);
+      } else {
+        $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',false);
+        $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',false);
+      }
+    })
+  },
+  submitForm : function(form){
+    console.log(form.serialize());
+    $('.event_reminder_alarm_time').each(function(){
+      if(! isNumber($(this).val())) $(this).val(0);
+    });
+    var is_submitted = false;
+    jQuery.ajax({
+      type: "POST",
+      url: "<?php echo $this->baseUrl('ajax/event/reminder_form_submit') ?>",
+      data: form.serialize(),
+      <?php /*success: function(msg){
+        if(msg['result']==true){
+          return true;
+        } else{
+          return false;
+        }
+      },*/ ?>
+      error: function(){
+        alert ("<?php echo $this->translate('Connection failed. Please try again later.') ?>");
+      },
+      dataType:"json"
+    });
+    
+    return is_submitted;
+  }
+}
+
+jQuery(function($){
+  $('body').on('click', 'input#event_reminder_save', function(e){
+    e.preventDefault();
+    ns_event_reminder_form.submitForm($(this).parents('form'));
+    return false;
+  })
+  .on('click', 'input#event_reminder_close', function(e){
+    e.preventDefault();
+    $.colorbox.close();
+    return false;
+  }).on('change','.event_reminder_has_alarm',function(){
+      if (! $(this).is(':checked')){
+        $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',true);
+        $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',true);
+      } else {
+        $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',false);
+        $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',false);
+      }
+  })
+  ;
+})
+</script>
