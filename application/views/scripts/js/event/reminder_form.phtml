@@ -15,7 +15,6 @@ var ns_event_reminder_form = {
     })
   },
   submitForm : function(form){
-    console.log(form.serialize());
     $('.event_reminder_alarm_time').each(function(){
       if(! isNumber($(this).val())) $(this).val(0);
     });
@@ -24,13 +23,15 @@ var ns_event_reminder_form = {
       type: "POST",
       url: "<?php echo $this->baseUrl('ajax/event/reminder_form_submit') ?>",
       data: form.serialize(),
-      <?php /*success: function(msg){
+      success: function(msg){
         if(msg['result']==true){
+          $('[data-id="'+msg.data.item_id+'"]').find('[name="event_reminder_title"]').val(msg.data.title);
+          $('[data-id="'+msg.data.item_id+'"]').find('[name="event_reminder_description"]').text(msg.data.description);
           return true;
         } else{
           return false;
         }
-      },*/ ?>
+      },
       error: function(){
         alert ("<?php echo $this->translate('Connection failed. Please try again later.') ?>");
       },
