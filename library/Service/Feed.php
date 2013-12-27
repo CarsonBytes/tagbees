@@ -110,14 +110,18 @@ class Service_Feed{
 							)
 				);
 	
-            // get item tags
-            $tagService=new Service_Tag();
-            $this->feed_query = $tagService->getJoinQuery($this->feed_query, 'f.id');
-            
-            // get item images
-            $imageService=new Service_Image();
-            $this->feed_query = $imageService->getJoinQuery($this->feed_query, 'f.id');
-	
+      // get item tags
+      $tagService=new Service_Tag();
+      $this->feed_query = $tagService->getJoinQuery($this->feed_query, 'f.id');
+      
+      // get item images
+      $imageService=new Service_Image();
+      $this->feed_query = $imageService->getJoinQuery($this->feed_query, 'f.id');
+  
+      // get user event reminders
+      $eventService=new Service_Event();
+      $this->feed_query = $eventService->getJoinQuery($this->feed_query, 'f.id');
+  
 			$bookmarkService=new Service_Bookmark();
 			$this->feed_query=$bookmarkService->getBookmarkCountQuery($this->feed_query,'f');
 	

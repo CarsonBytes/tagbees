@@ -2,6 +2,22 @@
 class Service_Event{
 	protected $identity;
 	protected $db;
+  private $_db_fields = array(
+    'item_id',
+    'title', 
+    'description', 
+    'tags', 
+    'has_email_alarm',
+    'email_alarm_time', 
+    'email_alarm_time_unit', 
+    'has_popup_alarm', 
+    'popup_alarm_time', 
+    'popup_alarm_time_unit', 
+    'has_mobile_alarm',
+    'mobile_alarm_time', 
+    'mobile_alarm_time_unit', 
+    'is_popup_dismissed'
+  );
 	function __construct(){
 		$this->identity=Zend_Auth::getInstance()->getIdentity();
 	  $this->db = Zend_Db_Table::getDefaultAdapter();
@@ -162,6 +178,24 @@ class Service_Event{
     return $this->db->fetchRow($select);
   }
 
+  
+  public function getJoinQuery($select, $linked_item_id='', $prefix = 'reminder_'){
+    if(Zend_Auth::getInstance()->hasIdentity()){
+      $fields = array();
+      foreach($this->_db_fields as $value){
+        $fields[$prefix.$value] = $value;
+      }
+      $select
+        ->joinLeft(
+            array('r'=>'reminder'),
+            'r.item_id='.$linked_item_id.' and r.user_id = '.$this->identity->item_id,
+            $fields
+        )
+        ->group($linked_item_id);
+    }
+    return $select;
+  }
+    
 	//data contain item's fields and log reason
 	public function update($id,$changed_fields,$reason){
 	    //adding extra fields before posting to db
