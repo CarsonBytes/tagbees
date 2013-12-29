@@ -1,6 +1,13 @@
 <script type="text/javascript">
 var ns_bookmark_popup = {
   target: null,
+  <?php //pending hover effect... ?>
+  over_timer : null,
+  out_timer : null,
+  to_touch_id : null,
+  touching_id : null,
+  clicked_id : null,
+  auto_save_timer: null,
   toggleBookmark: function(id){
       var parents = $('#sidebar li.list_item[data-id="'+id+'"], article[data-id="'+id+'"]');
       var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
@@ -64,12 +71,12 @@ var ns_bookmark_popup = {
                 height: 60
            });
           }
-         if (parent.hasClass('bookmarked')) {
+         <?php /*if (parent.hasClass('bookmarked')) {
           this_popup.find('.bookmark_popup_set_reminder').show();
           this_popup.find('.white').hide();
          } else {
           this_popup.find('.bookmark_popup_set_reminder').hide();
-         }
+         }*/ ?>
       } else if (ns_bookmark_popup.target == 'feeds'){
         var trigger_popup_icon = $('.trigger_popup_icon');
         var parent = $('article[data-id="'+id+'"]');
@@ -86,8 +93,8 @@ var ns_bookmark_popup = {
             this_popup.css('top', star.offset().top + 37);
             this_popup.css('left',star.offset().left - 270);
             this_popup.show();
-            this_popup.find('.yellow, .bookmark_popup_set_reminder').hide();
-            this_popup.find('.white').show();
+            //this_popup.find('.yellow, .bookmark_popup_set_reminder').hide();
+            //this_popup.find('.white').show();
             ns_bookmark_popup.showReminderFields();
             trigger_popup_icon.show();
           }
@@ -143,6 +150,7 @@ var ns_bookmark_popup = {
     $('.bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
   }
 };
+
 jQuery(function($){
   $('body')
   .on('click',".bookmark_popup",function(e){
@@ -168,46 +176,39 @@ jQuery(function($){
     return false;
   })
   
-  
 <?php //pending hover keypress... ?>
-  var auto_save_timer;
   $('body').on('keypress', '.bookmark_popup_form input, .bookmark_popup_form textarea',function(e){
     var _this = $(this); // copy of this object for further usage
-    if (auto_save_timer) clearTimeout(auto_save_timer);
-    auto_save_timer = setTimeout(function() {
-      console.log(_this.parents('.bookmark_popup_form'));
-      console.log(_this.parents('form'));
+    if (ns_bookmark_popup.auto_save_timer) clearTimeout(
+      ns_bookmark_popup.auto_save_timer
+    );
+    ns_bookmark_popup.auto_save_timer = setTimeout(function() {
       ns_event_reminder_form.submitForm(_this.parents('.bookmark_popup_form'));
     }, 500);
   })
 <?php //pending hover effect... ?>
-  var over_timer = null;
-  var out_timer = null;
-  var to_touch_id = null;
-  var touching_id = null;
-  var clicked_id = null;
   $('body')
     .on('click', '#highlight_tab li.list_item , #bookmark_tab li.list_item' , function(e) {
       e.stopPropagation();
       ns_bookmark_popup.target = 'sidebar';
-     if (clicked_id == null){
+     if (ns_bookmark_popup.clicked_id == null){
         $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
         if (! $('.bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible'))
           ns_bookmark_popup.togglePopup($(this).data('id'));
-        clicked_id = $(this).data('id');
+        ns_bookmark_popup.clicked_id = $(this).data('id');
         $(this).addClass('clicked');
       } else {
         ns_bookmark_popup.togglePopup($(this).data('id'));
         $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
         if ($('.bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible')){
-          clicked_id = $(this).data('id');
+          ns_bookmark_popup.clicked_id = $(this).data('id');
           $(this).addClass('clicked');
         }else{
-          clicked_id = null;
+          ns_bookmark_popup.clicked_id = null;
           $(this).removeClass('clicked');
         }
       }
-      console.log(clicked_id);
+      console.log(ns_bookmark_popup.clicked_id);
     })
     .on({
       mouseenter : function(e){
@@ -220,48 +221,48 @@ jQuery(function($){
     .on({
       mouseenter : function(e){
         console.log('hover');
-        if (over_timer != null){
-          clearTimeout(over_timer);
-          over_timer = null;
+        if (ns_bookmark_popup.over_timer != null){
+          clearTimeout(ns_bookmark_popup.over_timer);
+          ns_bookmark_popup.over_timer = null;
         }
-        if(out_timer!=null) {
-          clearTimeout(out_timer);
-          out_timer = null;
+        if(ns_bookmark_popup.out_timer!=null) {
+          clearTimeout(ns_bookmark_popup.out_timer);
+          ns_bookmark_popup.out_timer = null;
         }
-        if (clicked_id != null) return false;
+        if (ns_bookmark_popup.clicked_id != null) return false;
         
-        if (touching_id == null){
+        if (ns_bookmark_popup.touching_id == null){
         // if it is the first list item to touch
-          to_touch_id = $(this).data('id');
-          over_timer = setTimeout(function() {
+          ns_bookmark_popup.to_touch_id = $(this).data('id');
+          ns_bookmark_popup.over_timer = setTimeout(function() {
             console.log('over timeout');
-            if (clicked_id != null || out_timer!=null) return false;
+            if (ns_bookmark_popup.clicked_id != null || ns_bookmark_popup.out_timer!=null) return false;
             ns_bookmark_popup.target = 'sidebar';
-            ns_bookmark_popup.togglePopup(to_touch_id);
-            touching_id = to_touch_id;
+            ns_bookmark_popup.togglePopup(ns_bookmark_popup.to_touch_id);
+            ns_bookmark_popup.touching_id = ns_bookmark_popup.to_touch_id;
           }, 1500)
-        }else if (touching_id !=null && $(e.target).closest('[data-id="'+touching_id+'"]').length){
+        }else if (ns_bookmark_popup.touching_id !=null && $(e.target).closest('[data-id="'+ns_bookmark_popup.touching_id+'"]').length){
           // if it is the same list item
           return false;
         } else {
           // if it is different list item
-          to_touch_id = $(this).data('id');
+          ns_bookmark_popup.to_touch_id = $(this).data('id');
           ns_bookmark_popup.target = 'sidebar';
-          ns_bookmark_popup.togglePopup(to_touch_id);
-          touching_id = to_touch_id;
+          ns_bookmark_popup.togglePopup(ns_bookmark_popup.to_touch_id);
+          ns_bookmark_popup.touching_id = ns_bookmark_popup.to_touch_id;
         }
       },
       mouseleave: function(e){
-        if (clicked_id != null) return false;
-        out_timer = setTimeout(function() {
+        if (ns_bookmark_popup.clicked_id != null) return false;
+        ns_bookmark_popup.out_timer = setTimeout(function() {
             console.log('out timeout');
-            if (touching_id != null && $('.bookmark_popup:visible').data('hover')!=1 && $('.bookmark_popup').is(':visible')
+            if (ns_bookmark_popup.touching_id != null && $('.bookmark_popup').is(':visible')
             ){
               console.log('this is outside popup too');
-              if (clicked_id != null) return false;
+              if (ns_bookmark_popup.clicked_id != null) return false;
               ns_bookmark_popup.target = 'sidebar';
-              ns_bookmark_popup.togglePopup(touching_id);
-              touching_id = null;
+              ns_bookmark_popup.togglePopup(ns_bookmark_popup.touching_id);
+              ns_bookmark_popup.touching_id = null;
             }
         }, 500);
       }
@@ -269,48 +270,48 @@ jQuery(function($){
     .on({
       mouseenter : function(e){
         console.log('hover');
-        if (over_timer != null){
-          clearTimeout(over_timer);
-          over_timer = null;
+        if (ns_bookmark_popup.over_timer != null){
+          clearTimeout(ns_bookmark_popup.over_timer);
+          ns_bookmark_popup.over_timer = null;
         }
-        if(out_timer!=null) {
-          clearTimeout(out_timer);
-          out_timer = null;
+        if(ns_bookmark_popup.out_timer!=null) {
+          clearTimeout(ns_bookmark_popup.out_timer);
+          ns_bookmark_popup.out_timer = null;
         }
-        if (clicked_id != null) return false;
+        if (ns_bookmark_popup.clicked_id != null) return false;
         
-        if (touching_id == null){
+        if (ns_bookmark_popup.touching_id == null){
         // if it is the first list item to touch
-          to_touch_id = $(this).data('id');
-          over_timer = setTimeout(function() {
+          ns_bookmark_popup.to_touch_id = $(this).data('id');
+          ns_bookmark_popup.over_timer = setTimeout(function() {
             console.log('over timeout');
-            if (clicked_id != null || out_timer!=null) return false;
+            if (ns_bookmark_popup.clicked_id != null || ns_bookmark_popup.out_timer!=null) return false;
             ns_bookmark_popup.target = 'feeds';
-            ns_bookmark_popup.togglePopup(to_touch_id);
-            touching_id = to_touch_id;
+            ns_bookmark_popup.togglePopup(ns_bookmark_popup.to_touch_id);
+            ns_bookmark_popup.touching_id = ns_bookmark_popup.to_touch_id;
           }, 500)
-        }else if (touching_id !=null && $(e.target).closest('[data-id="'+touching_id+'"]').length){
+        }else if (ns_bookmark_popup.touching_id !=null && $(e.target).closest('[data-id="'+ns_bookmark_popup.touching_id+'"]').length){
           // if it is the same list item
           return false;
         } else {
           // if it is different list item
-          to_touch_id = $(this).data('id');
+          ns_bookmark_popup.to_touch_id = $(this).data('id');
           ns_bookmark_popup.target = 'feeds';
-          ns_bookmark_popup.togglePopup(to_touch_id);
-          touching_id = to_touch_id;
+          ns_bookmark_popup.togglePopup(ns_bookmark_popup.to_touch_id);
+          ns_bookmark_popup.touching_id = ns_bookmark_popup.to_touch_id;
         }
       },
       mouseleave: function(e){
-        if (clicked_id != null) return false;
-        out_timer = setTimeout(function() {
+        if (ns_bookmark_popup.clicked_id != null) return false;
+        ns_bookmark_popup.out_timer = setTimeout(function() {
             console.log('out timeout');
-            if (touching_id != null && $('.bookmark_popup:visible').data('hover')!=1 && $('.bookmark_popup').is(':visible')
+            if (ns_bookmark_popup.touching_id != null && $('.bookmark_popup').is(':visible')
             ){
               console.log('this is outside popup too');
-              if (clicked_id != null) return false;
+              if (ns_bookmark_popup.clicked_id != null) return false;
               ns_bookmark_popup.target = 'feeds';
-              ns_bookmark_popup.togglePopup(touching_id);
-              touching_id = null;
+              ns_bookmark_popup.togglePopup(ns_bookmark_popup.touching_id);
+              ns_bookmark_popup.touching_id = null;
             }
         }, 500);
       }

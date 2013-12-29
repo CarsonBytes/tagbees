@@ -53,6 +53,16 @@
               <th>
               </th>
               <td>
+                <div class="reminder_save_status" style="float:none;">
+                  <span class="saving"><?php echo $this->translate('Saving...')?></span>
+                  <span class="saved"><?php echo $this->translate('Saved')?></span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+              </th>
+              <td>
                 <input type="submit" value="<?php echo $this->translate('event_reminder_save');?>" class="save" id="event_reminder_save" />
                 <input type="button" value="<?php echo $this->translate('event_reminder_close');?>" class="close" id="event_reminder_close" />
               </td>

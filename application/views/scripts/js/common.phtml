@@ -169,7 +169,10 @@
         .on('click', function(e) {
           if (!$(e.target).closest('.bookmark_popup, #highlight_tab li, #bookmark_tab li').length) {
             ns_bookmark_popup.togglePopup($('.bookmark_popup:visible').data('id'));
-            touching_id = null;clicked_id = null;
+            
+            ns_bookmark_popup.touching_id = null;
+            $('.bookmark_popup:visible').data('hover',0)
+            ns_bookmark_popup.clicked_id = null;
             $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
           }
           if (!$(e.target).closest('#login-trigger, #login-content').length && $('#login-trigger').hasClass('active')) {

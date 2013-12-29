@@ -368,11 +368,17 @@
               top: 5px;
               position: absolute;
             }
-            .teaser{
+            .reminder_title{
               width: 180px;
               position: absolute;
               top: 23px;
               left: 60px;
+              .text{
+                
+              }
+              .not_set{
+                color:#A0A0A0;
+              }
             }
             .star{
               top: 15px;
@@ -413,73 +419,6 @@
             margin:0 20px 10px 0;
         }
     }
-}
-.bookmark_popup{
-  position: absolute;
-  z-index: 100;
-  display:none;
-  background:#F1F1F1;
-  cursor: auto;
-  width:310px;
-  .bookmark_popup_inner{
-    margin:10px;
-    h2{
-      font-size: 14px;
-    }
-    a.title{
-      font-size:15px;
-      color: black;
-      font-weight:bold;
-      cursor:pointer;
-      width: auto;
-      &:link {color:$color;}
-      &:hover{color:#F0BC05;}
-      &:active {color:#096DB9;}
-    }
-    .yellow{
-      background:#FFFF94;
-      padding: 5px;
-      ul.info_line{
-        li{
-          display: inline-block;
-          background: none;
-          float: left;
-          cursor: auto;
-          padding: 0 2px;
-          border:0;
-        }
-      }
-    }
-    .white{
-      margin-top:10px;
-      display:none;
-    }
-    .bookmark_popup_reminder_title, .bookmark_popup_reminder_detail{
-      width: 286px;
-      padding: 2px;
-      border: 1px solid #dfdfdf;
-    }
-    .bookmark_popup_reminder_save{
-      float:right;
-    }
-    .bookmark_popup_set_reminder{
-      float: right;
-      margin-top:5px;
-      display:none;
-    }
-    .bookmark_popup_more_reminder_fields{
-      float:left;
-    }
-  }
-}
-.trigger_popup_icon{
-  position: absolute;
-  top: 0px;
-  padding: 2px 5px;
-  color:black;
-  background:lightGrey;
-  cursor: pointer;
-  display:none;
 }
 
 /************** sidebar end **************/

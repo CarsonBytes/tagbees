@@ -19,6 +19,7 @@ var ns_event_reminder_form = {
       if(! isNumber($(this).val())) $(this).val(0);
     });
     var is_submitted = false;
+    $('.reminder_save_status .saving').show();
     jQuery.ajax({
       type: "POST",
       url: "<?php echo $this->baseUrl('ajax/event/reminder_form_submit') ?>",
@@ -27,6 +28,16 @@ var ns_event_reminder_form = {
         if(msg['result']==true){
           $('[data-id="'+msg.data.item_id+'"]').find('[name="event_reminder_title"]').val(msg.data.title);
           $('[data-id="'+msg.data.item_id+'"]').find('[name="event_reminder_description"]').text(msg.data.description);
+          $('.reminder_save_status .saving').hide();
+          $('.reminder_save_status .saved').show().fadeOut();
+          if(msg.data.title && msg.data.title!=''){
+            $('[data-id="'+msg.data.item_id+'"]').find('.reminder_title .text').text(msg.data.title);
+            $('[data-id="'+msg.data.item_id+'"]').find('.reminder_title .not_set').hide();
+          } else{
+            $('[data-id="'+msg.data.item_id+'"]').find('.reminder_title .text').text('');
+            $('[data-id="'+msg.data.item_id+'"]').find('.reminder_title .not_set').show();
+          }
+          
           return true;
         } else{
           return false;

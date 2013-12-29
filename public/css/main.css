@@ -116,6 +116,27 @@ body #main_wrapper #main #content .breadcrumb .nav_content .separator { margin: 
 body #main_wrapper #main #content .main { padding: 15px 14px 18px 17px; }
 body #main_wrapper #main #content .main_inner h1, body #main_wrapper #main #content .tag_con h1 { background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZkZDUyNSIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZmFjZDE4Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjNiNTBhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fdd525), color-stop(50%, #facd18), color-stop(100%, #f3b50a)); background-image: -webkit-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: -moz-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: -o-linear-gradient(#fdd525, #facd18, #f3b50a); background-image: linear-gradient(#fdd525, #facd18, #f3b50a); color: #2f3031; font-size: 22px; font-weight: normal; padding: 3px 0 5px 17px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; }
 
+/* bookmark popup */
+.bookmark_popup { position: absolute; z-index: 100; display: none; background: #F1F1F1; cursor: auto; width: 310px; }
+.bookmark_popup .bookmark_popup_inner { margin: 10px; }
+.bookmark_popup .bookmark_popup_inner h2 { font-size: 14px; }
+.bookmark_popup .bookmark_popup_inner a.title { font-size: 15px; color: black; font-weight: bold; cursor: pointer; width: auto; }
+.bookmark_popup .bookmark_popup_inner a.title:link { color: #333333; }
+.bookmark_popup .bookmark_popup_inner a.title:hover { color: #F0BC05; }
+.bookmark_popup .bookmark_popup_inner a.title:active { color: #096DB9; }
+.bookmark_popup .bookmark_popup_inner .yellow { background: #FFFF94; padding: 5px; }
+.bookmark_popup .bookmark_popup_inner .yellow ul.info_line li { display: inline-block; background: none; float: left; cursor: auto; padding: 0 2px; border: 0; }
+.bookmark_popup .bookmark_popup_inner .white { margin-top: 10px; display: none; }
+.bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_title, .bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_detail { width: 286px; padding: 2px; border: 1px solid #dfdfdf; }
+.bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_save { float: right; }
+.bookmark_popup .bookmark_popup_inner .bookmark_popup_set_reminder { float: right; margin-top: 5px; }
+.bookmark_popup .bookmark_popup_inner .bookmark_popup_more_reminder_fields { float: left; }
+
+.trigger_popup_icon { position: absolute; top: 0px; padding: 2px 5px; color: black; background: lightGrey; cursor: pointer; display: none; }
+
+.reminder_save_status { float: right; height: 18px; color: red; }
+.reminder_save_status .saving, .reminder_save_status .saved { display: none; }
+
 /************************************ body end *******************************************************/
 a.button { width: 251px; height: 42px; display: inline-block; cursor: pointer; clear: both; }
 
@@ -357,7 +378,8 @@ margin: 30px;
 #sidebar .tab_div #bookmark_tab ul li { height: 35px; }
 #sidebar .tab_div #bookmark_tab ul li .e_date { position: absolute; top: 13px; left: 5px; float: left; width: 49px; height: 18px; }
 #sidebar .tab_div #bookmark_tab ul li .title { color: #494a4e; left: 60px; top: 5px; position: absolute; }
-#sidebar .tab_div #bookmark_tab ul li .teaser { width: 180px; position: absolute; top: 23px; left: 60px; }
+#sidebar .tab_div #bookmark_tab ul li .reminder_title { width: 180px; position: absolute; top: 23px; left: 60px; }
+#sidebar .tab_div #bookmark_tab ul li .reminder_title .not_set { color: #A0A0A0; display: none; }
 #sidebar .tab_div #bookmark_tab ul li .star { top: 15px; }
 #sidebar .tab_div #bookmark_tab ul li .arrow { top: 14px; }
 #sidebar .tag_cloud, #sidebar .info_block { padding: 15px 20px 30px; }
@@ -373,23 +395,6 @@ margin: 30px;
 #sidebar .tag_cloud p span.font24 { font-size: 24px; }
 #sidebar .info_block p { font-size: 11px; line-height: 17px; padding-top: 17px; }
 #sidebar .info_block .block_img { float: left; margin: 0 20px 10px 0; }
-
-.bookmark_popup { position: absolute; z-index: 100; display: none; background: #F1F1F1; cursor: auto; width: 310px; }
-.bookmark_popup .bookmark_popup_inner { margin: 10px; }
-.bookmark_popup .bookmark_popup_inner h2 { font-size: 14px; }
-.bookmark_popup .bookmark_popup_inner a.title { font-size: 15px; color: black; font-weight: bold; cursor: pointer; width: auto; }
-.bookmark_popup .bookmark_popup_inner a.title:link { color: #333333; }
-.bookmark_popup .bookmark_popup_inner a.title:hover { color: #F0BC05; }
-.bookmark_popup .bookmark_popup_inner a.title:active { color: #096DB9; }
-.bookmark_popup .bookmark_popup_inner .yellow { background: #FFFF94; padding: 5px; }
-.bookmark_popup .bookmark_popup_inner .yellow ul.info_line li { display: inline-block; background: none; float: left; cursor: auto; padding: 0 2px; border: 0; }
-.bookmark_popup .bookmark_popup_inner .white { margin-top: 10px; display: none; }
-.bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_title, .bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_detail { width: 286px; padding: 2px; border: 1px solid #dfdfdf; }
-.bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_save { float: right; }
-.bookmark_popup .bookmark_popup_inner .bookmark_popup_set_reminder { float: right; margin-top: 5px; display: none; }
-.bookmark_popup .bookmark_popup_inner .bookmark_popup_more_reminder_fields { float: left; }
-
-.trigger_popup_icon { position: absolute; top: 0px; padding: 2px 5px; color: black; background: lightGrey; cursor: pointer; display: none; }
 
 /************** sidebar end **************/
 /*@import "compass/css3/pie";*/
