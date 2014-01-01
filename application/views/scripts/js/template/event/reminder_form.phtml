@@ -28,6 +28,16 @@
               </td>
             </tr>
             <tr>
+              <th>
+                <label><?php echo $this->translate('event_reminder_attend_datetime');?></label>
+              </th>
+              <td>
+              <input type="text" class="date_input" id="event_reminder_attend_date" readonly="true" value="{{if attend_date}}${attend_date}{{/if}}" />
+              <input id="event_reminder_attend_time" type="text" class="timepicker" value="{{if attend_time}}${attend_time}{{/if}}"/>
+              <input type="hidden" name="event_reminder_attend_datetime" id="event_reminder_attend_datetime" value="">
+              </td> 
+            </tr>
+            <tr>
               <th><?php echo $this->translate('event_reminder_options');?>
               </th>
               <td>
@@ -39,10 +49,12 @@
                 <label for="event_reminder_has_<?php echo $source ?>_alarm"><?php echo $this->translate($source);?></label>
                 <input value="${<?php echo $source ?>_alarm_time}" type="text" id="event_reminder_<?php echo $source ?>_alarm_time" name="event_reminder_<?php echo $source ?>_alarm_time" class="numberinput event_reminder_alarm_time" />
                 <select id="event_reminder_<?php echo $source ?>_alarm_time_unit" name="event_reminder_<?php echo $source ?>_alarm_time_unit" class="event_reminder_alarm_time_unit">
-                  <option {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'weeks'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('weeks');?></option>
-                  <option {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'days'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('days');?></option>
-                  <option {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'minutes'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('minutes');?></option>
+                  <option value="weeks" {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'weeks'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('weeks');?></option>
+                  <option value="days" {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'days'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('days');?></option>
+                  <option value="minutes" {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'minutes'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('minutes');?></option>
                 </select>
+                <br />
+                <span id="<?php echo $source ?>_reminder_desc" class="reminder_desc"></span>
                 <br />
                 <?php 
                   }

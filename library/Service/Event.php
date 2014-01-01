@@ -175,7 +175,21 @@ class Service_Event{
       ->from('reminder')
       ->where ('user_id = ?',$user_id)
       ->where ('item_id = ?',$item_id);
-    return $this->db->fetchRow($select);
+    $result = $this->db->fetchRow($select);
+    if (isset($result['attend_datetime'])){
+      $date_time = explode(' ', $result['attend_datetime']);
+      $result['attend_date'] = $date_time[0];
+      $result['attend_time'] = $date_time[1];
+    } else{
+      $select=$this->db->select()
+        ->from('item','begin_datetime')
+        ->where ('id = ?',$item_id);
+      $begin_datetime = $this->db->fetchOne($select);
+      $date_time = explode(' ', $begin_datetime);
+      $result['attend_date'] = $date_time[0];
+      $result['attend_time'] = $date_time[1];
+    }
+    return $result;
   }
 
   

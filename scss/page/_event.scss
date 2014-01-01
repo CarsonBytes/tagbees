@@ -140,27 +140,29 @@
       text-align: right;
     }
     input, textarea, select{ 
-      /*border:1px solid #e0e0e0;*/
       border: 1px solid;
       border-color: #c0c0c0 #d9d9d9 #d9d9d9;
-      
-       
-      /*background-color:white;
-      font-family:Arial, Helvetica, sans-serif; 
-      font-size:13px; 
-      @include border-radius(4px); */
+      &.save, &.close{
+        @include border-radius(6px);
+        padding: 3px 13px 6px;
+        font-size:13px;
+        font-weight:bold;
+        width:auto;
+        height:auto;
+        cursor:pointer; 
+        border:1px solid white; 
+        margin:10px 0 0 0;
+        background: lightGrey;
+      }
+      &.date_input{
+        width:82px;text-align: center;
+      }
+      &.timepicker{
+        width:45px;text-align: center;
+      }
     }
-    input.save, input.close{ 
-      @include border-radius(6px);
-      padding: 3px 13px 6px;
-      font-size:13px;
-      font-weight:bold;
-      width:auto;
-      height:auto;
-      cursor:pointer; 
-      border:1px solid white; 
-      margin:10px 0 0 0;
-      background: lightGrey;
+    .reminder_desc{
+      color: red;
     }
   }
 }
