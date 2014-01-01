@@ -36,8 +36,8 @@ class Service_Item{
 		$select=$imageService->getJoinQuery($select,'item.id');
         
         
-        $tagService=new Service_Tag();
-        $select=$tagService->getJoinQuery($select,'item.id');
+    $tagService=new Service_Tag();
+    $select=$tagService->getJoinQuery($select,'item.id');
 
 		if($type != '' && $type != NULL){
 		    if (is_string($type))

@@ -1,0 +1,43 @@
+@import "../_init.scss";
+article.bookmarked{
+  .bookmark_area{ 
+    .w1{
+      .star{
+        .star_inner{
+          background-position:0 0;
+        }
+      }
+    }
+  }
+}
+.bookmark_area{
+  position:absolute; top:12px; right:0px;
+  .w1{ float:right; position:relative;
+    /*.watcher_icon {
+      cursor: pointer;
+      display: block;
+      float: right;
+    }*/
+     .star{
+        cursor:pointer;
+        float: right;
+        width:14px; height:13px; 
+        padding: 5px;
+        /*position: absolute;
+        right: 5px;
+        top: 9px;*/
+        .star_inner{
+          display:block;
+          background-image:url(../images/sprites.png); 
+          background-repeat:no-repeat; 
+          float:left; 
+          width:14px; 
+          height:13px;
+          background-position:-14px 0;
+        }
+      }
+    a{ display:block; text-align:right;}
+    .w_con{ clear:both; display:block; color:$main-blue; font-size:11px; padding-top:3px;}
+  }
+  .w2{ float:left; font-size:22px; font-weight:normal; color:#3ca94e; padding-top:5px;} 
+}

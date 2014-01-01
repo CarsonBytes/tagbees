@@ -11,17 +11,11 @@ var ns_bookmark_popup = {
   tmpl_functions : {
     getID: function() {
       // remove out bookmark popup before adding the new one
-      console.log(this.data);
       $('.bookmark_popup[data-id="'+this.data.id+'"]').remove();
       return this.data.id;
     },
     hasReminderContent: function(){
       var flag = true;
-      console.log(this.data.id);
-      console.log(this.data.reminder_title);
-      console.log(this.data.reminder_description);
-      console.log(typeof this.data.reminder_title);
-      console.log(typeof this.data.reminder_description);
       if (typeof this.data.reminder_title == 'undefined' || typeof this.data.reminder_description == 'undefined' ) {
         flag = false;
       } else {
@@ -29,7 +23,6 @@ var ns_bookmark_popup = {
           flag = false;
         }
       }
-      console.log(flag);
       return flag;
     }
   },
@@ -86,6 +79,7 @@ var ns_bookmark_popup = {
       if ($('.bookmark_popup').not(this_popup).is(':visible')){
         $('.bookmark_popup, .more').not(this_popup).hide();
       }
+         console.log(ns_bookmark_popup.target);
       if (ns_bookmark_popup.target == 'sidebar'){
         var trigger_popup_icon = $('.trigger_popup_icon');
         var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
@@ -140,6 +134,7 @@ var ns_bookmark_popup = {
           }
         }else{
           this_popup.hide();
+          trigger_popup_icon.hide();
         }
       }
     }
@@ -199,12 +194,11 @@ jQuery(function($){
   })
   .on('click',".star",function(e){
     e.stopPropagation();
-    if ($(e.target).closest('article.post_content').length){
+    if ($(e.target).closest('article.post_content, article.detail_div').length){
       ns_bookmark_popup.target = 'feeds';
     } else if ($(e.target).closest('#sidebar li').length){
       ns_bookmark_popup.target = 'sidebar';
     }
-    //console.log(ns_bookmark_popup.target);
     ns_bookmark_popup.toggleBookmark($(this).data('id'));
     ns_sidebar_bookmark_tab.is_reload = true;
     <?php /*if (ns_sidebar.activeTab=='#bookmark_tab' && ! $(e.target).closest('#bookmark_tab li').length) ns_sidebar.loadTab(true);*/?>

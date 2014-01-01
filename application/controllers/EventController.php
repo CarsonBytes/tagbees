@@ -18,18 +18,31 @@ class EventController extends Zend_Controller_Action
           $itemService->getItemBySlugName(
               urldecode($this->_request->getParam('slug_name'))
           );
+                    
+        $feedService=new Service_Feed();
+        $result = $feedService->getFeed(
+          array('select_slug_name'=>
+            urldecode($this->_request->getParam('slug_name'))
+          )
+        );
+        
+        
         if ($result){
-          $this->view->item=$result['item'];
+          $this->view->array_result = $result;
+          
+          //$this->view->item=$result['item'];
+          $this->view->item=$result['data'][0];
           $this->view->have_gallery=1;
-          $this->view->related_categories=$result['related_categories'];
+          //$this->view->related_categories=$this->view->item->related_categories;
           $this->view->result=1;
           
-          $this->view->headTitle($result['item']->name);
+          $this->view->headTitle($this->view->item->name);
           
           Common::getSession()->nav=array(
               'Home' => '/',
-              'Event '.$result['item']->name => null
+              'Event '.$this->view->item->name => null
           );
+          
         }else{
           $this->view->result=-1;
         }

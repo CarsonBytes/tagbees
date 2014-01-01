@@ -3,288 +3,314 @@
 <?php //echo '<pre>';var_dump($this->item);echo '</pre>'; ?>
 <div class="main shadow">
     <div class="event_detail">
-        <article class="detail_div clearfix">
-            <header>
-                <div class="watched">
-                    <div class="w1">
-                        <a href="#"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=""  style="float:right;" /></a><span class="w_con">Watched: 1</span>
-                    </div>
-                    <div class="w2">
-                        256
-                    </div>
+        <article data-id="<?php echo $this->item->id; ?>" class="detail_div clearfix">
+          <header>
+              <div class="bookmark_area">
+                  <div class="w1">
+                      <?php /*<img class="watcher_icon" src="<?php echo $this->baseUrl('images/watched_icon.png');?>" alt="" />*/ ?>
+                      <div data-id="<?php echo $this->item->id; ?>" class="star">
+                          <div class="star_inner"></div>
+                      </div>
+                      <span class="w_con">Watched: <?php echo $this->item->like_count; ?></span>
+                  </div>
+                  <?php // temporarily hide the score as we do not have to show it to users and to avoid confusion with like count
+                  /*<div class="w2">
+                      ${score}
+                  </div>*/ ?>
+              </div>
+              <h3 class="head4"><?php echo $this->item->name; ?></h3>
+          </header>
+        <?php /*<header>
+            <div class="watched">
+                <div class="w1">
+                    <a href="#"><img src="<?php echo $this->baseUrl('images/watched_icon.png')?>" alt=""  style="float:right;" /></a><span class="w_con">Watched: 1</span>
                 </div>
-                <h3 class="head4"><?php echo $this->item->name; ?></h3>
-            </header>
-            <div class="main_details clearfix">
-                <article class="d_l">
-                    <table class="d_table">
-                        <?php //time ?>
-                        <?php if ($this->item->is_any_time == 0){
-                            $date_format = ($this->item->is_all_day == 1) ? "Y-m-d (D)" : "Y-m-d (D) H:i";
-                        ?>
-                        <tr>
-                            <td><strong><?php echo $this -> translate('Time: '); ?></strong></td>
-                            <td><?php echo $this->item->begin_datetime==null ? '?' : date($date_format,strtotime($this->item->begin_datetime)) ?> - <?php echo $this->item->end_datetime==null ? '?' : date($date_format,strtotime($this->item->end_datetime)) ?> <a href="#" data-link="more_details.php">...</a></td>
-                        </tr>
-                        <?php } ?>
-                        
-                        <?php //application datetime ?>
-                        <?php if (($this->item->application_begin_datetime!=null)||($this->item->application_end_datetime!=null)){ ?>
-                        <tr>
-                            <td><strong><?php echo $this -> translate('Application Time: '); ?></strong></td>
-                            <td><?php echo $this->item->application_begin_datetime==null ? '?' : $this->item->application_begin_datetime ?> - <?php echo $this->item->application_end_datetime==null ? '?' : $this->item->application_end_datetime ?> <a href="#" data-link="more_details.php">...</a></td>
-                        </tr>
-                        <?php } ?>
-                        
-                        <?php //place ?>
-                        <?php if ($this->item->place!=null){?>
-                        <tr class="place">
-                            <td><strong><?php echo $this -> translate('Place: '); ?></strong></td>
-                            <td>
-                                <?php echo $this->item->place?>
-                            </td>
-                        </tr>
-                        <?php } ?>
-                        <tr>
-                            <td><strong><?php echo $this -> translate('Price: '); ?></strong></td>
-                            <td><?php if ($this->item->is_free  == 0){?>
-                                    
-                                <?php
-                                        if ($this -> item -> min_price != '0.00') {
-                                            echo '$' . $this -> item -> min_price;
-                                        } else {
-                                            echo '?';
-                                        }
-                                        echo ' - ';
-                                        if ($this -> item -> max_price != '0.00') {
-                                            echo '$' . $this -> item -> max_price;
-                                        } else {
-                                            echo '?';
-                                        }
-                                    ?>
-                            <?php }else{
-                                echo $this->translate('Free!');
+                <div class="w2">
+                    256
+                </div>
+            </div>
+            <h3 class="head4"><?php echo $this->item->name; ?></h3>
+        </header>*/ ?>
+        <div class="main_details clearfix">
+            <article class="d_l">
+                <table class="d_table">
+                    <?php //time ?>
+                    <?php if ($this->item->is_any_time == 0){
+                        $date_format = ($this->item->is_all_day == 1) ? "Y-m-d (D)" : "Y-m-d (D) H:i";
+                    ?>
+                    <tr>
+                        <td><strong><?php echo $this -> translate('Time: '); ?></strong></td>
+                        <td><?php echo $this->item->begin_datetime==null ? '?' : date($date_format,strtotime($this->item->begin_datetime)) ?> - <?php echo $this->item->end_datetime==null ? '?' : date($date_format,strtotime($this->item->end_datetime)) ?> <a href="#" data-link="more_details.php">...</a></td>
+                    </tr>
+                    <?php } ?>
+                    
+                    <?php //application datetime ?>
+                    <?php if (($this->item->application_begin_datetime!=null)||($this->item->application_end_datetime!=null)){ ?>
+                    <tr>
+                        <td><strong><?php echo $this -> translate('Application Time: '); ?></strong></td>
+                        <td><?php echo $this->item->application_begin_datetime==null ? '?' : $this->item->application_begin_datetime ?> - <?php echo $this->item->application_end_datetime==null ? '?' : $this->item->application_end_datetime ?> <a href="#" data-link="more_details.php">...</a></td>
+                    </tr>
+                    <?php } ?>
+                    
+                    <?php //place ?>
+                    <?php if ($this->item->place!=null){?>
+                    <tr class="place">
+                        <td><strong><?php echo $this -> translate('Place: '); ?></strong></td>
+                        <td>
+                            <?php echo $this->item->place?>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <tr>
+                        <td><strong><?php echo $this -> translate('Price: '); ?></strong></td>
+                        <td><?php if ($this->item->is_free  == 0){?>
+                                
+                            <?php
+                                    if ($this -> item -> min_price != '0.00') {
+                                        echo '$' . $this -> item -> min_price;
+                                    } else {
+                                        echo '?';
+                                    }
+                                    echo ' - ';
+                                    if ($this -> item -> max_price != '0.00') {
+                                        echo '$' . $this -> item -> max_price;
+                                    } else {
+                                        echo '?';
+                                    }
+                                ?>
+                        <?php }else{
+                            echo $this->translate('Free!');
                                 }
  ?></td>
+                    </tr>
+                    
+                    <?php //organiser ?>
+                    <?php if ($this->item->organiser_name!=null){?>
+                        <tr>
+                            <td><strong><?php echo $this -> translate('Organiser Name: '); ?></strong></td>
+                            <td><?php echo $this -> item -> organiser_name; ?></td>
                         </tr>
-                        
-                        <?php //organiser ?>
-                        <?php if ($this->item->organiser_name!=null){?>
-                            <tr>
-                                <td><strong><?php echo $this -> translate('Organiser Name: '); ?></strong></td>
-                                <td><?php echo $this -> item -> organiser_name; ?></td>
-                            </tr>
-                        <?php } ?>
-                        <?php if ($this->item->organiser_website!=null){?>
-                            <tr>
-                                <td><strong><?php echo $this -> translate('Organiser Website: '); ?></strong></td>
-                                <td><a target="_blank" style="display:block;overflow: hidden" href="<?php echo $this -> item -> organiser_website; ?>"><?php echo $this -> item -> organiser_website; ?></a></td>
-                            </tr>
-                        <?php } ?>
-                        
-                        <?php //tags ?>
-                        <?php if ($this->item->tags_html!=''){?>
-                            <tr>
-                                <td><strong><?php echo $this -> translate('Tag: '); ?></strong></td>
-                                <td><?php echo $this->item->tags_html?></a></td>
-                            </tr>
-                        <?php } ?>
-                    </table>
-                </article>
-                <div class="d_middle">
-                    <div class="qr_code">
-                        <script type="text/javascript">
-                            jQuery(function($) {
-                                jQuery('#qr1').uQr({
-                                    create : true,
-                                    type : 'Tagbees.com',
-                                    text : 'tag'
-                                });
-
-                            });
-                        </script>
-                        <div class="qrcode" id="qr1"></div>
-                    </div>
-
-                    <div class="alarm clearfix">
-
-                        <div  id="alarm">
-                            <ul>
-                                <li class="selected">
-                                    <a class="leanModal" href="#alarmbox"><img src="<?php echo $this->baseUrl('images/alarm_bg.png') ?>" alt="07:30:00" style="float:right;"/></a>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
-
-                    <div class="d_time clearfix">
-                        <a href="#" class="r_day"><span>17 days</span></a>
-                    </div>
-                    <div class="edit_cancel">
-                        <a href="#">Edit</a><a href="#">Cancel</a>
-                    </div>
-                </div>
-                <?php if ($this->item->place_lat!=null && $this->item->place_lng!=null && Zend_Registry::get('config_ini')->server->online){?>
-                    <div id="event-map" style="float:right;width:220px;height:220px;"></div>
+                    <?php } ?>
+                    <?php if ($this->item->organiser_website!=null){?>
+                        <tr>
+                            <td><strong><?php echo $this -> translate('Organiser Website: '); ?></strong></td>
+                            <td><a target="_blank" style="display:block;overflow: hidden" href="<?php echo $this -> item -> organiser_website; ?>"><?php echo $this -> item -> organiser_website; ?></a></td>
+                        </tr>
+                    <?php } ?>
+                    
+                    <?php //tags ?>
+                    <?php /*if ($this->item->tags_html!=''){?>
+                        <tr>
+                            <td><strong><?php echo $this -> translate('Tag: '); ?></strong></td>
+                            <td><?php echo $this->item->tags_html?></a></td>
+                        </tr>
+                    <?php }*/ ?>
+                </table>
+            </article>
+            <div class="d_middle">
+                <div class="qr_code">
                     <script type="text/javascript">
-                    jQuery(function($){
-                          initialize();
-                    })
-                        
-                    function initialize() {
-                      var mapDiv = document.getElementById('event-map');
-                      map = new google.maps.Map(mapDiv, {
-                        center: new google.maps.LatLng(<?php echo $this->item->place_lat?>, <?php echo $this->item->place_lng?>),
-                        zoom: 13,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                      });
-                    
-                    var marker = new google.maps.Marker({
-                      map: map, position: new google.maps.LatLng(<?php echo $this->item->place_lat?>, <?php echo $this->item->place_lng?>)
-                    });
-                    
-                    }
+                        jQuery(function($) {
+                            jQuery('#qr1').uQr({
+                                create : true,
+                                type : 'Tagbees.com',
+                                text : 'tag'
+                            });
+
+                        });
                     </script>
-              <?php } ?>
-            </div>
-            <div class="social_media clearfix">
-                <div class="share">
-                    <!-- AddThis Button BEGIN -->
-                    <div class="addthis_toolbox addthis_default_style ">
-                        <a class="addthis_counter addthis_pill_style"></a>
-                    </div>
-                    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-504d9e426d8fd861"></script>
-                    <!-- AddThis Button END -->
+                    <div class="qrcode" id="qr1"></div>
                 </div>
-            </div>
-            <div class="Imggallery">
-                <div class="slide clearfix">
-                    <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide1.jpg') ?>" alt=" " />
-                    </div>
-                    <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide2.jpg') ?>" alt=" " />
-                    </div>
-                    <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide3.jpg') ?>" alt=" " />
-                    </div>
-                    <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide4.jpg') ?>" alt=" " />
+
+                <div class="alarm clearfix">
+
+                    <div  id="alarm">
+                        <ul>
+                            <li class="selected">
+                                <a class="leanModal" href="#alarmbox"><img src="<?php echo $this->baseUrl('images/alarm_bg.png') ?>" alt="07:30:00" style="float:right;"/></a>
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
-                <div class="content">
-                    <p>
-                        <a href="#" class="upload_link ui-state-default ui-corner-all">Upload More Images</a>
-                    </p>
-                    <div id="dialog" title="Upload Images">
-                        <form id="fileupload" action="server/php/" method="POST" enctype="multipart/form-data">
-                            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                            <div class="row fileupload-buttonbar">
-                                <div class="span7">
-                                    <!-- The fileinput-button span is used to style the file input field as button -->
-                                    <span class="btn btn-success fileinput-button"> <i class="icon-plus icon-white"></i> <span>Add files...</span>
-                                        <input type="file" name="files[]" multiple>
-                                    </span>
-                                    <button type="submit" class="btn btn-primary start">
-                                        <i class="icon-upload icon-white"></i><span>Start upload</span>
-                                    </button>
-                                    <button type="reset" class="btn btn-warning cancel">
-                                        <i class="icon-ban-circle icon-white"></i><span>Cancel upload</span>
-                                    </button>
-                                    <button type="button" class="btn btn-danger delete">
-                                        <i class="icon-trash icon-white"></i><span>Delete</span>
-                                    </button>
-                                    <input type="checkbox" class="toggle">
+
+                <div class="d_time clearfix">
+                    <a href="#" class="r_day"><span>17 days</span></a>
+                </div>
+                <div class="edit_cancel">
+                    <a href="#">Edit</a><a href="#">Cancel</a>
+                </div>
+            </div>
+            <?php if ($this->item->place_lat!=null && $this->item->place_lng!=null && Zend_Registry::get('config_ini')->server->online){?>
+                <div id="event-map" style="float:right;width:220px;height:220px;"></div>
+                <script type="text/javascript">
+                jQuery(function($){
+                      initialize();
+                })
+                    
+                function initialize() {
+                  var mapDiv = document.getElementById('event-map');
+                  map = new google.maps.Map(mapDiv, {
+                    center: new google.maps.LatLng(<?php echo $this->item->place_lat?>, <?php echo $this->item->place_lng?>),
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                  });
+                
+                var marker = new google.maps.Marker({
+                  map: map, position: new google.maps.LatLng(<?php echo $this->item->place_lat?>, <?php echo $this->item->place_lng?>)
+                });
+                
+                }
+                </script>
+          <?php } ?>
+        </div>
+        <div class="social_media clearfix">
+            <div class="share">
+                <!-- AddThis Button BEGIN -->
+                <div class="addthis_toolbox addthis_default_style ">
+                    <a class="addthis_counter addthis_pill_style"></a>
+                </div>
+                <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-504d9e426d8fd861"></script>
+                <!-- AddThis Button END -->
+            </div>
+        </div>
+        <div class="Imggallery">
+            <div class="slide clearfix">
+                <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide1.jpg') ?>" alt=" " />
+                </div>
+                <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide2.jpg') ?>" alt=" " />
+                </div>
+                <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide3.jpg') ?>" alt=" " />
+                </div>
+                <div class="slide_div"><img src="<?php echo $this->baseUrl('images/slide4.jpg') ?>" alt=" " />
+                </div>
+            </div>
+            <div class="content">
+                <p>
+                    <a href="#" class="upload_link ui-state-default ui-corner-all">Upload More Images</a>
+                </p>
+                <div id="dialog" title="Upload Images">
+                    <form id="fileupload" action="server/php/" method="POST" enctype="multipart/form-data">
+                        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                        <div class="row fileupload-buttonbar">
+                            <div class="span7">
+                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                <span class="btn btn-success fileinput-button"> <i class="icon-plus icon-white"></i> <span>Add files...</span>
+                                    <input type="file" name="files[]" multiple>
+                                </span>
+                                <button type="submit" class="btn btn-primary start">
+                                    <i class="icon-upload icon-white"></i><span>Start upload</span>
+                                </button>
+                                <button type="reset" class="btn btn-warning cancel">
+                                    <i class="icon-ban-circle icon-white"></i><span>Cancel upload</span>
+                                </button>
+                                <button type="button" class="btn btn-danger delete">
+                                    <i class="icon-trash icon-white"></i><span>Delete</span>
+                                </button>
+                                <input type="checkbox" class="toggle">
+                            </div>
+                            <!-- The global progress information -->
+                            <div class="span5 fileupload-progress fade">
+                                <!-- The global progress bar -->
+                                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="bar" style="width:0%;"></div>
                                 </div>
-                                <!-- The global progress information -->
-                                <div class="span5 fileupload-progress fade">
-                                    <!-- The global progress bar -->
-                                    <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="bar" style="width:0%;"></div>
-                                    </div>
-                                    <!-- The extended global progress information -->
-                                    <div class="progress-extended">
-                                        &nbsp;
-                                    </div>
+                                <!-- The extended global progress information -->
+                                <div class="progress-extended">
+                                    &nbsp;
                                 </div>
                             </div>
-                            <!-- The loading indicator is shown during file processing -->
-                            <div class="fileupload-loading"></div>
-                            <br>
-                            <!-- The table listing the files available for upload/download -->
-                            <table role="presentation" class="table table-striped">
-                                <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <script id="template-upload" type="text/x-tmpl">
-                        {% for (var i=0, file; file=o.files[i]; i++) { %}
-                        <tr class="template-upload fade">
-                        <td><input type="checkbox"></td>
-                        <td class="preview"><span class="fade"></span></td>
-                        <td class="name"><span>{%=file.name%}</span></td>
-                        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-                        {% if (file.error) { %}
-                        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-                        {% } else if (o.files.valid && !i) { %}
-                        <td>
-                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-                        </td>
-                        <td class="start">{% if (!o.options.autoUpload) { %}
-                        <button class="btn btn-primary">
-                        <i class="icon-upload icon-white"></i>
-                        <span>{%=locale.fileupload.start%}</span>
-                        </button>
-                        {% } %}</td>
-                        {% } else { %}
-                        <td colspan="2"></td>
-                        {% } %}
-                        <td class="cancel">{% if (!i) { %}
-                        <button class="btn btn-warning">
-                        <i class="icon-ban-circle icon-white"></i>
-                        <span>{%=locale.fileupload.cancel%}</span>
-                        </button>
-                        {% } %}</td>
-                        </tr>
-                        {% } %}
-                    </script>
-                    <script id="template-download" type="text/x-tmpl">
-                        {% for (var i=0, file; file=o.files[i]; i++) { %}
-                        <tr class="template-download fade">
-                        {% if (file.error) { %}
-                        <td><input type="checkbox"></td>
-                        <td></td>
-                        <td class="name"><span>{%=file.name%}</span></td>
-                        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-                        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-                        {% } else { %}
-                        <td><input type="checkbox"></td>
-                        <td class="preview">{% if (file.thumbnail_url) { %}
-                        <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-                        {% } %}</td>
-                        <td class="name">
-                        <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-                        </td>
-                        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-                        <td colspan="2"></td>
-                        {% } %}
-                        <td class="delete">
-                        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-                        <i class="icon-trash icon-white"></i>
-                        <span>{%=locale.fileupload.destroy%}</span>
-                        </button>
-                        <input type="checkbox" name="delete" value="1">
-                        </td>
-                        </tr>
-                        {% } %}
-                    </script>
-                    <div class="description">
-                      <?php echo html_entity_decode($this->item->description) ?>
-                    </div>
+                        </div>
+                        <!-- The loading indicator is shown during file processing -->
+                        <div class="fileupload-loading"></div>
+                        <br>
+                        <!-- The table listing the files available for upload/download -->
+                        <table role="presentation" class="table table-striped">
+                            <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+                        </table>
+                    </form>
+                </div>
+                <script id="template-upload" type="text/x-tmpl">
+                    {% for (var i=0, file; file=o.files[i]; i++) { %}
+                    <tr class="template-upload fade">
+                    <td><input type="checkbox"></td>
+                    <td class="preview"><span class="fade"></span></td>
+                    <td class="name"><span>{%=file.name%}</span></td>
+                    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+                    {% if (file.error) { %}
+                    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+                    {% } else if (o.files.valid && !i) { %}
+                    <td>
+                    <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+                    </td>
+                    <td class="start">{% if (!o.options.autoUpload) { %}
+                    <button class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i>
+                    <span>{%=locale.fileupload.start%}</span>
+                    </button>
+                    {% } %}</td>
+                    {% } else { %}
+                    <td colspan="2"></td>
+                    {% } %}
+                    <td class="cancel">{% if (!i) { %}
+                    <button class="btn btn-warning">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span>{%=locale.fileupload.cancel%}</span>
+                    </button>
+                    {% } %}</td>
+                    </tr>
+                    {% } %}
+                </script>
+                <script id="template-download" type="text/x-tmpl">
+                    {% for (var i=0, file; file=o.files[i]; i++) { %}
+                    <tr class="template-download fade">
+                    {% if (file.error) { %}
+                    <td><input type="checkbox"></td>
+                    <td></td>
+                    <td class="name"><span>{%=file.name%}</span></td>
+                    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+                    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+                    {% } else { %}
+                    <td><input type="checkbox"></td>
+                    <td class="preview">{% if (file.thumbnail_url) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+                    {% } %}</td>
+                    <td class="name">
+                    <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+                    </td>
+                    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+                    <td colspan="2"></td>
+                    {% } %}
+                    <td class="delete">
+                    <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                    <i class="icon-trash icon-white"></i>
+                    <span>{%=locale.fileupload.destroy%}</span>
+                    </button>
+                    <input type="checkbox" name="delete" value="1">
+                    </td>
+                    </tr>
+                    {% } %}
+                </script>
+                <div class="description">
+                  <?php echo html_entity_decode($this->item->description) ?>
                 </div>
             </div>
-            <footer>
-              <div class="tag_r">
-                  <strong>Submitted by:</strong><a href="#">Mac Slocum</a> | <a href="#">16 days ago</a>
-              </div>
-            </footer>
         </div>
+        <footer>
+          <div class="tag_r">
+              <strong>Submitted by:</strong><a href="#">Mac Slocum</a> | <a href="#">16 days ago</a>
+          </div>
+        </footer>
+      </article>
     </div>
-</article>
+</div>
+<?php 
+ echo '<pre>';var_dump($this->array_result);echo '</pre>';
+ ?>
+<script type="text/javascript">
+jQuery(function($){
+  var event_data = jQuery.parseJSON('<?php echo json_encode($this->array_result) ?>');
+  var popup_content = ns_feed.getHTML(event_data, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
+  $('body').append(popup_content);
+})
+</script>

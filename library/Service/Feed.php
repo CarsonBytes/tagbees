@@ -42,6 +42,7 @@ class Service_Feed{
      *  $is_all_time=1,
      *  $rpp=20,
      *  $last_id=''
+     *  $select_slug_name
      *  $used_ids,
      *  $is_random=false
      *  $is_bookmarked (true is only bookmarked, false is to only not bookmarked, undefined is both of them)
@@ -146,6 +147,11 @@ class Service_Feed{
       if (isset($user_para['item_ids']) && !empty($user_para['item_ids'])){
         $this->feed_query->where("f.id in (?)", $user_para['item_ids']);
       }
+
+      if (isset($user_para['select_slug_name']) && !empty($user_para['select_slug_name'])){
+        $this->feed_query->where("f.slug_name = ? ", $user_para['select_slug_name']);
+      }
+
       
       if (isset($user_para['used_ids']) && !empty($user_para['used_ids'])){
         $this->feed_query->where('f.id not in (?)', $user_para['used_ids']);
@@ -353,6 +359,12 @@ class Service_Feed{
     foreach($feed_result as &$item){
       $itemService = new Service_Item();
       
+      //get related categories
+      $catService=new Service_Tree();
+      $item->related_categories = $catService->getMasterCategoriesFromItem(
+        $item->id
+      );
+      
       //get tree(s)
       $item = $itemService->getCatAndTreeIdsByCategoryIdsString($item->tree_ids, $item);
       $cat_ids = array_merge($cat_ids, $item->cat_ids);
@@ -421,6 +433,8 @@ class Service_Feed{
       
       $data[]=$item;
   }
+  
+  
   $tree_tags=array();
   if (!empty($cat_ids)){
     //get category tags for items
