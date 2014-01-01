@@ -379,7 +379,7 @@ margin: 30px;
 #sidebar .tab_div #bookmark_tab ul li .e_date { position: absolute; top: 13px; left: 5px; float: left; width: 49px; height: 18px; }
 #sidebar .tab_div #bookmark_tab ul li .title { color: #494a4e; left: 60px; top: 5px; position: absolute; }
 #sidebar .tab_div #bookmark_tab ul li .reminder_title { width: 180px; position: absolute; top: 23px; left: 60px; }
-#sidebar .tab_div #bookmark_tab ul li .reminder_title .not_set { color: #A0A0A0; display: none; }
+#sidebar .tab_div #bookmark_tab ul li .reminder_title .not_set { color: #A0A0A0; display: inline; }
 #sidebar .tab_div #bookmark_tab ul li .star { top: 15px; }
 #sidebar .tab_div #bookmark_tab ul li .arrow { top: 14px; }
 #sidebar .tag_cloud, #sidebar .info_block { padding: 15px 20px 30px; }

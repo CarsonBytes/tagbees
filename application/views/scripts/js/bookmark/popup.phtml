@@ -8,6 +8,31 @@ var ns_bookmark_popup = {
   touching_id : null,
   clicked_id : null,
   auto_save_timer: null,
+  tmpl_functions : {
+    getID: function() {
+      // remove out bookmark popup before adding the new one
+      console.log(this.data);
+      $('.bookmark_popup[data-id="'+this.data.id+'"]').remove();
+      return this.data.id;
+    },
+    hasReminderContent: function(){
+      var flag = true;
+      console.log(this.data.id);
+      console.log(this.data.reminder_title);
+      console.log(this.data.reminder_description);
+      console.log(typeof this.data.reminder_title);
+      console.log(typeof this.data.reminder_description);
+      if (typeof this.data.reminder_title == 'undefined' || typeof this.data.reminder_description == 'undefined' ) {
+        flag = false;
+      } else {
+        if (this.data.reminder_title == null || this.data.reminder_description == null || this.data.reminder_title == '' || this.data.reminder_description == '' ) {
+          flag = false;
+        }
+      }
+      console.log(flag);
+      return flag;
+    }
+  },
   toggleBookmark: function(id){
       var parents = $('#sidebar li.list_item[data-id="'+id+'"], article[data-id="'+id+'"]');
       var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
@@ -21,11 +46,21 @@ var ns_bookmark_popup = {
             if (parents.hasClass("bookmarked")){
               parents.find('.star_inner').removeClass('gold');
               parents.removeClass("bookmarked");
+              parents.find('.reminder_title .text').hide();
+              parents.find('.reminder_title .not_set').show();
               this_popup.find('.white, .bookmark_popup_set_reminder').hide();
+              this_popup.data('has_white', 0);
             } else {
               parents.find('.star_inner').addClass('gold');
               parents.addClass("bookmarked");
-              this_popup.find('.bookmark_popup_set_reminder').show();
+              parents.find('.reminder_title .text').show();
+              parents.find('.reminder_title .not_set').hide();
+              //this_popup.find('.bookmark_popup_set_reminder').show();
+              if (this_popup.data('has_white') == 1)
+                this_popup.find('.bookmark_popup_set_reminder').hide();
+              else 
+                this_popup.find('.bookmark_popup_set_reminder').show();
+              
               /*if (! this_popup.is(':visible')){ 
                 ns_bookmark_popup.togglePopup(id); 
               }*/
@@ -65,6 +100,10 @@ var ns_bookmark_popup = {
            this_popup.find('.yellow').show();
            trigger_popup_icon.show();
            
+           if (!parent.hasClass('bookmarked')){
+            this_popup.find('.white, .bookmark_popup_set_reminder').hide();
+            this_popup.data('has_white', 0);
+           }
            
            this_popup.find('.bookmark_popup_inner .teaser').dotdotdot({
                 wrap : 'letter',
@@ -93,8 +132,9 @@ var ns_bookmark_popup = {
             this_popup.css('top', star.offset().top + 37);
             this_popup.css('left',star.offset().left - 270);
             this_popup.show();
-            //this_popup.find('.yellow, .bookmark_popup_set_reminder').hide();
-            //this_popup.find('.white').show();
+            this_popup.find('.yellow, .bookmark_popup_set_reminder').hide();
+            this_popup.find('.white').show();
+            this_popup.data('has_white', 1);
             ns_bookmark_popup.showReminderFields();
             trigger_popup_icon.show();
           }
@@ -103,6 +143,7 @@ var ns_bookmark_popup = {
         }
       }
     }
+    ns_event_reminder_form.init();
   },
   adjustSidebarPopupPosition: function(id){
     var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
@@ -171,6 +212,7 @@ jQuery(function($){
   .on('click', '.bookmark_popup_set_reminder',function(e){
     e.stopPropagation();
     $(this).parents('.bookmark_popup').find('.white').show();
+    $(this).parents('.bookmark_popup').data('has_white', 1);
     $(this).hide();
     ns_bookmark_popup.showReminderFields();
     return false;

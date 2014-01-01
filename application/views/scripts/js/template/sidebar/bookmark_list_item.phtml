@@ -2,7 +2,7 @@
   <li data-id="${$item.getID()}" class="bookmarked list_item">
     <div class="e_date">{{if begin_datetime}}${$item.formatMysqlDate2($data.begin_datetime)}{{/if}}</div>
     <div class="title">${name}</div>
-    <div class="reminder_title"><span class="text">{{if reminder_title}}${reminder_title}{{/if}}</span><span class="not_set"><?php echo $this->translate('No reminder title yet')?></span></div>
+    <div class="reminder_title"><span class="text">{{if reminder_title}}${reminder_title}{{/if}}</span><span {{if reminder_title}}{{if reminder_title!=''}}style="display:none"{{/if}}{{/if}} class="not_set"><?php echo $this->translate('No reminder title yet')?></span></div>
     <div data-id="${id}" class="star">
         <div class="star_inner"></div>
     </div>

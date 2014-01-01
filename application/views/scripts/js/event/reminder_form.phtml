@@ -1,8 +1,8 @@
 <script type="text/javascript">
 var ns_event_reminder_form = {
   init : function(){
-    $('input[name="event_reminder_name"]').watermark("<?php echo $this->translate('Please enter name') ?>");
-    $('textarea[name="event_reminder_description"]').watermark("<?php echo $this->translate('Please enter description') ?>");
+    $('input[name="event_reminder_title"]').watermark("<?php echo $this->translate('reminder title') ?>");
+    $('textarea[name="event_reminder_description"]').watermark("<?php echo $this->translate('reminder description') ?>");
     $('input[name="event_reminder_tags"]').watermark("<?php echo $this->translate('Please enter tags (seperated with comma)') ?>");
     $('.event_reminder_has_alarm').each(function(){
       if (! $(this).is(':checked')){

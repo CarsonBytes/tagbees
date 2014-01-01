@@ -17,7 +17,7 @@ var ns_feed = {
           $('.load_more_feeds .more').show();
       }
       
-      var popup_content = ns_feed.getHTML(data_arr, 'bookmark_popup');
+      var popup_content = ns_feed.getHTML(data_arr, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
       $('body').append(popup_content);
       
       ns_feed.attachEvents();
@@ -27,11 +27,6 @@ var ns_feed = {
     if (typeof custom_functions == 'undefined') var custom_functions = {};
     
     var functions = $.extend(true, {}, {
-        getID: function() {
-          // remove out bookmark popup before adding the new one
-          $('.bookmark_popup[data-id="'+this.data.id+'"]').remove();
-          return this.data.id;
-        },
         getMainPicTitle: function(){
             var img_is_main_pics =this.data.img_is_main_pics.split(',');
             var img_descriptions =this.data.img_descriptions.split(',');
@@ -98,6 +93,7 @@ var ns_feed = {
         }
     } , custom_functions);
     
+    console.log(functions);
     //console.log(data_arr);
     return $( "#"+template_id ).tmpl(data_arr.data,functions);
   },

@@ -8,7 +8,7 @@
                 <label><?php echo $this->translate('event_reminder_title');?></label>
               </th>
               <td>
-                <input type="text" value="${title}" id="event_reminder_title" name="event_reminder_title" class="full textinput" />
+                <input type="text" value="{{if title}}${title}{{/if}}" id="event_reminder_title" name="event_reminder_title" class="full textinput" />
               </td>
             </tr>
             <tr>
@@ -16,7 +16,7 @@
                 <label><?php echo $this->translate('event_reminder_description');?></label>
               </th>
               <td>
-                <textarea name="event_reminder_description" class="textinput" rows="13">${description}</textarea>
+                <textarea name="event_reminder_description" class="textinput" rows="13">{{if description}}${description}{{/if}}</textarea>
               </td>
             </tr>
             <tr>

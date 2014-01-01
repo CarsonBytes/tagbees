@@ -54,7 +54,7 @@ var ns_sidebar_bookmark_tab = {
             $('#bookmark_tab .bookmark_list').scrollpanel();
           }
           $("#bookmark_tab .bookmark_list .load_more .more").show();
-          var popup_content = ns_feed.getHTML(msg, 'bookmark_popup');
+          var popup_content = ns_feed.getHTML(msg, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
           $('body').append(popup_content);
           ns_sidebar_bookmark_tab.is_fetching=false;
         },
