@@ -40,7 +40,9 @@ var ns_event_reminder_form = {
           datetime = datetime.add(time).weeks();
         } else if (unit=='days'){
           datetime = datetime.add(time).days();
-        } else{
+        } else if (unit=='hours'){
+          datetime = datetime.add(time).hours();
+        } else if (unit=='minutes'){
           datetime = datetime.add(time).minutes();
         }
         $('#'+types[i]+'_reminder_desc').text(datetime.toString('yyyy-MM-dd HH:mm'));
@@ -65,7 +67,7 @@ var ns_event_reminder_form = {
           $('[data-id="'+msg.data.item_id+'"]').find('[name="event_reminder_title"]').val(msg.data.title);
           $('[data-id="'+msg.data.item_id+'"]').find('[name="event_reminder_description"]').text(msg.data.description);
           $('.reminder_save_status .saving').hide();
-          $('.reminder_save_status .saved').show().fadeOut();
+          $('.reminder_save_status .saved').show().fadeOut("slow");
           if(msg.data.title && msg.data.title!=''){
             $('[data-id="'+msg.data.item_id+'"]').find('.reminder_title .text').text(msg.data.title);
             $('[data-id="'+msg.data.item_id+'"]').find('.reminder_title .not_set').hide();
@@ -101,13 +103,13 @@ jQuery(function($){
     $.colorbox.close();
     return false;
   }).on('change','.event_reminder_has_alarm',function(){
-      if (! $(this).is(':checked')){
-        $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',true);
-        $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',true);
-      } else {
-        $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',false);
-        $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',false);
-      }
+    if (! $(this).is(':checked')){
+      $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',true);
+      $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',true);
+    } else {
+      $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',false);
+      $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',false);
+    }
   })
   .on('change','#event_reminder_attend_date, #event_reminder_attend_time, .event_reminder_has_alarm, .event_reminder_alarm_time, .event_reminder_alarm_time_unit', function(){
     ns_event_reminder_form.updateReminderDescription();

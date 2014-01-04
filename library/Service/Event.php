@@ -7,6 +7,7 @@ class Service_Event{
     'title', 
     'description', 
     'tags', 
+    'attend_datetime', 
     'has_email_alarm',
     'email_alarm_time', 
     'email_alarm_time_unit', 

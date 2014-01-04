@@ -48,6 +48,26 @@
             <input type="hidden" name="event_reminder_item_id" class="bookmark_popup_reminder_title" value="${id}"/>
             <input type="text" name="event_reminder_title" class="bookmark_popup_reminder_title" value="{{if reminder_title}}${reminder_title}{{/if}}"/>
             <textarea name="event_reminder_description" class="bookmark_popup_reminder_detail" >{{if reminder_description}}${reminder_description}{{/if}}</textarea>
+            {{if reminder_tags}}
+            <br />
+              <?php echo $this->translate('Tags')?>: ${reminder_tags}
+            {{/if}}
+            {{if reminder_attend_datetime}}
+            <br />
+              <?php echo $this->translate('Attend datetime')?>: ${reminder_attend_datetime}
+            {{/if}}
+            {{if reminder_has_email_alarm}}
+            <br />
+              <?php echo $this->translate('Email alert')?>: ${$item.getAlertTime('email')}
+            {{/if}}
+            {{if reminder_has_popup_alarm}}
+            <br />
+              <?php echo $this->translate('Popup alert')?>: ${$item.getAlertTime('popup')}
+            {{/if}}
+            {{if reminder_has_mobile_alarm}}
+            <br />
+              <?php echo $this->translate('Mobile alert')?>: ${$item.getAlertTime('mobile')}
+            {{/if}}
           </form>
           <a class="bookmark_popup_more_reminder_fields" href="#">More reminder fields....</a>
           <div class="reminder_save_status">

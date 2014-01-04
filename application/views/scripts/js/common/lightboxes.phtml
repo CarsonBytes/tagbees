@@ -20,7 +20,7 @@ jQuery(function($) {
           transition:"none",
           fadeOut: 0,
           closeButton: false,
-          html:$( "#event_reminder_form" ).tmpl(data_array),
+          html:$( "#event_reminder_form_tmpl" ).tmpl(data_array),
           onComplete:function(){ ns_event_reminder_form.init(); }
         });
         return true;

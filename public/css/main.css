@@ -130,7 +130,7 @@ body #main_wrapper #main #content .main_inner h1, body #main_wrapper #main #cont
 .bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_title, .bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_detail { width: 286px; padding: 2px; border: 1px solid #dfdfdf; }
 .bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_save { float: right; }
 .bookmark_popup .bookmark_popup_inner .bookmark_popup_set_reminder { float: right; margin-top: 5px; }
-.bookmark_popup .bookmark_popup_inner .bookmark_popup_more_reminder_fields { float: left; }
+.bookmark_popup .bookmark_popup_inner .bookmark_popup_more_reminder_fields { float: left; margin-top: 10px; }
 
 .trigger_popup_icon { position: absolute; top: 0px; padding: 2px 5px; color: black; background: lightGrey; cursor: pointer; display: none; }
 
@@ -589,7 +589,7 @@ $pie-base-class: pie-element;*/
 #event_reminder_form table input.save, #event_reminder_form table input.close, #event_reminder_form table textarea.save, #event_reminder_form table textarea.close, #event_reminder_form table select.save, #event_reminder_form table select.close { -webkit-border-radius: 6px; -moz-border-radius: 6px; -ms-border-radius: 6px; -o-border-radius: 6px; border-radius: 6px; padding: 3px 13px 6px; font-size: 13px; font-weight: bold; width: auto; height: auto; cursor: pointer; border: 1px solid white; margin: 10px 0 0 0; background: lightGrey; }
 #event_reminder_form table input.date_input, #event_reminder_form table textarea.date_input, #event_reminder_form table select.date_input { width: 82px; text-align: center; }
 #event_reminder_form table input.timepicker, #event_reminder_form table textarea.timepicker, #event_reminder_form table select.timepicker { width: 45px; text-align: center; }
-#event_reminder_form table .reminder_desc { color: red; }
+#event_reminder_form table .reminder_desc { color: red; margin-left: 25px; }
 
 /*@import "compass/css3/pie";*/
 /*$pie-behavior: url("/tagbees_refactored/css/PIE.htc");

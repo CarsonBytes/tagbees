@@ -14,10 +14,11 @@ class EventController extends Zend_Controller_Action
         if ($this->_request->getParam('tree_ref') != NULL) {
           Zend_Registry::set('tree_ref', explode(',', $this->_request->getParam('tree_ref')));
         }
-        $result=
+        /*$result=
           $itemService->getItemBySlugName(
               urldecode($this->_request->getParam('slug_name'))
           );
+        */
                     
         $feedService=new Service_Feed();
         $result = $feedService->getFeed(

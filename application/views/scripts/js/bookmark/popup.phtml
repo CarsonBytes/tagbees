@@ -10,6 +10,7 @@ var ns_bookmark_popup = {
   auto_save_timer: null,
   tmpl_functions : {
     getID: function() {
+      console.log(this.data)
       // remove out bookmark popup before adding the new one
       $('.bookmark_popup[data-id="'+this.data.id+'"]').remove();
       return this.data.id;
@@ -24,6 +25,11 @@ var ns_bookmark_popup = {
         }
       }
       return flag;
+    },
+    getAlertTime: function(type){
+      if (this.data['reminder_'+type+'_alarm_time'] == '' || this.data['reminder_'+type+'_alarm_time'] == null)
+         return '<?php echo $this->translate('upon attend time') ?>';
+      return this.data['reminder_'+type+'_alarm_time'] + ' ' + this.data['reminder_'+type+'_alarm_time_unit'];
     }
   },
   toggleBookmark: function(id){
