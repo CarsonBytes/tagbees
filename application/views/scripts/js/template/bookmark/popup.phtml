@@ -1,5 +1,5 @@
 <script id="bookmark_popup" type="text/x-jquery-tmpl">
-    <div data-id="${$item.getID()}" class="bookmark_popup">
+    <div data-has_reminder="{{if $item.hasReminderContent()}}1{{else}}0{{/if}}" data-id="${$item.getID()}" class="bookmark_popup">
       <div class="bookmark_popup_inner">
         <div class="yellow">
           <a href="<?php echo $this->baseUrl('event');?>/${slug_name}" target="_blank" class="title">${name}</a>

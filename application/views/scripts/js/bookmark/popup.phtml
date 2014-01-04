@@ -10,7 +10,6 @@ var ns_bookmark_popup = {
   auto_save_timer: null,
   tmpl_functions : {
     getID: function() {
-      console.log(this.data)
       // remove out bookmark popup before adding the new one
       $('.bookmark_popup[data-id="'+this.data.id+'"]').remove();
       return this.data.id;
@@ -20,7 +19,7 @@ var ns_bookmark_popup = {
       if (typeof this.data.reminder_title == 'undefined' || typeof this.data.reminder_description == 'undefined' ) {
         flag = false;
       } else {
-        if (this.data.reminder_title == null || this.data.reminder_description == null || this.data.reminder_title == '' || this.data.reminder_description == '' ) {
+        if ((this.data.reminder_title == null || this.data.reminder_title == '') && (this.data.reminder_description == null || this.data.reminder_description == '')) {
           flag = false;
         }
       }
@@ -218,8 +217,8 @@ jQuery(function($){
     return false;
   })
   
-<?php //pending hover keypress... ?>
-  $('body').on('keypress', '.bookmark_popup_form input, .bookmark_popup_form textarea',function(e){
+<?php //pending hover keyup... ?>
+  $('body').on('keyup', '.bookmark_popup_form input, .bookmark_popup_form textarea',function(e){
     var _this = $(this); // copy of this object for further usage
     if (ns_bookmark_popup.auto_save_timer) clearTimeout(
       ns_bookmark_popup.auto_save_timer

@@ -76,6 +76,12 @@ var ns_event_reminder_form = {
             $('[data-id="'+msg.data.item_id+'"]').find('.reminder_title .not_set').show();
           }
           
+          console.log(msg.data);
+          if(msg.data.title==null && msg.data.title=='' && msg.data.description==null && msg.data.description==''){
+            console.log(msg.data.item_id);
+            console.log('empty!');
+          }
+          
           return true;
         } else{
           return false;
