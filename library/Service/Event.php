@@ -147,6 +147,7 @@ class Service_Event{
       $data2['has_email_alarm'] = isset($data2['has_email_alarm']) ? 1 : 0;
       $data2['has_popup_alarm'] = isset($data2['has_popup_alarm']) ? 1 : 0;
       $data2['has_mobile_alarm'] = isset($data2['has_mobile_alarm']) ? 1 : 0;
+      if (isset($data2['attend_datetime'])&& trim($data2['attend_datetime']) == '' ) unset($data2['attend_datetime']);
       
       $select=$this->db->select()
         ->from('reminder','user_id')

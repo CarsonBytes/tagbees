@@ -32,7 +32,7 @@
                 <label><?php echo $this->translate('event_reminder_attend_datetime');?></label>
               </th>
               <td>
-              <input type="text" class="date_input" id="event_reminder_attend_date" readonly="true" value="{{if attend_date}}${attend_date}{{/if}}" />
+              <input type="text" class="date_input" id="event_reminder_attend_date" value="{{if attend_date}}${attend_date}{{/if}}" />
               <input id="event_reminder_attend_time" type="text" class="timepicker" value="{{if attend_time}}${attend_time}{{/if}}"/>
               <input type="hidden" name="event_reminder_attend_datetime" id="event_reminder_attend_datetime" value="">
               </td> 

@@ -233,11 +233,24 @@ body {
       margin-top:10px;
     }
   }
-  &.has_reminder{
+  &.bookmarked{
+    .bookmark_popup_set_reminder{
+      display:block;
+    }
+    .white{
+      display:none;
+    }
+  }
+  &.has_reminder.bookmarked{
+    .bookmark_popup_set_reminder{
+      display:none;
+    }
     .white{
       display:block;
     }
-    .bookmark_popup_set_reminder{
+  }
+  &.not_bookmarked{
+    .white, .bookmark_popup_set_reminder{
       display:none;
     }
   }

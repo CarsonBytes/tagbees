@@ -7,8 +7,6 @@ var ns_bookmark_popup = {
   touching_id : null,
   clicked_id : null,
   auto_save_timer: null,
-  reminder_textfields : ['reminder_title', 'reminder_description', 'reminder_tags','reminder_attend_datetime'],
-  reminder_checkboxes : ['reminder_has_email_alarm','reminder_has_popup_alarm','reminder_has_mobile_alarm'],
   tmpl_functions : {
     getID: function() {
       // remove out bookmark popup before adding the new one
@@ -16,18 +14,7 @@ var ns_bookmark_popup = {
       return this.data.id;
     },
     hasReminderContent: function(){
-      for ( var n in ns_bookmark_popup.reminder_textfields ){
-        if (typeof this.data[ns_bookmark_popup.reminder_textfields[n]] != 'undefined'){
-          if (this.data[ns_bookmark_popup.reminder_textfields[n]] != null && this.data[ns_bookmark_popup.reminder_textfields[n]] != '') 
-            return true;
-        }
-      }
-      for ( var n in ns_bookmark_popup.reminder_checkboxes ){
-        if (typeof this.data[ns_bookmark_popup.reminder_checkboxes[n]] != 'undefined'){
-          if (this.data[ns_bookmark_popup.reminder_checkboxes[n]] == 1) return true;
-        }
-      }
-      return false;
+      return ns_event_reminder_form.hasReminderContent(this.data);
     },
     getAlertTime: function(type){
       if (this.data['reminder_'+type+'_alarm_time'] == '' || this.data['reminder_'+type+'_alarm_time'] == null)
@@ -48,24 +35,18 @@ var ns_bookmark_popup = {
             if (parents.hasClass("bookmarked")){
               parents.find('.star_inner').removeClass('gold');
               parents.removeClass("bookmarked");
+              this_popup.removeClass("bookmarked");
+              this_popup.addClass("not_bookmarked");
               parents.find('.reminder_title .text').hide();
               parents.find('.reminder_title .not_set').show();
-              this_popup.find('.white, .bookmark_popup_set_reminder').hide();
-              this_popup.data('has_white', 0);
+              
             } else {
               parents.find('.star_inner').addClass('gold');
               parents.addClass("bookmarked");
+              this_popup.removeClass("not_bookmarked");
+              this_popup.addClass("bookmarked");
               parents.find('.reminder_title .text').show();
               parents.find('.reminder_title .not_set').hide();
-              //this_popup.find('.bookmark_popup_set_reminder').show();
-              if (this_popup.data('has_white') == 1)
-                this_popup.find('.bookmark_popup_set_reminder').hide();
-              else 
-                this_popup.find('.bookmark_popup_set_reminder').show();
-              
-              /*if (! this_popup.is(':visible')){ 
-                ns_bookmark_popup.togglePopup(id); 
-              }*/
             }
             if (ns_bookmark_popup.target == 'feeds'){
               ns_bookmark_popup.togglePopup(id);
@@ -103,22 +84,11 @@ var ns_bookmark_popup = {
            this_popup.find('.yellow').show();
            trigger_popup_icon.show();
            
-           if (!parent.hasClass('bookmarked')){
-            this_popup.find('.white, .bookmark_popup_set_reminder').hide();
-            this_popup.data('has_white', 0);
-           }
-           
            this_popup.find('.bookmark_popup_inner .teaser').dotdotdot({
                 wrap : 'letter',
                 height: 60
            });
           }
-         <?php /*if (parent.hasClass('bookmarked')) {
-          this_popup.find('.bookmark_popup_set_reminder').show();
-          this_popup.find('.white').hide();
-         } else {
-          this_popup.find('.bookmark_popup_set_reminder').hide();
-         }*/ ?>
       } else if (ns_bookmark_popup.target == 'feeds'){
         var trigger_popup_icon = $('.trigger_popup_icon');
         var parent = $('article[data-id="'+id+'"]');
@@ -135,9 +105,6 @@ var ns_bookmark_popup = {
             this_popup.css('top', star.offset().top + 37);
             this_popup.css('left',star.offset().left - 270);
             this_popup.show();
-            this_popup.find('.yellow, .bookmark_popup_set_reminder').hide();
-            this_popup.find('.white').show();
-            this_popup.data('has_white', 1);
             ns_bookmark_popup.showReminderFields();
             trigger_popup_icon.show();
           }
@@ -215,7 +182,6 @@ jQuery(function($){
   .on('click', '.bookmark_popup_set_reminder',function(e){
     e.stopPropagation();
     $(this).parents('.bookmark_popup').find('.white').show();
-    $(this).parents('.bookmark_popup').data('has_white', 1);
     $(this).hide();
     ns_bookmark_popup.showReminderFields();
     return false;

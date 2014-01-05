@@ -131,8 +131,11 @@ body #main_wrapper #main #content .main_inner h1, body #main_wrapper #main #cont
 .bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_save { float: right; }
 .bookmark_popup .bookmark_popup_inner .bookmark_popup_set_reminder { float: right; margin-top: 5px; }
 .bookmark_popup .bookmark_popup_inner .bookmark_popup_more_reminder_fields { float: left; margin-top: 10px; }
-.bookmark_popup.has_reminder .white { display: block; }
-.bookmark_popup.has_reminder .bookmark_popup_set_reminder { display: none; }
+.bookmark_popup.bookmarked .bookmark_popup_set_reminder { display: block; }
+.bookmark_popup.bookmarked .white { display: none; }
+.bookmark_popup.has_reminder.bookmarked .bookmark_popup_set_reminder { display: none; }
+.bookmark_popup.has_reminder.bookmarked .white { display: block; }
+.bookmark_popup.not_bookmarked .white, .bookmark_popup.not_bookmarked .bookmark_popup_set_reminder { display: none; }
 
 .trigger_popup_icon { position: absolute; top: 0px; padding: 2px 5px; color: black; background: lightGrey; cursor: pointer; display: none; }
 

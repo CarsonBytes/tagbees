@@ -1,5 +1,7 @@
 <script type="text/javascript">
 var ns_event_reminder_form = {
+  reminder_textfields : ['reminder_title', 'reminder_description', 'reminder_tags','reminder_attend_datetime'],
+  reminder_checkboxes : ['reminder_has_email_alarm','reminder_has_popup_alarm','reminder_has_mobile_alarm'],
   init : function(){
     $('input[name="event_reminder_title"]').watermark("<?php echo $this->translate('reminder title') ?>");
     $('textarea[name="event_reminder_description"]').watermark("<?php echo $this->translate('reminder description') ?>");
@@ -9,6 +11,11 @@ var ns_event_reminder_form = {
     $('#event_reminder_attend_date').datepicker({
           changeMonth: true,
           changeYear: true
+    }).keyup(function(e) {
+      if(e.keyCode == 8 || e.keyCode == 46) {
+        e.preventDefault();
+        $.datepicker._clearDate(this);
+      }
     });
     $('#event_reminder_attend_time').timepicker({
       'timeFormat': 'H:i', step : 15 
@@ -23,6 +30,20 @@ var ns_event_reminder_form = {
       }
     })
     ns_event_reminder_form.updateReminderDescription();
+  },
+  hasReminderContent: function(data){
+    for ( var n in ns_event_reminder_form.reminder_textfields ){
+      if (typeof data[ns_event_reminder_form.reminder_textfields[n]] != 'undefined'){
+        if (data[ns_event_reminder_form.reminder_textfields[n]] != null && data[ns_event_reminder_form.reminder_textfields[n]] != '') 
+          return true;
+      }
+    }
+    for ( var n in ns_event_reminder_form.reminder_checkboxes ){
+      if (typeof data[ns_event_reminder_form.reminder_checkboxes[n]] != 'undefined'){
+        if (data[ns_event_reminder_form.reminder_checkboxes[n]] == 1) return true;
+      }
+    }
+    return false;
   },
   updateReminderDescription : function(){
     var datetime;
@@ -77,11 +98,11 @@ var ns_event_reminder_form = {
           }
           
           console.log(msg.data);
-          if(msg.data.title==null && msg.data.title=='' && msg.data.description==null && msg.data.description==''){
-            console.log(msg.data.item_id);
-            console.log('empty!');
+          if (ns_event_reminder_form.hasReminderContent(msg.data)){
+            $('[data-id="'+msg.data.item_id+'"]').addClass('has_reminder');
+          } else {
+            $('[data-id="'+msg.data.item_id+'"]').removeClass('has_reminder');
           }
-          
           return true;
         } else{
           return false;
