@@ -11,10 +11,12 @@ jQuery(function($) {
       success: function(msg){
         var data_array = [];
         if (msg.data != false){
+          msg.data['item_id'] = item_id;
           data_array.push(msg.data);
         } else {
           data_array.push({item_id:item_id})
         }
+        console.log(data_array);
         var colorbox_options = 
         $.colorbox({
           transition:"none",
