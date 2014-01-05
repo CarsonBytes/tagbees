@@ -1,13 +1,14 @@
 <script type="text/javascript">
 var ns_bookmark_popup = {
   target: null,
-  <?php //pending hover effect... ?>
   over_timer : null,
   out_timer : null,
   to_touch_id : null,
   touching_id : null,
   clicked_id : null,
   auto_save_timer: null,
+  reminder_textfields : ['reminder_title', 'reminder_description', 'reminder_tags','reminder_attend_datetime'],
+  reminder_checkboxes : ['reminder_has_email_alarm','reminder_has_popup_alarm','reminder_has_mobile_alarm'],
   tmpl_functions : {
     getID: function() {
       // remove out bookmark popup before adding the new one
@@ -15,15 +16,18 @@ var ns_bookmark_popup = {
       return this.data.id;
     },
     hasReminderContent: function(){
-      var flag = true;
-      if (typeof this.data.reminder_title == 'undefined' || typeof this.data.reminder_description == 'undefined' ) {
-        flag = false;
-      } else {
-        if ((this.data.reminder_title == null || this.data.reminder_title == '') && (this.data.reminder_description == null || this.data.reminder_description == '')) {
-          flag = false;
+      for ( var n in ns_bookmark_popup.reminder_textfields ){
+        if (typeof this.data[ns_bookmark_popup.reminder_textfields[n]] != 'undefined'){
+          if (this.data[ns_bookmark_popup.reminder_textfields[n]] != null && this.data[ns_bookmark_popup.reminder_textfields[n]] != '') 
+            return true;
         }
       }
-      return flag;
+      for ( var n in ns_bookmark_popup.reminder_checkboxes ){
+        if (typeof this.data[ns_bookmark_popup.reminder_checkboxes[n]] != 'undefined'){
+          if (this.data[ns_bookmark_popup.reminder_checkboxes[n]] == 1) return true;
+        }
+      }
+      return false;
     },
     getAlertTime: function(type){
       if (this.data['reminder_'+type+'_alarm_time'] == '' || this.data['reminder_'+type+'_alarm_time'] == null)

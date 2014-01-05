@@ -1,5 +1,5 @@
 <script id="bookmark_popup" type="text/x-jquery-tmpl">
-    <div data-has_reminder="{{if $item.hasReminderContent()}}1{{else}}0{{/if}}" data-id="${$item.getID()}" class="bookmark_popup">
+    <div data-id="${$item.getID()}" class="bookmark_popup {{if $item.hasReminderContent()}}has_reminder{{/if}}">
       <div class="bookmark_popup_inner">
         <div class="yellow">
           <a href="<?php echo $this->baseUrl('event');?>/${slug_name}" target="_blank" class="title">${name}</a>
@@ -42,8 +42,8 @@
              ${teaser}
           </p>
         </div>
-        <a {{if $item.hasReminderContent()}}style="display:none"{{/if}}  class="bookmark_popup_set_reminder" href="#" data-value="0">Set Reminder...</a>
-        <div class="white" {{if $item.hasReminderContent()}}style="display:block"{{/if}} >
+        <a class="bookmark_popup_set_reminder" href="#" data-value="0">Set Reminder...</a>
+        <div class="white">
           <form class="bookmark_popup_form" data-id="${id}" name="bookmark_popup_form" action="" method="post" >
             <input type="hidden" name="event_reminder_item_id" class="bookmark_popup_reminder_title" value="${id}"/>
             <input type="text" name="event_reminder_title" class="bookmark_popup_reminder_title" value="{{if reminder_title}}${reminder_title}{{/if}}"/>

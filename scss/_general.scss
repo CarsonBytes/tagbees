@@ -233,6 +233,14 @@ body {
       margin-top:10px;
     }
   }
+  &.has_reminder{
+    .white{
+      display:block;
+    }
+    .bookmark_popup_set_reminder{
+      display:none;
+    }
+  }
 }
 .trigger_popup_icon{
   position: absolute;

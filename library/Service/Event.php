@@ -186,9 +186,11 @@ class Service_Event{
         ->from('item','begin_datetime')
         ->where ('id = ?',$item_id);
       $begin_datetime = $this->db->fetchOne($select);
-      $date_time = explode(' ', $begin_datetime);
-      $result['attend_date'] = $date_time[0];
-      $result['attend_time'] = $date_time[1];
+      if (isset($begin_datetime)){
+        $date_time = explode(' ', $begin_datetime);
+        $result['attend_date'] = $date_time[0];
+        $result['attend_time'] = $date_time[1];
+      }
     }
     return $result;
   }
