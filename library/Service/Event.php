@@ -147,6 +147,8 @@ class Service_Event{
       $data2['has_email_alarm'] = isset($data2['has_email_alarm']) ? 1 : 0;
       $data2['has_popup_alarm'] = isset($data2['has_popup_alarm']) ? 1 : 0;
       $data2['has_mobile_alarm'] = isset($data2['has_mobile_alarm']) ? 1 : 0;
+      $data2['is_match_event_begin_datetime'] = isset($data2['is_match_event_begin_datetime']) ? 1 : 0;
+      
       if (isset($data2['attend_datetime'])&& trim($data2['attend_datetime']) == '' ) unset($data2['attend_datetime']);
       
       $select=$this->db->select()
@@ -164,7 +166,7 @@ class Service_Event{
         $data2['user_id'] = $this->identity->item_id;
         $this->db->insert('reminder',$data2);
       }
-      return true;
+      return $data2['item_id'];
   }
   
   public function getReminder($item_id, $user_id=null){
@@ -173,21 +175,17 @@ class Service_Event{
     } else {
       return false;
     }
-    $select=$this->db->select()
-      ->from('reminder')
-      ->where ('user_id = ?',$user_id)
-      ->where ('item_id = ?',$item_id);
-    $result = $this->db->fetchRow($select);
+    $feedService=new Service_Feed();
+    $result = $feedService->getFeed(
+      array('item_ids'=> array($item_id)
+      )
+    );
     if (isset($result['attend_datetime'])){
       $date_time = explode(' ', $result['attend_datetime']);
       $result['attend_date'] = $date_time[0];
       $result['attend_time'] = $date_time[1];
     } else{
-      $select=$this->db->select()
-        ->from('item','begin_datetime')
-        ->where ('id = ?',$item_id);
-      $begin_datetime = $this->db->fetchOne($select);
-      if (isset($begin_datetime)){
+      if (isset($result['begin_datetime'])){
         $date_time = explode(' ', $begin_datetime);
         $result['attend_date'] = $date_time[0];
         $result['attend_time'] = $date_time[1];

@@ -18,7 +18,7 @@ class Ajax_EventController extends Zend_Controller_Action
           return false;
       } else{
         $eventService=new Service_Event();
-        $array['data'] = $eventService->getReminder($this->params['item_id']);
+        $array = $eventService->getReminder($this->params['item_id']);
         $array['result'] = true;
       }
         
@@ -31,12 +31,19 @@ class Ajax_EventController extends Zend_Controller_Action
           return false;
       } else{
         $eventService=new Service_Event();
-        $array['result'] = $eventService->addReminder($this->params);
-        $array['data'] = $eventService->getReminder($this->params['event_reminder_item_id']);
+        $id = $eventService->addReminder($this->params);
+        
+        $feedService=new Service_Feed();
+        $array['data'] = $feedService->getFeed(
+          array('item_ids'=> array($id)
+          )
+        );
+        $array['result'] = true;
+        
+        //$array['data'] = $eventService->getReminder($this->params['event_reminder_item_id']);
       }
         
       $this->_helper->json($array);
     }
-
 }
 

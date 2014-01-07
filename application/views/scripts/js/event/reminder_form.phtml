@@ -46,6 +46,8 @@ var ns_event_reminder_form = {
     return false;
   },
   updateReminderDescription : function(){
+    if($('#event_reminder_attend_date').val()=='') return false;
+    if($('#event_reminder_attend_time').val()=='') $('#event_reminder_attend_time').val('00:00');
     var datetime;
     var types = ['email', 'popup', 'mobile'];
     for (i in types){
@@ -54,8 +56,12 @@ var ns_event_reminder_form = {
         var unit = $('#event_reminder_'+types[i]+'_alarm_time_unit').val();
         var time_amount = new String('-'+$('#event_reminder_'+types[i]+'_alarm_time').val());
         var time;
-        if (isNumber(time_amount)) time = Number(time_amount);
-        else{ time = 0; $('#event_reminder_'+types[i]+'_alarm_time').val(0)}
+        if (isNumber(time_amount)){
+          time = Number(time_amount);
+        }else{ 
+          time = 0; 
+          $('#event_reminder_'+types[i]+'_alarm_time').val(0)
+        }
         
         if (unit=='weeks'){
           datetime = datetime.add(time).weeks();
@@ -103,6 +109,8 @@ var ns_event_reminder_form = {
           } else {
             $('[data-id="'+msg.data.item_id+'"]').removeClass('has_reminder');
           }
+          var popup_content = ns_feed.getHTML(msg.data, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
+          $('body').append(popup_content);
           return true;
         } else{
           return false;

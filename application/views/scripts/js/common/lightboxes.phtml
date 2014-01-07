@@ -9,20 +9,12 @@ jQuery(function($) {
       beforeSend:  function() {
       },
       success: function(msg){
-        var data_array = [];
-        if (msg.data != false){
-          msg.data['item_id'] = item_id;
-          data_array.push(msg.data);
-        } else {
-          data_array.push({item_id:item_id})
-        }
-        console.log(data_array);
         var colorbox_options = 
         $.colorbox({
           transition:"none",
           fadeOut: 0,
           closeButton: false,
-          html:$( "#event_reminder_form_tmpl" ).tmpl(data_array),
+          html:$( "#event_reminder_form_tmpl" ).tmpl(msg.data),
           onComplete:function(){ ns_event_reminder_form.init(); }
         });
         return true;

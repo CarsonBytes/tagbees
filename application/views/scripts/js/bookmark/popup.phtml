@@ -69,7 +69,6 @@ var ns_bookmark_popup = {
       if ($('.bookmark_popup').not(this_popup).is(':visible')){
         $('.bookmark_popup, .more').not(this_popup).hide();
       }
-         console.log(ns_bookmark_popup.target);
       if (ns_bookmark_popup.target == 'sidebar'){
         var trigger_popup_icon = $('.trigger_popup_icon');
         var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
@@ -114,6 +113,20 @@ var ns_bookmark_popup = {
         }
       }
     }
+    
+    $(".white .inline_edit_text").editInPlace({
+      callback: function(element, enteredText) { console.log(element); return enteredText; },
+      bg_over: "#cff",
+      saving_image: "<?php echo $this->baseUrl('images/loading.gif');?>"
+    });
+    
+    $(".white .inline_edit_textarea").editInPlace({
+      callback: function(element, enteredText) { console.log(element); return enteredText; },
+      field_type: "textarea",
+      bg_over: "#cff",
+      saving_image: "<?php echo $this->baseUrl('images/loading.gif');?>"
+    });
+  
     ns_event_reminder_form.init();
   },
   adjustSidebarPopupPosition: function(id){
@@ -187,7 +200,8 @@ jQuery(function($){
     return false;
   })
   
-<?php //pending hover keyup... ?>
+<?php /*()
+//pending hover keyup... ?>
   $('body').on('keyup', '.bookmark_popup_form input, .bookmark_popup_form textarea',function(e){
     var _this = $(this); // copy of this object for further usage
     if (ns_bookmark_popup.auto_save_timer) clearTimeout(
@@ -197,6 +211,7 @@ jQuery(function($){
       ns_event_reminder_form.submitForm(_this.parents('.bookmark_popup_form'));
     }, 500);
   })
+ */?>
 <?php //pending hover effect... ?>
   $('body')
     .on('click', '#highlight_tab li.list_item , #bookmark_tab li.list_item' , function(e) {

@@ -112,6 +112,7 @@
 #event_reminder_form{
   table{
     width: 490px;
+    margin-right: 10px;
     th{
       color: #333;
       padding-right: 10px;
@@ -164,6 +165,7 @@
     .reminder_desc{
       color: red;
       margin-left: 25px;
+      display: inline-block;
     }
   }
 }

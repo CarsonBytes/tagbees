@@ -1,6 +1,6 @@
 <script id="event_reminder_form_tmpl" type="text/x-jquery-tmpl">
-      <form id="event_reminder_form" data-id="${item_id}" style="padding: 10px;">
-        <input type="hidden" name="event_reminder_item_id" value="${item_id}"/>
+      <form id="event_reminder_form" data-id="${id}" style="padding: 10px;">
+        <input type="hidden" name="event_reminder_item_id" value="${id}"/>
         <table class="event_reminder_form">
           <tbody>
             <tr>
@@ -8,7 +8,7 @@
                 <label><?php echo $this->translate('event_reminder_title');?></label>
               </th>
               <td>
-                <input type="text" value="{{if title}}${title}{{/if}}" id="event_reminder_title" name="event_reminder_title" class="full textinput" />
+                <input type="text" value="${reminder_title}" id="event_reminder_title" name="event_reminder_title" class="full textinput" />
               </td>
             </tr>
             <tr>
@@ -16,7 +16,7 @@
                 <label><?php echo $this->translate('event_reminder_description');?></label>
               </th>
               <td>
-                <textarea name="event_reminder_description" class="textinput" rows="13">{{if description}}${description}{{/if}}</textarea>
+                <textarea name="event_reminder_description" class="textinput" rows="13">${reminder_description}</textarea>
               </td>
             </tr>
             <tr>
@@ -24,7 +24,7 @@
                 <label><?php echo $this->translate('event_reminder_tags');?></label>
               </th>
               <td>
-                <input type="text" value="${tags}" id="event_reminder_tags" name="event_reminder_tags" class="full textinput" />
+                <input type="text" value="${reminder_tags}" id="event_reminder_tags" name="event_reminder_tags" class="full textinput" />
               </td>
             </tr>
             <tr>
@@ -32,8 +32,10 @@
                 <label><?php echo $this->translate('event_reminder_attend_datetime');?></label>
               </th>
               <td>
-              <input type="text" class="date_input" id="event_reminder_attend_date" value="{{if attend_date}}${attend_date}{{/if}}" />
-              <input id="event_reminder_attend_time" type="text" class="timepicker" value="{{if attend_time}}${attend_time}{{/if}}"/>
+              <input type="checkbox" name="event_reminder_is_match_event_begin_datetime" checked="checked" id="event_reminder_is_match_event_begin_datetime"/>
+                <label for="event_reminder_is_match_event_begin_datetime"><?php echo $this->translate('Match event begin datetime');?></label>
+              <input type="text" class="date_input" id="event_reminder_attend_date" value="${reminder_attend_date}" />
+              <input id="event_reminder_attend_time" type="text" class="timepicker" value="${reminder_attend_time}"/>
               <input type="hidden" name="event_reminder_attend_datetime" id="event_reminder_attend_datetime" value="">
               </td> 
             </tr>
@@ -45,17 +47,16 @@
                   $sources = array('email', 'popup', 'mobile');
                   foreach($sources as $source){
                 ?>
-                <input {{if has_<?php echo $source ?>_alarm}}checked="checked"{{/if}} value="<?php echo $source ?>" class="event_reminder_has_alarm" type="checkbox" name="event_reminder_has_<?php echo $source ?>_alarm" id="event_reminder_has_<?php echo $source ?>_alarm">
+                <input {{if reminder_has_<?php echo $source ?>_alarm}}checked="checked"{{/if}} value="<?php echo $source ?>" class="event_reminder_has_alarm" type="checkbox" name="event_reminder_has_<?php echo $source ?>_alarm" id="event_reminder_has_<?php echo $source ?>_alarm">
                 <label for="event_reminder_has_<?php echo $source ?>_alarm"><?php echo $this->translate($source);?></label>
-                <input value="${<?php echo $source ?>_alarm_time}" type="text" id="event_reminder_<?php echo $source ?>_alarm_time" name="event_reminder_<?php echo $source ?>_alarm_time" class="numberinput event_reminder_alarm_time" />
+                <input value="${reminder_<?php echo $source ?>_alarm_time}" type="text" id="event_reminder_<?php echo $source ?>_alarm_time" name="event_reminder_<?php echo $source ?>_alarm_time" class="numberinput event_reminder_alarm_time" />
                 <select id="event_reminder_<?php echo $source ?>_alarm_time_unit" name="event_reminder_<?php echo $source ?>_alarm_time_unit" class="event_reminder_alarm_time_unit">
-                  <option value="weeks" {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'weeks'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('weeks');?></option>
-                  <option value="days" {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'days'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('days');?></option>
-                  <option value="hours" {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'hours'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('days');?></option>
-                  <option value="minutes" {{if <?php echo $source ?>_alarm_time_unit}}{{if <?php echo $source ?>_alarm_time_unit == 'minutes'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('minutes');?></option>
+                  <option value="weeks" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'weeks'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('weeks');?></option>
+                  <option value="days" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'days'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('days');?></option>
+                  <option value="hours" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'hours'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('days');?></option>
+                  <option value="minutes" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'minutes'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('minutes');?></option>
                 </select>
-                <br />
-                <span id="<?php echo $source ?>_reminder_desc" class="reminder_desc"></span>
+                <div id="<?php echo $source ?>_reminder_desc" class="reminder_desc"></div>
                 <br />
                 <?php 
                   }

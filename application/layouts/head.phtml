@@ -37,7 +37,8 @@
         ->appendFile('tinymce/jquery.tinymce.js')
         ->appendFile('jquery.cookie.js')
         ->appendFile('jquery.colorbox-min.js')
-        ->appendFile('date.js');
+        ->appendFile('date.js')
+        ->appendFile('jquery.editinplace.js');
     
         if (Common::getSiteDisplayLang() == 'zh-hk'){
           $this->minifyHeadScript()->appendFile('jquery.validate.messages_zh_TW.js');

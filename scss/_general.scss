@@ -215,11 +215,25 @@ body {
     .white{
       margin-top:10px;
       display:none;
-    }
-    .bookmark_popup_reminder_title, .bookmark_popup_reminder_detail{
-      width: 286px;
-      padding: 2px;
-      border: 1px solid #dfdfdf;
+      .textarea_field{
+        vertical-align: top;
+      }
+      .inline_edit_text, .inline_edit_textarea{
+        display:inline-block;
+        width: 230px;
+        float: right;
+        padding: 2px;
+        border: 1px solid #dfdfdf;
+        input{
+          width:100%;
+          padding:0;
+        }
+        
+        textarea{
+          width:100%;
+          padding:0;
+        }
+      }
     }
     .bookmark_popup_reminder_save{
       float:right;
@@ -391,4 +405,8 @@ li.ui-timepicker-selected .ui-timepicker-duration,
 .ui-timepicker-list li.ui-timepicker-disabled:hover,
 .ui-timepicker-list li.ui-timepicker-selected.ui-timepicker-disabled {
   background: #f2f2f2;
+}
+
+#colorbox #cboxLoadedContent{
+  overflow-x: hidden !important;
 }
