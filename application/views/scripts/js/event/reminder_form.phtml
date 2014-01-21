@@ -78,7 +78,7 @@ var ns_event_reminder_form = {
       }
     }
   },
-  submitForm : function(form){
+  submitForm : function(data){
     $('.event_reminder_alarm_time').each(function(){
       if(! isNumber($(this).val())) $(this).val(0);
     });
@@ -88,7 +88,7 @@ var ns_event_reminder_form = {
     jQuery.ajax({
       type: "POST",
       url: "<?php echo $this->baseUrl('ajax/event/reminder_form_submit') ?>",
-      data: form.serialize(),
+      data: data,
       success: function(msg){
         if(msg['result']==true){
           $('[data-id="'+msg.data.item_id+'"]').find('[name="event_reminder_title"]').val(msg.data.title);
@@ -130,7 +130,7 @@ var ns_event_reminder_form = {
 jQuery(function($){
   $('body').on('click', 'input#event_reminder_save', function(e){
     e.preventDefault();
-    ns_event_reminder_form.submitForm($(this).parents('form'));
+    ns_event_reminder_form.submitForm($(this).parents('form').serialize());
     return false;
   })
   .on('click', 'input#event_reminder_close', function(e){

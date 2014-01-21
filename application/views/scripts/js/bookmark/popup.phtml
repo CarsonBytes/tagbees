@@ -104,6 +104,7 @@ var ns_bookmark_popup = {
             this_popup.css('top', star.offset().top + 37);
             this_popup.css('left',star.offset().left - 270);
             this_popup.show();
+            this_popup.find('.yellow').hide();
             ns_bookmark_popup.showReminderFields();
             trigger_popup_icon.show();
           }
@@ -115,13 +116,27 @@ var ns_bookmark_popup = {
     }
     
     $(".white .inline_edit_text").editInPlace({
-      callback: function(element, enteredText) { console.log(element); return enteredText; },
+      callback: function(element, enteredText, originalText) { 
+        var data={
+          event_reminder_item_id : $(this).parents('.bookmark_popup').data('id')
+        };
+        data[element] = enteredText;
+        if(ns_event_reminder_form.submitForm(data)) return enteredText; 
+        else return originalText;
+      },
       bg_over: "#cff",
       saving_image: "<?php echo $this->baseUrl('images/loading.gif');?>"
     });
     
     $(".white .inline_edit_textarea").editInPlace({
-      callback: function(element, enteredText) { console.log(element); return enteredText; },
+      callback: function(element, enteredText, originalText) { 
+        var data={
+          event_reminder_item_id : $(this).parents('.bookmark_popup').data('id')
+        };
+        data[element] = enteredText;
+        if(ns_event_reminder_form.submitForm(data)) return enteredText; 
+        else return originalText;
+      },
       field_type: "textarea",
       bg_over: "#cff",
       saving_image: "<?php echo $this->baseUrl('images/loading.gif');?>"

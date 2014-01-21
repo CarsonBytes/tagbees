@@ -218,10 +218,14 @@ body {
       .textarea_field{
         vertical-align: top;
       }
+      .text_line{
+        div{display:inline-block}
+      }
       .inline_edit_text, .inline_edit_textarea{
         display:inline-block;
-        width: 230px;
-        float: right;
+        min-height:18px;
+        /*width: 230px;
+        float: right;*/
         padding: 2px;
         border: 1px solid #dfdfdf;
         input{

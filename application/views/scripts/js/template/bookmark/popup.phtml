@@ -45,46 +45,42 @@
         <a class="bookmark_popup_set_reminder" href="#" data-value="0">Set Reminder...</a>
         <div class="white">
           <?php /*<form class="bookmark_popup_form" data-id="${id}" name="bookmark_popup_form" action="" method="post" >*/ ?>
-            {{if reminder_title}}
               <div class="text_field">
-                <?php echo $this->translate('Title')?>: <div id="bookmark_popup_reminder_title" class="inline_edit_text">${reminder_title}</div> 
+                <?php echo $this->translate('Title')?>: <div id="event_reminder_title" name="event_reminder_title" class="inline_edit_text">{{if reminder_title}}${reminder_title}{{/if}}</div> 
                 <div class="clr"></div>
               </div>
-            {{/if}}
-            {{if reminder_description}}
               <div class="textarea_field">
                 <?php echo $this->translate('Description')?>:
-                <div class="bookmark_popup_reminder_description inline_edit_textarea">${reminder_description}</div>
+                <div id="event_reminder_description" name="event_reminder_description" class="inline_edit_textarea">{{if reminder_description}}${reminder_description}{{/if}}</div>
                 <div class="clr"></div>
               </div>
-            {{/if}}
             {{if reminder_tags}}
-              <div class="text_field">
-                <?php echo $this->translate('Tags')?>: <div id="bookmark_popup_reminder_tags" class="inline_edit_text">${reminder_tags}</div>
+              <div class="text_line">
+                <?php echo $this->translate('Tags')?>: <div id="bookmark_popup_reminder_tags" class="">${reminder_tags}</div>
                 <div class="clr"></div>
               </div>
             {{/if}}
             {{if reminder_attend_datetime}}
-              <div class="text_field">
-                <?php echo $this->translate('Attend datetime')?>: <div id="bookmark_popup_reminder_attend_datetime" class="inline_edit_text">${reminder_attend_datetime}</div>
+              <div class="text_line">
+                <?php echo $this->translate('Attend datetime')?>: <div id="bookmark_popup_reminder_attend_datetime" class="">${reminder_attend_datetime}</div>
                 <div class="clr"></div>
               </div>
             {{/if}}
             {{if reminder_has_email_alarm}}
-              <div class="text_field">
-                <?php echo $this->translate('Email alert')?>: <div id="bookmark_popup_reminder_has_email_alarm" class="inline_edit_text">${$item.getAlertTime('email')}</div>
+              <div class="text_line">
+                <?php echo $this->translate('Email alert')?>: <div id="bookmark_popup_reminder_has_email_alarm" class="">${$item.getAlertTime('email')}</div>
                 <div class="clr"></div>
               </div>
             {{/if}}
             {{if reminder_has_popup_alarm}}
-              <div class="text_field">
-                <?php echo $this->translate('Popup alert')?>: <div id="bookmark_popup_reminder_has_popup_alarm" class="inline_edit_text">${$item.getAlertTime('popup')}</div>
+              <div class="text_line">
+                <?php echo $this->translate('Popup alert')?>: <div id="bookmark_popup_reminder_has_popup_alarm" class="">${$item.getAlertTime('popup')}</div>
                 <div class="clr"></div>
               </div>
             {{/if}}
             {{if reminder_has_mobile_alarm}}
-              <div class="text_field">
-                <?php echo $this->translate('Mobile alert')?>: <div id="bookmark_popup_reminder_has_mobile_alarm" class="inline_edit_text">${$item.getAlertTime('mobile')}</div>
+              <div class="text_line">
+                <?php echo $this->translate('Mobile alert')?>: <div id="bookmark_popup_reminder_has_mobile_alarm" class="">${$item.getAlertTime('mobile')}</div>
                 <div class="clr"></div>
               </div>
             {{/if}}
