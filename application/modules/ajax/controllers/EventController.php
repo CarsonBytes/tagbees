@@ -34,7 +34,7 @@ class Ajax_EventController extends Zend_Controller_Action
         $id = $eventService->addReminder($this->params);
         
         $feedService=new Service_Feed();
-        $array['data'] = $feedService->getFeed(
+        $array = $feedService->getFeed(
           array('item_ids'=> array($id)
           )
         );

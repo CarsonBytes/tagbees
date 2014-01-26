@@ -376,6 +376,8 @@ class Service_Feed{
       $item->application_datetime_note = urlencode($item->application_datetime_note);
       $item->organiser_detail = urlencode($item->organiser_detail);
       $item->traffic_note = urlencode($item->traffic_note);
+      $item->reminder_title = urldecode($item->reminder_title);
+      $item->reminder_description = urldecode($item->reminder_description);
       
       
       //calculate and insert linear direction between points. refer to application/../docs/long-place_lat-direction.bmp

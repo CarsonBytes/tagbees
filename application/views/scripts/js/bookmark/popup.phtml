@@ -121,6 +121,7 @@ var ns_bookmark_popup = {
           event_reminder_item_id : $(this).parents('.bookmark_popup').data('id')
         };
         data[element] = enteredText;
+        $(this).text(enteredText);
         if(ns_event_reminder_form.submitForm(data)) return enteredText; 
         else return originalText;
       },
@@ -134,6 +135,7 @@ var ns_bookmark_popup = {
           event_reminder_item_id : $(this).parents('.bookmark_popup').data('id')
         };
         data[element] = enteredText;
+        $(this).text(enteredText);
         if(ns_event_reminder_form.submitForm(data)) return enteredText; 
         else return originalText;
       },

@@ -130,7 +130,7 @@ body #main_wrapper #main #content .main_inner h1, body #main_wrapper #main #cont
 .bookmark_popup .bookmark_popup_inner .white .textarea_field { vertical-align: top; }
 .bookmark_popup .bookmark_popup_inner .white .text_line div { display: inline-block; }
 .bookmark_popup .bookmark_popup_inner .white .inline_edit_text, .bookmark_popup .bookmark_popup_inner .white .inline_edit_textarea { display: inline-block; min-height: 18px; /*width: 230px;
-float: right;*/ padding: 2px; border: 1px solid #dfdfdf; }
+float: right;*/ padding: 2px; border: 1px solid #dfdfdf; width: 246px; overflow: hidden; }
 .bookmark_popup .bookmark_popup_inner .white .inline_edit_text input, .bookmark_popup .bookmark_popup_inner .white .inline_edit_textarea input { width: 100%; padding: 0; }
 .bookmark_popup .bookmark_popup_inner .white .inline_edit_text textarea, .bookmark_popup .bookmark_popup_inner .white .inline_edit_textarea textarea { width: 100%; padding: 0; }
 .bookmark_popup .bookmark_popup_inner .bookmark_popup_reminder_save { float: right; }
