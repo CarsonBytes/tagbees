@@ -17,7 +17,7 @@ class IndexController extends Zend_Controller_Action
             Common::getSession()->user_saved_location=$locationService->getSavedLocations();
         }
         
-        $feedService=new Service_Feed();
-        $this->view->feed = $feedService->getFeed($this->getRequest()->getParams());
+        /*$feedService=new Service_Feed();
+        $this->view->feed = $feedService->getFeed($this->getRequest()->getParams());*/
     }
 }

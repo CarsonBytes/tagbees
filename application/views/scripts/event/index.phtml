@@ -3,7 +3,7 @@
 <?php //echo '<pre>';var_dump($this->item);echo '</pre>'; ?>
 <div class="main shadow">
     <div class="event_detail">
-        <article data-id="<?php echo $this->item->id; ?>" class="detail_div clearfix">
+        <article data-id="<?php echo $this->item->id; ?>" class="detail_div clearfix <?php if ($this->item->is_like==1){ ?>bookmarked<?php } ?>">
           <header>
               <div class="bookmark_area">
                   <div class="w1">
@@ -307,7 +307,6 @@
 <script type="text/javascript">
 jQuery(function($){
   var event_data = jQuery.parseJSON('<?php echo json_encode($this->array_result) ?>');
-  console.log(event_data)
   var popup_content = ns_feed.getHTML(event_data, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
   $('body').append(popup_content);
 })

@@ -141,7 +141,7 @@ class Service_Event{
       $data2 = array();
       foreach($data as $key => &$value){
         $key = str_replace($prefix, '', $key);
-        $data2[$key]=urlencode($value);
+        $data2[$key]=$value;
       }
       $data2['update_time'] = date('Y-m-d H:i:s');
       $data2['has_email_alarm'] = isset($data2['has_email_alarm']) ? 1 : 0;
