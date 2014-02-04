@@ -22,6 +22,11 @@ var ns_bookmark_popup = {
       return this.data['reminder_'+type+'_alarm_time'] + ' ' + this.data['reminder_'+type+'_alarm_time_unit'];
     }
   },
+  getAlertTime: function(type, data){
+    if (data['reminder_'+type+'_alarm_time'] == '' || data['reminder_'+type+'_alarm_time'] == null)
+       return '<?php echo $this->translate('upon attend time') ?>';
+    return data['reminder_'+type+'_alarm_time'] + ' ' + data['reminder_'+type+'_alarm_time_unit'];
+  },
   toggleBookmark: function(id){
       var parents = $('#sidebar li.list_item[data-id="'+id+'"], article[data-id="'+id+'"]');
       var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
@@ -116,12 +121,16 @@ var ns_bookmark_popup = {
     }
     
     $(".white .inline_edit_text").editInPlace({
-      callback: function(element, enteredText, originalText) { 
-        var data={
-          event_reminder_item_id : $(this).parents('.bookmark_popup').data('id')
-        };
-        data[element] = enteredText;
-        $(this).text(enteredText);
+      callback: function(element, enteredText, originalText) {
+        $("#"+element).text(enteredText);
+        
+        var data = {};
+        data[$("#"+element).attr('name')] = enteredText;
+        
+        // assume this is reminder title
+        /event_reminder_title_(\d+)/.exec(element);
+        data['event_reminder_item_id'] = RegExp.$1
+        
         if(ns_event_reminder_form.submitForm(data)) return enteredText; 
         else return originalText;
       },
@@ -131,11 +140,15 @@ var ns_bookmark_popup = {
     
     $(".white .inline_edit_textarea").editInPlace({
       callback: function(element, enteredText, originalText) { 
-        var data={
-          event_reminder_item_id : $(this).parents('.bookmark_popup').data('id')
-        };
-        data[element] = enteredText;
-        $(this).text(enteredText);
+        $("#"+element).text(enteredText);
+        
+        var data = {};
+        data[$("#"+element).attr('name')] = enteredText;
+        
+        // assume this is reminder description
+        /event_reminder_description_(\d+)/.exec(element);
+        data['event_reminder_item_id'] = RegExp.$1
+        
         if(ns_event_reminder_form.submitForm(data)) return enteredText; 
         else return originalText;
       },
@@ -190,6 +203,38 @@ var ns_bookmark_popup = {
   showReminderFields : function(){
     $('.bookmark_popup_reminder_title').watermark("<?php echo $this->translate('Reminder Title') ?>");
     $('.bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
+  },
+  updateContent : function(msg){
+    if(! $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').is(':visible')){
+      var popup_content = ns_feed.getHTML(msg, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
+      $('body').append(popup_content);
+    } else {
+      for (var i in ns_event_reminder_form.alert_types){
+        var element = $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').find('.bookmark_popup_reminder_'+ns_event_reminder_form.alert_types[i]+'_alarm_time');
+        
+        if (msg.data[0]['reminder_has_'+ns_event_reminder_form.alert_types[i]+'_alarm'] == 0){
+          element.parents('.text_line').addClass('hidden');
+        } else {
+          element.text(ns_bookmark_popup.getAlertTime(ns_event_reminder_form.alert_types[i], msg.data[0]));
+          element.parents('.text_line').removeClass('hidden');
+        }
+      }
+      for (var i in ns_event_reminder_form.reminder_textfields){
+        var element = $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').find('.bookmark_popup_'+ns_event_reminder_form.reminder_textfields[i]);
+        var value = msg.data[0][ns_event_reminder_form.reminder_textfields[i]];
+        if (value){
+          if ($.trim(value) != ''){
+            element.text(value);
+            element.parents('.text_line').removeClass('hidden');
+          } else {
+            element.parents('.text_line').addClass('hidden');
+          }
+        } else {
+          element.parents('.text_line').addClass('hidden');
+        }
+      }
+    }
+    ns_bookmark_popup.showReminderFields();
   }
 };
 

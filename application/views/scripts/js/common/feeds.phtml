@@ -47,7 +47,12 @@ var ns_feed = {
             return '<?php echo Common::changePathToURL(Common::config()->pics->event->public);?>';
         },
         hasMainCat: function(){
-            return !(jQuery.isEmptyObject(this.data.tree_ids.main));
+            if (this.data.tree_ids && this.data.tree_ids.main){
+              return !(jQuery.isEmptyObject(this.data.tree_ids.main));
+            }else{
+              return false;
+            }
+            
         },
         getMainCatName: function(){
             var main_cat_ids = this.data.tree_ids.main;

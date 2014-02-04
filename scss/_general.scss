@@ -219,6 +219,7 @@ body {
         vertical-align: top;
       }
       .text_line{
+        &.hidden{display:none;}
         div{display:inline-block}
       }
       .inline_edit_text, .inline_edit_textarea{

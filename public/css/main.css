@@ -128,6 +128,7 @@ body #main_wrapper #main #content .main_inner h1, body #main_wrapper #main #cont
 .bookmark_popup .bookmark_popup_inner .yellow ul.info_line li { display: inline-block; background: none; float: left; cursor: auto; padding: 0 2px; border: 0; }
 .bookmark_popup .bookmark_popup_inner .white { margin-top: 10px; display: none; }
 .bookmark_popup .bookmark_popup_inner .white .textarea_field { vertical-align: top; }
+.bookmark_popup .bookmark_popup_inner .white .text_line.hidden { display: none; }
 .bookmark_popup .bookmark_popup_inner .white .text_line div { display: inline-block; }
 .bookmark_popup .bookmark_popup_inner .white .inline_edit_text, .bookmark_popup .bookmark_popup_inner .white .inline_edit_textarea { display: inline-block; min-height: 18px; /*width: 230px;
 float: right;*/ padding: 2px; border: 1px solid #dfdfdf; width: 246px; overflow: hidden; }

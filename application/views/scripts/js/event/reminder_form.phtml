@@ -2,6 +2,7 @@
 var ns_event_reminder_form = {
   reminder_textfields : ['reminder_title', 'reminder_description', 'reminder_tags','reminder_attend_datetime'],
   reminder_checkboxes : ['reminder_has_email_alarm','reminder_has_popup_alarm','reminder_has_mobile_alarm'],
+  alert_types : ['email', 'popup', 'mobile'],
   init : function(){
     $('input[name="event_reminder_title"]').watermark("<?php echo $this->translate('reminder title') ?>");
     $('textarea[name="event_reminder_description"]').watermark("<?php echo $this->translate('reminder description') ?>");
@@ -91,10 +92,20 @@ var ns_event_reminder_form = {
       data: data,
       success: function(msg){
         if(msg['result']==true){
-          $('[data-id="'+msg.data[0].id+'"]').find('[name="event_reminder_title"]').text(msg.data[0].reminder_title);
-          $('[data-id="'+msg.data[0].id+'"]').find('[name="event_reminder_description"]').text(msg.data[0].reminder_description);
+          
           $('.reminder_save_status .saving').hide();
           $('.reminder_save_status .saved').show().fadeOut("slow");
+          
+          var reminder_fields = ns_event_reminder_form.reminder_textfields;
+          for ( i in reminder_fields){
+            $('[data-id="'+msg.data[0].id+'"]').find('[name="event_'+reminder_fields[i]+'"]').text(msg.data[0][reminder_fields[i]]);
+            if( msg.data[0][reminder_fields[i]] && msg.data[0][reminder_fields[i]]!='' ){
+              
+            } else{
+              $('[data-id="'+msg.data[0].id+'"]').find('[name="event_'+reminder_fields[i]+'"]').parents('.text_line').removeClass('hidden');
+            }
+          }
+          
           if(msg.data[0].reminder_title && msg.data[0].reminder_title!=''){
             $('[data-id="'+msg.data[0].id+'"]').find('.reminder_title .text').text(msg.data[0].reminder_title);
             $('[data-id="'+msg.data[0].id+'"]').find('.reminder_title .not_set').hide();
@@ -108,14 +119,14 @@ var ns_event_reminder_form = {
           } else {
             $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').removeClass('has_reminder');
           }
+          ns_bookmark_popup.updateContent(msg);
           if(! $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').is(':visible')){
-            var popup_content = ns_feed.getHTML(msg.data, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
+            var popup_content = ns_feed.getHTML(msg, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
             $('body').append(popup_content);
+          } else {
           }
-    console.log(true);
     return true;
         } else{
-    console.log(false);
     return false;
         }
       },
