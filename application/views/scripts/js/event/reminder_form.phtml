@@ -3,24 +3,65 @@ var ns_event_reminder_form = {
   reminder_textfields : ['reminder_title', 'reminder_description', 'reminder_tags','reminder_attend_datetime'],
   reminder_checkboxes : ['reminder_has_email_alarm','reminder_has_popup_alarm','reminder_has_mobile_alarm'],
   alert_types : ['email', 'popup', 'mobile'],
+  tmpl_functions : {
+    isSetAttendDateTime: function() {
+      if (this.data.reminder_attend_datetime){
+        if (this.data.reminder_attend_datetime == '') return false;
+      } else {
+        return false;
+      }
+      return true;
+    },
+    getAttendDate: function(){
+      var data = this.data.reminder_attend_datetime;
+      if(data){
+        if(data.trim()=='') return '';
+        var array = data.split(' ');
+        return array[0];
+      }
+      return '';
+    },
+    getAttendTime: function(){
+      var data = this.data.reminder_attend_datetime;
+      if(data){
+        if(data.trim()=='') return '';
+        var array = data.split(' ');
+        return array[1];
+      }
+      return '';
+    }
+  },
   init : function(){
     $('input[name="event_reminder_title"]').watermark("<?php echo $this->translate('reminder title') ?>");
     $('textarea[name="event_reminder_description"]').watermark("<?php echo $this->translate('reminder description') ?>");
     $('input[name="event_reminder_tags"]').watermark("<?php echo $this->translate('Please enter tags (seperated with comma)') ?>");
-    $('input#event_reminder_attend_date').watermark("<?php echo $this->translate('date') ?>");
-    $('input#event_reminder_attend_time').watermark("<?php echo $this->translate('time') ?>");
-    $('#event_reminder_attend_date').datepicker({
+    $('.event_reminder_attend_date').watermark("<?php echo $this->translate('date') ?>");
+    $('.event_reminder_attend_time').watermark("<?php echo $this->translate('time') ?>");
+    $('.event_reminder_attend_date').datepicker({
           changeMonth: true,
-          changeYear: true
+          changeYear: true,
+          onSelect: function(dateText, inst) { ns_event_reminder_form.updateReminderDescription();}
     }).keyup(function(e) {
       if(e.keyCode == 8 || e.keyCode == 46) {
         e.preventDefault();
         $.datepicker._clearDate(this);
       }
     });
-    $('#event_reminder_attend_time').timepicker({
+    $('.event_reminder_attend_time').timepicker({
       'timeFormat': 'H:i', step : 15 
     });
+    $('.event_reminder_attend_time').on('change',function(){
+      ns_event_reminder_form.updateAttendDatetime();
+    })
+    if ($('.event_reminder_is_match_event_begin_datetime').is(':checked')){
+        $('.event_reminder_attend_date').val('').prop('disabled',true);
+        $('.event_reminder_attend_time').val('').prop('disabled',true);
+        $('.event_reminder_attend_datetime').val('');
+        $('.reminder_desc').empty();
+    } else {
+        $('.event_reminder_attend_date').prop('disabled',false);
+        $('.event_reminder_attend_time').prop('disabled',false);
+    }
     $('.event_reminder_has_alarm').each(function(){
       if (! $(this).is(':checked')){
         $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',true);
@@ -29,8 +70,19 @@ var ns_event_reminder_form = {
         $('#event_reminder_'+$(this).val()+'_alarm_time').prop('disabled',false);
         $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',false);
       }
-    })
+    });
+    
     ns_event_reminder_form.updateReminderDescription();
+  },
+  updateAttendDatetime: function(){
+    if($('.event_reminder_is_match_event_begin_datetime').is(':checked')){
+      $('.event_reminder_attend_datetime').val($('.event_reminder_event_begin_datetime').val());
+    }else{
+      if ($('.event_reminder_attend_date').val()=='') return false;
+      var time = $('.event_reminder_attend_time').val()!='' ? $('.event_reminder_attend_time').val() : '00:00';
+      $('.event_reminder_attend_datetime').val($('.event_reminder_attend_date').val()+' '+time);
+    }
+    return true;
   },
   hasReminderContent: function(data){
     for ( var n in ns_event_reminder_form.reminder_textfields ){
@@ -47,12 +99,15 @@ var ns_event_reminder_form = {
     return false;
   },
   updateReminderDescription : function(){
-    if($('#event_reminder_attend_date').val()=='') return false;
-    if($('#event_reminder_attend_time').val()=='') $('#event_reminder_attend_time').val('00:00');
-    var datetime;
+    if (!ns_event_reminder_form.updateAttendDatetime()){
+      $('.reminder_desc').empty();
+      return false;
+    };
+    
+    var datetime = Date.parse($('.event_reminder_attend_datetime').val());
+    
     var types = ['email', 'popup', 'mobile'];
     for (i in types){
-      datetime = Date.parse($('#event_reminder_attend_date').val()+' '+$('#event_reminder_attend_time').val());
       if ($('#event_reminder_has_'+types[i]+'_alarm').is(':checked')){
         var unit = $('#event_reminder_'+types[i]+'_alarm_time_unit').val();
         var time_amount = new String('-'+$('#event_reminder_'+types[i]+'_alarm_time').val());
@@ -83,7 +138,7 @@ var ns_event_reminder_form = {
     $('.event_reminder_alarm_time').each(function(){
       if(! isNumber($(this).val())) $(this).val(0);
     });
-    $('#event_reminder_attend_datetime').val( $('#event_reminder_attend_date').val()+' '+$('#event_reminder_attend_time').val() );
+    $('.event_reminder_attend_datetime').val( $('.event_reminder_attend_date').val()+' '+$('.event_reminder_attend_time').val() );
     var is_submitted = false;
     $('.reminder_save_status .saving').show();
     jQuery.ajax({
@@ -160,7 +215,7 @@ jQuery(function($){
       $('#event_reminder_'+$(this).val()+'_alarm_time_unit').prop('disabled',false);
     }
   })
-  .on('change','#event_reminder_attend_date, #event_reminder_attend_time, .event_reminder_has_alarm, .event_reminder_alarm_time, .event_reminder_alarm_time_unit', function(){
+  .on('change','.event_reminder_is_match_event_begin_datetime .event_reminder_attend_date, .event_reminder_attend_time, .event_reminder_has_alarm, .event_reminder_alarm_time, .event_reminder_alarm_time_unit', function(){
     ns_event_reminder_form.updateReminderDescription();
   });
 })

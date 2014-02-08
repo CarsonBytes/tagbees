@@ -14,7 +14,7 @@ jQuery(function($) {
           transition:"none",
           fadeOut: 0,
           closeButton: false,
-          html:$( "#event_reminder_form_tmpl" ).tmpl(msg.data),
+          html:$( "#event_reminder_form_tmpl" ).tmpl(msg.data, ns_event_reminder_form.tmpl_functions),
           onComplete:function(){ ns_event_reminder_form.init(); }
         });
         return true;

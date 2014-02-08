@@ -7,6 +7,7 @@ class Service_Event{
     'title', 
     'description', 
     'tags', 
+    'is_match_event_begin_datetime',
     'attend_datetime', 
     'has_email_alarm',
     'email_alarm_time', 
@@ -149,8 +150,7 @@ class Service_Event{
       $data2['has_mobile_alarm'] = isset($data2['has_mobile_alarm']) ? 1 : 0;
       $data2['is_match_event_begin_datetime'] = isset($data2['is_match_event_begin_datetime']) ? 1 : 0;
       
-      if (isset($data2['attend_datetime'])&& trim($data2['attend_datetime']) == '' ) unset($data2['attend_datetime']);
-      
+      if (isset($data2['attend_datetime'])&& trim($data2['attend_datetime']) == '' ) $data2['attend_datetime'] = null;
       $select=$this->db->select()
         ->from('reminder','user_id')
         ->where ('user_id = ?',$this->identity->item_id)

@@ -58,7 +58,7 @@
                 <?php echo $this->translate('Tags')?>: <div class="bookmark_popup_reminder_tags">{{if reminder_tags}}${reminder_tags}{{/if}}</div>
                 <div class="clr"></div>
               </div>
-            <div class="text_line {{if !reminder_attend_datetime}}hidden{{/if}}">
+            <div class="text_line {{if !reminder_attend_datetime || reminder_is_match_event_begin_datetime==1}}hidden{{/if}}">
               <?php echo $this->translate('Attend datetime')?>: <div class="bookmark_popup_reminder_attend_datetime">${reminder_attend_datetime}</div>
               <div class="clr"></div>
             </div>

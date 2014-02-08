@@ -32,11 +32,12 @@
                 <label><?php echo $this->translate('event_reminder_attend_datetime');?></label>
               </th>
               <td>
-              <input type="checkbox" name="event_reminder_is_match_event_begin_datetime" checked="checked" id="event_reminder_is_match_event_begin_datetime"/>
+              <input class="event_reminder_is_match_event_begin_datetime" type="checkbox" name="event_reminder_is_match_event_begin_datetime" {{if reminder_is_match_event_begin_datetime == 1 || $item.isSetAttendDateTime()==false }}checked="checked"{{/if}} class="event_reminder_is_match_event_begin_datetime" id="event_reminder_is_match_event_begin_datetime"/>
                 <label for="event_reminder_is_match_event_begin_datetime"><?php echo $this->translate('Match event begin datetime');?></label>
-              <input type="text" class="date_input" id="event_reminder_attend_date" value="${reminder_attend_date}" />
-              <input id="event_reminder_attend_time" type="text" class="timepicker" value="${reminder_attend_time}"/>
-              <input type="hidden" name="event_reminder_attend_datetime" id="event_reminder_attend_datetime" value="">
+              <input type="text" class="date_input event_reminder_attend_date" value="${$item.getAttendDate()}" />
+              <input type="text" class="timepicker event_reminder_attend_time" value="${$item.getAttendTime()}"/>
+              <input type="hidden" name="event_reminder_attend_datetime" class="event_reminder_attend_datetime" value="">
+              <input type="hidden" class="event_reminder_event_begin_datetime" value="${begin_datetime}">
               </td> 
             </tr>
             <tr>
