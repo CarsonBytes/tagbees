@@ -179,10 +179,10 @@ jQuery(function($){
                 map.fitBounds(radiusWidget.get('bounds'));
             }
           feed_para['radius'] = ui.value;
-          updateUrlParam('radius', feed_para['radius']);
-          updateUrlParam('place_lat', feed_para['place_lat']);
-          updateUrlParam('place_lng', feed_para['place_lng']);
-          refreshFeed();
+          ns_feed.updateUrlParam('radius', feed_para['radius']);
+          ns_feed.updateUrlParam('place_lat', feed_para['place_lat']);
+          ns_feed.updateUrlParam('place_lng', feed_para['place_lng']);
+          ns_feed.refresh();
         }
     });
     
@@ -190,21 +190,21 @@ jQuery(function($){
     
     $('body').on('click','.sort_by ul li', function(){
         updateSortByInput($(this).data('value'));
-        addChangedFeedInputName($('.feed_filter_input[name="sort_by"]'));
-        if (validateSidebarSearchInputs()){
+        ns_feed.addChangedFeedInputName($('.feed_filter_input[name="sort_by"]'));
+        if (ns_feed.validateSidebarSearchInputs()){
             for( key in changed_feed_input_names){
-                updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+                ns_feed.updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
             }
-            refreshFeed('index');
+            ns_feed.refresh('index');
         }
     })<?php if ($isLogined) { ?>
       .on('change','.feed_filter_input[name="is_match_interest"]', function(){
-            addChangedFeedInputName($('.feed_filter_input[name="is_match_interest"]'));
-            if (validateSidebarSearchInputs()){
+            ns_feed.addChangedFeedInputName($('.feed_filter_input[name="is_match_interest"]'));
+            if (ns_feed.validateSidebarSearchInputs()){
                 for( key in changed_feed_input_names){
-                    updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+                    ns_feed.updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
                 }
-                refreshFeed('index');
+                ns_feed.refresh('index');
             }
         <?php /* ?>
             var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
@@ -223,12 +223,12 @@ jQuery(function($){
             jQuery('.match_location_set').css('display','none');
             distanceWidget.set('map', null);
         }
-        addChangedFeedInputName($('.feed_filter_input[name="is_match_location"]'));
-        if (validateSidebarSearchInputs()){
+        ns_feed.addChangedFeedInputName($('.feed_filter_input[name="is_match_location"]'));
+        if (ns_feed.validateSidebarSearchInputs()){
             for( key in changed_feed_input_names){
-                updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+                ns_feed.updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
             }
-            refreshFeed('index');
+            ns_feed.refresh('index');
         }
     }).on('click','.showMap', function(e){
         e.preventDefault();
@@ -244,14 +244,14 @@ jQuery(function($){
                 initMap();
                 input.val(1);
             }
-            updateVariableAndUrlParamFromFeedInput(input);
+            ns_feed.updateVariableAndUrlParamFromFeedInput(input);
         <?php } else { ?>
             var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
             showFlashMessages(content);
         <?php } ?>
     }).on('click','#refresh_feed', function(){
-        if (feed_refreshing) return false;
-        refreshFeed('index');
+        if (ns_feed.is_refreshing) return false;
+        ns_feed.refresh('index');
         changed_feed_input_names = []; // reset changed variables in search form
         return false;
     })

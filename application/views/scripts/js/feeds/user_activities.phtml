@@ -41,7 +41,7 @@
             para['last_id'] = $('.feeds > div:last').data("id");
             para['user_id'] = user_logs.user_id;
             
-            refreshFeed('user_log', true, para);
+            ns_feed.refresh('user_log', true, para);
             return false;
         });
     })

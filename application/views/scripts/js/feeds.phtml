@@ -1,11 +1,171 @@
 <script type="text/javascript">
-var feed_refreshing = false;
-
-function addChangedFeedInputName(element){
+// feed content including in sidebar, that's why we put feed functions here
+var ns_feed = {
+  is_refreshing : false,
+  <?php // render any kinds of feed and/or more html based on javascript template ?>
+  render: function(data_arr, more_flag, template_id){
+    if (typeof more_flag == 'undefined') var more_flag=false;
+    if (typeof template_id == 'undefined') var template_id = 'feed_index_item';
+      var feeds_html = ns_feed.getHTML(data_arr, template_id);
+      
+      if (more_flag) feeds_html.appendTo( ".feeds_and_more .feeds");
+      else $(".feeds_and_more .feeds").html(feeds_html);
+      
+      //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
+      if (feeds_html.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
+          hideMoreButton(more_flag);
+      }else{
+          $('.load_more_feeds .loading').hide();
+          $('.load_more_feeds .more').show();
+      }
+      
+      var popup_content = ns_feed.getHTML(data_arr, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
+      $('body').append(popup_content);
+      
+      ns_feed.attachEvents();
+  },
+  getHTML: function(data_arr, template_id, custom_functions){
+    if (typeof template_id == 'undefined') var template_id = 'feed_index_item';
+    if (typeof custom_functions == 'undefined') var custom_functions = {};
+    
+    var functions = $.extend(true, {}, {
+        getMainPicTitle: function(){
+            var img_is_main_pics =this.data.img_is_main_pics.split(',');
+            var img_descriptions =this.data.img_descriptions.split(',');
+            for( index in img_is_main_pics){
+                if (img_is_main_pics[index] == 1){
+                    return img_descriptions[index];
+                }
+            }
+        },
+        getMainPicURL: function(){
+            var img_is_main_pics =this.data.img_is_main_pics.split(',');
+            var img_filenames =this.data.img_filenames.split(',');
+            for( index in img_is_main_pics){
+                if (img_is_main_pics[index] == 1){
+                    return '<?php echo $this->baseUrl('uploads');?>/'+img_filenames[index];
+                }
+            }
+            return '<?php echo Common::changePathToURL(Common::config()->pics->event->public);?>';
+        },
+        hasMainCat: function(){
+            if (this.data.tree_ids && this.data.tree_ids.main){
+              return !(jQuery.isEmptyObject(this.data.tree_ids.main));
+            }else{
+              return false;
+            }
+            
+        },
+        getMainCatName: function(){
+            var main_cat_ids = this.data.tree_ids.main;
+            var keys = $.keys(main_cat_ids);
+            return data_arr.tree_tags[main_cat_ids[keys[keys.length-1]]]['name'];
+        },
+        getMainCatURL: function(){
+            var main_cat_ids = this.data.tree_ids.main;
+            var url = [];
+            for (index in main_cat_ids){
+              if (typeof data_arr.tree_tags[main_cat_ids[index]] != 'undefined'){
+                  url.push(data_arr.tree_tags[main_cat_ids[index]]['slug_name']);
+              }else {
+                  //unknown error: data_arr.tree_tags[main_cat_ids[index]] can be undefined...
+                  alert('Error occured, please refresh the page.');
+                  return '';
+              }
+            }
+            url = url.join('/');
+            return '<?php echo $this->baseUrl('tree');?>/'+url;
+        },
+        urldecode: function() {
+           //console.log(this.data);
+          if (typeof arguments[0] == 'string') 
+              return decodeURIComponent((arguments[0]+'').replace(/\+/g, '%20')).replace('\n','<br />');
+              //return $("<div/>").html(arguments[0]).text();
+          else return '';
+        },
+        formatMysqlDate: function() { 
+            if (typeof arguments[0] == 'string') 
+              return $.datepicker.formatDate('dd M yy', mysqlTimeStampToDate(arguments[0]));
+        },
+        tagHTML: function() {
+            var tag_slug_names =this.data.tag_slug_names.split(',');
+            var tag_names =this.data.tag_names.split(',');
+            var tag_types =this.data.tag_types.split(',');
+            var html = [];
+            for( index in tag_slug_names){
+              if (tag_names[index]!='' && tag_slug_names[index]!='' && tag_slug_names[index]!='')
+                  html.push('<a href="<?php echo $this->baseUrl();?>/'+tag_types[index]+'/'+tag_slug_names[index]+'">'+tag_names[index]+'</a>');
+            }
+            return html.join(', ');
+        }
+    } , custom_functions);
+    
+    //console.log(data_arr);
+    return $( "#"+template_id ).tmpl(data_arr.data,functions);
+  },
+  attachEvents: function(){
+    
+    $("abbr.timeago").timeago();
+    
+    $(".post_right div.content").dotdotdot({
+            wrap : 'letter',
+            height: 80
+    });
+    
+    $(".direction-arrow").each( function(){
+        var direction=$(this).attr('class').replace('direction-arrow ','');
+        if (direction!=''){
+            $(this).css('display','inline-block');
+            $(this).rotate(parseInt(direction));
+        }else{
+            //$(this).css('display','none');
+        }
+    })
+  },
+  initMap: function(elem){
+    var map;
+    var elevator;
+    //var latlng=new google.maps.LatLng('44.339565', '-114.960937');
+    var coords = [elem.attr('data-lat'),elem.attr('data-lng')];
+   
+    // Setup place_lat/long coordinates
+    var latlng = new google.maps.LatLng(parseFloat(coords[0]), parseFloat(coords[1]));
+   
+    var styleArray = [
+        {
+            featureType: "all",
+            stylers: [{ visibility: "off" }]
+        },
+        {
+            featureType: "road",
+            stylers: [{ visibility: "on" }]
+        },
+        {
+            featureType: "administrative",
+            stylers: [{ visibility: "on" }]
+        }
+    ];
+    var myOptions = {
+      styles: styleArray,
+      scrollwheel: false,
+      zoom: 12, // Close zoom!
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP // Use the classic roadmap
+    };
+    
+    map = new google.maps.Map(elem[0], myOptions);
+    
+    var marker = new google.maps.Marker({
+        position: latlng,
+        map: map,
+        //icon: 'http://google-maps-icons.googlecode.com/files/walking-tour.png',
+        draggable: true
+    });
+  },
+  addChangedFeedInputName: function(element){
     if ($.inArray(element.prop('name'),changed_feed_input_names) == -1)changed_feed_input_names.push(element.prop('name'));
-}
-
-function validateSidebarSearchInputs(){
+  },
+  validateSidebarSearchInputs: function(){
     if (feed_search_form.form()){
         return true;
     } else {
@@ -13,9 +173,9 @@ function validateSidebarSearchInputs(){
         showFlashMessages(content);
         return false;
     }
-}
-
-function refreshFeed(type, more_flag, para, is_refresh_markers){
+  },
+  <?php // make sure it runs only once each time, refresh map, and render feed ?>
+  refresh: function(type, more_flag, para, is_refresh_markers){
     if(typeof type == 'undefined') var type = 'index';
     if(typeof more_flag == 'undefined') var more_flag = false;
     if(typeof para == 'undefined') var para = [];
@@ -32,9 +192,9 @@ function refreshFeed(type, more_flag, para, is_refresh_markers){
     para['type'] = type;
     
     
-    if(!feed_refreshing){
+    if(!ns_feed.is_refreshing){
         $('.loading.feed').show();
-        feed_refreshing = true;
+        ns_feed.is_refreshing = true;
         jQuery.ajax({
           url: "<?php echo $this->baseUrl('ajax/feed/refresh') ?>",
           data: para,
@@ -64,16 +224,15 @@ function refreshFeed(type, more_flag, para, is_refresh_markers){
                 ns_feed.render(response, more_flag);
               }
             }
-            feed_refreshing = false;
+            ns_feed.is_refreshing = false;
             $('.loading.feed').hide();
             return true;
           }
         });
     };
-}
-
-<?php // update url parameters from feed_para ?>
-function updateUrlParam(key,value, to_be_updated){
+  },
+  <?php // update url parameters from feed_para ?>
+  updateUrlParam: function(key,value, to_be_updated){
     if (!to_be_updated) var to_be_updated = false;
     if (value === false){
         $.address.parameter(key, false);
@@ -83,35 +242,35 @@ function updateUrlParam(key,value, to_be_updated){
     if (to_be_updated) {
         $.address.update();
     }
-}
-
-function updateVariableAndUrlParamFromFeedInput(element){
+  },
+  updateVariableAndUrlParamFromFeedInput: function(element){
     if (element.is('.feed_filter_input[name="is_match_interest"]') || element.is('.feed_filter_input[name="is_match_location"]') || element.is('.feed_filter_input[name="is_all_time"]')){
         var value = element.is(':checked') ? 1 : 0;
         feed_para[element.prop('name')] = value;
-        updateUrlParam(element.prop('name'), value);
+        ns_feed.updateUrlParam(element.prop('name'), value);
         if (element.is('.feed_filter_input[name="is_all_time"]')){
-            updateUrlParam('is_all_time', value);
+            ns_feed.updateUrlParam('is_all_time', value);
             if (value == 1){
                 feed_para['begin_date'] = null;
                 feed_para['end_date'] = null;
-                updateUrlParam('begin_date', false);
-                updateUrlParam('end_date', false);
+                ns_feed.updateUrlParam('begin_date', false);
+                ns_feed.updateUrlParam('end_date', false);
             } else{
                 feed_para['begin_date'] = $('.feed_filter_input[name="begin_date"]').val();
                 feed_para['end_date'] = $('.feed_filter_input[name="end_date"]').val();
-                updateUrlParam('begin_date', $('.feed_filter_input[name="begin_date"]').val());
-                updateUrlParam('end_date', $('.feed_filter_input[name="end_date"]').val());
+                ns_feed.updateUrlParam('begin_date', $('.feed_filter_input[name="begin_date"]').val());
+                ns_feed.updateUrlParam('end_date', $('.feed_filter_input[name="end_date"]').val());
             }
         }
     } else if (element.is('.feed_filter_input[name="sort_by"]') || element.is('.feed_filter_input[name="q"]') || element.is('.feed_filter_input[name="begin_date"]') || element.is('.feed_filter_input[name="end_date"]')){
         feed_para[element.prop('name')] = element.val();
-        updateUrlParam(element.prop('name'), element.val());
+        ns_feed.updateUrlParam(element.prop('name'), element.val());
     } else if (element.is('.feed_filter_input[name="is_show_map"]')){ // this doesn't load the feed again so url needs to update instantly
         feed_para[element.prop('name')] = element.val();
-        updateUrlParam(element.prop('name'), element.val(), true);
+        ns_feed.updateUrlParam(element.prop('name'), element.val(), true);
         
     }
+  }
 }
 
 jQuery(function($){
@@ -120,17 +279,17 @@ jQuery(function($){
     $('body#index')
       <?php // event that the submit button is needed to be clicked before searching, e.g. search field ?>
       .on('change keyup', '#feed_search input[name="q"], #feed_search input[name="is_all_time"], #feed_search input[name="begin_date"], #feed_search input[name="end_date"]', function(){
-          addChangedFeedInputName($(this));
+          ns_feed.addChangedFeedInputName($(this));
       })
       .on('click', '#feed_search input[type="submit"]', function(e){
           e.preventDefault();
-          if (feed_refreshing) return false;
-          if (validateSidebarSearchInputs()){
+          if (ns_feed.is_refreshing) return false;
+          if (ns_feed.validateSidebarSearchInputs()){
               for( key in changed_feed_input_names){
-                  updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+                  ns_feed.updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
               }
           }
-          refreshFeed('index');
+          ns_feed.refresh('index');
       });
     
     $('body').on('click','.tag_top a.place',function(e){

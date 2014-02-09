@@ -5,7 +5,7 @@
                 tag_id: <?php echo $this->tag_id?>,
                 last_id: $('.feeds article:last').data("id")
             };
-            refreshFeed('tag_events', true, para);
+            ns_feed.refresh('tag_events', true, para);
             return false;
         });
     })

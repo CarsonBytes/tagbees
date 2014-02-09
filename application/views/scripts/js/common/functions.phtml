@@ -157,7 +157,7 @@ function updateVariablesFromUrlParams(){
         var value = getURLParameterValue(key);
         if (isFeedParameterValid(key, value) && value != ""){
             feed_para[key] = value;
-            updateUrlParam(key, value);
+            ns_feed.updateUrlParam(key, value);
         } else {
             feed_para[key] = default_feed_para[key];
         }

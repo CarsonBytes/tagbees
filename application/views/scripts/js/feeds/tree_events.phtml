@@ -9,7 +9,7 @@
                  level: '<?php echo Common::getSession()->redirect_params['level'] ?>',
                  last_id: $('.feeds article:last').data("id")
             };
-            refreshFeed('tree_feeds', true, para);
+            ns_feed.refresh('tree_feeds', true, para);
             return false;
         });
     })

@@ -128,9 +128,9 @@ function updatePositionByDraggingMarker() {
   // Carson
   feed_para['place_lat']=distanceWidget.get('position').lat();
   feed_para['place_lng']=distanceWidget.get('position').lng();
-  updateUrlParam('place_lat',feed_para['place_lat']);
-  updateUrlParam('place_lng',feed_para['place_lng']);
-  refreshFeed();
+  ns_feed.updateUrlParam('place_lat',feed_para['place_lat']);
+  ns_feed.updateUrlParam('place_lng',feed_para['place_lng']);
+  ns_feed.refresh();
   $(".user_saved_location_list option[value='last']").prop("selected","selected");
   //map.fitBounds(radiusWidget.get('bounds'));
 }
@@ -139,7 +139,7 @@ function loadPosition(place_lat, place_lng) {
   setGeocodeTriggerTimer();
   
   // Carson
-  refreshFeed(); //done in loadRadius event
+  ns_feed.refresh(); //done in loadRadius event
   distanceWidget.set('position',new google.maps.LatLng(place_lat, place_lng));
   map.fitBounds(radiusWidget.get('bounds'));
 }
@@ -241,8 +241,8 @@ function handle_geolocation_query(position){
     }
     feed_para['place_lat']=position.coords.latitude;
     feed_para['place_lng']=position.coords.longitude;
-    updateUrlParam('place_lat',feed_para['place_lat']);
-    updateUrlParam('place_lng',feed_para['place_lng']);
+    ns_feed.updateUrlParam('place_lat',feed_para['place_lat']);
+    ns_feed.updateUrlParam('place_lng',feed_para['place_lng']);
     loadPosition(feed_para['place_lat'], feed_para['place_lng']);
     $(".user_saved_location_list option[value='last']").prop("selected","selected");
 }

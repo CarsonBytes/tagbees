@@ -25,7 +25,7 @@
                     map.fitBounds(radiusWidget.get('bounds'));
                 }
               feed_para['radius'] = ui.value;
-              updateUrlParam('radius', ui.value);
+              ns_feed.updateUrlParam('radius', ui.value);
             }
         });
     }
@@ -41,10 +41,9 @@
         //when user clicks load more
         $('body#index').on("click",'.load_more_feeds',function() {
             feed_para.last_id = $('.feeds > article:last').data("id");
-            refreshFeed('index', true, [], false);
+            ns_feed.refresh('index', true, [], false);
             return false;
         });
     })
 </script>
-<?php echo $this->partial('js/feeds.phtml') ?>
 <?php echo $this->partial('js/template/feeds/index_events_item.phtml') ?>
