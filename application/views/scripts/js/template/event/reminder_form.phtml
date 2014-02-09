@@ -54,7 +54,7 @@
                 <select id="event_reminder_<?php echo $source ?>_alarm_time_unit" name="event_reminder_<?php echo $source ?>_alarm_time_unit" class="event_reminder_alarm_time_unit">
                   <option value="weeks" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'weeks'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('weeks');?></option>
                   <option value="days" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'days'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('days');?></option>
-                  <option value="hours" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'hours'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('days');?></option>
+                  <option value="hours" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'hours'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('hours');?></option>
                   <option value="minutes" {{if reminder_<?php echo $source ?>_alarm_time_unit}}{{if reminder_<?php echo $source ?>_alarm_time_unit == 'minutes'}}selected="selected"{{/if}}{{/if}}><?php echo $this->translate('minutes');?></option>
                 </select>
                 <div id="<?php echo $source ?>_reminder_desc" class="reminder_desc"></div>
