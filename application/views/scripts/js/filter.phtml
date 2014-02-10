@@ -1,11 +1,5 @@
 <?php $isLogined = (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null); ?>
 <script type="text/javascript">
-var default_feed_para = $.extend(
-    true, 
-    jQuery.parseJSON('<?php echo json_encode(Zend_Registry::get('config')->filter->user_para->toArray()) ?>'),
-    default_feed_para
-);
-
 var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max_distance ?>;
 var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;
 
@@ -14,16 +8,11 @@ var savedLocation=[];
 var flagOverrideSavedLocation=0;
 <?php } ?>
 
-function updateSortByInput(value){
-    $('nav.sort_by ul li').removeClass('current');
-    $('nav.sort_by ul li[data-value="'+value+'"]').addClass('current');
-    $('.feed_filter_input[name="sort_by"]').val(value);
-}
-
 jQuery(function($){
+  ns_feeds.updateFeedInputsFromVariables();
   <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
    $('body').on('click', '.match_location_set .manage_location', function(){
-        jQDialog(
+        ns_common_head.jQDialog(
             '<?php echo $this->translate('save this location') ?>',
             '<?php echo $this->baseUrl('ajax/dialog/manage_location')?>',
             {},
@@ -35,7 +24,7 @@ jQuery(function($){
          );
       return false;
    }).on('click','.match_location_set .save_location',function(){
-        jQDialog(
+        ns_common_head.jQDialog(
             '<?php echo $this->translate('save this location') ?>',
             '<?php echo $this->baseUrl('ajax/dialog/save_location')?>',
             {
@@ -51,14 +40,14 @@ jQuery(function($){
                           url: "<?php echo $this->baseUrl('ajax/location/save') ?>",
                             data: {
                                 name:location_name,
-                                place_lat:feed_para['place_lat'],
-                                place_lng:feed_para['place_lng'],
-                                radius:feed_para['radius'],
+                                place_lat:ns_feeds.feed_para['place_lat'],
+                                place_lng:ns_feeds.feed_para['place_lng'],
+                                radius:ns_feeds.feed_para['radius'],
                                 override:flagOverrideSavedLocation
                             },
                           success: function(msg){
                                 if (msg['result']==1){
-                                    savedLocation[location_name]=[feed_para['place_lat'],feed_para['place_lng'],feed_para['radius']];
+                                    savedLocation[location_name]=[ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng'],ns_feeds.feed_para['radius']];
                                     if (flagOverrideSavedLocation==0){
                                         $(".user_saved_location_list").append("<option value=\""+location_name+"\">"+location_name+"</option>")
                                         $(".user_saved_location_list option:last").prop("selected","selected");
@@ -164,7 +153,7 @@ jQuery(function($){
     
     $( "#radius_slider" ).slider({
         range: "min",
-        //value:feed_para['radius'],
+        //value:ns_feeds.feed_para['radius'],
         step: 0.01,
         min: minDistance,
         max: maxDistance,
@@ -178,37 +167,37 @@ jQuery(function($){
                 radiusWidget.bindTo('center', distanceWidget, 'position');
                 map.fitBounds(radiusWidget.get('bounds'));
             }
-          feed_para['radius'] = ui.value;
-          ns_feed.updateUrlParam('radius', feed_para['radius']);
-          ns_feed.updateUrlParam('place_lat', feed_para['place_lat']);
-          ns_feed.updateUrlParam('place_lng', feed_para['place_lng']);
-          ns_feed.refresh();
+          ns_feeds.feed_para['radius'] = ui.value;
+          ns_feeds.updateUrlParam('radius', ns_feeds.feed_para['radius']);
+          ns_feeds.updateUrlParam('place_lat', ns_feeds.feed_para['place_lat']);
+          ns_feeds.updateUrlParam('place_lng', ns_feeds.feed_para['place_lng']);
+          ns_feeds.refresh();
         }
     });
     
     //show after all events are attached esp. pretty checkable takes effect...
     
     $('body').on('click','.sort_by ul li', function(){
-        updateSortByInput($(this).data('value'));
-        ns_feed.addChangedFeedInputName($('.feed_filter_input[name="sort_by"]'));
-        if (ns_feed.validateSidebarSearchInputs()){
-            for( key in changed_feed_input_names){
-                ns_feed.updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+        ns_feeds.updateSortByInput($(this).data('value'));
+        ns_feeds.addChangedFeedInputName($('.feed_filter_input[name="sort_by"]'));
+        if (ns_feeds.validateSidebarSearchInputs()){
+            for( key in ns_feeds.changed_feed_input_names){
+                ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
             }
-            ns_feed.refresh('index');
+            ns_feeds.refresh('index');
         }
     })<?php if ($isLogined) { ?>
       .on('change','.feed_filter_input[name="is_match_interest"]', function(){
-            ns_feed.addChangedFeedInputName($('.feed_filter_input[name="is_match_interest"]'));
-            if (ns_feed.validateSidebarSearchInputs()){
-                for( key in changed_feed_input_names){
-                    ns_feed.updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+            ns_feeds.addChangedFeedInputName($('.feed_filter_input[name="is_match_interest"]'));
+            if (ns_feeds.validateSidebarSearchInputs()){
+                for( key in ns_feeds.changed_feed_input_names){
+                    ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
                 }
-                ns_feed.refresh('index');
+                ns_feeds.refresh('index');
             }
         <?php /* ?>
             var content = [{'error' : '<?php echo $this->translate('To customise your own interest, please login first.') ?>'}] ;
-            showFlashMessages(content);
+            ns_common_foot.showFlashMessages(content);
             $(this).removeAttr('checked');
             var element = $(this).parent('.prettycheckbox').find('a');
             element.delay(1000).removeClass('checked');
@@ -218,17 +207,17 @@ jQuery(function($){
         .on('change','.feed_filter_input[name="is_match_location"]', function(){
         if ($(this).is(':checked')){
             jQuery('.match_location_set').css('display','block');
-            initDistanceWidget();
+            ns_filter_map.initDistanceWidget();
         } else {
             jQuery('.match_location_set').css('display','none');
             distanceWidget.set('map', null);
         }
-        ns_feed.addChangedFeedInputName($('.feed_filter_input[name="is_match_location"]'));
-        if (ns_feed.validateSidebarSearchInputs()){
-            for( key in changed_feed_input_names){
-                ns_feed.updateVariableAndUrlParamFromFeedInput($('*[name="'+changed_feed_input_names[key]+'"]'));
+        ns_feeds.addChangedFeedInputName($('.feed_filter_input[name="is_match_location"]'));
+        if (ns_feeds.validateSidebarSearchInputs()){
+            for( key in ns_feeds.changed_feed_input_names){
+                ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
             }
-            ns_feed.refresh('index');
+            ns_feeds.refresh('index');
         }
     }).on('click','.showMap', function(e){
         e.preventDefault();
@@ -241,18 +230,18 @@ jQuery(function($){
             }else{
                 $(".showMap").text("Hide Map").stop();
                 $( "#map_wrapper" ).slideDown("slow");
-                initMap();
+                ns_filter_map.initMap();
                 input.val(1);
             }
-            ns_feed.updateVariableAndUrlParamFromFeedInput(input);
+            ns_feeds.updateVariableAndUrlParamFromFeedInput(input);
         <?php } else { ?>
             var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
-            showFlashMessages(content);
+            ns_common_foot.showFlashMessages(content);
         <?php } ?>
     }).on('click','#refresh_feed', function(){
-        if (ns_feed.is_refreshing) return false;
-        ns_feed.refresh('index');
-        changed_feed_input_names = []; // reset changed variables in search form
+        if (ns_feeds.is_refreshing) return false;
+        ns_feeds.refresh('index');
+        ns_feeds.changed_feed_input_names = []; // reset changed variables in search form
         return false;
     })
 });

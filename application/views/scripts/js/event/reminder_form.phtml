@@ -112,7 +112,7 @@ var ns_event_reminder_form = {
         var unit = $('#event_reminder_'+types[i]+'_alarm_time_unit').val();
         var time_amount = new String('-'+$('#event_reminder_'+types[i]+'_alarm_time').val());
         var time;
-        if (isNumber(time_amount)){
+        if (ns_common_foot.isNumber(time_amount)){
           time = Number(time_amount);
         }else{ 
           time = 0; 
@@ -136,7 +136,7 @@ var ns_event_reminder_form = {
   },
   submitForm : function(data){
     $('.event_reminder_alarm_time').each(function(){
-      if(! isNumber($(this).val())) $(this).val(0);
+      if(! ns_common_foot.isNumber($(this).val())) $(this).val(0);
     });
     $('.event_reminder_attend_datetime').val( $('.event_reminder_attend_date').val()+' '+$('.event_reminder_attend_time').val() );
     var is_submitted = false;
@@ -174,9 +174,9 @@ var ns_event_reminder_form = {
           } else {
             $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').removeClass('has_reminder');
           }
-          ns_bookmark_popup.updateContent(msg);
+          ns_common_bookmark_popup.updateContent(msg);
           if(! $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').is(':visible')){
-            var popup_content = ns_feed.getHTML(msg, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
+            var popup_content = ns_feeds.getHTML(msg, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
             $('body').append(popup_content);
           } else {
           }

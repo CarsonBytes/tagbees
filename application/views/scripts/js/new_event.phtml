@@ -5,7 +5,7 @@ var event_form_data = {};
 var new_event_basic_validate_options = {};
 jQuery(function($){
   jQuery.validator.addMethod("custom_numeric", function(value, element) {
-    return isNumber(value);
+    return ns_common_foot.isNumber(value);
   }, "Value should be numeric");
   
   new_event_basic_validate_options = {
@@ -50,13 +50,13 @@ jQuery(function($){
      error.insertAfter(element);
    },
    submitHandler: function(form) {
-     saveFormToCookie('new_event_basic');
-     saveFormToCookie('new_event_advanced', $.cookie('new_event_basic'));
+     ns_common_foot.saveFormToCookie('new_event_basic');
+     ns_common_foot.saveFormToCookie('new_event_advanced', $.cookie('new_event_basic'));
      form.submit();
    },
    invalidHandler: function(event, validator) {
      ns_new_event.init(false);
-     //showFlashMessages([{'error' : 'please correct the input(s).'}]);
+     //ns_common_foot.showFlashMessages([{'error' : 'please correct the input(s).'}]);
    }
  };
   ns_new_event = {
@@ -84,7 +84,7 @@ jQuery(function($){
       
       if (is_reload){
         
-        loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
+        ns_common_foot.loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
       
         //$('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
         

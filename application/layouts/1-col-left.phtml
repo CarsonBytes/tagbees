@@ -5,7 +5,7 @@
     <div class="flash_messages"></div>
     <script id="flash_message_tmpl" type="text/x-jquery-tmpl">
       <div class="flash_message">
-      <span>${getFlashMessageType($data)}:${getFlashMessageHtml($data)}</span>
+      <span>${ns_common_foot.getFlashMessageType($data)}:${ns_common_foot.getFlashMessageHtml($data)}</span>
       <a href="#" class="close">dismiss</a>
       <img class="close" src="<?php echo $this -> baseUrl('images/close.jpg'); ?>"></div>
       </div>
@@ -26,7 +26,8 @@
     </div>
     <?php echo $this->render('footer.phtml')
     ?>
-    <?php echo $this->render('scripts.phtml')
+    <?php echo $this->partial('js/common/foot.phtml')?>
+    <?php //echo $this->render('scripts.phtml')
     ?>
     <div class="dialog">
       <p class="loading">

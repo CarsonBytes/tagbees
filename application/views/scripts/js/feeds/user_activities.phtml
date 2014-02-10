@@ -10,7 +10,7 @@
         
         //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
         if (user_logs.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
-            hideMoreButton(more_flag);
+            ns_common_foot.hideMoreButton(more_flag);
         }else{
             $('.load_more_feeds .loading').hide();
             $('.load_more_feeds .more').show();
@@ -41,7 +41,7 @@
             para['last_id'] = $('.feeds > div:last').data("id");
             para['user_id'] = user_logs.user_id;
             
-            ns_feed.refresh('user_log', true, para);
+            ns_feeds.refresh('user_log', true, para);
             return false;
         });
     })

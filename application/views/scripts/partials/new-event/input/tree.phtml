@@ -12,7 +12,7 @@
 		$('.tree_text').text($('#tree_text').val());
 		
 		$('body').on('click',".tree_popup",function(){
-			jQDialog(
+			ns_common_head.jQDialog(
 				'<?php echo $this->translate('Add Tree') ?>',
 				'<?php echo $this->baseUrl('ajax/dialog/add_tree')?>',
 				{},

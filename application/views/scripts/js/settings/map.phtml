@@ -12,7 +12,7 @@ var lat_input_selector = 'input[name="place_lat"]';
 var lng_input_selector = 'input[name="place_lng"]';
 var geo_locate_selector = '#geo_locate';
 
-function initMap() {
+function ns_filter_map.initMap() {
   
   var mapDiv = document.getElementById(mapDiv_ID);
       map = new google.maps.Map(mapDiv, {
@@ -32,7 +32,7 @@ function initMap() {
   var position;
   
   // check if there is user defined latlng in input
-  if (isNumber(form_lat) && isNumber(form_lng)){
+  if (ns_common_foot.isNumber(form_lat) && ns_common_foot.isNumber(form_lng)){
     position = new google.maps.LatLng(form_lat, form_lng);  
     
     map.setCenter(position);
@@ -60,7 +60,7 @@ function updateMapByPlace(place){
     
     if (!place.geometry) {
         //var content = [{'error' : 'Your input place was not found. please correct the input.'}] ;
-        //showFlashMessages(content);
+        //ns_common_foot.showFlashMessages(content);
         // Inform the user that a place was not found and return.
         alert ("please ensure you have input the right location.")
         return false;
@@ -144,7 +144,7 @@ function handleGeolocationErrors(error)
  }
 
 jQuery(function($){
-    initMap();
+    ns_filter_map.initMap();
     $('body')
       .on('click', geo_locate_selector, function(){
         handleGeolocation();

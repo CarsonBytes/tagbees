@@ -20,7 +20,7 @@
     <script type="text/javascript">
     var tag_events_json = jQuery.parseJSON('<?php echo json_encode($this->tag_events) ?>');
     jQuery(function($){
-        ns_feed.render(tag_events_json, false);
+        ns_feeds.render(tag_events_json, false);
     });
     </script>
     <?php echo $this->partial('js/feeds/tag_events.phtml', array('tag_id' => $this->tag_item->id)); ?>

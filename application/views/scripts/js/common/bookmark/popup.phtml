@@ -1,0 +1,408 @@
+<script type="text/javascript">
+var ns_common_bookmark_popup = {
+  target: null,
+  over_timer : null,
+  out_timer : null,
+  to_touch_id : null,
+  touching_id : null,
+  clicked_id : null,
+  auto_save_timer: null,
+  tmpl_functions : {
+    getID: function() {
+      // remove out bookmark popup before adding the new one
+      $('.bookmark_popup[data-id="'+this.data.id+'"]').remove();
+      return this.data.id;
+    },
+    hasReminderContent: function(){
+      return ns_event_reminder_form.hasReminderContent(this.data);
+    },
+    getAlertTime: function(type){
+      if (this.data['reminder_'+type+'_alarm_time'] == '' || this.data['reminder_'+type+'_alarm_time'] == null)
+         return '<?php echo $this->translate('upon attend time') ?>';
+      return this.data['reminder_'+type+'_alarm_time'] + ' ' + this.data['reminder_'+type+'_alarm_time_unit'];
+    }
+  },
+  getAlertTime: function(type, data){
+    if (data['reminder_'+type+'_alarm_time'] == '' || data['reminder_'+type+'_alarm_time'] == null)
+       return '<?php echo $this->translate('upon attend time') ?>';
+    return data['reminder_'+type+'_alarm_time'] + ' ' + data['reminder_'+type+'_alarm_time_unit'];
+  },
+  toggleBookmark: function(id){
+      var parents = $('#sidebar li.list_item[data-id="'+id+'"], article[data-id="'+id+'"]');
+      var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
+      var set_status = parents.hasClass("bookmarked") ? 0 : 1;
+    <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
+      jQuery.ajax({
+          type: "POST",
+          url: "<?php echo $this->baseUrl('ajax/bookmark/trigger') ?>",
+          data: "id="+id+"&set_status="+set_status,
+          success: function(msg){
+            if (parents.hasClass("bookmarked")){
+              parents.find('.star_inner').removeClass('gold');
+              parents.removeClass("bookmarked");
+              this_popup.removeClass("bookmarked");
+              this_popup.addClass("not_bookmarked");
+              parents.find('.reminder_title .text').hide();
+              parents.find('.reminder_title .not_set').show();
+              
+            } else {
+              parents.find('.star_inner').addClass('gold');
+              parents.addClass("bookmarked");
+              this_popup.removeClass("not_bookmarked");
+              this_popup.addClass("bookmarked");
+              parents.find('.reminder_title .text').show();
+              parents.find('.reminder_title .not_set').hide();
+            }
+            if (ns_common_bookmark_popup.target == 'feeds'){
+              ns_common_bookmark_popup.togglePopup(id);
+            }
+          },
+          error: function(){
+            alert ("<?php echo $this->translate('Connection failed. Please try again later.') ?>");
+          },
+          dataType:"json"
+      });
+    <? } else { ?>
+          alert('Please login to add bookmark.');
+    <?php } ?>
+  },
+  togglePopup: function(id){
+    if (ns_common_bookmark_popup.target==null ) ns_common_bookmark_popup.target = 'sidebar';
+    
+    var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
+    if (this_popup.length){
+      if ($('.bookmark_popup').not(this_popup).is(':visible')){
+        $('.bookmark_popup, .more').not(this_popup).hide();
+      }
+      if (ns_common_bookmark_popup.target == 'sidebar'){
+        var trigger_popup_icon = $('.trigger_popup_icon');
+        var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
+          if (this_popup.is(':visible')){
+           this_popup.hide();
+           trigger_popup_icon.hide();
+          }else{
+           this_popup.data('target', ns_common_bookmark_popup.target);
+           
+           ns_common_bookmark_popup.adjustSidebarPopupPosition(id);
+           this_popup.show();
+           this_popup.find('.yellow').show();
+           trigger_popup_icon.show();
+           
+           this_popup.find('.bookmark_popup_inner .teaser').dotdotdot({
+                wrap : 'letter',
+                height: 60
+           });
+          }
+      } else if (ns_common_bookmark_popup.target == 'feeds'){
+        var trigger_popup_icon = $('.trigger_popup_icon');
+        var parent = $('article[data-id="'+id+'"]');
+        var star = $('article[data-id="'+id+'"] .star');
+        if (parent.hasClass('bookmarked')){
+          if (this_popup.is(':visible')){
+            this_popup.hide(); // close popup when clicking outside
+            trigger_popup_icon.hide();
+          } else {
+            //init
+            this_popup.data('target', ns_common_bookmark_popup.target);
+            trigger_popup_icon.css('top', star.offset().top + 18);
+            trigger_popup_icon.css('left',star.offset().left+3);
+            this_popup.css('top', star.offset().top + 37);
+            this_popup.css('left',star.offset().left - 270);
+            this_popup.show();
+            this_popup.find('.yellow').hide();
+            ns_common_bookmark_popup.showReminderFields();
+            trigger_popup_icon.show();
+          }
+        }else{
+          this_popup.hide();
+          trigger_popup_icon.hide();
+        }
+      }
+    }
+    
+    $(".white .inline_edit_text").editInPlace({
+      callback: function(element, enteredText, originalText) {
+        $("#"+element).text(enteredText);
+        
+        var data = {};
+        data[$("#"+element).attr('name')] = enteredText;
+        
+        // assume this is reminder title
+        /event_reminder_title_(\d+)/.exec(element);
+        data['event_reminder_item_id'] = RegExp.$1
+        
+        if(ns_event_reminder_form.submitForm(data)) return enteredText; 
+        else return originalText;
+      },
+      bg_over: "#cff",
+      saving_image: "<?php echo $this->baseUrl('images/loading.gif');?>"
+    });
+    
+    $(".white .inline_edit_textarea").editInPlace({
+      callback: function(element, enteredText, originalText) { 
+        $("#"+element).text(enteredText);
+        
+        var data = {};
+        data[$("#"+element).attr('name')] = enteredText;
+        
+        // assume this is reminder description
+        /event_reminder_description_(\d+)/.exec(element);
+        data['event_reminder_item_id'] = RegExp.$1
+        
+        if(ns_event_reminder_form.submitForm(data)) return enteredText; 
+        else return originalText;
+      },
+      field_type: "textarea",
+      bg_over: "#cff",
+      saving_image: "<?php echo $this->baseUrl('images/loading.gif');?>"
+    });
+  
+    ns_event_reminder_form.init();
+  },
+  adjustSidebarPopupPosition: function(id){
+    var this_popup = $('.bookmark_popup[data-id="'+id+'"]');
+    var trigger_popup_icon = $('.trigger_popup_icon');
+    
+    var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
+    var grandparent = parent.parents('ul');
+    
+    console.log(parent.offset())
+    //init
+    trigger_popup_icon.css('top', parent.offset().top + 5);
+    trigger_popup_icon.css('left',grandparent.offset().left+grandparent.outerWidth( true ));
+    this_popup.css('top', parent.offset().top);
+    this_popup.css('left',grandparent.offset().left+grandparent.outerWidth( true )+trigger_popup_icon.outerWidth( true ));
+    
+    if (parent.offset().top + this_popup.height() > $(window).height() + $(window).scrollTop()){
+  
+      console.log('exceeded below!');
+  
+      if ($(window).height() < this_popup.height()){
+        console.log('not enough window size!');
+        this_popup.css('top', $(window).scrollTop()+5);
+      }else{
+        console.log('enough window size!');
+        var parent_to_bottom_height = $(window).height() + $(window).scrollTop() - parent.offset().top;
+        var remaining_height = this_popup.height() - parent_to_bottom_height;
+        var sum = parseInt(this_popup.css('top')) - remaining_height - 5;
+        this_popup.css('top', sum +'px');
+      }
+  
+    }else if (parent.offset().top <= $(window).scrollTop()+10){
+      console.log('exceeded above!');
+      
+      var top_to_parent_height =  parent.offset().top - $(window).scrollTop();
+      
+      this_popup.css('top', parent.offset().top + (10 - top_to_parent_height) +'px');
+      
+    }else{
+      console.log('inside');
+    }
+    console.log(this_popup.offset());
+  },
+  showReminderFields : function(){
+    $('.bookmark_popup_reminder_title').watermark("<?php echo $this->translate('Reminder Title') ?>");
+    $('.bookmark_popup_reminder_detail').watermark("<?php echo $this->translate('Reminder Detail') ?>");
+  },
+  updateContent : function(msg){
+    if(! $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').is(':visible')){
+      var popup_content = ns_feeds.getHTML(msg, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
+      $('body').append(popup_content);
+    } else {
+      for (var i in ns_event_reminder_form.alert_types){
+        var element = $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').find('.bookmark_popup_reminder_'+ns_event_reminder_form.alert_types[i]+'_alarm_time');
+        
+        if (msg.data[0]['reminder_has_'+ns_event_reminder_form.alert_types[i]+'_alarm'] == 0){
+          element.parents('.text_line').addClass('hidden');
+        } else {
+          element.text(ns_common_bookmark_popup.getAlertTime(ns_event_reminder_form.alert_types[i], msg.data[0]));
+          element.parents('.text_line').removeClass('hidden');
+        }
+      }
+      for (var i in ns_event_reminder_form.reminder_textfields){
+        var element = $('.bookmark_popup[data-id="'+msg.data[0].id+'"]').find('.bookmark_popup_'+ns_event_reminder_form.reminder_textfields[i]);
+        var value = msg.data[0][ns_event_reminder_form.reminder_textfields[i]];
+        if (value){
+          if ($.trim(value) != ''){
+            element.text(value);
+            element.parents('.text_line').removeClass('hidden');
+          } else {
+            element.parents('.text_line').addClass('hidden');
+          }
+        } else {
+          element.parents('.text_line').addClass('hidden');
+        }
+      }
+    }
+    ns_common_bookmark_popup.showReminderFields();
+  }
+};
+
+jQuery(function($){
+  $('body')
+  .on('click',".bookmark_popup",function(e){
+    e.stopPropagation();
+  })
+  .on('click',".star",function(e){
+    e.stopPropagation();
+    if ($(e.target).closest('article.post_content, article.detail_div').length){
+      ns_common_bookmark_popup.target = 'feeds';
+    } else if ($(e.target).closest('#sidebar li').length){
+      ns_common_bookmark_popup.target = 'sidebar';
+    }
+    ns_common_bookmark_popup.toggleBookmark($(this).data('id'));
+    ns_sidebar_bookmark_tab.is_reload = true;
+    <?php /*if (ns_sidebar.activeTab=='#bookmark_tab' && ! $(e.target).closest('#bookmark_tab li').length) ns_sidebar.loadTab(true);*/?>
+  })
+  .on('click', '.bookmark_popup_set_reminder',function(e){
+    e.stopPropagation();
+    $(this).parents('.bookmark_popup').find('.white').show();
+    $(this).hide();
+    ns_common_bookmark_popup.showReminderFields();
+    return false;
+  })
+  
+<?php /*()
+//pending hover keyup... ?>
+  $('body').on('keyup', '.bookmark_popup_form input, .bookmark_popup_form textarea',function(e){
+    var _this = $(this); // copy of this object for further usage
+    if (ns_common_bookmark_popup.auto_save_timer) clearTimeout(
+      ns_common_bookmark_popup.auto_save_timer
+    );
+    ns_common_bookmark_popup.auto_save_timer = setTimeout(function() {
+      ns_event_reminder_form.submitForm(_this.parents('.bookmark_popup_form'));
+    }, 500);
+  })
+ */?>
+<?php //pending hover effect... ?>
+  $('body')
+    .on('click', '#highlight_tab li.list_item , #bookmark_tab li.list_item' , function(e) {
+      e.stopPropagation();
+      ns_common_bookmark_popup.target = 'sidebar';
+     if (ns_common_bookmark_popup.clicked_id == null){
+        $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
+        if (! $('.bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible'))
+          ns_common_bookmark_popup.togglePopup($(this).data('id'));
+        ns_common_bookmark_popup.clicked_id = $(this).data('id');
+        $(this).addClass('clicked');
+      } else {
+        ns_common_bookmark_popup.togglePopup($(this).data('id'));
+        $('#highlight_tab li, #bookmark_tab li').removeClass('clicked');
+        if ($('.bookmark_popup[data-id="'+$(this).data('id')+'"]').is(':visible')){
+          ns_common_bookmark_popup.clicked_id = $(this).data('id');
+          $(this).addClass('clicked');
+        }else{
+          ns_common_bookmark_popup.clicked_id = null;
+          $(this).removeClass('clicked');
+        }
+      }
+      console.log(ns_common_bookmark_popup.clicked_id);
+    })
+    .on({
+      mouseenter : function(e){
+        $(this).data('hover',1);
+      },
+      mouseleave : function(e){
+        $(this).data('hover',0);
+      }
+    }, '.bookmark_popup, #highlight_tab li.list_item , #bookmark_tab li.list_item')
+    .on({
+      mouseenter : function(e){
+        console.log('hover');
+        if (ns_common_bookmark_popup.over_timer != null){
+          clearTimeout(ns_common_bookmark_popup.over_timer);
+          ns_common_bookmark_popup.over_timer = null;
+        }
+        if(ns_common_bookmark_popup.out_timer!=null) {
+          clearTimeout(ns_common_bookmark_popup.out_timer);
+          ns_common_bookmark_popup.out_timer = null;
+        }
+        if (ns_common_bookmark_popup.clicked_id != null) return false;
+        
+        if (ns_common_bookmark_popup.touching_id == null){
+        // if it is the first list item to touch
+          ns_common_bookmark_popup.to_touch_id = $(this).data('id');
+          ns_common_bookmark_popup.over_timer = setTimeout(function() {
+            console.log('over timeout');
+            if (ns_common_bookmark_popup.clicked_id != null || ns_common_bookmark_popup.out_timer!=null) return false;
+            ns_common_bookmark_popup.target = 'sidebar';
+            ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.to_touch_id);
+            ns_common_bookmark_popup.touching_id = ns_common_bookmark_popup.to_touch_id;
+          }, 1500)
+        }else if (ns_common_bookmark_popup.touching_id !=null && $(e.target).closest('[data-id="'+ns_common_bookmark_popup.touching_id+'"]').length){
+          // if it is the same list item
+          return false;
+        } else {
+          // if it is different list item
+          ns_common_bookmark_popup.to_touch_id = $(this).data('id');
+          ns_common_bookmark_popup.target = 'sidebar';
+          ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.to_touch_id);
+          ns_common_bookmark_popup.touching_id = ns_common_bookmark_popup.to_touch_id;
+        }
+      },
+      mouseleave: function(e){
+        if (ns_common_bookmark_popup.clicked_id != null) return false;
+        ns_common_bookmark_popup.out_timer = setTimeout(function() {
+            console.log('out timeout');
+            if (ns_common_bookmark_popup.touching_id != null && $('.bookmark_popup').is(':visible')
+            ){
+              console.log('this is outside popup too');
+              if (ns_common_bookmark_popup.clicked_id != null) return false;
+              ns_common_bookmark_popup.target = 'sidebar';
+              ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.touching_id);
+              ns_common_bookmark_popup.touching_id = null;
+            }
+        }, 500);
+      }
+    }, '#highlight_tab li.list_item, #bookmark_tab li.list_item, .bookmark_popup[data-target!="feeds"]')
+    .on({
+      mouseenter : function(e){
+        console.log('hover');
+        if (ns_common_bookmark_popup.over_timer != null){
+          clearTimeout(ns_common_bookmark_popup.over_timer);
+          ns_common_bookmark_popup.over_timer = null;
+        }
+        if(ns_common_bookmark_popup.out_timer!=null) {
+          clearTimeout(ns_common_bookmark_popup.out_timer);
+          ns_common_bookmark_popup.out_timer = null;
+        }
+        if (ns_common_bookmark_popup.clicked_id != null) return false;
+        
+        if (ns_common_bookmark_popup.touching_id == null){
+        // if it is the first list item to touch
+          ns_common_bookmark_popup.to_touch_id = $(this).data('id');
+          ns_common_bookmark_popup.over_timer = setTimeout(function() {
+            console.log('over timeout');
+            if (ns_common_bookmark_popup.clicked_id != null || ns_common_bookmark_popup.out_timer!=null) return false;
+            ns_common_bookmark_popup.target = 'feeds';
+            ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.to_touch_id);
+            ns_common_bookmark_popup.touching_id = ns_common_bookmark_popup.to_touch_id;
+          }, 500)
+        }else if (ns_common_bookmark_popup.touching_id !=null && $(e.target).closest('[data-id="'+ns_common_bookmark_popup.touching_id+'"]').length){
+          // if it is the same list item
+          return false;
+        } else {
+          // if it is different list item
+          ns_common_bookmark_popup.to_touch_id = $(this).data('id');
+          ns_common_bookmark_popup.target = 'feeds';
+          ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.to_touch_id);
+          ns_common_bookmark_popup.touching_id = ns_common_bookmark_popup.to_touch_id;
+        }
+      },
+      mouseleave: function(e){
+        if (ns_common_bookmark_popup.clicked_id != null) return false;
+        ns_common_bookmark_popup.out_timer = setTimeout(function() {
+            console.log('out timeout');
+            if (ns_common_bookmark_popup.touching_id != null && $('.bookmark_popup').is(':visible')
+            ){
+              console.log('this is outside popup too');
+              if (ns_common_bookmark_popup.clicked_id != null) return false;
+              ns_common_bookmark_popup.target = 'feeds';
+              ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.touching_id);
+              ns_common_bookmark_popup.touching_id = null;
+            }
+        }, 500);
+      }
+    }, 'article .star, .bookmark_popup[data-target="feeds"]')
+})  
+</script>

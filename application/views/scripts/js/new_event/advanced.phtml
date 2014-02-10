@@ -40,16 +40,16 @@ jQuery(function($){
     onkeyup: false,
     onblur: false,
     submitHandler: function(form) {
-      saveFormToCookie('new_event_advanced');
-      saveFormToCookie('new_event_basic', $.cookie('new_event_advanced'));
+      ns_common_foot.saveFormToCookie('new_event_advanced');
+      ns_common_foot.saveFormToCookie('new_event_basic', $.cookie('new_event_advanced'));
       form.submit();
     }
   });
   
   ns_new_event_advanced = {
     init:function(){
-      initMap('new_event_place_map', 'new_event_place', 'new_event_place_lat', 'new_event_place_lng');
-      initMap('new_event_application_place_map', 'new_event_application_place', 'new_event_application_place_lat', 'new_event_application_place_lng');
+      ns_new_event_map.initMap('new_event_place_map', 'new_event_place', 'new_event_place_lat', 'new_event_place_lng');
+      ns_new_event_map.initMap('new_event_application_place_map', 'new_event_application_place', 'new_event_application_place_lat', 'new_event_application_place_lng');
     }
   };
   
@@ -70,9 +70,9 @@ jQuery(function($){
       current = $(this).data('value');
       ns_new_event_advanced.init();
   }).on('click','input.new_event_save',function(){
-      saveFormToCookie('new_event_advanced');
-      saveFormToCookie('new_event_basic', $.cookie('new_event_advanced'));
-      showFlashMessages([{'success' : '<?php echo $this->translate('form saved!'); ?>'}]);
+      ns_common_foot.saveFormToCookie('new_event_advanced');
+      ns_common_foot.saveFormToCookie('new_event_basic', $.cookie('new_event_advanced'));
+      ns_common_foot.showFlashMessages([{'success' : '<?php echo $this->translate('form saved!'); ?>'}]);
       return false;
   });
 });

@@ -9,7 +9,7 @@
         
         //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
         if (user_bookmarks.length == 0){
-            hideMoreButton(true);
+            ns_common_foot.hideMoreButton(true);
         }else{
             $('.load_more_feeds .loading').hide();
             $('.load_more_feeds .more').show();
@@ -48,7 +48,7 @@
                     },
                     success: function(response){
                         if ($.isEmptyObject(response)){
-                            hideMoreButton(true);
+                            ns_common_foot.hideMoreButton(true);
                         } else {
                             renderUserBookmarks(response);
                         }

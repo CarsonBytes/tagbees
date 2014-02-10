@@ -54,7 +54,7 @@
     }
     
     $('body').on('click',".add_tags",function(){
-      jQDialog(
+      ns_common_head.jQDialog(
         '<?php echo $this->translate('Add tags') ?>',
         '<?php echo $this->baseUrl('ajax/dialog/add_tags')?>',
         {},

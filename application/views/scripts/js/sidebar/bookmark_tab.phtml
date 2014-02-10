@@ -32,7 +32,7 @@ var ns_sidebar_bookmark_tab = {
           if (msg.data.length == 0) 
             ns_sidebar_bookmark_tab.has_nth_fetched = true;
           else ns_sidebar_bookmark_tab.has_nth_fetched = false;
-          var content = ns_feed.getHTML(msg, 'sidebar_bookmark_list_item', {
+          var content = ns_feeds.getHTML(msg, 'sidebar_bookmark_list_item', {
             getID: function() { 
               if ($.inArray( this.data.id, ns_sidebar_bookmark_tab.used_ids ) ==-1)
                 ns_sidebar_bookmark_tab.used_ids.push(this.data.id);
@@ -41,7 +41,7 @@ var ns_sidebar_bookmark_tab = {
             },
             formatMysqlDate2: function() { 
               if (typeof arguments[0] == 'string') 
-                return $.datepicker.formatDate('dd M', mysqlTimeStampToDate(arguments[0]));
+                return $.datepicker.formatDate('dd M', ns_common_foot.mysqlTimeStampToDate(arguments[0]));
             }
           });
           $("#bookmark_tab .bookmark_list .load_more").before(content);
@@ -54,7 +54,7 @@ var ns_sidebar_bookmark_tab = {
             $('#bookmark_tab .bookmark_list').scrollpanel();
           }
           $("#bookmark_tab .bookmark_list .load_more .more").show();
-          var popup_content = ns_feed.getHTML(msg, 'bookmark_popup', ns_bookmark_popup.tmpl_functions);
+          var popup_content = ns_feeds.getHTML(msg, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
           $('body').append(popup_content);
           ns_sidebar_bookmark_tab.is_fetching=false;
         },

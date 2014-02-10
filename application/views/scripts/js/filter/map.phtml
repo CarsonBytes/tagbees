@@ -1,5 +1,6 @@
 <script type="text/javascript">
-var bounds;
+<?php //var bounds; ?>
+
 var markersArray = [];
 var map;
 var distanceWidget;
@@ -8,14 +9,13 @@ var profileMarkers = [];
 var home_icon='<?php echo $this->baseUrl('images/map/home.png')?>';
 var infoWindow;
 var autocomplete;
-
 // autocomplete init + customization when hitting enter, the first result should be queried
 jQuery(function($){
     var pac_input = document.getElementById('locate_somewhere');
     autocomplete = new google.maps.places.Autocomplete(pac_input);
     autocomplete.bindTo('bounds', map);
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        updateFilterMapByPlace(autocomplete.getPlace());
+        ns_filter_map.updateFilterMapByPlace(autocomplete.getPlace());
     });
     (function pacSelectFirst(input) {
         // store the original event binding function
@@ -52,230 +52,223 @@ jQuery(function($){
     })(pac_input);
 });
 
-function initMap() {
-  var mapDiv = document.getElementById('feed_filter_map');
-      map = new google.maps.Map(mapDiv, {
-        center: new google.maps.LatLng(feed_para['place_lat'], feed_para['place_lng']),
-        zoom: 8,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        zoomControl:true,
-        scrollwheel: false
-      });
+var ns_filter_map = {
+  initMap: function() {
+    var mapDiv = document.getElementById('feed_filter_map');
+        map = new google.maps.Map(mapDiv, {
+          center: new google.maps.LatLng(ns_feeds.feed_para['place_lat'], ns_feeds.feed_para['place_lng']),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          zoomControl:true,
+          scrollwheel: false
+        });
+    
+      if (ns_feeds.feed_para['is_match_location'] == 1) {
+        ns_filter_map.initDistanceWidget();
+      }
   
-    if (feed_para['is_match_location'] == 1) {
-      initDistanceWidget();
-    }
-
-    if (feed_para['is_match_location'] == 1) { 
-        reverseGeocodePosition();
-        map.fitBounds(distanceWidget.get('bounds'));
-        updateRadiusFromMapDistance() ;
-    }
-  
-  infoWindow = new google.maps.InfoWindow({
-    maxWidth: 500
-  });
-  
-<?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-  refreshMarkers();
-<?php } ?>
-}
-
-function refreshMarkers() {
+      if (ns_feeds.feed_para['is_match_location'] == 1) { 
+          ns_filter_map.reverseGeocodePosition();
+          map.fitBounds(distanceWidget.get('bounds'));
+          updateRadiusFromMapDistance() ;
+      }
+    
+    infoWindow = new google.maps.InfoWindow({
+      maxWidth: 500
+    });
+    
   <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-      deleteOverlays();
-      addMarker(map_markers_data);
+    ns_filter_map.refreshMarkers();
   <?php } ?>
-}
-function removeMarkers() {
-  <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-      deleteOverlays();
-  <?php } ?>
-}
-function addMarkers(markers) {
-  <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-      addMarker(map_markers_data);
-  <?php } ?>
-}
-
-function initDistanceWidget() {
-  distanceWidget = new DistanceWidget({
-    map: map,
-    distance: feed_para['radius'], // Starting distance in km.
-    maxDistance: maxDistance, //Carson
-    minDistance: minDistance, //Carson
-    color: '#000000',
-    activeColor: '#5599bb',
-    sizerIcon: new google.maps.MarkerImage('<?php echo $this->baseUrl('images/map/resize-off.png') ?>'),
-    activeSizerIcon: new google.maps.MarkerImage('<?php echo $this->baseUrl('images/map/resize.png') ?>')
-  });
-}
-
-function setGeocodeTriggerTimer() {
-  if (geocodeTimer) {
-    window.clearTimeout(geocodeTimer);
-  }
-
-  // Throttle the geo query so we don't hit the limit
-  geocodeTimer = window.setTimeout(function() {
-    reverseGeocodePosition();
-  }, 200);
-}
-
-function updatePositionByDraggingMarker() {
-  setGeocodeTriggerTimer();
-  
-  // Carson
-  feed_para['place_lat']=distanceWidget.get('position').lat();
-  feed_para['place_lng']=distanceWidget.get('position').lng();
-  ns_feed.updateUrlParam('place_lat',feed_para['place_lat']);
-  ns_feed.updateUrlParam('place_lng',feed_para['place_lng']);
-  ns_feed.refresh();
-  $(".user_saved_location_list option[value='last']").prop("selected","selected");
-  //map.fitBounds(radiusWidget.get('bounds'));
-}
-
-function loadPosition(place_lat, place_lng) {
-  setGeocodeTriggerTimer();
-  
-  // Carson
-  ns_feed.refresh(); //done in loadRadius event
-  distanceWidget.set('position',new google.maps.LatLng(place_lat, place_lng));
-  map.fitBounds(radiusWidget.get('bounds'));
-}
-function updateRadiusFromMapDistance() {
-  var distance = distanceWidget.get('distance');
-  var new_radius = Number(distance.toString().match(/^\d+(?:\.\d{0,2})?/));
-  if (feed_para['radius'] != new_radius){
-      feed_para['radius']=Number(distance.toString().match(/^\d+(?:\.\d{0,2})?/));
-      loadRadius(feed_para['radius']);
-  }
-}
-
-function reverseGeocodePosition() {
-  var pos = distanceWidget.get('position');
-  var geocoder = new google.maps.Geocoder();
-  geocoder.geocode({'location': pos,'language':'<?php echo Common::getSiteDisplayLang(); ?>'}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      if (results[1]) {
-        $('#of').html(results[1].formatted_address);
-        return;
+  },
+  refreshMarkers: function() {
+    console.log('refreshMarkers');
+    <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+        ns_filter_map.deleteOverlays();
+        ns_filter_map.addMarker(ns_feeds.map_markers_data);
+    <?php } ?>
+  },
+  removeMarkers: function() {
+    <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+        ns_filter_map.deleteOverlays();
+    <?php } ?>
+  },
+  addMarker: function(json) {
+    var location, marker, data_array, x;
+    infoWindow = new google.maps.InfoWindow({
+      maxWidth: 500
+    });
+    //console.log(json)
+    for (x in json){
+      data_array = [];
+      if (typeof json[x].place_lat != 'undefined' && typeof json[x].place_lng != 'undefined'){
+          data_array.push(json[x]);
+          jQuery( "#info-window-tmpl" ).tmpl( data_array ).appendTo('#info-window');
+          location = new google.maps.LatLng(json[x].place_lat,json[x].place_lng);
+          marker = new google.maps.Marker({
+              position: location,
+              map: map,
+              html: jQuery( "#info-window" ).html()
+          });
+          jQuery( "#info-window" ).empty();
+          
+          google.maps.event.addListener(marker, 'click', function() {
+              infoWindow.setContent(this.html);
+              //infoWindow.setOptions({maxWidth:900});
+              infoWindow.open(map, this);
+          });
+          
+          markersArray.push(marker);
       }
     }
-
-    $('#of').html('somewhere');
-  });
-}
-
-
-function addMarker(json) {
-  var location, marker, data_array, x;
-  infoWindow = new google.maps.InfoWindow({
-    maxWidth: 500
-  });
-  //console.log(json)
-  for (x in json){
-    data_array = [];
-    if (typeof json[x].place_lat != 'undefined' && typeof json[x].place_lng != 'undefined'){
-        data_array.push(json[x]);
-        jQuery( "#info-window-tmpl" ).tmpl( data_array ).appendTo('#info-window');
-        location = new google.maps.LatLng(json[x].place_lat,json[x].place_lng);
-        marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            html: jQuery( "#info-window" ).html()
-        });
-        jQuery( "#info-window" ).empty();
-        
-        google.maps.event.addListener(marker, 'click', function() {
-            infoWindow.setContent(this.html);
-            //infoWindow.setOptions({maxWidth:900});
-            infoWindow.open(map, this);
-        });
-        
-        markersArray.push(marker);
+  },
+  addMarkers: function() {
+    <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+        ns_filter_map.addMarker(ns_feeds.map_markers_data);
+    <?php } ?>
+  },
+  initDistanceWidget: function() {
+    distanceWidget = new DistanceWidget({
+      map: map,
+      distance: ns_feeds.feed_para['radius'], // Starting distance in km.
+      maxDistance: maxDistance, //Carson
+      minDistance: minDistance, //Carson
+      color: '#000000',
+      activeColor: '#5599bb',
+      sizerIcon: new google.maps.MarkerImage('<?php echo $this->baseUrl('images/map/resize-off.png') ?>'),
+      activeSizerIcon: new google.maps.MarkerImage('<?php echo $this->baseUrl('images/map/resize.png') ?>')
+    });
+  },
+  setGeocodeTriggerTimer: function() {
+    if (geocodeTimer) {
+      window.clearTimeout(geocodeTimer);
     }
-  }
-}
-
-// Deletes all markers in the array by removing references to them
-function deleteOverlays() {
-  if (markersArray) {
-    for (i in markersArray) {
-      markersArray[i].setMap(null);
+  
+    // Throttle the geo query so we don't hit the limit
+    geocodeTimer = window.setTimeout(function() {
+      ns_filter_map.reverseGeocodePosition();
+    }, 200);
+  },
+  loadPosition: function(place_lat, place_lng) {
+    ns_filter_map.setGeocodeTriggerTimer();
+    
+    // Carson
+    ns_feeds.refresh(); //done in ns_filter_map.loadRadius event
+    distanceWidget.set('position',new google.maps.LatLng(place_lat, place_lng));
+    map.fitBounds(radiusWidget.get('bounds'));
+  },
+  reverseGeocodePosition: function() {
+    var pos = distanceWidget.get('position');
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'location': pos,'language':'<?php echo Common::getSiteDisplayLang(); ?>'}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+          $('#of').html(results[1].formatted_address);
+          return;
+        }
+      }
+  
+      $('#of').html('somewhere');
+    });
+  },
+  deleteOverlays: function() {
+    if (markersArray) {
+      for (i in markersArray) {
+        markersArray[i].setMap(null);
+      }
+      markersArray.length = 0;
     }
-    markersArray.length = 0;
-  }
-}
-
-
-//place auto complete
-function selectFirstResult() {
+  },
+  <?php /*//place auto complete
+  selectFirstResult: function() {
     var firstResult = $(".pac-container .pac-item:first").text();
         $("#locate_somewhere").val(firstResult);
-        updateFilterMapByPlace(autocomplete.getPlace());
- }
- // para should be google api's geometry.location object
-function updateFilterMapByPlace(place){
+        ns_filter_map.updateFilterMapByPlace(autocomplete.getPlace());
+  },
+   */?>
+  // para should be google api's geometry.location object
+  updateFilterMapByPlace: function(place){
     if (!place.geometry) {
         //var content = [{'error' : 'Your input place was not found. please correct the input.'}] ;
-        //showFlashMessages(content);
+        //ns_common_foot.showFlashMessages(content);
         // Inform the user that a place was not found and return.
         return false;
     }
-    if (feed_para['is_match_location'] == 1) { 
-        if (typeof distanceWidget == 'undefined') initDistanceWidget();
+    if (ns_feeds.feed_para['is_match_location'] == 1) { 
+        if (typeof distanceWidget == 'undefined') ns_filter_map.initDistanceWidget();
         distanceWidget.set('position',place.geometry.location);
     }
     updatePositionByDraggingMarker();
-    if (feed_para['is_match_location'] == 1) { 
+    if (ns_feeds.feed_para['is_match_location'] == 1) { 
         map.fitBounds(distanceWidget.get('bounds'));
     }
-}
-function handle_geolocation_query(position){
-    if (feed_para['is_show_map']==0){
+  },
+  handleGeolocationQuery: function(position){
+    if (ns_feeds.feed_para['is_show_map']==0){
         jQuery('#map_wrapper').toggle(0);
-        initMap();
-        feed_para['is_show_map']=1;
+        ns_filter_map.initMap();
+        ns_feeds.feed_para['is_show_map']=1;
         $('.feed_filter_input[name="is_show_map"]').text('<?php echo $this->translate('hide map') ?>');
     }
-    feed_para['place_lat']=position.coords.latitude;
-    feed_para['place_lng']=position.coords.longitude;
-    ns_feed.updateUrlParam('place_lat',feed_para['place_lat']);
-    ns_feed.updateUrlParam('place_lng',feed_para['place_lng']);
-    loadPosition(feed_para['place_lat'], feed_para['place_lng']);
+    ns_feeds.feed_para['place_lat']=position.coords.latitude;
+    ns_feeds.feed_para['place_lng']=position.coords.longitude;
+    ns_feeds.updateUrlParam('place_lat',ns_feeds.feed_para['place_lat']);
+    ns_feeds.updateUrlParam('place_lng',ns_feeds.feed_para['place_lng']);
+    ns_filter_map.loadPosition(ns_feeds.feed_para['place_lat'], ns_feeds.feed_para['place_lng']);
     $(".user_saved_location_list option[value='last']").prop("selected","selected");
-}
-function handle_errors(error)
-{
-    $('#feed-settings-page .location_settings').toggle();
-    switch(error.code)
-    {
-        case error.PERMISSION_DENIED: alert("Please enable geo location function in your device and try again.");
-        break;
-
-        case error.POSITION_UNAVAILABLE: alert("Current position could not be detected.");
-        break;
-
-        case error.TIMEOUT: alert("Retrieving position timed out.");
-        break;
-
-        default: alert("Unknown error.");
-        break;
-    }
-}
-
-function loadRadius(value) {
-  $( "#radius_slider" ).slider( "option", "value", value.toFixed(2) );
+  },
+  handleErrors: function(error){
+      $('#feed-settings-page .location_settings').toggle();
+      switch(error.code)
+      {
+          case error.PERMISSION_DENIED: alert("Please enable geo location function in your device and try again.");
+          break;
+  
+          case error.POSITION_UNAVAILABLE: alert("Current position could not be detected.");
+          break;
+  
+          case error.TIMEOUT: alert("Retrieving position timed out.");
+          break;
+  
+          default: alert("Unknown error.");
+          break;
+      }
+  },
+  loadRadius: function(value) {
+    $( "#radius_slider" ).slider( "option", "value", value.toFixed(2) );
+  }
 }
 
 jQuery(function($){
     if ($('.stream').length && typeof page_type !='undefined')
-        initMap();
+        ns_filter_map.initMap();
 })
 
+// this can only be out of namespace since google cloud js uses it...
+function updatePositionByDraggingMarker() {
+  ns_filter_map.setGeocodeTriggerTimer();
+  
+  // Carson
+  ns_feeds.feed_para['place_lat']=distanceWidget.get('position').lat();
+  ns_feeds.feed_para['place_lng']=distanceWidget.get('position').lng();
+  ns_feeds.updateUrlParam('place_lat',ns_feeds.feed_para['place_lat']);
+  ns_feeds.updateUrlParam('place_lng',ns_feeds.feed_para['place_lng']);
+  ns_feeds.refresh();
+  $(".user_saved_location_list option[value='last']").prop("selected","selected");
+  //map.fitBounds(radiusWidget.get('bounds'));
+}
+
+function updateRadiusFromMapDistance() {
+  var distance = distanceWidget.get('distance');
+  var new_radius = Number(distance.toString().match(/^\d+(?:\.\d{0,2})?/));
+  if (ns_feeds.feed_para['radius'] != new_radius){
+      ns_feeds.feed_para['radius']=Number(distance.toString().match(/^\d+(?:\.\d{0,2})?/));
+      ns_filter_map.loadRadius(ns_feeds.feed_para['radius']);
+  }
+}
+<?php /*
 var merged;
-/*function getEventThumbnailUrl(data){
+function getEventThumbnailUrl(data){
     merged = jQuery.merge(data.images['main'], data.images['general']);
     if (!jQuery.isEmptyObject(merged)){
         var x;
@@ -286,12 +279,12 @@ var merged;
         }
     }
     return '<?php //echo Common::getUploadedImageUrl(NULL, 'event_default_pic'); ?>';
-}*/
+}*/?>
 </script>
 <script id="info-window-tmpl" type="text/x-jquery-tmpl">
         <?php //<img src="${getEventThumbnailUrl($data)}" width="100" style="float:left;margin:5px;" /> ?>
         <h1>${name}</h1>
         <p>${teaser}</p>
-        <button onclick="jQuery('.Post').css('background','none');jQuery('#item_${id}').css('background','#E8FFF7');goToByScroll('article[data-id=\'${id}\']');">go to the feed</button>
+        <button onclick="jQuery('.Post').css('background','none');jQuery('#item_${id}').css('background','#E8FFF7');ns_common_foot.goToByScroll('article[data-id=\'${id}\']');">go to the feed</button>
 </script>
 <div id="info-window" style="display:none;"></div>

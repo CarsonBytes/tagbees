@@ -1,6 +1,6 @@
 <script type="text/javascript">
 jQuery(function($){
-    initMap('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->ac_input_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>');
+    ns_new_event_map.initMap('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->ac_input_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>');
     $('body')
       .on('click', '#<?php echo $this->geo_locate_ID ?>', function(){
         handleGeolocation('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->ac_input_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>');
