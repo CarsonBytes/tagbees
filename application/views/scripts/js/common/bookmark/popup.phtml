@@ -166,7 +166,7 @@ var ns_common_bookmark_popup = {
     var parent = $('#sidebar ul:visible li[data-id="'+id+'"]');
     var grandparent = parent.parents('ul');
     
-    console.log(parent.offset())
+    //console.log(parent.offset())
     //init
     trigger_popup_icon.css('top', parent.offset().top + 5);
     trigger_popup_icon.css('left',grandparent.offset().left+grandparent.outerWidth( true ));
@@ -175,13 +175,13 @@ var ns_common_bookmark_popup = {
     
     if (parent.offset().top + this_popup.height() > $(window).height() + $(window).scrollTop()){
   
-      console.log('exceeded below!');
+      //console.log('exceeded below!');
   
       if ($(window).height() < this_popup.height()){
-        console.log('not enough window size!');
+        //console.log('not enough window size!');
         this_popup.css('top', $(window).scrollTop()+5);
       }else{
-        console.log('enough window size!');
+        //console.log('enough window size!');
         var parent_to_bottom_height = $(window).height() + $(window).scrollTop() - parent.offset().top;
         var remaining_height = this_popup.height() - parent_to_bottom_height;
         var sum = parseInt(this_popup.css('top')) - remaining_height - 5;
@@ -189,16 +189,16 @@ var ns_common_bookmark_popup = {
       }
   
     }else if (parent.offset().top <= $(window).scrollTop()+10){
-      console.log('exceeded above!');
+      //console.log('exceeded above!');
       
       var top_to_parent_height =  parent.offset().top - $(window).scrollTop();
       
       this_popup.css('top', parent.offset().top + (10 - top_to_parent_height) +'px');
       
     }else{
-      console.log('inside');
+      //console.log('inside');
     }
-    console.log(this_popup.offset());
+    //console.log(this_popup.offset());
   },
   showReminderFields : function(){
     $('.bookmark_popup_reminder_title').watermark("<?php echo $this->translate('Reminder Title') ?>");
@@ -296,7 +296,7 @@ jQuery(function($){
           $(this).removeClass('clicked');
         }
       }
-      console.log(ns_common_bookmark_popup.clicked_id);
+      //console.log(ns_common_bookmark_popup.clicked_id);
     })
     .on({
       mouseenter : function(e){
@@ -308,7 +308,7 @@ jQuery(function($){
     }, '.bookmark_popup, #highlight_tab li.list_item , #bookmark_tab li.list_item')
     .on({
       mouseenter : function(e){
-        console.log('hover');
+        //console.log('hover');
         if (ns_common_bookmark_popup.over_timer != null){
           clearTimeout(ns_common_bookmark_popup.over_timer);
           ns_common_bookmark_popup.over_timer = null;
@@ -323,7 +323,7 @@ jQuery(function($){
         // if it is the first list item to touch
           ns_common_bookmark_popup.to_touch_id = $(this).data('id');
           ns_common_bookmark_popup.over_timer = setTimeout(function() {
-            console.log('over timeout');
+            //console.log('over timeout');
             if (ns_common_bookmark_popup.clicked_id != null || ns_common_bookmark_popup.out_timer!=null) return false;
             ns_common_bookmark_popup.target = 'sidebar';
             ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.to_touch_id);
@@ -343,10 +343,10 @@ jQuery(function($){
       mouseleave: function(e){
         if (ns_common_bookmark_popup.clicked_id != null) return false;
         ns_common_bookmark_popup.out_timer = setTimeout(function() {
-            console.log('out timeout');
+            //console.log('out timeout');
             if (ns_common_bookmark_popup.touching_id != null && $('.bookmark_popup').is(':visible')
             ){
-              console.log('this is outside popup too');
+              //console.log('this is outside popup too');
               if (ns_common_bookmark_popup.clicked_id != null) return false;
               ns_common_bookmark_popup.target = 'sidebar';
               ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.touching_id);
@@ -357,7 +357,7 @@ jQuery(function($){
     }, '#highlight_tab li.list_item, #bookmark_tab li.list_item, .bookmark_popup[data-target!="feeds"]')
     .on({
       mouseenter : function(e){
-        console.log('hover');
+        //console.log('hover');
         if (ns_common_bookmark_popup.over_timer != null){
           clearTimeout(ns_common_bookmark_popup.over_timer);
           ns_common_bookmark_popup.over_timer = null;
@@ -372,7 +372,7 @@ jQuery(function($){
         // if it is the first list item to touch
           ns_common_bookmark_popup.to_touch_id = $(this).data('id');
           ns_common_bookmark_popup.over_timer = setTimeout(function() {
-            console.log('over timeout');
+            //console.log('over timeout');
             if (ns_common_bookmark_popup.clicked_id != null || ns_common_bookmark_popup.out_timer!=null) return false;
             ns_common_bookmark_popup.target = 'feeds';
             ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.to_touch_id);
@@ -392,10 +392,10 @@ jQuery(function($){
       mouseleave: function(e){
         if (ns_common_bookmark_popup.clicked_id != null) return false;
         ns_common_bookmark_popup.out_timer = setTimeout(function() {
-            console.log('out timeout');
+            //console.log('out timeout');
             if (ns_common_bookmark_popup.touching_id != null && $('.bookmark_popup').is(':visible')
             ){
-              console.log('this is outside popup too');
+              //console.log('this is outside popup too');
               if (ns_common_bookmark_popup.clicked_id != null) return false;
               ns_common_bookmark_popup.target = 'feeds';
               ns_common_bookmark_popup.togglePopup(ns_common_bookmark_popup.touching_id);

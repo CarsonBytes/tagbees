@@ -254,7 +254,7 @@ body {
       margin-top:10px;
     }
   }
-  &.bookmarked{
+  /*&.bookmarked{
     .bookmark_popup_set_reminder{
       display:block;
     }
@@ -263,6 +263,15 @@ body {
     }
   }
   &.has_reminder.bookmarked{
+    .bookmark_popup_set_reminder{
+      display:none;
+    }
+    .white{
+      display:block;
+    }
+  }
+  */
+  &.bookmarked{
     .bookmark_popup_set_reminder{
       display:none;
     }

@@ -76,9 +76,9 @@ var ns_event_reminder_form = {
   },
   updateAttendDatetime: function(){
     if($('.event_reminder_is_match_event_begin_datetime').is(':checked')){
-      $('.event_reminder_attend_datetime').val($('.event_reminder_event_begin_datetime').val());
+      if ($('.event_reminder_attend_datetime').length==0 || $('.event_reminder_event_begin_datetime').val()=='') return false;$('.event_reminder_attend_datetime').val($('.event_reminder_event_begin_datetime').val());
     }else{
-      if ($('.event_reminder_attend_date').val()=='') return false;
+      if ($('.event_reminder_attend_date').length==0 || $('.event_reminder_attend_date').val()=='') return false;
       var time = $('.event_reminder_attend_time').val()!='' ? $('.event_reminder_attend_time').val() : '00:00';
       $('.event_reminder_attend_datetime').val($('.event_reminder_attend_date').val()+' '+time);
     }
@@ -106,8 +106,10 @@ var ns_event_reminder_form = {
     
     var datetime = Date.parse($('.event_reminder_attend_datetime').val());
     
+    var datetime_each;
     var types = ['email', 'popup', 'mobile'];
     for (i in types){
+      datetime_each = new Date(datetime.getTime());
       if ($('#event_reminder_has_'+types[i]+'_alarm').is(':checked')){
         var unit = $('#event_reminder_'+types[i]+'_alarm_time_unit').val();
         var time_amount = new String('-'+$('#event_reminder_'+types[i]+'_alarm_time').val());
@@ -120,15 +122,15 @@ var ns_event_reminder_form = {
         }
         
         if (unit=='weeks'){
-          datetime = datetime.add(time).weeks();
+          datetime_each = datetime_each.add(time).weeks();
         } else if (unit=='days'){
-          datetime = datetime.add(time).days();
+          datetime_each = datetime_each.add(time).days();
         } else if (unit=='hours'){
-          datetime = datetime.add(time).hours();
+          datetime_each = datetime_each.add(time).hours();
         } else if (unit=='minutes'){
-          datetime = datetime.add(time).minutes();
+          datetime_each = datetime_each.add(time).minutes();
         }
-        $('#'+types[i]+'_reminder_desc').text(datetime.toString('yyyy-MM-dd HH:mm'));
+        $('#'+types[i]+'_reminder_desc').text(datetime_each.toString('yyyy-MM-dd HH:mm'));
       } else {
         $('#'+types[i]+'_reminder_desc').empty();
       }

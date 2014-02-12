@@ -42,6 +42,7 @@
              ${teaser}
           </p>
         </div>
+        <?php if (Zend_Auth::getInstance()->hasIdentity()) { ?>
         <a class="bookmark_popup_set_reminder" href="#" data-value="0">Set Reminder...</a>
         <div class="white">
           <?php /*<form class="bookmark_popup_form" data-id="${id}" name="bookmark_popup_form" action="" method="post" >*/ ?>
@@ -81,6 +82,7 @@
             <span class="saved"><?php echo $this->translate('Saved')?></span>
           </div>
         </div>
+        <?php } ?>
         <div class="clr"></div>
       </div>
     </div>

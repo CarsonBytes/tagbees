@@ -82,7 +82,6 @@ var ns_filter_map = {
   <?php } ?>
   },
   refreshMarkers: function() {
-    console.log('refreshMarkers');
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
         ns_filter_map.deleteOverlays();
         ns_filter_map.addMarker(ns_feeds.map_markers_data);
