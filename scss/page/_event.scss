@@ -2,7 +2,7 @@
 
 /********************************* Details Page ******************************************/
 
-.event_detail{ 
+.event_detail{
   padding:0 8px 0 9px;
   h3{ 
     font-size:22px; font-weight:normal; color:#2f3031;
@@ -107,6 +107,9 @@
         }
       }
     }
+  }
+  .fb-comments, .fb-comments span, .fb-comments iframe { 
+    width: 100% !important; 
   }
 }
 #event_reminder_form{

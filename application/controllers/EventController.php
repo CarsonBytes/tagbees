@@ -8,6 +8,8 @@ class EventController extends Zend_Controller_Action
     
     public function indexAction()
     {
+      $this->view->url = $this->getRequest()->getScheme() . '://' .$this->_request->getHttpHost() . $this->_request->getRequestUri() ;
+      
       if ($this->_request->getParam('slug_name')==""){
       }else{
         $itemService=new Service_Item();

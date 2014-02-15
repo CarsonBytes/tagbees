@@ -592,6 +592,7 @@ $pie-base-class: pie-element;*/
 .event_detail .detail_div .Imggallery .content p { padding: 0 0 20px 0; }
 .event_detail .detail_div .Imggallery .content p a { color: #333333; text-decoration: none; }
 .event_detail .detail_div .Imggallery .content p a:hover { text-decoration: underline; }
+.event_detail .fb-comments, .event_detail .fb-comments span, .event_detail .fb-comments iframe { width: 100% !important; }
 
 #event_reminder_form table { width: 490px; margin-right: 10px; }
 #event_reminder_form table th { color: #333; padding-right: 10px; padding-bottom: 10px; vertical-align: top; text-align: right; white-space: nowrap; }

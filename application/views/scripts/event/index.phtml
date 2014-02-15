@@ -1,9 +1,8 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
 <?php echo $this -> partial('js/event.phtml'); ?>
-<?php //echo '<pre>';var_dump($this->item);echo '</pre>'; ?>
 <div class="main shadow">
     <div class="event_detail">
-        <article data-id="<?php echo $this->item->id; ?>" class="detail_div clearfix <?php if ($this->item->is_like==1){ ?>bookmarked<?php } ?>">
+        <article data-id="<?php echo $this->item->id; ?>" class="detail_div clearfix <?php if (isset($this->item->is_like) && $this->item->is_like==1){ ?>bookmarked<?php } ?>">
           <header>
               <div class="bookmark_area">
                   <div class="w1">
@@ -237,10 +236,12 @@
         </div>
         <footer>
           <div class="tag_r">
-              <strong>Submitted by:</strong><a href="#">Mac Slocum</a> | <a href="#">16 days ago</a>
+              by <a target="_blank" href="<?php echo $this->baseUrl('user').'/'.$this->item->submitter_slug_name ;?>"><?php echo $this->item->submitter_name ?></a>| <abbr class="timeago" title="<?php echo $this->item->create_time ?>">
           </div>
         </footer>
       </article>
+        <div class="fb-comments" data-href="<?php echo $this->url ?>" data-numposts="5" data-colorscheme="light"></div>
+
     </div>
 </div>
 <script id="template-upload" type="text/x-tmpl">
