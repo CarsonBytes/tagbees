@@ -32,13 +32,15 @@ class Plugins_Module extends Zend_Controller_Plugin_Abstract
 				$layout->disableLayout();
 	            //if ($controller != 'dialog') $viewRenderer->setNeverRender(true);
 			}
+    }else if ($module == 'iframe'){
+      $layout->setLayout('empty');
 		}else{
-            if (!$request->isXmlHttpRequest()){
-                $layout->setLayout('1-col-left');
-            }else{
-                $layout->disableLayout();
-            }
+        if (!$request->isXmlHttpRequest()){
+            $layout->setLayout('1-col-left');
+        }else{
+            $layout->disableLayout();
         }
+    }
 	}
 }
 

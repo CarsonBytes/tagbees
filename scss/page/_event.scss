@@ -112,6 +112,14 @@
     width: 100% !important; 
   }
 }
+#dialog{
+  overflow: hidden;
+  iframe{
+    overflow:hidden;
+    height:100%;
+    width:100%
+  } 
+}
 #event_reminder_form{
   table{
     width: 490px;
