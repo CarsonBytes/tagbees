@@ -3,6 +3,7 @@ var ns_event_detail = {
   init: function(){
     // Dialog Link
     jQuery('.upload_link').click(function() {
+    <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
         jQuery( '#dialog iframe' ).attr( 'src', 'http://atticho.no-ip.biz/tagbees_refactored/iframe/event/img_upload_form?event_id=<?php echo $this->event_id ?>')
         jQuery('#dialog')
           .dialog({
@@ -15,7 +16,10 @@ var ns_event_detail = {
               } 
             }
           })
-          .dialog('open');;
+          .dialog('open');
+    <? } else { ?>
+      alert('Please login to add images.');
+    <?php } ?>
         return false;
     });
     //hover states on the static widgets

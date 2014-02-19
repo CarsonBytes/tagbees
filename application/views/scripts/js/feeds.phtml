@@ -35,10 +35,10 @@ var ns_feeds = {
     var functions = $.extend(true, {}, {
         getMainPicTitle: function(){
             var img_is_main_pics =this.data.img_is_main_pics.split(',');
-            var img_descriptions =this.data.img_descriptions.split(',');
+            var img_captions =this.data.img_captions.split(',');
             for( index in img_is_main_pics){
                 if (img_is_main_pics[index] == 1){
-                    return img_descriptions[index];
+                    return img_captions[index];
                 }
             }
         },

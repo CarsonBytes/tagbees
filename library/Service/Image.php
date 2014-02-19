@@ -7,10 +7,10 @@ class Service_Image {
 
   function __construct() {
     if (Zend_Auth::getInstance() -> hasIdentity()) {
-      $this -> identity = Zend_Auth::getInstance() -> getIdentity();
-    } /*else{
+      $this->identity = Zend_Auth::getInstance() -> getIdentity();
+    } else{
       return false;
-    }*/
+    }
     $this->path = Zend_Registry::get('config_ini') -> upload -> imagePath;
     $this->db = Zend_Db_Table::getDefaultAdapter();
   }
@@ -49,18 +49,14 @@ class Service_Image {
       if (true !== ($pic_error = $this->resize($this->path . '/' . $rename, $this->path.$this->thumbnail_dir . '/' . $rename, 100, 100))) {
         //echo $pic_error;
         //delete the last uploaded image
-        unlink($this->path . '/' . $rename);
-        echo '<pre>';var_dump('variable');echo '</pre>';
+        $this->delete($rename);
         continue;
       }
         
       if (!$this->add($item_id,$rename)){
-        echo '<pre>';var_dump('variable');echo '</pre>';
+        $this->delete($rename);
         continue;
       };
-       
-      $request = Zend_Controller_Front::getInstance()->getRequest();
-      $hostUrl = $request->getScheme() . '://' .$request->getHttpHost();
       
       $datas['files'][]=array(
         'deleteType'=> "DELETE",
@@ -94,10 +90,18 @@ class Service_Image {
   /*
    * get image infos from db
    */
-  public function getDbInfos($item_id, $type='event') {
+  public function getDbInfos($item_id, $user_id=null, $type='event') {
+    
+    if ($user_id == null) {
+      $user_id = $this->identity->item_id;
+    } else {
+      return false;
+    }
+    
     $select=$this->db->select()
       ->from('image')
-      ->where ('item_id = ?',$item_id);
+      ->where ('item_id = ?',$item_id)
+      ->where ('user_id = ?',$user_id);
     $result=$this->db->fetchAll($select);
     
     $datas = array();
@@ -124,96 +128,29 @@ class Service_Image {
     }
     return $datas;
   }
-
-  protected function getDeleteUrl($filename='',$type='event') {
-    $request = Zend_Controller_Front::getInstance()->getRequest();
-    $hostUrl = $request->getScheme() . '://' .$request->getHttpHost();
-    return $hostUrl.Zend_Controller_Front::getInstance() -> getBaseUrl()."/iframe/event/img_handle?filename=".$filename;
-  }
-
-  protected function getThumbnailUrl($filename='',$type='event') {
-    $request = Zend_Controller_Front::getInstance()->getRequest();
-    $hostUrl = $request->getScheme() . '://' .$request->getHttpHost();
-    return $hostUrl.Common::changePathToURL($this->path.$this->thumbnail_dir.'/'.$filename);
-  }
-
-  protected function getImageUrl($filename='',$type='event') {
-    $request = Zend_Controller_Front::getInstance()->getRequest();
-    $hostUrl = $request->getScheme() . '://' .$request->getHttpHost();
-    return $hostUrl.Common::changePathToURL($this->path.'/'.$filename);
-  }
-   
-  protected function getFileType($file_path) {
-      switch (strtolower(pathinfo($file_path, PATHINFO_EXTENSION))) {
-          case 'jpeg':
-          case 'jpg':
-              return 'image/jpeg';
-          case 'png':
-              return 'image/png';
-          case 'gif':
-              return 'image/gif';
-          default:
-              return '';
-      }
-  }
-
-  protected function getFileSize($file_path, $clear_stat_cache = false)    
-  {
-      if ($clear_stat_cache) {
-          if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
-              clearstatcache(true, $file_path);
-          } else {
-              clearstatcache();
-          }
-      }
-      return $this->fixIntegerOverflow(filesize($file_path));
-  }
-    
-  // Fix for overflowing signed 32 bit integers,
-  // works for sizes up to 2^32-1 bytes (4 GiB - 1):
-  protected function fixIntegerOverflow($size) {
-      if ($size < 0) {
-          $size += 2.0 * (PHP_INT_MAX + 1);
-      }
-      return $size;
-  }
   /*
    * add thumbnail and image infos to do
    *
    */
   public function add($item_id, $filename, $user_id=null, $caption = '', $is_main_pic = 0) {
     
-    if ($user_id == null && Zend_Auth::getInstance() -> hasIdentity()) {
-      $user_id = Zend_Auth::getInstance() -> getIdentity() ->item_id;
-    }
-    
-    if ($user_id != null){
-      $vars = array(
-        'user_id' => $user_id, 
-        'item_id' => $item_id, 
-        'filename' => $filename, 
-        'caption' => $caption, 
-        'is_main_pic' => $is_main_pic, 
-        'create_time' => date('Y-m-d H:i:s')
-      );
-      
-      $this -> db -> insert('image', $vars);
-      return true;
+    if ($user_id == null) {
+      $user_id = $this->identity->item_id;
     } else {
-      /*return false;*/
+      return false;
     }
     
-    //demo
     $vars = array(
-      'user_id' => 5, 
+      'user_id' => $user_id, 
       'item_id' => $item_id, 
       'filename' => $filename, 
       'caption' => $caption, 
       'is_main_pic' => $is_main_pic, 
       'create_time' => date('Y-m-d H:i:s')
     );
+    
     $this -> db -> insert('image', $vars);
-      return true;
+    return true;
   }
 
   //resize and save to thumbnail
@@ -299,8 +236,61 @@ class Service_Image {
     return false;
   }
 
+  protected function getDeleteUrl($filename='',$type='event') {
+    $request = Zend_Controller_Front::getInstance()->getRequest();
+    $hostUrl = $request->getScheme() . '://' .$request->getHttpHost();
+    return $hostUrl.Zend_Controller_Front::getInstance() -> getBaseUrl()."/iframe/event/img_handle?filename=".$filename;
+  }
+
+  protected function getThumbnailUrl($filename='',$type='event') {
+    $request = Zend_Controller_Front::getInstance()->getRequest();
+    $hostUrl = $request->getScheme() . '://' .$request->getHttpHost();
+    return $hostUrl.Common::changePathToURL($this->path.$this->thumbnail_dir.'/'.$filename);
+  }
+
+  protected function getImageUrl($filename='',$type='event') {
+    $request = Zend_Controller_Front::getInstance()->getRequest();
+    $hostUrl = $request->getScheme() . '://' .$request->getHttpHost();
+    return $hostUrl.Common::changePathToURL($this->path.'/'.$filename);
+  }
+   
+  protected function getFileType($file_path) {
+      switch (strtolower(pathinfo($file_path, PATHINFO_EXTENSION))) {
+          case 'jpeg':
+          case 'jpg':
+              return 'image/jpeg';
+          case 'png':
+              return 'image/png';
+          case 'gif':
+              return 'image/gif';
+          default:
+              return '';
+      }
+  }
+
+  protected function getFileSize($file_path, $clear_stat_cache = false)    
+  {
+      if ($clear_stat_cache) {
+          if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+              clearstatcache(true, $file_path);
+          } else {
+              clearstatcache();
+          }
+      }
+      return $this->fixIntegerOverflow(filesize($file_path));
+  }
+    
+  // Fix for overflowing signed 32 bit integers,
+  // works for sizes up to 2^32-1 bytes (4 GiB - 1):
+  protected function fixIntegerOverflow($size) {
+      if ($size < 0) {
+          $size += 2.0 * (PHP_INT_MAX + 1);
+      }
+      return $size;
+  }
+  
   public function getJoinQuery($select, $linked_item_id = '', $is_main_pic_only = 0) {
-    $select -> joinLeft(array('img' => 'image'), 'img.item_id=' . $linked_item_id, array('img_titles' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.title,''))"), 'img_descriptions' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.description,''))"), 'img_positions' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.position,''))"), 'img_filenames' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.filename,''))"), 'img_is_main_pics' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.is_main_pic,''))"))) -> group($linked_item_id);
+    $select -> joinLeft(array('img' => 'image'), 'img.item_id=' . $linked_item_id, array('img_captions' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.caption,''))"), 'img_positions' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.position,''))"), 'img_filenames' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.filename,''))"), 'img_is_main_pics' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.is_main_pic,''))"))) -> group($linked_item_id);
     //->order('img_positions');
     if ($is_main_pic_only == 1) {
       $select -> where('img.is_main_pic = 1');
