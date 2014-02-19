@@ -1,5 +1,7 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
-<?php echo $this -> partial('js/event.phtml', array('place_lat'=>$this->item->place_lat, 'place_lng'=>$this->item->place_lng)); ?>
+<?php echo $this -> partial('js/event.phtml', array(
+  'place_lat'=>$this->item->place_lat, 'place_lng'=>$this->item->place_lng,
+  'event_id'=>$this->item->id)); ?>
 <div class="main shadow">
     <div class="event_detail">
         <article data-id="<?php echo $this->item->id; ?>" class="detail_div clearfix <?php if (isset($this->item->is_like) && $this->item->is_like==1){ ?>bookmarked<?php } ?>">

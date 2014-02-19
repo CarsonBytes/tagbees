@@ -187,3 +187,42 @@
 <!--[if (gte IE 8)&(lt IE 10)]>
 <script src="js/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
+<script type="text/javascript">
+$(function () {
+  'use strict';
+  // Initialize the jQuery File Upload widget:
+  $('#fileupload').fileupload({
+      // Uncomment the following to send cross-domain cookies:
+      //xhrFields: {withCredentials: true},
+      url: 'img_handle',
+      formData: {event_id: <?php echo $this->event_id?>},
+      acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+  });
+
+  // Enable iframe cross-domain access via redirect option:
+  $('#fileupload').fileupload(
+      'option',
+      'redirect',
+      window.location.href.replace(
+          /\/[^\/]*$/,
+          '/cors/result.html?%s'
+      )
+  );
+  
+  $('#fileupload').addClass('fileupload-processing');
+  $.ajax({
+      // Uncomment the following to send cross-domain cookies:
+      //xhrFields: {withCredentials: true},
+      url: $('#fileupload').fileupload('option', 'url'),
+      data: {event_id: <?php echo $this->event_id?>},
+      dataType: 'json',
+      context: $('#fileupload')[0]
+  }).always(function () {
+      $(this).removeClass('fileupload-processing');
+  }).done(function (result) {
+      $(this).fileupload('option', 'done')
+          .call(this, $.Event('done'), {result: result});
+  });
+});
+  
+</script>
