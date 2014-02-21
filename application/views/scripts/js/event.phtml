@@ -11,8 +11,9 @@ var ns_event_detail = {
             width:'900',
             height: $(window).height() - 50,
             buttons: {
-              'Close': function(){ 
+              'Close': function(){
                 $(this).dialog('close'); 
+                jQuery( '#dialog iframe' ).attr( 'src', '');
               } 
             }
           })

@@ -14,6 +14,23 @@
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="<?php echo $this->baseUrl('css/upload/jquery.fileupload.css')?>">
 <link rel="stylesheet" href="<?php echo $this->baseUrl('css/upload/jquery.fileupload-ui.css')?>">
+<style>
+.save_status{
+  float: right;
+  height:18px;
+  color: red;
+}
+.save_status .saving, .save_status .saved{
+  display: none;
+}
+.img_position{
+  width: 60px;
+}
+.img_position form input{
+  width:40px;
+  text-align: center
+}
+</style>
 <!-- CSS adjustments for browsers with JavaScript disabled -->
 <noscript><link rel="stylesheet" href="<?php echo $this->baseUrl('css/upload/jquery.fileupload-noscript.css')?>"></noscript>
 <noscript><link rel="stylesheet" href="<?php echo $this->baseUrl('css/upload/jquery.fileupload-ui-noscript.css')?>"></noscript>
@@ -25,7 +42,7 @@
         <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="fileupload-buttonbar">
-            <div class="col-lg-7">
+            <div class="col">
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
@@ -45,6 +62,10 @@
                     <span>Delete</span>
                 </button>
                 <input type="checkbox" class="toggle">
+                <div class="save_status">
+                  <span class="saving"><?php echo $this->translate('Saving...')?></span>
+                  <span class="saved"><?php echo $this->translate('Saved')?></span>
+                </div>
                 <!-- The global file processing state -->
                 <span class="fileupload-process"></span>
             </div>
@@ -116,7 +137,7 @@
                 {% } %}
             </span>
         </td>
-        <td>
+        <?php /*<td>
             <p class="name">
                 {% if (file.url) { %}
                     <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
@@ -127,13 +148,18 @@
             {% if (file.error) { %}
                 <div><span class="label label-danger">Error</span> {%=file.error%}</div>
             {% } %}
-        </td>
+        </td>*/?>
         <td>
-            <!--<span class="size">{%=o.formatFileSize(file.size)%}</span>-->
-      <input type="text" value="" placeholder="captain"/>
+            <?php /*<span class="size">{%=o.formatFileSize(file.size)%}</span>
+      <input type="text" data-filename="{%=file.name%}" id="img_caption_{%=file.name%}" value="" class="img_caption" placeholder="Caption"/>*/?>
+        <div data-attribute="{%=file.name%}" class="img_caption" style="" data-placeholder="Caption...">{%=file.caption%}</div>
         </td>
+        <?php /*
         <td>
-            <p class="name"><label><input type="radio" name="group1" value="Milk" /> Set as front image</label></p>
+            <p class="name"><label><input class="is_main_pic" type="radio" name="is_main_pic" value="{%=file.name%}" /> Set as main picture</label></p>
+        </td>*/ ?>
+        <td>
+          <div data-attribute="{%=file.name%}" class="img_position" style="" data-placeholder="Position...">{%=file.position%}</div>
         </td>
         <td>
             {% if (file.deleteUrl) { %}
@@ -152,7 +178,10 @@
     </tr>
 {% } %}
 </script>
+<?php /* avoid too new because of editinplace plugin about $.browser function
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>*/?>
+<script src="<?php echo $this->baseUrl('js/jquery-1.8.3.min.js'); ?>"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="<?php echo $this->baseUrl('js/upload/vendor/jquery.ui.widget.js'); ?>"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
@@ -181,14 +210,16 @@
 <script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload-validate.js'); ?>"></script>
 <!-- The File Upload user interface plugin -->
 <script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload-ui.js'); ?>"></script>
-<!-- The main application script -->
-<script src="<?php echo $this->baseUrl('js/upload/main.js'); ?>"></script>
+
+<script src="<?php echo $this->baseUrl('js/jinplace-1.0.0.min.js'); ?>"></script>
+<?php /*<!-- The main application script --> 
+<script src="<?php echo $this->baseUrl('js/upload/main.js'); ?>"></script>*/?>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 <!--[if (gte IE 8)&(lt IE 10)]>
 <script src="js/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
 <script type="text/javascript">
-$(function () {
+jQuery(function($) {
   'use strict';
   // Initialize the jQuery File Upload widget:
   $('#fileupload').fileupload({
@@ -196,6 +227,7 @@ $(function () {
       //xhrFields: {withCredentials: true},
       url: 'img_handle',
       formData: {event_id: <?php echo $this->event_id?>},
+      autoUpload: true,
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
   });
 
@@ -207,7 +239,40 @@ $(function () {
           /\/[^\/]*$/,
           '/cors/result.html?%s'
       )
-  );
+  ).bind('fileuploadcompleted', function (e, data) {
+    
+        console.log('done!!');
+    $('.img_position').jinplace({
+      submitFunction: function(opts, value) {
+        if (!ns_iframe_event_image_upload.isNumber(value)) return false;
+        if (ns_iframe_event_image_upload.values[opts.attribute] == value)
+        return value;
+        
+        var data = {};
+        data['position'] = value;
+        data['filename'] = opts.attribute;
+        if (ns_iframe_event_image_upload.updateImageInfos(data)){
+          ns_iframe_event_image_upload.values[opts.attribute] = value;
+          return value;
+        } 
+          
+      }
+    });
+    $('.img_caption').jinplace({
+      submitFunction: function(opts, value) {
+        if (ns_iframe_event_image_upload.values[opts.attribute] == value)
+        return value;
+        
+        var data = {};
+        data['caption'] = value;
+        data['filename'] = opts.attribute;
+        if (ns_iframe_event_image_upload.updateImageInfos(data)){
+          ns_iframe_event_image_upload.values[opts.attribute] = value;
+          return value;
+        } 
+      } 
+    });
+  });
   
   $('#fileupload').addClass('fileupload-processing');
   $.ajax({
@@ -216,13 +281,76 @@ $(function () {
       url: $('#fileupload').fileupload('option', 'url'),
       data: {event_id: <?php echo $this->event_id?>},
       dataType: 'json',
-      context: $('#fileupload')[0]
+      context: $('#fileupload')[0],
+      success: function(){
+        
+      }
   }).always(function () {
       $(this).removeClass('fileupload-processing');
   }).done(function (result) {
-      $(this).fileupload('option', 'done')
-          .call(this, $.Event('done'), {result: result});
+    $(this).fileupload('option', 'done')
+        .call(this, $.Event('done'), {result: result});
+        console.log('done!');
+    $('.img_position').jinplace({
+      submitFunction: function(opts, value) {
+        if (!ns_iframe_event_image_upload.isNumber(value)) return false;
+        if (ns_iframe_event_image_upload.values[opts.attribute] == value)
+        return value;
+        
+        var data = {};
+        data['position'] = value;
+        data['filename'] = opts.attribute;
+        if (ns_iframe_event_image_upload.updateImageInfos(data)){
+          ns_iframe_event_image_upload.values[opts.attribute] = value;
+          return value;
+        } 
+          
+      }
+    });
+    $('.img_caption').jinplace({
+      submitFunction: function(opts, value) {
+        if (ns_iframe_event_image_upload.values[opts.attribute] == value)
+        return value;
+        
+        var data = {};
+        data['caption'] = value;
+        data['filename'] = opts.attribute;
+        if (ns_iframe_event_image_upload.updateImageInfos(data)){
+          ns_iframe_event_image_upload.values[opts.attribute] = value;
+          return value;
+        } 
+      } 
+    });
   });
 });
-  
+var ns_iframe_event_image_upload = {
+  values: {},
+  updateImageInfos: function(data){
+    $('.reminder_save_status .saving').show();
+    var flag = false;
+    $.ajax({
+      type: "POST",
+      url: "<?php echo $this->baseUrl('ajax/image/update_infos') ?>",
+      async: false,
+      data: data,
+      success: function(msg){
+        if(msg['result']==true){
+          $('.save_status .saving').hide();
+          $('.save_status .saved').show().fadeOut("slow");
+          flag = true;
+        }
+      },
+      error: function(){
+        alert ("<?php echo $this->translate('Connection failed. Please try again later.') ?>");
+        $('.save_status .saving').hide();
+        flag = false;
+      },
+      dataType:"json"
+    });
+    return flag;
+  },
+  isNumber: function(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+}
 </script>

@@ -147,8 +147,8 @@ float: right;*/ padding: 2px; border: 1px solid #dfdfdf; width: 246px; overflow:
 
 .trigger_popup_icon { position: absolute; top: 0px; padding: 2px 5px; color: black; background: lightGrey; cursor: pointer; display: none; }
 
-.reminder_save_status { float: right; height: 18px; color: red; }
-.reminder_save_status .saving, .reminder_save_status .saved { display: none; }
+.save_status { float: right; height: 18px; color: red; }
+.save_status .saving, .save_status .saved { display: none; }
 
 /************************************ body end *******************************************************/
 a.button { width: 251px; height: 42px; display: inline-block; cursor: pointer; clear: both; }
