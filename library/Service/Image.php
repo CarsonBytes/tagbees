@@ -4,15 +4,14 @@ class Service_Image {
   protected $config;
   protected $path;
   protected $thumbnail_dir = '/thumbnail';
+  protected $db;
 
   function __construct() {
+    $this->db = Zend_Db_Table::getDefaultAdapter();
     if (Zend_Auth::getInstance() -> hasIdentity()) {
       $this->identity = Zend_Auth::getInstance() -> getIdentity();
-    } else{
-      return false;
+      $this->path = Zend_Registry::get('config_ini') -> upload -> imagePath;
     }
-    $this->path = Zend_Registry::get('config_ini') -> upload -> imagePath;
-    $this->db = Zend_Db_Table::getDefaultAdapter();
   }
 
   public function upload($item_id) {
@@ -244,12 +243,29 @@ class Service_Image {
     }
     return false;
   }
+
+  public function getImageInfos($event_id){
+    $this->db = Zend_Db_Table::getDefaultAdapter();
+    $feed_query=$this->db->select()
+        ->from(
+          array('f'=>'item'),null
+        )
+        ->where('f.id=?',$event_id);
+        
+    $feed_query = $this->getJoinQuery($feed_query, 'f.id');
+    return $this->db->fetchRow($feed_query);
+  }
   
   public function getJoinQuery($select, $linked_item_id = '', $is_main_pic_only = 0) {
-    $select -> joinLeft(array('img' => 'image'), 'img.item_id=' . $linked_item_id, array('img_captions' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.caption,''))"), 'img_positions' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.position,''))"), 'img_filenames' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.filename,''))"), 'img_is_main_pics' => new Zend_Db_Expr("GROUP_CONCAT(ifnull(img.is_main_pic,''))"))) -> group($linked_item_id);
-    //->order('img_positions');
+    $select -> joinLeft(array('img' => 'image'), 'img.item_id=' . $linked_item_id, array(
+    'img_captions' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.caption,'') SEPARATOR '||')"), 
+    'img_positions' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.position,'') SEPARATOR '||')"), 
+    'img_filenames' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.filename,'') SEPARATOR '||')"), 
+    'img_is_main_pics' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.is_main_pic,''))"))) -> group($linked_item_id);
     if ($is_main_pic_only == 1) {
-      $select -> where('img.is_main_pic = 1');
+      $select 
+        -> where('img.is_main_pic = 1')
+        -> order('img.position ASC');
     };
     return $select;
   }

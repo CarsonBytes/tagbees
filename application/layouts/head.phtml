@@ -11,14 +11,13 @@
         ->appendStylesheet('jquery.qtip.css')
         ->appendStylesheet('ui-lightness/jquery-ui-1.10.3.custom.min.css')
         ->appendStylesheet('main.css')
-        ->appendStylesheet('colorbox.css')
-        ->appendStylesheet('css/wittysparks_checkbox_radio.css');
+        ->appendStylesheet('colorbox.css');
     ?>
+    <link href="<?php echo $this->baseUrl('css/wittysparks_checkbox_radio.css')?>" rel="stylesheet" type="text/css" media="all">
     
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
         <script src="http://maps.googleapis.com/maps/api/js?key=<?php echo Zend_Registry::get('config_ini')->google->api_key ?>&sensor=false&amp;libraries=places&amp;region=hk&amp;language=<?php echo Common::getSiteDisplayLang();?>" type="text/javascript"></script>
     <?php } ?>
-    
     <?php $this->minifyHeadScript()
         ->prependFile('jquery-ui-1.10.3.custom.js')
         ->prependFile('jquery-migrate-1.2.1.min.js')
@@ -70,17 +69,16 @@
     <![endif]--> 
 
 <?php echo $this->partial('js/common/head.phtml')?>
-<?php /*
+
 <meta property="fb:admins" content="704017191"/>
 <meta property="fb:app_id" content="84480145981"/>
-<meta property="og:url" content="http://atticho.no-ip.biz/tagbees_refactored/phpinfo.php" />
+<meta property="og:url" content="<?php echo Common::getSession()->baseUrl ?>" />
 <meta property="og:image" content="https://fbstatic-a.akamaihd.net/rsrc.php/v2/y6/r/YQEGe6GxI_M.png" />
-<meta property="og:site_name" content="Facebook Developers" />
-<meta property="og:title" content="Social Plugins" />
+<meta property="og:site_name" content="Tagees" />
+<meta property="og:title" content="Tagees" />
 <meta property="og:type" content="article" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:description" content="Social plugins let you see what your friends have liked, commented on or shared on sites across the web." />
- */?>
+<meta property="og:description" content="Tagees let you share your public events with everyone interesting around the world." />
 </head>
 
 <div id="fb-root"></div>

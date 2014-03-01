@@ -5,12 +5,12 @@ class Iframe_EventController extends Zend_Controller_Action
 	
   public function init()
   {
-    if (!Zend_Auth::getInstance()->hasIdentity()){
-        return false;
-    }
   }
   
   public function imgUploadFormAction(){
+    if (!Zend_Auth::getInstance()->hasIdentity()){
+        return false;
+    }
     if (is_numeric($this->_getParam('event_id'))){
       $this->view->event_id = $this->_getParam('event_id');
     }else{
@@ -20,6 +20,9 @@ class Iframe_EventController extends Zend_Controller_Action
   }
   
   public function imgHandleAction(){
+    if (!Zend_Auth::getInstance()->hasIdentity()){
+        return false;
+    }
     $this->_helper->layout->disableLayout();
     $imageService = new Service_Image();
     if($this->getRequest()->isPost()){
@@ -37,6 +40,16 @@ class Iframe_EventController extends Zend_Controller_Action
       if (is_string($this->_getParam('filename')))
         $this->_helper->json($imageService->delete($this->_getParam('filename')));
       else  $this->_helper->json(false);
+    }
+  }
+  
+  public function imgGalleryAction(){
+    if (is_numeric($this->_getParam('event_id'))){
+      $imageService = new Service_Image();
+      $this->view->img = $imageService->getImageInfos($this->_getParam('event_id'));
+    }else{
+      $this->_helper->layout->disableLayout();
+      return false;
     }
   }
 }

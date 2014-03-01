@@ -7,9 +7,7 @@ class EventController extends Zend_Controller_Action
     }
     
     public function indexAction()
-    {
-      $this->view->url = $this->getRequest()->getScheme() . '://' .$this->_request->getHttpHost() . $this->_request->getRequestUri() ;
-      
+    {      
       if ($this->_request->getParam('slug_name')==""){
       }else{
         $itemService=new Service_Item();
@@ -35,11 +33,13 @@ class EventController extends Zend_Controller_Action
           
           //$this->view->item=$result['item'];
           $this->view->item=$result['data'][0];
-          $this->view->have_gallery=1;
+          //$this->view->have_gallery=1;
           //$this->view->related_categories=$this->view->item->related_categories;
           $this->view->result=1;
           
           $this->view->headTitle($this->view->item->name);
+          
+          $this->view->gallery_url = Common::getSession()->baseUrl . '/iframe/event/img_gallery?event_id='.$this->view->item->id ;
           
           Common::getSession()->nav=array(
               'Home' => '/',

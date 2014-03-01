@@ -5,15 +5,13 @@
 <![endif]-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<?php echo $this->minifyHeadLink()
+    ->appendStylesheet('upload/jquery.fileupload.css')
+    ->appendStylesheet('upload/jquery.fileupload-ui.css');
+?>
 <!-- Bootstrap styles -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-<!-- Generic page styles 
-<link rel="stylesheet" href="<?php echo $this->baseUrl('css/upload/style.css')?>">-->
-<!-- blueimp Gallery styles 
-<link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">-->
-<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-<link rel="stylesheet" href="<?php echo $this->baseUrl('css/upload/jquery.fileupload.css')?>">
-<link rel="stylesheet" href="<?php echo $this->baseUrl('css/upload/jquery.fileupload-ui.css')?>">
 <style>
 .save_status{
   float: right;
@@ -178,42 +176,23 @@
     </tr>
 {% } %}
 </script>
-<?php /* avoid too new because of editinplace plugin about $.browser function
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>*/?>
-<script src="<?php echo $this->baseUrl('js/jquery-1.8.3.min.js'); ?>"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="<?php echo $this->baseUrl('js/upload/vendor/jquery.ui.widget.js'); ?>"></script>
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script> 
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<!-- blueimp Gallery script 
-<script src="<?php echo $this->baseUrl('js/upload/jquery.blueimp-gallery.min.js'); ?>"></script>-->
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="<?php echo $this->baseUrl('js/upload/jquery.iframe-transport.js'); ?>"></script>
-<!-- The basic File Upload plugin -->
-<script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload.js'); ?>"></script>
-<!-- The File Upload processing plugin -->
-<script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload-process.js'); ?>"></script>
-<!-- The File Upload image preview & resize plugin -->
-<script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload-image.js'); ?>"></script>
-<!-- The File Upload audio preview plugin -->
-<script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload-audio.js'); ?>"></script>
-<!-- The File Upload video preview plugin -->
-<script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload-video.js'); ?>"></script>
-<!-- The File Upload validation plugin -->
-<script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload-validate.js'); ?>"></script>
-<!-- The File Upload user interface plugin -->
-<script src="<?php echo $this->baseUrl('js/upload/jquery.fileupload-ui.js'); ?>"></script>
 
-<script src="<?php echo $this->baseUrl('js/jinplace-1.0.0.min.js'); ?>"></script>
-<?php /*<!-- The main application script --> 
-<script src="<?php echo $this->baseUrl('js/upload/main.js'); ?>"></script>*/?>
+<?php echo $this->minifyHeadScript()
+        ->prependFile('jquery-1.8.3.min.js')
+        ->appendFile('upload/vendor/blueimp/tmpl.min.js')
+        ->appendFile('upload/vendor/blueimp/load-image.min.js')
+        ->appendFile('upload/vendor/blueimp/canvas-to-blob.min.js')
+        ->appendFile('upload/vendor/jquery.ui.widget.js')
+        ->appendFile('upload/jquery.iframe-transport.js')
+        ->appendFile('upload/jquery.fileupload.js')
+        ->appendFile('upload/jquery.fileupload-process.js')
+        ->appendFile('upload/jquery.fileupload-image.js')
+        ->appendFile('upload/jquery.fileupload-audio.js')
+        ->appendFile('upload/jquery.fileupload-video.js')
+        ->appendFile('upload/jquery.fileupload-validate.js')
+        ->appendFile('upload/jquery.fileupload-ui.js')
+        ->appendFile('jinplace-1.0.0.min.js');
+?>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 <!--[if (gte IE 8)&(lt IE 10)]>
 <script src="js/cors/jquery.xdr-transport.js"></script>
@@ -240,8 +219,7 @@ jQuery(function($) {
           '/cors/result.html?%s'
       )
   ).bind('fileuploadcompleted', function (e, data) {
-    
-        console.log('done!!');
+    ns_iframe_event_image_upload.updateNumOfUploaded();
     $('.img_position').jinplace({
       submitFunction: function(opts, value) {
         if (!ns_iframe_event_image_upload.isNumber(value)) return false;
@@ -257,21 +235,13 @@ jQuery(function($) {
         } 
           
       }
-    });
-    $('.img_caption').jinplace({
-      submitFunction: function(opts, value) {
-        if (ns_iframe_event_image_upload.values[opts.attribute] == value)
-        return value;
-        
-        var data = {};
-        data['caption'] = value;
-        data['filename'] = opts.attribute;
-        if (ns_iframe_event_image_upload.updateImageInfos(data)){
-          ns_iframe_event_image_upload.values[opts.attribute] = value;
-          return value;
-        } 
-      } 
-    });
+    })
+  }).bind('fileuploadadded', function (e, data) {
+    ns_iframe_event_image_upload.change_flag = true;
+    ns_iframe_event_image_upload.updateNumOfUploaded();
+  }).bind('fileuploaddestroyed', function (e, data) {
+    ns_iframe_event_image_upload.change_flag = true;
+    ns_iframe_event_image_upload.updateNumOfUploaded();
   });
   
   $('#fileupload').addClass('fileupload-processing');
@@ -290,7 +260,8 @@ jQuery(function($) {
   }).done(function (result) {
     $(this).fileupload('option', 'done')
         .call(this, $.Event('done'), {result: result});
-        console.log('done!');
+    ns_iframe_event_image_upload.updateNumOfUploaded();
+    
     $('.img_position').jinplace({
       submitFunction: function(opts, value) {
         if (!ns_iframe_event_image_upload.isNumber(value)) return false;
@@ -323,8 +294,14 @@ jQuery(function($) {
     });
   });
 });
+var test = true;
 var ns_iframe_event_image_upload = {
+  change_flag: false,
+  num_of_uploaded: null,
   values: {},
+  updateNumOfUploaded: function(){
+    ns_iframe_event_image_upload.num_of_uploaded = $('.table tr.template-download').length;
+  },
   updateImageInfos: function(data){
     $('.reminder_save_status .saving').show();
     var flag = false;
@@ -337,7 +314,7 @@ var ns_iframe_event_image_upload = {
         if(msg['result']==true){
           $('.save_status .saving').hide();
           $('.save_status .saved').show().fadeOut("slow");
-          flag = true;
+          ns_iframe_event_image_upload.change_flag = flag = true;
         }
       },
       error: function(){
@@ -354,3 +331,4 @@ var ns_iframe_event_image_upload = {
   }
 }
 </script>
+</body>
