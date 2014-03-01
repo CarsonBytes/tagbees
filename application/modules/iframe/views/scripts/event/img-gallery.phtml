@@ -39,53 +39,36 @@
         ->appendFile('gallery/jquery.blueimp-gallery.js');
 ?>
 <script type='application/javascript'>
-var filenames;
-var captions;
-var positions;
-var files=[];
 jQuery(function($){
-  
-    filenames = '<?php echo $this->img['img_filenames']?>'.split('||');
-    captions = '<?php echo $this->img['img_captions']?>'.split('||');
-    positions = '<?php echo $this->img['img_positions']?>'.split('||');
-    if (typeof filenames[0] != 'undefined' && filenames[0]!=''){
-        for (i in filenames){
-          var file={};
-          file['filename']=filenames[i];
-          file['caption']=captions[i];
-          file['position']=positions[i];
-          files.push(file);
+  var files = parent.ns_feeds.setImgFiles('<?php echo $this->img['img_filenames']?>', '<?php echo $this->img['img_captions']?>', '<?php echo $this->img['img_positions']?>');
+  if (files.length!=0){
+    // Initialize the Gallery as image carousel:
+    var carouselLinks = [];
+    var uplaodsUrl = '<?php echo Common::getSession()->baseUrl ?>/uploads/';
+    var i;
+    for (i in files){
+      var link = {
+          href: uplaodsUrl + files[i]['filename'],
+          thumbnail: uplaodsUrl + 'thumbnail/'+ files[i]['filename']
+      };
+      if (typeof files[i]['captions'] == 'undefined') link['title'] = '';
+      else link['title'] = files[i]['captions'];
+      
+      carouselLinks.push(link);
+    };
+    blueimp.Gallery(carouselLinks, {
+        container: '#event_gallery',
+        carousel: true,
+        hidePageScrollbars: false,
+        thumbnailIndicators: true,
+        startSlideshow: false,
+        emulateTouchEvents: false,
+        enableKeyboardNavigation: true,
+        onopen: function(){
+          this.toggleControls();
         }
-        files.sort(function(a,b) {
-            return a.position - b.position;
-        });
-        // Initialize the Gallery as image carousel:
-        var carouselLinks = [];
-        var uplaodsUrl = '<?php echo Common::getSession()->uplaodsUrl ?>/uploads/';
-        var i;
-        for (i in files){
-          var link = {
-              href: uplaodsUrl + files[i]['filename'],
-              thumbnail: uplaodsUrl + 'thumbnail/'+ files[i]['filename']
-          };
-          if (typeof files[i]['captions'] == 'undefined') link['title'] = '';
-          else link['title'] = files[i]['captions'];
-          
-          carouselLinks.push(link);
-        };
-        blueimp.Gallery(carouselLinks, {
-            container: '#event_gallery',
-            carousel: true,
-            hidePageScrollbars: false,
-            thumbnailIndicators: true,
-            startSlideshow: false,
-            emulateTouchEvents: false,
-            enableKeyboardNavigation: true,
-            onopen: function(){
-              this.toggleControls();
-            }
-        });
-      }
+    });
+  }
 });
 </script>
 </body>

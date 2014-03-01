@@ -6,11 +6,31 @@ var ns_feeds = {
   map_markers_data: [],
   changed_feed_input_names: [],
   is_refreshing : false,
+  setImgFiles: function(filenames, captions, positions){
+    var files=[];
+    var filenames = filenames.split('||');
+    var captions = captions.split('||');
+    var positions = positions.split('||');
+    
+    if (typeof filenames[0] != 'undefined' && filenames[0] != ''){
+      for (i in filenames){
+        var file={};
+        file['filename']=filenames[i];
+        file['caption']=captions[i];
+        file['position']=positions[i];
+        files.push(file);
+      }
+      files.sort(function(a,b) {
+          return a.position - b.position;
+      });
+    }
+    return files;
+  },
   <?php // render any kinds of feed and/or more html based on javascript template ?>
   render: function(data_arr, more_flag, template_id){
     if (typeof more_flag == 'undefined') var more_flag=false;
     if (typeof template_id == 'undefined') var template_id = 'feed_index_item';
-      var feeds_html = ns_feeds.getHTML(data_arr, template_id);
+      var feeds_html = this.getHTML(data_arr, template_id);
       
       if (more_flag) feeds_html.appendTo( ".feeds_and_more .feeds");
       else $(".feeds_and_more .feeds").html(feeds_html);
@@ -23,32 +43,31 @@ var ns_feeds = {
           $('.load_more_feeds .more').show();
       }
       
-      var popup_content = ns_feeds.getHTML(data_arr, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
+      var popup_content = this.getHTML(data_arr, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
       $('body').append(popup_content);
       
-      ns_feeds.attachEvents();
+      this.attachEvents();
   },
   getHTML: function(data_arr, template_id, custom_functions){
     if (typeof template_id == 'undefined') var template_id = 'feed_index_item';
     if (typeof custom_functions == 'undefined') var custom_functions = {};
-    
+    console.log(data_arr);
+    var self = this;
     var functions = $.extend(true, {}, {
         getMainPicTitle: function(){
-            var img_is_main_pics =this.data.img_is_main_pics.split(',');
+            <?php /*var img_is_main_pics =this.data.img_is_main_pics.split(',');
             var img_captions =this.data.img_captions.split(',');
             for( index in img_is_main_pics){
                 if (img_is_main_pics[index] == 1){
                     return img_captions[index];
                 }
-            }
+            }*/ ?>
+            return '';
         },
         getMainPicURL: function(){
-            var img_is_main_pics =this.data.img_is_main_pics.split(',');
-            var img_filenames =this.data.img_filenames.split(',');
-            for( index in img_is_main_pics){
-                if (img_is_main_pics[index] == 1){
-                    return '<?php echo $this->baseUrl('uploads');?>/'+img_filenames[index];
-                }
+          var files = self.setImgFiles(this.data.img_filenames, this.data.img_captions, this.data.img_positions);
+            if (files.length!=0){
+                return '<?php echo $this->baseUrl('uploads/thumbnail');?>/'+files[0]['filename'];
             }
             return '<?php echo Common::changePathToURL(Common::config()->pics->event->public);?>';
         },
@@ -167,7 +186,7 @@ var ns_feeds = {
     });
   },
   addChangedFeedInputName: function(element){
-    if ($.inArray(element.prop('name'),ns_feeds.changed_feed_input_names) == -1)ns_feeds.changed_feed_input_names.push(element.prop('name'));
+    if ($.inArray(element.prop('name'),this.changed_feed_input_names) == -1)this.changed_feed_input_names.push(element.prop('name'));
   },
   validateSidebarSearchInputs: function(){
     if (feed_search_form.form()){
@@ -187,17 +206,18 @@ var ns_feeds = {
     if (type == 'index'){
         if ( !more_flag ){
             $.address.update();
-            ns_feeds.feed_para.last_id = null;
+            this.feed_para.last_id = null;
         }
-        if (para != []) para = ns_feeds.feed_para;
+        if (para != []) para = this.feed_para;
     } 
     
     para['type'] = type;
     
     
-    if(!ns_feeds.is_refreshing){
+    if(!this.is_refreshing){
         $('.loading.feed').show();
-        ns_feeds.is_refreshing = true;
+        this.is_refreshing = true;
+        var self = this;
         jQuery.ajax({
           url: "<?php echo $this->baseUrl('ajax/feed/refresh') ?>",
           data: para,
@@ -211,26 +231,26 @@ var ns_feeds = {
             if ($.isEmptyObject(response.data)){
               ns_common_foot.hideMoreButton(more_flag);
               if (typeof ns_filter_map != 'undefined') {
-                ns_feeds.map_markers_data = response.data;
+                this.map_markers_data = response.data;
                 if (more_flag) ns_filter_map.addMarkers();
                 else ns_filter_map.removeMarkers();
               }
             } else {
               if (type == 'index') {
                 <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                    ns_feeds.map_markers_data = response.data;
+                    self.map_markers_data = response.data;
                     if (more_flag) ns_filter_map.addMarkers();
                     else ns_filter_map.refreshMarkers();
                 <?php } ?>
-                ns_feeds.render(response, more_flag);
+                self.render(response, more_flag);
               } else if (type == 'user_log'){
                 renderUserLogs(response, more_flag);
               } else if ((type == 'tree_feeds')|| (type == 'tag_events')){
                   //renderTreeFeeds(response, more_flag);
-                ns_feeds.render(response, more_flag);
+                self.render(response, more_flag);
               }
             }
-            ns_feeds.is_refreshing = false;
+            self.is_refreshing = false;
             $('.loading.feed').hide();
             return true;
           }
@@ -252,28 +272,28 @@ var ns_feeds = {
   updateVariableAndUrlParamFromFeedInput: function(element){
     if (element.is('.feed_filter_input[name="is_match_interest"]') || element.is('.feed_filter_input[name="is_match_location"]') || element.is('.feed_filter_input[name="is_all_time"]')){
         var value = element.is(':checked') ? 1 : 0;
-        ns_feeds.feed_para[element.prop('name')] = value;
-        ns_feeds.updateUrlParam(element.prop('name'), value);
+        this.feed_para[element.prop('name')] = value;
+        this.updateUrlParam(element.prop('name'), value);
         if (element.is('.feed_filter_input[name="is_all_time"]')){
-            ns_feeds.updateUrlParam('is_all_time', value);
+            this.updateUrlParam('is_all_time', value);
             if (value == 1){
-                ns_feeds.feed_para['begin_date'] = null;
-                ns_feeds.feed_para['end_date'] = null;
-                ns_feeds.updateUrlParam('begin_date', false);
-                ns_feeds.updateUrlParam('end_date', false);
+                this.feed_para['begin_date'] = null;
+                this.feed_para['end_date'] = null;
+                this.updateUrlParam('begin_date', false);
+                this.updateUrlParam('end_date', false);
             } else{
-                ns_feeds.feed_para['begin_date'] = $('.feed_filter_input[name="begin_date"]').val();
-                ns_feeds.feed_para['end_date'] = $('.feed_filter_input[name="end_date"]').val();
-                ns_feeds.updateUrlParam('begin_date', $('.feed_filter_input[name="begin_date"]').val());
-                ns_feeds.updateUrlParam('end_date', $('.feed_filter_input[name="end_date"]').val());
+                this.feed_para['begin_date'] = $('.feed_filter_input[name="begin_date"]').val();
+                this.feed_para['end_date'] = $('.feed_filter_input[name="end_date"]').val();
+                this.updateUrlParam('begin_date', $('.feed_filter_input[name="begin_date"]').val());
+                this.updateUrlParam('end_date', $('.feed_filter_input[name="end_date"]').val());
             }
         }
     } else if (element.is('.feed_filter_input[name="sort_by"]') || element.is('.feed_filter_input[name="q"]') || element.is('.feed_filter_input[name="begin_date"]') || element.is('.feed_filter_input[name="end_date"]')){
-        ns_feeds.feed_para[element.prop('name')] = element.val();
-        ns_feeds.updateUrlParam(element.prop('name'), element.val());
+        this.feed_para[element.prop('name')] = element.val();
+        this.updateUrlParam(element.prop('name'), element.val());
     } else if (element.is('.feed_filter_input[name="is_show_map"]')){ // this doesn't load the feed again so url needs to update instantly
-        ns_feeds.feed_para[element.prop('name')] = element.val();
-        ns_feeds.updateUrlParam(element.prop('name'), element.val(), true);
+        this.feed_para[element.prop('name')] = element.val();
+        this.updateUrlParam(element.prop('name'), element.val(), true);
         
     }
   },
@@ -284,15 +304,15 @@ var ns_feeds = {
   },
   <?php //update feed option inputs from ns_feeds.feed_para ?>
   updateFeedInputsFromVariables: function(){
-    for (key in ns_feeds.feed_para){
+    for (key in this.feed_para){
         if (key == 'is_match_interest' || key == 'is_match_location' || key == 'is_all_time' || key == 'is_show_map'){
-            if (ns_feeds.feed_para[key] == 1) {
+            if (this.feed_para[key] == 1) {
                 jQuery('.feed_filter_input[name="'+key+'"]').prop('checked','checked');
             } else {
                 jQuery('.feed_filter_input[name="'+key+'"]').removeProp('checked','checked');
             }
             if (key == 'is_show_map'){
-                if (ns_feeds.feed_para[key] == 1){
+                if (this.feed_para[key] == 1){
                    $('#map_wrapper').show();
                     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
                         ns_filter_map.initMap();
@@ -300,22 +320,22 @@ var ns_feeds = {
                 }
             }
         } else if (key == 'sort_by'){
-            ns_feeds.updateSortByInput(ns_feeds.feed_para[key]);
+            this.updateSortByInput(this.feed_para[key]);
         } else if (key == 'q') { 
         } else if (key == 'radius') {
-            $('.feed_filter_input[name="'+key+'"]').val(ns_feeds.feed_para[key]);
-            $('#filter_radius').text(ns_feeds.feed_para[key]);
+            $('.feed_filter_input[name="'+key+'"]').val(this.feed_para[key]);
+            $('#filter_radius').text(this.feed_para[key]);
         } else if (key == 'begin_date' || key == 'end_date') {
-            $('.feed_filter_input[name="'+key+'"]').datepicker("setDate", ns_feeds.feed_para[key] );
+            $('.feed_filter_input[name="'+key+'"]').datepicker("setDate", this.feed_para[key] );
         }
     }
-    if (ns_feeds.feed_para['is_match_location']==1){
+    if (this.feed_para['is_match_location']==1){
         jQuery('.match_location_set').show();
     } else {
         jQuery('.match_location_set').hide();
     }
 
-    if ( !("is_all_time" in ns_feeds.feed_para) ||  ns_feeds.feed_para['is_all_time']==1){
+    if ( !("is_all_time" in this.feed_para) ||  this.feed_para['is_all_time']==1){
         jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').prop('disabled','disabled');
     } else {
         jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').removeProp('disabled');
@@ -356,7 +376,7 @@ jQuery(function($){
     );
     
     $.address.autoUpdate(false);
-    if ($('.feeds.index').length) ns_feedss_index_events.initIndexFeed();
+    if ($('.feeds.index').length) ns_feeds_index_events.initIndexFeed();
     $('body#index')
       <?php // event that the submit button is needed to be clicked before searching, e.g. search field ?>
       .on('change keyup', '#feed_search input[name="q"], #feed_search input[name="is_all_time"], #feed_search input[name="begin_date"], #feed_search input[name="end_date"]', function(){

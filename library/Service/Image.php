@@ -260,13 +260,14 @@ class Service_Image {
     $select -> joinLeft(array('img' => 'image'), 'img.item_id=' . $linked_item_id, array(
     'img_captions' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.caption,'') SEPARATOR '||')"), 
     'img_positions' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.position,'') SEPARATOR '||')"), 
-    'img_filenames' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.filename,'') SEPARATOR '||')"), 
-    'img_is_main_pics' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.is_main_pic,''))"))) -> group($linked_item_id);
-    if ($is_main_pic_only == 1) {
-      $select 
-        -> where('img.is_main_pic = 1')
-        -> order('img.position ASC');
-    };
+    'img_filenames' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.filename,'') SEPARATOR '||')")))/*, 
+    'img_is_main_pics' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT ifnull(img.is_main_pic,''))")))*/ 
+    -> group($linked_item_id);
+    //if ($is_main_pic_only == 1) {
+      //$select 
+        //-> where('img.is_main_pic = 1')
+        //-> order('img.position ASC');
+    //};
     return $select;
   }
 

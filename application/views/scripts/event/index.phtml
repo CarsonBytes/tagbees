@@ -15,7 +15,7 @@
               <h3 class="head4"><?php echo $this->item->name; ?></h3>
           </header>
         <div class="main_details clearfix">
-          <iframe class="img_gallery" height="380" width="100%" src="<?php echo $this->gallery_url ?>"></iframe>
+          <iframe class="img_gallery" height="<?php echo $this->item->img_filenames=='' ? 0 : 380?>" width="100%" src="<?php echo $this->gallery_url ?>"></iframe>
           <div class="d_l">
             <table class="d_table">
                 <?php //time ?>
@@ -130,13 +130,6 @@
 <?php echo $this -> partial('js/event.phtml', array('item'=>$this->item)) ?>
 <script type="text/javascript">
 jQuery(function($){
-  $('iframe.img_gallery').load(function(){
-    if ($('iframe.img_gallery').get(0).contentWindow.filenames[0]==''){
-      $( 'iframe.img_gallery' ).attr( 'height', '0');
-    }else{
-      $( 'iframe.img_gallery' ).attr( 'height', '380');
-    }
-  })
   var popup_content = ns_feeds.getHTML(jQuery.parseJSON('<?php echo json_encode($this->array_result) ?>'), 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
   $('body').append(popup_content);
   ns_event_detail.init();
