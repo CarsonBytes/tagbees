@@ -6,7 +6,7 @@ var ns_feeds = {
   map_markers_data: [],
   changed_feed_input_names: [],
   is_refreshing : false,
-  setImgFiles: function(filenames, captions, positions){
+  getImgFiles: function(filenames, captions, positions){
     var files=[];
     var filenames = filenames.split('||');
     var captions = captions.split('||');
@@ -65,7 +65,7 @@ var ns_feeds = {
             return '';
         },
         getMainPicURL: function(){
-          var files = self.setImgFiles(this.data.img_filenames, this.data.img_captions, this.data.img_positions);
+          var files = self.getImgFiles(this.data.img_filenames, this.data.img_captions, this.data.img_positions);
             if (files.length!=0){
                 return '<?php echo $this->baseUrl('uploads/thumbnail');?>/'+files[0]['filename'];
             }
@@ -111,20 +111,20 @@ var ns_feeds = {
               return $.datepicker.formatDate('dd M yy', ns_common_foot.mysqlTimeStampToDate(arguments[0]));
         },
         tagHTML: function() {
-            var tag_slug_names =this.data.tag_slug_names.split(',');
-            var tag_names =this.data.tag_names.split(',');
-            var tag_types =this.data.tag_types.split(',');
-            var html = [];
-            for( index in tag_slug_names){
-              if (tag_names[index]!='' && tag_slug_names[index]!='' && tag_slug_names[index]!='')
-                  html.push('<a href="<?php echo $this->baseUrl();?>/'+tag_types[index]+'/'+tag_slug_names[index]+'">'+tag_names[index]+'</a>');
-            }
-            return html.join(', ');
+          return self.getTagHTML(this.data.tag_slug_names.split(','), this.data.tag_names.split(','), this.data.tag_types.split(','));
         }
     } , custom_functions);
     
     //console.log(data_arr);
     return $( "#"+template_id ).tmpl(data_arr.data,functions);
+  },
+  getTagHTML: function(tag_slug_names, tag_names, tag_types){
+    var html = [];
+    for( index in tag_slug_names){
+      if (tag_names[index]!='' && tag_slug_names[index]!='' && tag_slug_names[index]!='')
+          html.push('<a href="<?php echo $this->baseUrl();?>/'+tag_types[index]+'/'+tag_slug_names[index]+'">'+tag_names[index]+'</a>');
+    }
+    return html.join(', ');
   },
   attachEvents: function(){
     
@@ -371,7 +371,7 @@ jQuery(function($){
     ns_feeds.default_feed_para['end_date'] = $.datepicker.formatDate('yy-mm-dd', end_date);
     ns_feeds.default_feed_para = $.extend(
         true, 
-        jQuery.parseJSON('<?php echo json_encode(Zend_Registry::get('config')->filter->user_para->toArray()) ?>'),
+        <?php echo json_encode(Zend_Registry::get('config')->filter->user_para->toArray()) ?>,
         ns_feeds.default_feed_para
     );
     

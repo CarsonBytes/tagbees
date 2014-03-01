@@ -114,6 +114,9 @@
           <?php echo htmlspecialchars_decode(urldecode($this->item->description)) ?>
         </div>
         <footer>
+          <div class="tag_l left">
+              <strong>Tags:</strong><span class="tag_html"></span>
+          </div>
           <div class="tag_r">
               by <a target="_blank" href="<?php echo $this->baseUrl('user').'/'.$this->item->submitter_slug_name ;?>"><?php echo $this->item->submitter_name ?></a>| <abbr class="timeago" title="<?php echo $this->item->create_time ?>">
           </div>
@@ -130,7 +133,11 @@
 <?php echo $this -> partial('js/event.phtml', array('item'=>$this->item)) ?>
 <script type="text/javascript">
 jQuery(function($){
-  var popup_content = ns_feeds.getHTML(jQuery.parseJSON('<?php echo json_encode($this->array_result) ?>'), 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
+  var tag_slug_names ='<?php echo $this->item->tag_slug_names?>'.split(',');
+  var tag_names ='<?php echo $this->item->tag_names?>'.split(',');
+  var tag_types ='<?php echo $this->item->tag_types?>'.split(',');
+  $('.tag_html').html(ns_feeds.getTagHTML(tag_slug_names, tag_names, tag_types));
+  var popup_content = ns_feeds.getHTML(<?php echo json_encode($this->array_result) ?>, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
   $('body').append(popup_content);
   ns_event_detail.init();
 })

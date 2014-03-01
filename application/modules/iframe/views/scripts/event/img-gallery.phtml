@@ -40,7 +40,7 @@
 ?>
 <script type='application/javascript'>
 jQuery(function($){
-  var files = parent.ns_feeds.setImgFiles('<?php echo $this->img['img_filenames']?>', '<?php echo $this->img['img_captions']?>', '<?php echo $this->img['img_positions']?>');
+  var files = parent.ns_feeds.getImgFiles('<?php echo $this->img['img_filenames']?>', '<?php echo $this->img['img_captions']?>', '<?php echo $this->img['img_positions']?>');
   if (files.length!=0){
     // Initialize the Gallery as image carousel:
     var carouselLinks = [];

@@ -28,7 +28,7 @@
         </div>
 
 <script type="text/javascript">
-     var user_bookmarks = jQuery.parseJSON('<?php echo json_encode($this->bookmarks) ?>');
+     var user_bookmarks = <?php echo json_encode($this->bookmarks) ?>;
      
      console.log(user_bookmarks);
     

@@ -1,6 +1,6 @@
 <script type="text/javascript">
   var ns_common_head = {
-    flash_messages: jQuery.parseJSON('<?php echo json_encode(Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->getMessages()) ?>'),
+    flash_messages: <?php echo json_encode(Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->getMessages()) ?>,
     jQDialog: function(title, contentUrl, params, buttons) {
       <?php //if (!width) var width='500';
       //if (!height) var height='500';
