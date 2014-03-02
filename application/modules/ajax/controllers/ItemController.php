@@ -57,8 +57,9 @@ class Ajax_ItemController extends Zend_Controller_Action
 
 		$select = $this->db->select()
 			->from(array('i'=>'item'),array('id','type','name','slug_name','score'))
-			->where('i.type not like ?','%category%')
-			->joinLeft(array('ui'=>'user_bookmark'),
+			//->where('i.type not like ?','%category%')
+      ->where('i.type in (?)',array('tag','user','tree_tag'))
+      ->joinLeft(array('ui'=>'user_bookmark'),
                     'ui.item_id = i.id',
 					array(
 		            	'count' => 'COUNT(ui.item_id)'

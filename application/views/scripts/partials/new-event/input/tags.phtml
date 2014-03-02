@@ -128,17 +128,20 @@
     })
     .on('click','#new_event_switch_tags_selected_or_all a',function(e){
       if ($(this).hasClass('selected')){
-        $('#new_event_tag_items .inner').text('');
+        $('#new_event_tag_items .backup').html($('#new_event_tag_items .inner').html());
+        $('#new_event_tag_items .inner').empty();
         for (var i =0 ; i <selected_items.length;i++){
           $('#new_event_tag_items .inner').append('<div class="item" id="item_'+selected_items[i]+'">'+all_items[selected_items[i]].name+'<input class="item_id" type="hidden" value="'+selected_items[i]+'" /></div>');
-          $('.item')
+          $('#new_event_tag_items .inner .item')
             .css('background','yellow')
             .data('selected',true);
           $('#new_event_filter_tags_by_keyword').val('');
         }
         $('.all').removeClass('pressed');
       }else{
-        getTagsByTerm(term);
+        $('#new_event_tag_items .inner').html($('#new_event_tag_items .backup').html());
+        $('#new_event_tag_items .backup').empty();
+        <?php /*getTagsByTerm(term);*/?>
         $('.selected').removeClass('pressed');
       }
       $(this).addClass('pressed');

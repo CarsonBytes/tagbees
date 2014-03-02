@@ -81,6 +81,7 @@ jQuery(function($){
               ns_new_event.event_dates.not( this ).datepicker( "option", option, date );
           },
       });
+      $('#new_event_begin_date, #new_event_end_date').val($.datepicker.formatDate('yy-mm-dd', ns_common_head.today));
       
       if (is_reload){
         
@@ -115,7 +116,8 @@ jQuery(function($){
           }
         }).on('change','#new_event_is_any_time, #new_event_is_all_day', function(){
               ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
-        }).on('click');
+      })
+      .on('click', function(){
       
         //check inputs
         ns_new_event.updateFromHiddenInputs();
@@ -123,16 +125,20 @@ jQuery(function($){
         ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
         
         tinymce_ns.init('#new_event_description');
+      })
       }
       
-      $('#new_event_begin_time').watermark("<?php echo $this->translate('new_event_begin_time') ?>");
-      $('#new_event_end_time').watermark("<?php echo $this->translate('new_event_end_time') ?>");
+      $('#new_event_begin_time').watermark("<?php echo $this->translate('new_event_begin_time') ?>").val(ns_common_head.today.getHours()+':'+ns_common_head.today.getMinutes());
+      $('#new_event_end_time').watermark("<?php echo $this->translate('new_event_end_time') ?>").val(ns_common_head.today.getHours()+1 +':'+ns_common_head.today.getMinutes());
       $('#new_event_begin_date').watermark("<?php echo $this->translate('new_event_begin_date') ?>");
       $('#new_event_end_date').watermark("<?php echo $this->translate('new_event_end_date') ?>");
       $('#new_event_max_price').watermark("<?php echo $this->translate('new_event_max_price') ?>");
       $('#new_event_min_price').watermark("<?php echo $this->translate('new_event_min_price') ?>");
      },
      updatePeriodInputs: function(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
+      /*if ($('#new_event_begin_time').val()<=
+        // to do check if begin time is equal or later than end time
+      })*/
       if (is_any_time_input.is(':checked')){
         begin_date_input.prop('disabled',true);
         end_date_input.prop('disabled',true);

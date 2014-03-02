@@ -1,5 +1,6 @@
 <script type="text/javascript">
   var ns_common_head = {
+    today: null,
     flash_messages: <?php echo json_encode(Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->getMessages()) ?>,
     jQDialog: function(title, contentUrl, params, buttons) {
       <?php //if (!width) var width='500';
@@ -35,123 +36,125 @@
      },
   }
 
-   jQuery(function($){
-        if (ns_common_head.flash_messages != []){
-            ns_common_foot.showFlashMessages(ns_common_head.flash_messages);
-        }
-        jQuery.address
-            .crawlable(1)
-            <?php if ($this->baseUrl()!='/'){?>
-            .state('<?php echo $this->baseUrl()?>')
-            <?php }?>
-            .init(function(event) {
-            });
-        $.ajaxSetup({
-            type: "POST",
-            dataType:"json",
-            error:function(jqXHR, textStatus, errorThrown){
-                //console.log(errorThrown);
-                //console.log(textStatus);
-            },
-            cache: true
-        })
-        <?php if (APPLICATION_ENV == 'production'){
-            ?>
-            // hack for disabling console.log... 
-                console = console || {};
-                console.log = function(){};
-            <?php 
-            }
-        ?>
-        $.fn.qtip.defaults = $.extend(true, {}, $.fn.qtip.defaults, {
-            overwrite: true,
-            content: {
-                text: true,
-                attr: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
-                ajax: {
-                    type: 'POST',
-                    dataType: 'json',
-                    //url: $(this).attr('rel'),
-                    once: false,
-                    loading: false,
-                    error:function(){
-                        //alert( jqXHR.responseText);
-                    }
-                },
-                title: {
-                    button: true
-                }
-            },
-            events: {
-                visible: function(event, api) {
-                    // Grab the tooltip element from the API
-                    var tooltip = api.elements.tooltip
-                    // ...and here's the extra event binds
-                    tooltip.bind('tooltipshow', function(event, api) {
-                        $.watermark.showAll();
-                    })
-                    
-                }
-            },
-            show: {
-                event: 'click',
-                solo: true, // Only show one tooltip at a time
-                delay: 0,
-                effect: false
-            },
-            hide: {
-                event: 'unfocus'
-            }
-            <?php /*
-            ,position: {
-                at: 'bottom center', 
-                my: 'top left',
-                viewport: $(window), // Keep the tooltip on-screen at all times
-                //effect: false // Disable positioning animation
-            }, 
-            ,style: {
-                def:false,
-                //classes: 'qtip-wiki qtip-light qtip-shadow'
-                classes: 'ui-tooltip-green ui-tooltip-shadow'
-            }*/ ?>
-        })
-        
-        $.watermark.options = {
-          className: 'watermark'
-        };
-        
-        $('input[type="checkbox"]+ label').disableSelection();
-          
-       //not sure why it's not working
-         $.datepicker.setDefaults({
-           dateFormat: 'yy-mm-dd'
-        });
-       
-        $('body').on('click', '[data-hasqtip]' , function(ev) {
-            ev.preventDefault();
-        });
-        
-        $("img.lazy").lazyload({
-        });
-        
-        $.ajaxSetup({
-          type: "POST",
-          dataType:"json",
-          error:function(jqXHR, textStatus, errorThrown){
-            //console.log(errorThrown);
-            //console.log(textStatus);
+jQuery(function($){
+   ns_common_head.today = new Date();
+   
+    if (ns_common_head.flash_messages != []){
+        ns_common_foot.showFlashMessages(ns_common_head.flash_messages);
+    }
+    jQuery.address
+        .crawlable(1)
+        <?php if ($this->baseUrl()!='/'){?>
+      .state('<?php echo $this->baseUrl()?>')
+      <?php }?>
+      .init(function(event) {
+      });
+  $.ajaxSetup({
+      type: "POST",
+      dataType:"json",
+      error:function(jqXHR, textStatus, errorThrown){
+          //console.log(errorThrown);
+          //console.log(textStatus);
+      },
+      cache: true
+  })
+  <?php if (APPLICATION_ENV == 'production'){
+      ?>
+      // hack for disabling console.log... 
+          console = console || {};
+          console.log = function(){};
+      <?php 
+      }
+  ?>
+  $.fn.qtip.defaults = $.extend(true, {}, $.fn.qtip.defaults, {
+      overwrite: true,
+      content: {
+          text: true,
+          attr: '<img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." />',
+          ajax: {
+              type: 'POST',
+              dataType: 'json',
+              //url: $(this).attr('rel'),
+              once: false,
+              loading: false,
+              error:function(){
+                  //alert( jqXHR.responseText);
+              }
           },
-          cache: true
-        })
-        
-        // just for the demos, avoids form submit
-        $.validator.setDefaults({
-          debug: true,
-          success: "valid"
-        });
-        
-      $("abbr.timeago").timeago();
+          title: {
+              button: true
+          }
+      },
+      events: {
+          visible: function(event, api) {
+              // Grab the tooltip element from the API
+              var tooltip = api.elements.tooltip
+              // ...and here's the extra event binds
+              tooltip.bind('tooltipshow', function(event, api) {
+                  $.watermark.showAll();
+              })
+              
+          }
+      },
+      show: {
+          event: 'click',
+          solo: true, // Only show one tooltip at a time
+          delay: 0,
+          effect: false
+      },
+      hide: {
+          event: 'unfocus'
+      }
+      <?php /*
+      ,position: {
+          at: 'bottom center', 
+          my: 'top left',
+          viewport: $(window), // Keep the tooltip on-screen at all times
+          //effect: false // Disable positioning animation
+      }, 
+      ,style: {
+          def:false,
+          //classes: 'qtip-wiki qtip-light qtip-shadow'
+          classes: 'ui-tooltip-green ui-tooltip-shadow'
+      }*/ ?>
+  })
   
-    });    
+  $.watermark.options = {
+    className: 'watermark'
+  };
+  
+  $('input[type="checkbox"]+ label').disableSelection();
+    
+ //not sure why it's not working
+   $.datepicker.setDefaults({
+     dateFormat: 'yy-mm-dd'
+  });
+ 
+  $('body').on('click', '[data-hasqtip]' , function(ev) {
+      ev.preventDefault();
+  });
+  
+  $("img.lazy").lazyload({
+  });
+  
+  $.ajaxSetup({
+    type: "POST",
+    dataType:"json",
+    error:function(jqXHR, textStatus, errorThrown){
+      //console.log(errorThrown);
+      //console.log(textStatus);
+    },
+    cache: true
+  })
+  
+  // just for the demos, avoids form submit
+  $.validator.setDefaults({
+    debug: true,
+    success: "valid"
+  });
+  
+$("abbr.timeago").timeago();
+
+});    
 </script>
 <?php echo $this->partial('js/feeds.phtml'); ?>

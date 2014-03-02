@@ -763,6 +763,7 @@ $pie-base-class: pie-element;*/
 #add_tags_popup #new_event_tag_items .inner { padding: 5px 5px 5px 10px; }
 #add_tags_popup #new_event_tag_items .inner .item { cursor: pointer; float: left; line-height: 1.5; padding: 0 5px; width: 135px; }
 #add_tags_popup #new_event_tag_items .inner .item a { display: inline-block; }
+#add_tags_popup #new_event_tag_items .backup { display: none; }
 #add_tags_popup #new_event_filter_tags_by_keyword { width: 250px; }
 #add_tags_popup #new_event_switch_tags_selected_or_all { margin-top: 5px; padding-left: 15px; }
 #add_tags_popup #new_event_switch_tags_selected_or_all li { float: left; font-size: 13px; color: #333333; border-right: 1px solid #333333; line-height: 15px; padding: 0 8px; }

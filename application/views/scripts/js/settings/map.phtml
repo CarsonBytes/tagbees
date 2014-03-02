@@ -76,8 +76,8 @@ function updateMapByPlace(place){
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
      
-    jQuery(lat_input_selector).val(place.geometry.location.place_lat());
-    jQuery(lng_input_selector).val(place.geometry.location.place_lng());
+    jQuery(lat_input_selector).val(place.geometry.location.lat());
+    jQuery(lng_input_selector).val(place.geometry.location.lng());
 
 }
 

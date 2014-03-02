@@ -363,11 +363,10 @@ var ns_feeds = {
 
 jQuery(function($){
     //begin date and end date for sidebar and feed para
-    var today = new Date();
     var end_date = new Date();
-    end_date.setDate(today.getDate()+60);
+    end_date.setDate(ns_common_head.today.getDate()+60);
     ns_feeds.default_feed_para['q'] = '';
-    ns_feeds.default_feed_para['begin_date'] = $.datepicker.formatDate('yy-mm-dd', today);
+    ns_feeds.default_feed_para['begin_date'] = $.datepicker.formatDate('yy-mm-dd', ns_common_head.today);
     ns_feeds.default_feed_para['end_date'] = $.datepicker.formatDate('yy-mm-dd', end_date);
     ns_feeds.default_feed_para = $.extend(
         true, 
