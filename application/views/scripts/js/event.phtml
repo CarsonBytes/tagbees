@@ -57,6 +57,13 @@ var ns_event_detail = {
             height: 16
       });
     }
+    if (jQuery(".event_detail .main_details td.content").length){
+      jQuery(".event_detail .main_details td.content.shortened")
+          .dotdotdot({
+            wrap : 'word',
+            height: 19
+      });
+    }
     
     jQuery('#qr1').uQr({
         create : true,

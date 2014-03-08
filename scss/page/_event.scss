@@ -30,7 +30,7 @@
     .main_details{
       padding-bottom:10px;
       .d_l{
-        float:left; width:330px;
+        float:left; width:380px;
         .d_table{
           font-size:13px; 
           margin-top:-8px; 
@@ -40,6 +40,12 @@
           tr td{ 
             padding:5px 2px; 
             vertical-align:top;
+            &.title{
+              width:100px;
+            }
+            &.content{
+              width:270px;
+            }
             a{ 
               color:$color; 
               text-decoration:none;

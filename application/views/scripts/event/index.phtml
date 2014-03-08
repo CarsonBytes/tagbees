@@ -24,8 +24,8 @@
                     $date_format = ($this->item->is_all_day == 1) ? "Y-m-d (D)" : "Y-m-d (D) H:i";
                 ?>
                 <tr>
-                    <td><strong><?php echo $this -> translate('Time: '); ?></strong></td>
-                    <td>
+                    <td class="title"><strong><?php echo $this -> translate('Time: '); ?></strong></td>
+                    <td class="content">
                       <div class="event_datetime">
                         <?php echo $this->item->begin_datetime==null ? '?' : date($date_format,strtotime($this->item->begin_datetime)) ?> - <?php echo $this->item->end_datetime==null ? '?' : date($date_format,strtotime($this->item->end_datetime)) ?> 
                        <?php if ($this->item->datetime_note!=null && $this->item->datetime_note!=''){ ?>
@@ -42,8 +42,8 @@
                 <?php //application datetime ?>
                 <?php if (($this->item->application_begin_datetime!=null)||($this->item->application_end_datetime!=null)){ ?>
                 <tr>
-                    <td><strong><?php echo $this -> translate('Application Time: '); ?></strong></td>
-                    <td>
+                    <td class="title"><strong><?php echo $this -> translate('Application Time: '); ?></strong></td>
+                    <td class="content">
                       <div class="event_datetime">
                       <?php echo $this->item->application_begin_datetime==null ? '?' : $this->item->application_begin_datetime ?> - <?php echo $this->item->application_end_datetime==null ? '?' : $this->item->application_end_datetime ?> 
                       
@@ -60,8 +60,8 @@
                 <?php //place ?>
                 <?php if ($this->item->place!=null){ ?>
                 <tr class="place">
-                    <td><strong><?php echo $this -> translate('Place: '); ?></strong></td>
-                    <td>
+                    <td class="title"><strong><?php echo $this -> translate('Place: '); ?></strong></td>
+                    <td class="content">
                        <div class="event_place">
                          <?php echo $this->item->place?>
                           
@@ -75,8 +75,8 @@
                 </tr>
                 <?php } ?>
                 <tr>
-                    <td><strong><?php echo $this -> translate('Price: '); ?></strong></td>
-                    <td>
+                    <td class="title"><strong><?php echo $this -> translate('Price: '); ?></strong></td>
+                    <td class="content">
                       
                        <div class="event_price">
                          <?php if ($this->item->is_free  == 0){?>
@@ -110,16 +110,34 @@
                 <?php //organiser ?>
                 <?php if ($this->item->organiser_name!=null){?>
                     <tr>
-                        <td><strong><?php echo $this -> translate('Organiser Name: '); ?></strong></td>
-                        <td><?php echo $this -> item -> organiser_name; ?></td>
+                        <td class="title"><strong><?php echo $this -> translate('Organiser Name: '); ?></strong></td>
+                        <td class="content shortened"><?php echo $this -> item -> organiser_name; ?></td>
                     </tr>
                 <?php } ?>
-                <?php if ($this->item->organiser_website!=null){?>
+                <?php if ($this->item->organiser_detail!=null){?>
                     <tr>
-                        <td><strong><?php echo $this -> translate('Organiser Website: '); ?></strong></td>
-                        <td><a target="_blank" style="display:block;overflow: hidden" href="<?php echo $this -> item -> organiser_website; ?>"><?php echo $this -> item -> organiser_website; ?></a></td>
+                        <td class="title"><strong><?php echo $this -> translate('Organiser Detail: '); ?></strong></td>
+                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_detail; ?>"><?php echo $this -> item -> organiser_detail; ?></a></td>
                     </tr>
                 <?php } ?>
+                <?php /*if ($this->item->organiser_website!=null){?>
+                    <tr>
+                        <td class="title"><strong><?php echo $this -> translate('Organiser Website: '); ?></strong></td>
+                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_website; ?>"><?php echo $this -> item -> organiser_website; ?></a></td>
+                    </tr>
+                <?php } ?>
+                <?php if ($this->item->organiser_email!=null){?>
+                    <tr>
+                        <td class="title"><strong><?php echo $this -> translate('Organiser Email: '); ?></strong></td>
+                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_email; ?>"><?php echo $this -> item -> organiser_email; ?></a></td>
+                    </tr>
+                <?php } ?>
+                <?php if ($this->item->organiser_tel!=null){?>
+                    <tr>
+                        <td class="title"><strong><?php echo $this -> translate('Organiser Tel: '); ?></strong></td>
+                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_tel; ?>"><?php echo $this -> item -> organiser_tel; ?></a></td>
+                    </tr>
+                <?php }*/ ?>
                 
                 <?php //tags ?>
                 <?php /*if ($this->item->tags_html!=''){?>
