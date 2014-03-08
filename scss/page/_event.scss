@@ -30,7 +30,7 @@
     .main_details{
       padding-bottom:10px;
       .d_l{
-        float:left; width:315px;
+        float:left; width:330px;
         .d_table{
           font-size:13px; 
           margin-top:-8px; 
@@ -107,6 +107,12 @@
         }
         }
       }
+    }
+    .event_more_btn{
+      display: block;
+      float: right;
+      text-align: right;
+      width: auto;
     }
   }
   .fb-comments, .fb-comments span, .fb-comments iframe { 
