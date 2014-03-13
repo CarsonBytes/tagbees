@@ -737,9 +737,11 @@ $pie-base-class: pie-element;*/
 .event_form .new_event_event_types, .advanced_event_form .new_event_event_types { display: inline-block; width: 486px; }
 .event_form .new_event_event_types .inner li a.active, .advanced_event_form .new_event_event_types .inner li a.active { background: #f5f5f5; }
 .event_form .new_event_event_types .inner p, .advanced_event_form .new_event_event_types .inner p { padding: 0 0 0 7px; }
-.event_form .f_div, .advanced_event_form .f_div { width: 100%; padding-bottom: 6px; position: relative; clear: both; }
+.event_form .readmore-js-expanded, .advanced_event_form .readmore-js-expanded { height: auto !important; overflow: auto !important; }
+.event_form .f_div, .advanced_event_form .f_div { width: 618px; padding-bottom: 6px; position: relative; clear: both; }
 .event_form .f_div input.error, .event_form .f_div textarea.error, .advanced_event_form .f_div input.error, .advanced_event_form .f_div textarea.error { border: 2px solid red; }
 .event_form .f_div input.error.full, .event_form .f_div textarea.error.full, .advanced_event_form .f_div input.error.full, .advanced_event_form .f_div textarea.error.full { width: 470px; }
+.event_form .f_div .new_event_more_btn, .advanced_event_form .f_div .new_event_more_btn { float: right; margin-right: 8px; margin-bottom: 10px; }
 .event_form .f_div.event_map .map, .advanced_event_form .f_div.event_map .map { width: 494px; display: inline-block; }
 .event_form .f_div1, .advanced_event_form .f_div1 { display: inline-block; }
 .event_form .f_div1 .checkbox, .advanced_event_form .f_div1 .checkbox { display: inline-block; }
@@ -749,12 +751,12 @@ $pie-base-class: pie-element;*/
 .event_form .choose, .advanced_event_form .choose { text-align: center; color: white; background: #9a9a9a; height: 19px; padding: 2px; width: 490px; display: inline-block; text-decoration: none; }
 .event_form .choose:hover, .advanced_event_form .choose:hover { background: #096DB9; color: #fff; }
 .event_form .choose:active, .advanced_event_form .choose:active { background: #f0bc05; color: #000; }
-.event_form .choose.add_tags, .advanced_event_form .choose.add_tags { float: right; }
 .event_form .chose_active, .advanced_event_form .chose_active { background: #f0bc05; color: #000; }
 .event_form .tree_text, .advanced_event_form .tree_text { display: inline-block; line-height: 20px !important; }
 .event_form .tree_line_hidden, .advanced_event_form .tree_line_hidden { display: none; }
+.event_form .add_tags_div, .advanced_event_form .add_tags_div { width: 490px; display: inline-block; }
 .event_form label.error, .advanced_event_form label.error { display: inline-block; width: auto; color: red; padding: 3px; margin: 5px auto; float: right; }
-.event_form .toggle_editor, .advanced_event_form .toggle_editor { width: 503px; display: block; clear: both; float: right; margin-bottom: 10px; }
+.event_form .toggle_editor, .advanced_event_form .toggle_editor { clear: both; margin-bottom: 10px; display: inline-block; width: auto; float: right; margin-right: 8px; }
 .event_form .mceEditor, .advanced_event_form .mceEditor { float: right; }
 .event_form .mceEditor .mceLayout, .advanced_event_form .mceEditor .mceLayout { margin-right: 9px; width: 493px !important; }
 

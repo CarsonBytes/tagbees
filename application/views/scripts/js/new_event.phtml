@@ -60,8 +60,46 @@ jQuery(function($){
    }
  };
   ns_new_event = {
+    optional_fields: {
+      'new_event_place':{
+        name:'new_event_traffic_note',
+        height:240,
+        text: '<?php echo $this->translate('new_event_traffic_note');?>'
+      },
+      'new_event_datetime':{
+        name:'new_event_datetime_note',
+        height:55,
+        text: '<?php echo $this->translate('new_event_datetime_note');?>'
+      },
+      'new_event_price':{
+        name:'new_event_price_note',
+        height:30,
+        text: '<?php echo $this->translate('new_event_price_note');?>'
+      },
+      'new_event_application':{
+        name:'new_event_application_datetime_note',
+        height:0,
+        text: '<?php echo $this->translate('new_event_application_datetime_note');?>'
+      },
+      'new_event_organiser':{
+        name:'new_event_organiser_detail',
+        height:0,
+        text: '<?php echo $this->translate('new_event_organiser_detail');?>'
+      }
+    },
     event_dates: null,
-     init: function(is_reload){
+    init: function(is_reload){
+      var self = this;
+      for (var key in self.optional_fields){
+        if (jQuery('.'+self.optional_fields[key].name).length){
+            jQuery('.'+key).readmore({
+              speed: 75,
+              maxHeight: self.optional_fields[key].height,
+              moreLink: '<div class="f_div"><a href="#" class="new_event_more_btn text_link">'+self.optional_fields[key].text+'...</a></div>',
+              lessLink: '<div class="f_div"><a href="#" class="new_event_more_btn text_link"><?php echo $this->translate('Collapse...')?></a></div>',
+            });
+        }
+      }
       if (typeof is_reload == 'undefined') var is_reload=true;
       
       $('.timepicker').timepicker({ 'timeFormat': 'H:i', step : 15 });
@@ -82,7 +120,7 @@ jQuery(function($){
           },
       });
       $('#new_event_begin_date, #new_event_end_date').val($.datepicker.formatDate('yy-mm-dd', ns_common_head.today));
-      
+      console.log(is_reload);
       if (is_reload){
         
         ns_common_foot.loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
@@ -106,13 +144,14 @@ jQuery(function($){
           $('#new_event_event_type').valid();
           return false;
         })
-        .on('click','#new_event_is_free', function(){
+        .on('click','[name="new_event_price_is_free"]', function(){
+          console.log($(this).is(':checked'))
           if ($(this).is(':checked')){
-            $('#priceFree').slideUp('fast');
-            $('#new_event_min_price, #new_event_max_price').prop('disabled', true);
+            //$('#priceFree').slideUp('fast');
+            $('#new_event_price_min, #new_event_price_max').prop('disabled', true);
           }else{
-            $('#new_event_min_price, #new_event_max_price').prop('disabled', false);
-            $('#priceFree').slideDown('fast')
+            $('#new_event_price_min, #new_event_price_max').prop('disabled', false);
+            //$('#priceFree').slideDown('fast')
           }
         }).on('change','#new_event_is_any_time, #new_event_is_all_day', function(){
               ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
@@ -160,6 +199,7 @@ jQuery(function($){
       }
     },
     updateFromHiddenInputs: function(){
+      console.log('updateFromHiddenInputs');
       if ($('#new_event_event_type').val()!=''){
           $("#new_event_type_caption_"+$('#new_event_event_type').val()).show();
           $('.new_event_event_types a[data-value="'+$('#new_event_event_type').val()+'"]').addClass( "active" );
@@ -170,10 +210,6 @@ jQuery(function($){
           $('.tree_line_hidden').show();
           $('label.tree_line_hidden').css('display','inline-block');
           $('p.tree_line_hidden').css('display','inline-block');
-      }
-      if ($('#new_event_is_free').is(':checked')){
-        $('#priceFree').hide();
-        $('#new_event_min_price, #new_event_max_price').prop('disabled', true);
       }
     }
   }

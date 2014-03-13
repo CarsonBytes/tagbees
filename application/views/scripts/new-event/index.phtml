@@ -23,12 +23,23 @@
           <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_name')); ?> 
             
             <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_description')); ?>
-              
-          <?php echo $this->partial('partials/new-event/input/place.phtml', array('name'=>'new_event_place')); ?> 
           
-          <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_traffic_note')); ?>
+          <div class="new_event_place">
+            
+            <?php echo $this->partial('partials/new-event/input/place.phtml', array('name'=>'new_event_place')); ?> 
+            <div class="new_event_traffic_note">
+              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_traffic_note')); ?>
+            </div>
           
-          <?php echo $this->partial('partials/new-event/input/datetime.phtml'); ?>
+          </div>
+          
+          <div class="new_event_datetime">
+            <?php echo $this->partial('partials/new-event/input/datetime.phtml'); ?>
+            <div class="new_event_datetime_note">
+              <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_datetime_note')); ?>
+            </div>
+            
+          </div>
           
           <?php echo $this -> partial('partials/new-event/input/tree.phtml', array('name'=>'new_event_tree_ids')); ?>
               
@@ -43,23 +54,36 @@
               </div>
             </div>
             
-            <?php echo $this->partial('partials/new-event/input/price.phtml', array('name'=>'new_event_price')); ?>
-            
-            <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_price_note')); ?>
+            <div class="new_event_price">
+              <?php echo $this->partial('partials/new-event/input/price.phtml', array('name'=>'new_event_price')); ?>
+              <div class="new_event_price_note">
+                <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_price_note')); ?>
+              </div>
+            </div>
 
-            <?php //echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_datetime_note')); ?>
             
-            <?php //echo $this->partial('partials/new-event/input/place.phtml', array('name'=>'new_event_application_place')); ?> 
+            <div class="new_event_application">
+              <div class="new_event_application_datetime_note">
+                <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_datetime_note')); ?>
+              </div>
+            </div>
             
+            <div class="new_event_organiser">
+              <div class="new_event_organiser_detail">
+                <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_name')); ?> 
+                <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_detail')); ?>
+              </div>
+            </div>
+            <?php /*?>
             <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_name')); ?> 
             
-            <?php /*echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_email')); ?> 
+            <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_email')); ?> 
             
             <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_tel')); ?> 
             
-            <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_website'));*/ ?> 
+            <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_website'));?>
             
-            <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_detail')); ?>
+            <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_detail')); */?>
           </div>
 
         </div>
@@ -68,7 +92,7 @@
             <label>&nbsp;</label>
             <input type="button" value="<?php echo $this->translate('new_event_save');?>"  class="submit1 new_event_save"/>
             <input type="submit" value="<?php echo $this->translate('new_event_submit');?>" name="new_event_submit" class="submit2" id="new_event_submit" />
-            <input type="button" value="<?php echo $this->translate('new_event_more_detail');?>" class="submit3 new_event_more_detail"/>
+            <?php /*<input type="button" value="<?php echo $this->translate('new_event_more_detail');?>" class="submit3 new_event_more_detail"/>*/?>
           </div>
         </div>
       </form>

@@ -1,5 +1,9 @@
 <script type="text/javascript">
 jQuery(function($){
+  tinymce_ns.init('#new_event_datetime_note');
+  tinymce_ns.init('#new_event_price_note');
+  tinymce_ns.init('#new_event_traffic_note');
+  tinymce_ns.init('#new_event_organiser_detail');
   $.validator.addMethod("pageRequired", function(value, element) {
     return jQuery.validator.methods.required.call(this, value, element);
   }, $.validator.messages.required);

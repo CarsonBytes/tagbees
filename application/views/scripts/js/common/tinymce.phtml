@@ -6,7 +6,13 @@ jQuery(function($){
       if ($(tinymce_toggle_css_selector+'_is_toggled').val() == 1){
         tinymce_ns.loadTinymce($(tinymce_toggle_css_selector));
       }
-      $('body').on('click',tinymce_toggle_css_selector+'_toggle_editor', function(){
+      /*console.log(tinymce_toggle_css_selector)
+      console.log($(tinymce_toggle_css_selector+'_is_toggled').val())
+      console.log($(tinymce_toggle_css_selector).data('is_tinymce_loaded'))
+      console.log($(tinymce_toggle_css_selector).data('is_tinymce_loaded') == true)*/
+      
+      $('body').on('click',tinymce_toggle_css_selector+'_toggle_editor', function(e){
+        e.preventDefault();
         if ($(tinymce_toggle_css_selector).data('is_tinymce_loaded') == true) {
             if ($(tinymce_toggle_css_selector).tinymce().isHidden()){
                 $(tinymce_toggle_css_selector).tinymce().show();

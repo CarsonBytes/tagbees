@@ -127,8 +127,12 @@ label.l-a3{ padding-left:0; padding-right:6px;}
       }
   }
   
-  .f_div{ 
-    width:100%; 
+  .readmore-js-expanded{
+    height:auto !important;
+    overflow: auto !important;
+  }
+  .f_div{
+    width:618px;
     padding-bottom:6px; 
     position:relative;
     clear:both;
@@ -137,6 +141,11 @@ label.l-a3{ padding-left:0; padding-right:6px;}
       &.full{
         width: 470px;
       }
+    }
+    .new_event_more_btn{
+      float: right;
+      margin-right:8px;
+      margin-bottom: 10px;
     }
     &.event_map{
       .map{
@@ -163,9 +172,6 @@ label.l-a3{ padding-left:0; padding-right:6px;}
     text-decoration:none;
     &:hover{ background:#096DB9; color:#fff;}
     &:active {background:#f0bc05; color:#000;}
-    &.add_tags{
-      float: right;
-    }
   }
   .chose_active{background:#f0bc05; color:#000;}
   .tree_text{
@@ -174,7 +180,9 @@ label.l-a3{ padding-left:0; padding-right:6px;}
   .tree_line_hidden{
     display: none;
   }
-  .choose{
+  .add_tags_div{
+    width: 490px;
+    display: inline-block;
   }
   label.error{
     display: inline-block;
@@ -185,11 +193,12 @@ label.l-a3{ padding-left:0; padding-right:6px;}
     float:right;
   }
   .toggle_editor{
-    width: 503px;
-    display: block;
     clear: both;
-    float: right;
     margin-bottom: 10px;
+    display: inline-block;
+    width: auto;
+    float: right;
+    margin-right: 8px;
   }
   .mceEditor{
     float:right;

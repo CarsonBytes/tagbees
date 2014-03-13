@@ -3,11 +3,8 @@
   <div class="f_div1">
     <input type="checkbox" id="<?php echo $this->name ?>_is_free" name="<?php echo $this->name ?>_is_free"/>
     <label class="l-a" for="<?php echo $this->name ?>_is_free" name="<?php echo $this->name ?>_is_free"><?php echo $this->translate($this->name.'_is_free');?></label>
+    <input type="text" name="<?php echo $this->name ?>_min" id="<?php echo $this->name ?>_min" class="smallInput" value="">
+    <label class="l-a1"><strong>To</strong></label>
+    <input type="text" name="<?php echo $this->name ?>_max" id="<?php echo $this->name ?>_max"class="smallInput" value="" >
   </div>
-</div>
-<div id="priceFree" class="f_div">
-  <label><?php //echo $this->translate($this->name);?></label>
-  <input type="text" name="<?php echo $this->name ?>_min" id="<?php echo $this->name ?>_min" class="smallInput" value="">
-  <label class="l-a1"><strong>To</strong></label>
-  <input type="text" name="<?php echo $this->name ?>_max" id="<?php echo $this->name ?>_max"class="smallInput" value="" >
 </div>
