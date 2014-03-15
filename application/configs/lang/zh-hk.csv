@@ -222,6 +222,7 @@ new_event_organiser_name;"主辦方名字"
 new_event_organiser_detail;"主辦方描述"
 new_event_time;"時間"
 
+new_event_load;"載入"
 new_event_save;"儲存"
 new_event_submit;"提交"
 new_event_more_detail;"儲存並提交更多資料..."

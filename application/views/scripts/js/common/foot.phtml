@@ -109,26 +109,29 @@ var ns_common_foot = {
     if (typeof data == 'undefined'){
       data =  $.extend(data,$('#'+form_id).serializeObject());
     }
-    console.log(data);
     console.log(JSON.stringify(data));
-    $.cookie(form_id, JSON.stringify(data), {path: '/'});
+    $.cookie.json = true;
+    $.cookie(form_id, data, {path: '/'});
   },
   loadCookieToForm: function(form_id){
     if ($.cookie(form_id) != '' && $.cookie(form_id) != null){
-      console.log($.cookie(form_id))
-      var form_data = JSON.parse($.cookie(form_id));
+      //console.log($.cookie(form_id))
+      //var form_data = JSON.parse($.cookie(form_id));
+      $.cookie.json = true;
+      var form_data = $.cookie(form_id);
+      console.log(JSON.stringify(form_data));
   
       $('#'+form_id).find('input, textarea').each(function(){
           if ($(this).prop('name').length && $(this).prop('name') in form_data){
             if (form_data[$(this).prop('name')]!=''){
-          console.log($(this))
-          console.log($(this).prop('value'))
+          //console.log($(this))
+          //console.log($(this).prop('value'))
               //if checkbox 
               if ($(this).is(':checkbox')){
                 $(this).prop('checked','checked');
               //if text input
               }else if ($(this).prop('value')==''){
-          console.log($(this))
+          //console.log($(this))
                 
                 $(this).val(form_data[$(this).prop('name')]);
               }

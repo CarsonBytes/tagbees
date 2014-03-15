@@ -3,55 +3,137 @@
 var ns_new_event = {};
 var event_form_data = {};
 var new_event_basic_validate_options = {};
+var error_keys = [];
 jQuery(function($){
-  jQuery.validator.addMethod("custom_numeric", function(value, element) {
+  $.validator.addMethod("custom_numeric", function(value, element) {
     return ns_common_foot.isNumber(value);
   }, "Value should be numeric");
   
+  $.validator.addMethod("endate_greater_startdate", function(value, element) {
+    return $('[name="new_event_begin_date"]').val() <= $('[name="new_event_end_date"]').val()
+}, "Enddate should be greater than Startdate");
+
+  $.validator.addMethod("price_greater", function(value, element) {
+    return $('[name="new_event_price_min"]').val() <= $('[name="new_event_price_max"]').val()
+}, "Max. price should be greater than min. price");
+
   new_event_basic_validate_options = {
-    ignore: [],
+    ignore: [":hidden",".ignore"],
     rules: {
-      new_event_event_type: "pageRequired",
-      new_event_name: {pageRequired: true, minlength: 4, maxlength: 20} ,
-      new_event_begin_date: {pageRequired: true, date: true},
-      new_event_end_date: {pageRequired: true, date: true},
-      new_event_begin_time: "pageRequired",
-      new_event_end_time: "pageRequired",
-      new_event_min_price: {pageRequired: true, custom_numeric: true} ,
-      new_event_max_price: {pageRequired: true, custom_numeric: true} ,
-      cat1: "pageRequired",
-      cat2: "pageRequired",
-      cat3: "pageRequired"
+      new_event_event_type: "required",
+      new_event_name: {required: true, minlength: 4, maxlength: 20} ,
+      new_event_begin_date: {required: true, date: true},
+      new_event_end_date: {
+        required: true, date: true, endate_greater_startdate : true
+      },
+      new_event_begin_time: "required",
+      new_event_end_time: "required",
+      new_event_price_min: {required: true, custom_numeric: true} ,
+      new_event_price_max: {
+        required: true, 
+        custom_numeric: true, 
+        price_greater: true
+      } ,
+      cat1: "required",
+      cat2: "required",
+      cat3: "required"
     },
     messages: {
-      cat3: '<?php $this->translate("Please make sure to specify 3 levels of category");?>'
+      cat3: '<?php echo $this->translate("Please make sure to specify 3 levels of category");?>',
+      name: "Please specify your name",
+      new_event_price_min: {
+        required: "Min. price range is required for not free events",
+        custom_numeric: "Please enter the valid min. price"
+      },
+      new_event_price_max: {
+        required: "Max. price range is required for not free events",
+        custom_numeric: "Please enter the valid max. price"
+      },
+      new_event_name: {
+        required: "a suitable price range is required for not free events",
+        minlength: "event name is too short, please enter at least 4 charactors",
+        maxlength: "event name is too short, please enter at most 20 charactors"
+      },
+      new_event_begin_date: {
+        required: "Begin date is required",
+        date: "Please enter a valid begin date"
+      },
+      new_event_end_date: {
+        required: "End date is required",
+        date: "Please enter a valid end date"
+      },
+      new_event_begin_time: {
+        required: "Begin time is required",
+        date: "Please enter a valid begin time"
+      },
+      new_event_end_time: {
+        required: "End time is required",
+        date: "Please enter a valid end time"
+      },
+      begin_end_date_time:{
+        required: "Date time is required",
+      },
+      new_event_price:{
+        required: "Price range is required for not free events",
+        custom_numeric: "Please enter the valid price range"
+      }
     },
     groups: {
         begin_end_date_time: "new_event_begin_date new_event_end_date new_event_begin_time new_event_end_time",
         new_event_price: "new_event_min_price new_event_max_price",
         tree: "cat1 cat2 cat3"
     },
-   errorPlacement: function(error, element) {
-     var element_arr = ["new_event_begin_date", "new_event_end_date", "new_event_begin_time", "new_event_end_time"];
+    //wrapper: "li",
+    //errorClass: "invalid",
+    errorElement: "li",
+    errorContainer: $(".error_container"),
+    errorLabelContainer: $(".error_container ul.errors"),
+    <?php /*showErrors: function (errorMap, errorList) {
+      if (this.numberOfInvalids() > 0) {
+        $("p.has_error").html("Your form contains " + this.numberOfInvalids() + " errors:");
+        $("p.has_error, ul.errors").show();
+        } else {
+          $("p.has_error, ul.errors").hide();
+        }        console.log(errorMap);
+        for (var key in errorMap){
+          console.log(error_keys);
+          console.log(key in error_keys);
+          console.log(key);
+          if(!key in error_keys){
+            $('ul.errors').append('<li>'+errorMap[key]+'</li>');
+            error_keys.push(key);
+          }
+        }
+        this.defaultShowErrors();
+        //return false;
+    },*/?>
+    errorPlacement: function(error, element) {
+     <?php /*var element_arr = ["new_event_begin_date", "new_event_end_date", "new_event_begin_time", "new_event_end_time"];
      if ($.inArray(element.attr("name"), element_arr) != -1){ 
-      error.insertAfter("#new_event_end_time");
-      return true;
+      //error.insertAfter("#new_event_end_time");
+      $('ul.errors').append(error);
+      return false;
      }
      element_arr = ["new_event_min_price", "new_event_max_price"];
      if ($.inArray(element.attr("name"), element_arr) != -1){ 
       error.insertAfter("#new_event_max_price");
       return true;
      }
-     element_arr = ["cat1", "cat2", "cat3"];
+     console.log(error);
+     error.insertAfter(element);
+     //$('ul.errors').append(error);*/?>
+     var element_arr = ["cat1", "cat2", "cat3"];
      if ($.inArray(element.attr("name"), element_arr) != -1){ 
       error.insertAfter("#cat3");
-      return true;
+      return false;
      }
-     error.insertAfter(element);
+     
+     //if (!error.hasClass('valid'))$('ul.errors').append(error);
+     //return false;
    },
    submitHandler: function(form) {
      ns_common_foot.saveFormToCookie('new_event_basic');
-     ns_common_foot.saveFormToCookie('new_event_advanced', $.cookie('new_event_basic'));
+     //ns_common_foot.saveFormToCookie('new_event_advanced', $.cookie('new_event_basic'));
      form.submit();
    },
    invalidHandler: function(event, validator) {
@@ -155,6 +237,10 @@ jQuery(function($){
           }
         }).on('change','#new_event_is_any_time, #new_event_is_all_day', function(){
               ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
+      })
+      .on('click','.new_event_load',function(){
+        console.log('new_event_load')
+        ns_common_foot.loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
       })
       .on('click', function(){
       

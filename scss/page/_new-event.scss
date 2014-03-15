@@ -41,7 +41,14 @@
     padding:10px 0 0; 
     line-height:17px;
     .has_error{
+      color: red;
       margin: 5px 20px;
+    }
+    .error_container .errors .invalid{
+      display:inline !important;
+    }
+    .error_container .errors .valid{
+      display:none !important;
     }
     .errors{
       list-style-type: disc;
@@ -190,7 +197,6 @@ label.l-a3{ padding-left:0; padding-right:6px;}
     color:red;
     padding: 3px;
     margin: 5px auto;
-    float:right;
   }
   .toggle_editor{
     clear: both;

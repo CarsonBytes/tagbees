@@ -68,8 +68,8 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_tag_ids' => array(),
           'new_event_description'   => array(),
           'new_event_is_free' => array('default' => 0),
-          'new_event_min_price' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
-          'new_event_max_price' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
+          'new_event_price_min' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
+          'new_event_price_max' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
           'new_event_submit'   => array(),
           'new_event_save'   => array(),
           'new_event_more_detail'   => array()

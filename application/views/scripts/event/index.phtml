@@ -82,14 +82,14 @@
                          <?php if ($this->item->is_free  == 0){?>
                             
                         <?php
-                                if ($this -> item -> min_price != '0.00') {
-                                    echo '$' . $this -> item -> min_price;
+                                if ($this -> item -> price_min != '0.00') {
+                                    echo '$' . $this -> item -> price_min;
                                 } else {
                                     echo '?';
                                 }
                                 echo ' - ';
-                                if ($this -> item -> max_price != '0.00') {
-                                    echo '$' . $this -> item -> max_price;
+                                if ($this -> item -> price_max != '0.00') {
+                                    echo '$' . $this -> item -> price_max;
                                 } else {
                                     echo '?';
                                 }

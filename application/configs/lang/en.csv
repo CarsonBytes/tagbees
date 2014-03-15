@@ -22,6 +22,7 @@ new_event_traffic_note;"Guide to Direction"
 new_event_organiser_name;"Organiser Name"
 new_event_organiser_detail;"Organiser Detail"
 
+new_event_load;"Load"
 new_event_save;"Save"
 new_event_submit;"Submit"
 new_event_more_detail;"Save and submit more details..."
