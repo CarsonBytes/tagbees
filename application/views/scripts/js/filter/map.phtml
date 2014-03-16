@@ -214,7 +214,8 @@ var ns_filter_map = {
     ns_feeds.updateUrlParam('place_lat',ns_feeds.feed_para['place_lat']);
     ns_feeds.updateUrlParam('place_lng',ns_feeds.feed_para['place_lng']);
     ns_filter_map.loadPosition(ns_feeds.feed_para['place_lat'], ns_feeds.feed_para['place_lng']);
-    $(".user_saved_location_list option[value='last']").prop("selected","selected");
+    $(".user_saved_location_list").val("last");
+    $('.user_saved_location_list').trigger('chosen:updated');
   },
   handleErrors: function(error){
       $('#feed-settings-page .location_settings').toggle();
@@ -253,7 +254,9 @@ function updatePositionByDraggingMarker() {
   ns_feeds.updateUrlParam('place_lat',ns_feeds.feed_para['place_lat']);
   ns_feeds.updateUrlParam('place_lng',ns_feeds.feed_para['place_lng']);
   ns_feeds.refresh();
-  $(".user_saved_location_list option[value='last']").prop("selected","selected");
+  $(".user_saved_location_list").val("last");
+  $('.user_saved_location_list').trigger('chosen:updated');
+  
   //map.fitBounds(radiusWidget.get('bounds'));
 }
 

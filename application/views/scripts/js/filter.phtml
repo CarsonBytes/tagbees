@@ -1,14 +1,23 @@
 <?php $isLogined = (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null); ?>
 <script type="text/javascript">
+//these two variables maxDistance and minDistance cannot be namespaced because of the shared used of distancewidget.js
 var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max_distance ?>;
 var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;
-
-<?php if ($isLogined){ ?>
-var savedLocation=[];
-var flagOverrideSavedLocation=0;
-<?php } ?>
+var ns_filter = {
+  saved_locations : [],
+  is_saved_location_overrided : false,
+  init: function(){
+    <?php if ($isLogined){ ?>
+      <?php foreach(Common::getSession()->user_saved_locations as $value){ ?>
+        this.saved_locations['<?php echo $value['name']?>']=[<?php echo $value['lat']?>,<?php echo $value['lng']?>,<?php echo $value['radius']?>];
+      <?php } ?>
+    <?php } ?>
+    $('.user_saved_location_list').chosen({display_disabled_options: false});
+  }
+};
 
 jQuery(function($){
+  ns_filter.init();
   ns_feeds.updateFeedInputsFromVariables();
   <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
    $('body').on('click', '.match_location_set .manage_location', function(){
@@ -28,8 +37,7 @@ jQuery(function($){
             '<?php echo $this->translate('save this location') ?>',
             '<?php echo $this->baseUrl('ajax/dialog/save_location')?>',
             {
-                'title':$('.radius_amt #of').text()/*,
-                'user_saved_location[]':JSON.stringify(savedLocation)*/
+                'title':$('.radius_amt #of').text()
             },
             {
                 Save: function() {
@@ -43,21 +51,22 @@ jQuery(function($){
                                 place_lat:ns_feeds.feed_para['place_lat'],
                                 place_lng:ns_feeds.feed_para['place_lng'],
                                 radius:ns_feeds.feed_para['radius'],
-                                override:flagOverrideSavedLocation
+                                override:ns_filter.is_saved_location_overrided
                             },
                           success: function(msg){
                                 if (msg['result']==1){
-                                    savedLocation[location_name]=[ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng'],ns_feeds.feed_para['radius']];
-                                    if (flagOverrideSavedLocation==0){
-                                        $(".user_saved_location_list").append("<option value=\""+location_name+"\">"+location_name+"</option>")
-                                        $(".user_saved_location_list option:last").prop("selected","selected");
+                                    ns_filter.saved_locations[location_name]=[ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng'],ns_feeds.feed_para['radius']];
+                                    if (!ns_filter.is_saved_location_overrided){
+                                      $(".user_saved_location_list").append("<option value=\""+location_name+"\">"+location_name+"</option>")
+-                                     $(".user_saved_location_list").val(location_name);
+                                      $('.user_saved_location_list').trigger('chosen:updated');
                                     }else{
-                                        flagOverrideSavedLocation=0;
+                                        ns_filter.is_saved_location_overrided=false;
                                     }
                                     dialog.dialog( "close" );
                                 }else if (msg['result']==1062){
                                     $('.dialog').prepend('<p><?php echo $this->translate('same name exists in your saved locations, do you still want to override?')?></p>');
-                                    flagOverrideSavedLocation=1;
+                                    ns_filter.is_saved_location_overrided=true;
                                 }else{
                                     $('.dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
                                 }
@@ -68,7 +77,7 @@ jQuery(function($){
                 },
                 Cancel: function() {
                     $( this ).dialog( "close" );
-                    flagOverrideSavedLocation=0;
+                    ns_filter.is_saved_location_overrided=false;
                 }
             }
          );
@@ -85,9 +94,11 @@ jQuery(function($){
               success: function(msg){
                 if (msg['result']==1){
                     tr.remove();
-                    if ($(".user_saved_location_list option[value='"+name+"']").is("selected"))
-                        $(".user_saved_location_list option[value='last']").prop('disabled',false).prop('selected',true);
+                    if ($(".user_saved_location_list").val()==name){
+                      $(".user_saved_location_list").val("last");
+                    }
                     $(".user_saved_location_list option[value='"+name+"']").remove();
+                    $('.user_saved_location_list').trigger('chosen:updated');
                 }else{
                     $('#dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
                 }
@@ -95,6 +106,21 @@ jQuery(function($){
             dataType:'json'
         });
         return false;
+    }).on('change','.user_saved_location_list',function(){
+        var name=$(".user_saved_location_list").val();
+        console.log(ns_filter.saved_locations);
+        if (name!='last'){
+            ns_feeds.feed_para['place_lat']=ns_filter.saved_locations[name][0];
+            ns_feeds.feed_para['place_lng']=ns_filter.saved_locations[name][1];
+            ns_feeds.feed_para['radius']=ns_filter.saved_locations[name][2];
+            
+            ns_feeds.updateUrlParam('radius', ns_feeds.feed_para['radius']);
+            ns_feeds.updateUrlParam('place_lat', ns_feeds.feed_para['place_lat']);
+            ns_feeds.updateUrlParam('place_lng', ns_feeds.feed_para['place_lng']);
+            
+            ns_filter_map.loadPosition(ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng']);
+            ns_filter_map.loadRadius(ns_feeds.feed_para['radius']);
+        }
     })
    <?php }else{ ?>
     $('input[name="is_match_interest"]+ label').qtip({

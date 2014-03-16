@@ -13,8 +13,8 @@ class IndexController extends Zend_Controller_Action
         );
         
         if (Zend_Auth::getInstance()->hasIdentity()){
-            $locationService=new Service_Location();
-            Common::getSession()->user_saved_location=$locationService->getSavedLocations();
+            $locationService=new Service_UserSavedLocation();
+            Common::getSession()->user_saved_locations=$locationService->getSavedLocations();
         }
         
         /*$feedService=new Service_Feed();

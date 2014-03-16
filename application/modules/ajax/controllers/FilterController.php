@@ -41,8 +41,8 @@ class Ajax_FilterController extends Zend_Controller_Action
     
     public function saveLocationAction(){
         $this->params=$this->_request->getPost();
-        $filterService=new Service_Filter();
-        $result=$filterService->save(
+        $userSavedLocationService=new Service_UserSavedLocation();
+        $result=$userSavedLocationService->save(
             $this->params['name'], 
             $this->params['place_lat'], 
             $this->params['place_lng'], 
@@ -53,8 +53,8 @@ class Ajax_FilterController extends Zend_Controller_Action
     }
     public function deleteLocationAction(){
         $this->params=$this->_request->getPost();
-        $filterService=new Service_Filter();
-        $result=$filterService->delete(
+        $userSavedLocationService=new Service_UserSavedLocation();
+        $result=$userSavedLocationService->delete(
             $this->params['name']
         );
         $this->_helper->json(array('result'=>$result));

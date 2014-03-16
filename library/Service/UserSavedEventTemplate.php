@@ -1,5 +1,5 @@
 <?php
-class Service_User_Event_Template{
+class Service_UserSavedEventTemplate{
 	protected $db;
   protected $_table = 'user_saved_event_template';
   protected $user_id;

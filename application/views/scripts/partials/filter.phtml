@@ -37,12 +37,12 @@
         <input id="locate_somewhere" type="text" name="locate_somewhere" value="" />
         <img id="geo_locate" class="geo_locate" onclick="navigator.geolocation.getCurrentPosition(ns_filter_map.handleGeolocationQuery,ns_filter_map.handleErrors);return false;" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
         <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
-        <select id="saved_locations" class="selectBoxIt" name="saved_locations">
-            <option value="Saved location">Saved location...</option>
-            <option value="a jQuery Plugin">a jQuery Plugin</option> 
-            <option value="a Select Box Replacement">a Select Box Replacement</option>
-            <option value="a Stateful UI Widget">a Stateful UI Widget</option>
-        </select>
+         <select class="user_saved_location_list selectBoxIt">
+          <option value="last" disabled="disabled" selected="selected"><?php echo $this->translate('saved locations') ?>...</option>
+          <?php foreach(Common::getSession()->user_saved_locations as $value){?>
+            <option value="<?php echo $value['name']?>"><?php echo $value['name']?></option>
+          <?php } ?>
+         </select>
         <a href="#" class="save_location"><img src="<?php echo $this->baseUrl('images/save.gif')?>" alt=" " /></a>
         <a href="#" class="manage_location"><img src="<?php echo $this->baseUrl('images/setting.gif')?>" alt=" " /></a>
         </div>

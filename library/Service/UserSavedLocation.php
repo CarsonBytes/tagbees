@@ -1,43 +1,43 @@
 <?php
-class Service_Filter{
+class Service_UserSavedLocation{
 	protected $identity;
 	protected $db;
 	function __construct(){
 		$this->identity=Zend_Auth::getInstance()->getIdentity();
 	    $this->db = Zend_Db_Table::getDefaultAdapter();
-		if (!Zend_Auth::getInstance()->hasIdentity()){
-			return -1;
-		}
+  		if (!Zend_Auth::getInstance()->hasIdentity()){
+  			return -1;
+  		}
 	}
 	public function getSavedLocations(){
 		$select=$this->db->select()
-			->from(array('user_saved_location'),array('name','place_lat','place_lng','radius'))
+			->from(array('user_saved_location'),array('name','lat','lng','radius'))
 			->where ('user_id = ?',$this->identity->item_id);
 		return $this->db->fetchAll($select);
 	}
-	public function save($name,$place_lat,$place_lng,$radius,$override=0){
+	public function save($name,$lat,$lng,$radius,$override=0){
 		try {
 			if ($override==0){
 				$vars=array(
 					'user_id'=>$this->identity->item_id,
 					'name'=>$name,
-					'place_lat'=>$place_lat,
-					'place_lng'=>$place_lng,
+					'lat'=>$lat,
+					'lng'=>$lng,
 					'radius'=>$radius,
 					'create_time'=>date('Y-m-d H:i:s')
 				);
 				$this->db->insert('user_saved_location',$vars);
 			}else{
 				$sql='INSERT INTO user_saved_location
-					(user_id,name, place_lat, place_lng,radius,create_time) 
+					(user_id,name, lat, lng,radius,create_time) 
 					VALUES';
 				$sql.='('.$this->identity->item_id.','. 
 						"'".$name."'".','.
-						$place_lat.','.
-						$place_lng.','.
+						$lat.','.
+						$lng.','.
 						$radius.','.
 						'NOW())';
-				$sql.=" ON DUPLICATE KEY UPDATE place_lat=".$place_lat.", place_lng=".$place_lng.", radius=".$radius.", update_time=NOW()";
+				$sql.=" ON DUPLICATE KEY UPDATE lat=".$lat.", lng=".$lng.", radius=".$radius.", update_time=NOW()";
 				$this->db->query($sql);
 			}
 			return 1;

@@ -476,7 +476,8 @@ $pie-base-class: pie-element;*/
 .filter .loading.feed { display: none; height: 20px; vertical-align: middle; }
 .filter .showMap { font-weight: bold; }
 
-.match_location_set { padding: 13px 9px 17px 12px; border: 1px solid #cfcfcf; }
+.match_location_set { padding: 13px 9px 17px 12px; border: 1px solid #cfcfcf; /*.selectboxit-container span, .selectboxit-container .selectboxit-options a{ height: 19px; line-height: 19px;
+}*/ }
 .match_location_set h3 { color: #096db9; padding-bottom: 10px; }
 .match_location_set #geo_locate { cursor: pointer; }
 .match_location_set .loc_right { float: right; }
@@ -486,6 +487,7 @@ $pie-base-class: pie-element;*/
 .match_location_set .l_icon { float: left; margin: 3px 18px 0 0; }
 .match_location_set .save_location, .match_location_set .manage_location { margin-left: 10px; display: inline-block; }
 .match_location_set .manage_location { border: 1px solid #d2d1d0; }
+.match_location_set .chosen-container input { float: none; }
 
 /*.Location{ border:1px solid #cfcfcf; padding:3px;}
 .map_distance{ width:228px; height:12px; position:relative; float:left; margin-top:5px; z-index:1; @include black-gradient; @include border-radius(15px);

@@ -27,7 +27,7 @@ class Ajax_LocationController extends Zend_Controller_Action
 	}
 	
 	public function saveAction(){
-		$locationService=new Service_Location();
+		$locationService=new Service_UserSavedLocation();
 		$result=$locationService->save(
 			$this->params['name'], 
 			$this->params['place_lat'], 
@@ -38,7 +38,7 @@ class Ajax_LocationController extends Zend_Controller_Action
 		$this->_helper->json(array('result'=>$result));
 	}
 	public function deleteAction(){
-		$locationService=new Service_Location();
+		$locationService=new Service_UserSavedLocation();
 		$result=$locationService->delete(
 			$this->params['name']
 		);

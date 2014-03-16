@@ -59,6 +59,15 @@
     .l_icon{ float:left; margin:3px 18px 0 0;}
     .save_location, .manage_location{ margin-left:10px; display:inline-block;}
     .manage_location{ border:1px solid #d2d1d0;}
+    /*.selectboxit-container span, .selectboxit-container .selectboxit-options a{
+      height: 19px;
+      line-height: 19px;
+    }*/
+    .chosen-container{
+      input{
+        float:none;
+      }
+    }
 }
 /*.Location{ border:1px solid #cfcfcf; padding:3px;}
 .map_distance{ width:228px; height:12px; position:relative; float:left; margin-top:5px; z-index:1; @include black-gradient; @include border-radius(15px);
