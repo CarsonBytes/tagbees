@@ -170,16 +170,31 @@ jQuery(function($){
       }
     },
     event_dates: null,
+    collapsed_element: null,
     init: function(is_reload){
       var self = this;
       for (var key in self.optional_fields){
         if (jQuery('.'+self.optional_fields[key].name).length){
             jQuery('.'+key).readmore({
+              beforeToggle: function(trigger, element, expanded) {
+                if(expanded) { // The "expand" link was clicked
+                  //console.log('will expand...')
+                  element.find('.more').css('display','block');
+                }
+              },
+              afterToggle: function(trigger, element, expanded) {
+                if(!expanded) { // The "Close" link was clicked
+                  //console.log('expanded...')
+                  element.find('.more').hide();
+                }
+              },
               speed: 75,
+              startOpen: false,
               maxHeight: self.optional_fields[key].height,
               moreLink: '<div class="f_div"><a href="#" class="new_event_more_btn text_link">'+self.optional_fields[key].text+'...</a></div>',
               lessLink: '<div class="f_div"><a href="#" class="new_event_more_btn text_link"><?php echo $this->translate('Collapse...')?></a></div>',
             });
+            jQuery('.'+self.optional_fields[key].name).hide();
         }
       }
       if (typeof is_reload == 'undefined') var is_reload=true;
@@ -202,7 +217,6 @@ jQuery(function($){
           },
       });
       $('#new_event_begin_date, #new_event_end_date').val($.datepicker.formatDate('yy-mm-dd', ns_common_head.today));
-      console.log(is_reload);
       if (is_reload){
         
         ns_common_foot.loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
@@ -285,7 +299,7 @@ jQuery(function($){
       }
     },
     updateFromHiddenInputs: function(){
-      console.log('updateFromHiddenInputs');
+      //console.log('updateFromHiddenInputs');
       if ($('#new_event_event_type').val()!=''){
           $("#new_event_type_caption_"+$('#new_event_event_type').val()).show();
           $('.new_event_event_types a[data-value="'+$('#new_event_event_type').val()+'"]').addClass( "active" );

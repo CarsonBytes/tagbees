@@ -32,7 +32,7 @@
           <div class="new_event_place">
             
             <?php echo $this->partial('partials/new-event/input/place.phtml', array('name'=>'new_event_place')); ?> 
-            <div class="new_event_traffic_note">
+            <div class="new_event_traffic_note more">
               <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_traffic_note')); ?>
             </div>
           
@@ -40,7 +40,7 @@
           
           <div class="new_event_datetime">
             <?php echo $this->partial('partials/new-event/input/datetime.phtml'); ?>
-            <div class="new_event_datetime_note">
+            <div class="new_event_datetime_note more">
               <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_datetime_note')); ?>
             </div>
             
@@ -61,7 +61,7 @@
             
             <div class="new_event_price">
               <?php echo $this->partial('partials/new-event/input/price.phtml', array('name'=>'new_event_price')); ?>
-              <div class="new_event_price_note">
+              <div class="new_event_price_note more">
                 <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_price_note')); ?>
               </div>
             </div>
