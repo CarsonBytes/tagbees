@@ -104,6 +104,9 @@ var ns_common_foot = {
         }
     }
   },
+  getFormDataJson: function(form_css_selector){
+    return JSON.stringify($(form_css_selector).serializeObject())
+  }<?php /*
   saveFormToCookie: function(form_id, data){
     console.log('saveFormCookie')    
     if (typeof data == 'undefined'){
@@ -139,7 +142,7 @@ var ns_common_foot = {
           }
       });
     }
-  }
+  } */?>
 }
 
 jQuery(function($){

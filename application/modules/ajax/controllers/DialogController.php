@@ -16,6 +16,9 @@ class Ajax_DialogController extends Zend_Controller_Action
 		$locationService=new Service_UserSavedLocation();
     	$this->view->user_saved_location=$locationService->getSavedLocations();
     }
+    public function saveEventTemplateAction(){
+      $this->view->title=$this->params['title'];
+    }
     public function showItemBookmarksListAction(){
 		$bookmarkService=new Service_Bookmark();
     	$this->view->item_likes_list=$bookmarkService->getItemBookmarksList($this->params['id']);

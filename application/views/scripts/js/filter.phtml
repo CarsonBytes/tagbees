@@ -58,7 +58,7 @@ jQuery(function($){
                                     ns_filter.saved_locations[location_name]=[ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng'],ns_feeds.feed_para['radius']];
                                     if (!ns_filter.is_saved_location_overrided){
                                       $(".user_saved_location_list").append("<option value=\""+location_name+"\">"+location_name+"</option>")
--                                     $(".user_saved_location_list").val(location_name);
+                                      $(".user_saved_location_list").val(location_name);
                                       $('.user_saved_location_list').trigger('chosen:updated');
                                     }else{
                                         ns_filter.is_saved_location_overrided=false;

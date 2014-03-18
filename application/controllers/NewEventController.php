@@ -15,6 +15,9 @@ class NewEventController extends Zend_Controller_Action {
   public function indexAction() {
     Common::getSession() -> nav = array('Home' => '/', 'Create Event' => null);
     
+    $eventTemplateService=new Service_UserSavedEventTemplate();
+    Common::getSession()->user_saved_event_templates = $eventTemplateService->get();
+    
     if( $this->getRequest()->isPost() ){
       
       $data = $this->_request->getParams();
@@ -105,7 +108,7 @@ class NewEventController extends Zend_Controller_Action {
       }
     }
   }
-
+/*
   public function advancedAction() {
     Common::getSession() -> nav = array('Home' => '/', 'Create Event (Advanced)' => null);
 
@@ -203,6 +206,6 @@ class NewEventController extends Zend_Controller_Action {
         }
       }
     }
-  }
+  }*/
 
 }

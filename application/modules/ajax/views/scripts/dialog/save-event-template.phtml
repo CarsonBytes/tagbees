@@ -1,0 +1,8 @@
+<input class="save_event_template_name" value="<?php echo $this->title ?>"/>
+<?php /*echo $this->translate('or override your saved locations: ');*/ ?>
+<?php //print_r($this->user_saved_location)?>
+<script type="text/javascript">
+	jQuery(function($){
+		$('.save_event_template_name').watermark('Type your saved location here...');
+	});
+</script>

@@ -132,7 +132,7 @@ jQuery(function($){
      //return false;
    },
    submitHandler: function(form) {
-     ns_common_foot.saveFormToCookie('new_event_basic');
+     //ns_common_foot.saveFormToCookie('new_event_basic');
      //ns_common_foot.saveFormToCookie('new_event_advanced', $.cookie('new_event_basic'));
      form.submit();
    },
@@ -142,6 +142,7 @@ jQuery(function($){
    }
  };
   ns_new_event = {
+    form_css_selector: "#new_event_basic",
     optional_fields: {
       'new_event_place':{
         name:'new_event_traffic_note',
@@ -170,12 +171,14 @@ jQuery(function($){
       }
     },
     event_dates: null,
-    collapsed_element: null,
+    saved_event_templates : {},
     init: function(is_reload){
       var self = this;
       for (var key in self.optional_fields){
         if (jQuery('.'+self.optional_fields[key].name).length){
             jQuery('.'+key).readmore({
+              startOpen: false,
+              speed: 75,
               beforeToggle: function(trigger, element, expanded) {
                 if(expanded) { // The "expand" link was clicked
                   //console.log('will expand...')
@@ -188,8 +191,6 @@ jQuery(function($){
                   element.find('.more').hide();
                 }
               },
-              speed: 75,
-              startOpen: false,
               maxHeight: self.optional_fields[key].height,
               moreLink: '<div class="f_div"><a href="#" class="new_event_more_btn text_link">'+self.optional_fields[key].text+'...</a></div>',
               lessLink: '<div class="f_div"><a href="#" class="new_event_more_btn text_link"><?php echo $this->translate('Collapse...')?></a></div>',
@@ -217,9 +218,11 @@ jQuery(function($){
           },
       });
       $('#new_event_begin_date, #new_event_end_date').val($.datepicker.formatDate('yy-mm-dd', ns_common_head.today));
+      <?php foreach(Common::getSession()->user_saved_event_templates as $value){ ?>
+        self.saved_event_templates['<?php echo $value['name']?>']=JSON.parse(<?php echo json_encode($value['data'])?>);
+      <?php } ?>
       if (is_reload){
-        
-        ns_common_foot.loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
+        //ns_common_foot.loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
       
         //$('#addToCategoryDiv, #addTag, .addTumblrDiv').hide();
         
@@ -252,10 +255,10 @@ jQuery(function($){
         }).on('change','#new_event_is_any_time, #new_event_is_all_day', function(){
               ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
       })
-      .on('click','.new_event_load',function(){
+      <?php /*.on('click','.new_event_load',function(){
         console.log('new_event_load')
-        ns_common_foot.loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
-      })
+        //ns_common_foot.loadCookieToForm($('.event_form form, .advanced_event_form form').prop('id'));
+      })*/?>
       .on('click', function(){
       
         //check inputs
@@ -264,7 +267,98 @@ jQuery(function($){
         ns_new_event.updatePeriodInputs($('#new_event_is_any_time'), $('#new_event_is_all_day'), $('#new_event_begin_date'),$('#new_event_end_date'), $('#new_event_begin_time'),$('#new_event_end_time'));
         
         tinymce_ns.init('#new_event_description');
-      })
+      }).on('click','.save_event_template',function(){
+        var is_confirm_add = false;
+        ns_common_head.jQDialog(
+            '<?php echo $this->translate('save this location') ?>',
+            '<?php echo $this->baseUrl('ajax/dialog/save_event_template')?>',
+            {
+                'title':$('#new_event_name').val()
+            },
+            {
+                Save: function() {
+                  if ($.trim($('.save_event_template_name').val())==''){
+                    $('.dialog').prepend('<p><?php echo $this->translate('Please specify the name before saving.')?></p>');
+                    return false;
+                  }
+                  var event_template_name=$('.dialog input.save_event_template_name').val();
+                  if ($('.user_saved_event_template_list [data-value='+event_template_name+']').length>0 && ! is_confirm_add){
+                    $('.dialog').prepend('<p><?php echo $this->translate('same name exists in your saved event templates, do you still want to override?')?></p>');
+                    is_confirm_add = true;
+                    return false;
+                  }
+                    var dialog=$(this);
+                    var data = ns_common_foot.getFormDataJson(self.form_css_selector);
+                    $.ajax({
+                      type: "POST",
+                      url: "<?php echo $this->baseUrl('ajax/user/save_event_template') ?>",
+                        data: {
+                            name:event_template_name,
+                            data: data
+                        },
+                      success: function(msg){
+                        if (msg['result']==1){
+                          self.saved_event_templates[event_template_name]=[name,data];
+                          if ($('.user_saved_event_template_list [data-value='+event_template_name+']').length==0){
+                            $(".user_saved_event_template_list .opt_insert").append("<option data-value=\""+event_template_name+"\"  value=\"[insert]"+event_template_name+"\">"+event_template_name+"</option>")
+                            $(".user_saved_event_template_list .opt_delete").append("<option data-value=\""+event_template_name+"\"  value=\"[delete]"+event_template_name+"\">"+event_template_name+"</option>")
+                          }
+-                         $(".user_saved_event_template_list").val("[insert]"+event_template_name);
+                          $('.user_saved_event_template_list').trigger('chosen:updated');
+                          dialog.dialog( "close" );
+                        }else{
+                            $('.dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
+                        }
+                      },
+                      dataType:'json'
+                    });
+
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+              }
+          );
+          return false;
+       }).on('change','.user_saved_event_template_list',function(){
+         var element = $(this).find('option:selected');
+         var value = element.data('value');
+         if(element.parent('optgroup').hasClass('opt_insert')){
+            $(self.form_css_selector).find('input, textarea').each(function(){
+            var template = self.saved_event_templates[value];
+            if ($(this).prop('name').length && $(this).prop('name') in template){
+              console.log($(this))
+              console.log(template[$(this).prop('name')])
+              if ($(this).is(':checkbox')){
+                console.log($(this).prop('name'))
+                if (template[$(this).prop('name')]==1)$(this).prop('checked',true);
+                else $(this).prop('checked',false)
+              }else{
+                $(this).val(template[$(this).prop('name')]);
+              }
+            }
+          });
+         }else{
+           $.ajax({
+              type: "POST",
+              url: "<?php echo $this->baseUrl('ajax/user/delete_event_template') ?>",
+                data: {
+                    'name':value,
+                },
+              success: function(msg){
+                if (msg['result']==1){
+                    $(".user_saved_event_template_list").val("");
+                    $(".user_saved_event_template_list option[data-value='"+value+"']").remove();
+                    $('.user_saved_event_template_list').trigger('chosen:updated');
+                }else{
+                    $('#dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
+                }
+              },
+            dataType:'json'
+          });
+         }
+         return false;
+       })
       }
       
       $('#new_event_begin_time').watermark("<?php echo $this->translate('new_event_begin_time') ?>").val(ns_common_head.today.getHours()+':'+ns_common_head.today.getMinutes());
@@ -273,6 +367,8 @@ jQuery(function($){
       $('#new_event_end_date').watermark("<?php echo $this->translate('new_event_end_date') ?>");
       $('#new_event_max_price').watermark("<?php echo $this->translate('new_event_max_price') ?>");
       $('#new_event_min_price').watermark("<?php echo $this->translate('new_event_min_price') ?>");
+      
+      $('.user_saved_event_template_list').chosen();
      },
      updatePeriodInputs: function(is_any_time_input, is_all_day_input, begin_date_input, end_date_input, begin_time_input, end_time_input){
       /*if ($('#new_event_begin_time').val()<=

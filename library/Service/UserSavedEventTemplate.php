@@ -21,16 +21,10 @@ class Service_UserSavedEventTemplate{
 	public function save($name,$data,$user_id = null){
     if ($user_id==null) $user_id = $this->user_id;
 		try {
-			$sql='INSERT INTO '+$this->_table+'
-				(user_id,name,data,create_time,update_time) 
-				VALUES';
-			$sql.='('.$user_id.','. 
-					"'".$name."'".','.
-					$data.','.
-          'NOW())'.','.
-          'NOW())';
-			$sql.=" ON DUPLICATE KEY UPDATE name=".$name.", data=".$data.", update_time=NOW()";
-			$this->db->query($sql);
+			$this->db->query(
+        'INSERT INTO '.$this->_table.' (user_id,name,data,create_time,update_time) VALUES(?,?,?,NOW(),NOW()) ON DUPLICATE KEY UPDATE name=?, data=?, update_time=NOW()',
+        array($user_id,$name,$data,$name,$data)
+			);
 			return 1;
 		} catch (Zend_Db_Exception $e) {
 			return $e->getCode();

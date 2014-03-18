@@ -37,7 +37,7 @@
         <input id="locate_somewhere" type="text" name="locate_somewhere" value="" />
         <img id="geo_locate" class="geo_locate" onclick="navigator.geolocation.getCurrentPosition(ns_filter_map.handleGeolocationQuery,ns_filter_map.handleErrors);return false;" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
         <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
-         <select class="user_saved_location_list selectBoxIt">
+         <select class="user_saved_location_list">
           <option value="last" disabled="disabled" selected="selected"><?php echo $this->translate('saved locations') ?>...</option>
           <?php foreach(Common::getSession()->user_saved_locations as $value){?>
             <option value="<?php echo $value['name']?>"><?php echo $value['name']?></option>

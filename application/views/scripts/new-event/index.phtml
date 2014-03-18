@@ -68,17 +68,18 @@
 
             
             <div class="new_event_application">
-              <div class="new_event_application_datetime_note">
+              <div class="new_event_application_datetime_note more">
                 <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_datetime_note')); ?>
               </div>
             </div>
             
             <div class="new_event_organiser">
-              <div class="new_event_organiser_detail">
+              <div class="new_event_organiser_detail more">
                 <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_name')); ?> 
                 <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_detail')); ?>
               </div>
             </div>
+            
             <?php /*?>
             <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_name')); ?> 
             
@@ -93,10 +94,29 @@
 
         </div>
         <div class="horizontal-padding">
-          <div class="f_div">
-            <label>&nbsp;</label>
-            <input type="button" value="<?php echo $this->translate('new_event_load');?>"  class="ignore submit1 new_event_load"/>
-            <input type="button" value="<?php echo $this->translate('new_event_save');?>"  class="ignore submit1 new_event_save"/>
+            <div class="f_div">
+              <label>Template</label>
+              <div class="f_c_r">
+                <select data-placeholder="Insert / Delete Template" style="width:350px;" class="user_saved_event_template_list chosen-select" tabindex="5">
+                  <option value=""></option>
+                  <optgroup class="opt_insert" label="Insert">
+                    <?php foreach(Common::getSession()->user_saved_event_templates as $value){?>
+                      <option data-value="<?php echo $value['name']?>" value="[insert]<?php echo $value['name']?>"><?php echo $value['name']?></option>
+                    <?php } ?>
+                  </optgroup>
+                  <optgroup class="opt_delete" label="Delete">
+                    <?php foreach(Common::getSession()->user_saved_event_templates as $value){?>
+                      <option data-value="<?php echo $value['name']?>" value="[delete]<?php echo $value['name']?>"><?php echo $value['name']?></option>
+                    <?php } ?>
+                  </optgroup>
+                </select>
+                <a href="#" class="save_event_template"><img src="<?php echo $this->baseUrl('images/save.gif')?>" alt=" " /></a>
+                </div>
+            </div>
+          <div class="f_div" style="text-align: center">
+            <?php //<label>&nbsp;</label>?>
+            <?php /*<input type="button" value="<?php echo $this->translate('new_event_load');?>"  class="ignore submit1 new_event_load"/>
+            <input type="button" value="<?php echo $this->translate('new_event_save');?>"  class="ignore submit1 new_event_save"/>*/?>
             <input type="submit" value="<?php echo $this->translate('new_event_submit');?>" name="new_event_submit" class="ignore submit2" id="new_event_submit" />
             <?php /*<input type="button" value="<?php echo $this->translate('new_event_more_detail');?>" class="submit3 new_event_more_detail"/>*/?>
           </div>
