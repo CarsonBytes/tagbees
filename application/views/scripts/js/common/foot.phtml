@@ -330,7 +330,9 @@ jQuery(function($){
           loginined_popup.qtip('hide');
       }
       target.toggleClass('active');
-  });
+  }).on('click', 'a', function(e){
+    if( $(this).attr('href') === '#' ) e.preventDefault(); 
+  });;
   $('input.username').watermark("<?php echo $this->translate('Username') ?>");
   $('input.password').watermark("<?php echo $this->translate('Password') ?>");
   $('input.keyword_text').watermark("<?php echo $this->translate('Enter keyword...') ?>");

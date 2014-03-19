@@ -221,6 +221,7 @@ new_event_traffic_note;"方向指南"
 new_event_organiser_name;"主辦方名字"
 new_event_organiser_detail;"主辦方描述"
 new_event_time;"時間"
+new_event_application_datetime_note;"申請時間描述"
 
 new_event_load;"載入"
 new_event_save;"儲存"
