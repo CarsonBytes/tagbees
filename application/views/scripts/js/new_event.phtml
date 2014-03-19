@@ -287,17 +287,17 @@ jQuery(function($){
                     return false;
                   }
                     var dialog=$(this);
-                    var data = ns_common_foot.getFormDataJson(self.form_css_selector);
+                    var form_data = $(self.form_css_selector).serializeObject();
                     $.ajax({
                       type: "POST",
                       url: "<?php echo $this->baseUrl('ajax/user/save_event_template') ?>",
                         data: {
                             name:event_template_name,
-                            data: data
+                            data: JSON.stringify(form_data)
                         },
                       success: function(msg){
                         if (msg['result']==1){
-                          self.saved_event_templates[event_template_name]=[name,data];
+                          self.saved_event_templates[event_template_name]=form_data;
                           if ($('.user_saved_event_template_list [data-value='+event_template_name+']').length==0){
                             $(".user_saved_event_template_list .opt_insert").append("<option data-value=\""+event_template_name+"\"  value=\"[insert]"+event_template_name+"\">"+event_template_name+"</option>")
                             $(".user_saved_event_template_list .opt_delete").append("<option data-value=\""+event_template_name+"\"  value=\"[delete]"+event_template_name+"\">"+event_template_name+"</option>")
@@ -308,6 +308,7 @@ jQuery(function($){
                         }else{
                             $('.dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
                         }
+                        console.log(self.saved_event_templates)
                       },
                       dataType:'json'
                     });
@@ -320,6 +321,7 @@ jQuery(function($){
           );
           return false;
        }).on('change','.user_saved_event_template_list',function(){
+         console.log('changed!')
          var element = $(this).find('option:selected');
          var value = element.data('value');
          if(element.parent('optgroup').hasClass('opt_insert')){
