@@ -146,7 +146,7 @@ jQuery(function($){
     optional_fields: {
       'new_event_place':{
         name:'new_event_traffic_note',
-        height:240,
+        height:235,
         text: '<?php echo $this->translate('new_event_traffic_note');?>'
       },
       'new_event_datetime':{
@@ -161,18 +161,19 @@ jQuery(function($){
       },
       'new_event_application':{
         name:'new_event_application_note',
-        height:30,
+        height:235,
         text: '<?php echo $this->translate('new_event_application_note');?>'
       },
       'new_event_organiser':{
         name:'new_event_organiser_note',
-        height:0,
+        height:30,
         text: '<?php echo $this->translate('new_event_organiser_note');?>'
       }
     },
     event_dates: null,
     saved_event_templates : {},
     init: function(is_reload){
+      // add readmore function of optional fields
       var self = this;
       for (var key in self.optional_fields){
         if (jQuery('.'+self.optional_fields[key].name).length){
@@ -326,26 +327,34 @@ jQuery(function($){
          var value = element.data('value');
          if(element.parent('optgroup').hasClass('opt_insert')){
             $(self.form_css_selector).find('input, textarea').each(function(){
-              if($(this).is(':submit')) return;
-              var template = self.saved_event_templates[value];
               if ($(this).is(':checkbox')){
                 $(this).prop('checked',false);
-              }else{
-                $(this).val('');
               }
-             console.log($(this))
-            if ($(this).prop('name').length && $(this).prop('name') in template){
-              console.log($(this))
-              console.log(template[$(this).prop('name')])
-              if ($(this).is(':checkbox')){
-                //console.log($(this).prop('name'))
-                if (template[$(this).prop('name')]==1)$(this).prop('checked',true);
-                else $(this).prop('checked',false)
-              }else{
-                $(this).val(template[$(this).prop('name')]);
+              if($(this).is(':submit')) return;
+              var template = self.saved_event_templates[value];
+              //console.log($(this))
+              if ($(this).prop('name').length && $(this).prop('name') in template){
+                //console.log($(this))
+                //console.log(template[$(this).prop('name')])
+                if ($(this).is(':checkbox')){
+                  //console.log($(this).prop('name'))
+                  if (template[$(this).prop('name')]==1)$(this).prop('checked',true);
+                  else $(this).prop('checked',false)
+                }else{
+                  $(this).val(template[$(this).prop('name')]);
+                  $(this).parents('.readmore-js-section.readmore-js-collapsed').next('.readmore-js-toggle').trigger( "click" );
+                }
               }
-            }
+              if ($(this).val()==''){
+                $(this).parents('.readmore-js-section.readmore-js-expanded').next('.readmore-js-toggle').trigger( "click" );
+           }
           });
+          
+          if ($('#new_event_place_lat').val()!='' && $('#new_event_place_lng').val()!=''){
+    ns_new_event_map.updateMapFromLatLng('new_event_place_map', $('#new_event_place_lat').val(), $('#new_event_place_lng').val());}
+          if ($('#new_event_application_place_lat').val()!=''&&  $('#new_event_application_place_lng').val()!=''){
+    ns_new_event_map.updateMapFromLatLng('new_event_application_place_map', $('#new_event_application_place_lat').val(), $('#new_event_application_place_lng').val());}
+          
          }else{
            $.ajax({
               type: "POST",

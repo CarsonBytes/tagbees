@@ -25,6 +25,3 @@ jQuery(function($){
   $('#new_event_basic').validate(new_event_basic_validate_options);
 });
 </script>
-<?php if (Zend_Registry::get('config_ini')->server->online==1){
-    echo $this->partial('js/new_event/init_map.phtml', array('mapDiv_ID'=>'new_event_place_map', 'ac_input_ID'=>'new_event_place', 'lat_input_ID'=>'new_event_place_lat', 'lng_input_ID'=>'new_event_place_lng', 'geo_locate_ID'=>'new_event_geo_locate'));
-} ?>

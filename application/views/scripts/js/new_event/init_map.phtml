@@ -3,7 +3,7 @@ jQuery(function($){
     ns_new_event_map.initMap('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->ac_input_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>');
     $('body')
       .on('click', '#<?php echo $this->geo_locate_ID ?>', function(){
-        handleGeolocation('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->ac_input_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>');
+        ns_new_event_map.handleGeolocation('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->ac_input_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>');
         return false;
       })
       .keypress(function(e){
@@ -13,15 +13,15 @@ jQuery(function($){
     
     $('#<?php echo $this->ac_input_ID ?>')
       .focusin(function () {
-          $(document).keypress(function (e) {
-              if (e.which == 13) {
-                   selectFirstResult('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>', '<?php echo $this->ac_input_ID ?>');
-              }
-          });
+        $(document).keypress(function (e) {
+          if (e.which == 13) {
+            ns_new_event_map.selectFirstResult('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>', '<?php echo $this->ac_input_ID ?>');
+          }
+        });
       })
       .focusout(function () {
           if(!$(".pac-container").is(":focus") && !$(".pac-container").is(":visible"))
-                   selectFirstResult('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>', '<?php echo $this->ac_input_ID ?>');
+                   ns_new_event_map.selectFirstResult('<?php echo $this->mapDiv_ID ?>', '<?php echo $this->lat_input_ID ?>', '<?php echo $this->lng_input_ID ?>', '<?php echo $this->ac_input_ID ?>');
       });
 });
 </script>

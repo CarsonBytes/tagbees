@@ -67,15 +67,15 @@
             </div>
             
             <div class="new_event_application">
-              <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_application_place')); ?> 
+              <?php echo $this->partial('partials/new-event/input/place.phtml', array('name'=>'new_event_application_place')); ?> 
               <div class="new_event_application_note more">
                 <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_note')); ?>
               </div>
             </div>
             
             <div class="new_event_organiser">
-              <div class="new_event_organiser_note more">
                 <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_name')); ?> 
+              <div class="new_event_organiser_note more">
                 <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_note')); ?>
               </div>
             </div>

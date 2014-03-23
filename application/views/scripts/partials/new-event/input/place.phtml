@@ -1,7 +1,7 @@
 <div class="f_div">
   <label for="<?php echo $this->name ?>"><?php echo $this->translate($this->name);?></label>
   <input id="<?php echo $this->name ?>" class="place_ac full" type="text" name="<?php echo $this->name ?>" class="full" value="<?php echo $this->form_data['place'] ?>" />
-  <img id="new_event_geo_locate" class="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
+  <img id="<?php echo $this->name ?>_geo_locate" class="geo_locate" src="<?php echo $this->baseUrl('images/location_icon.png')?>" class="l_icon" alt="geo locate..." />
 </div>
 <div class="f_div event_map">
   <label> </label>
@@ -9,3 +9,6 @@
   <input type="hidden" name="<?php echo $this->name ?>_lng" id="<?php echo $this->name ?>_lng" value="<?php echo $this->form_data['place_lng'] ?>"/>
   <div id="<?php echo $this->name ?>_map" class="map"></div>
 </div>
+<?php if (Zend_Registry::get('config_ini')->server->online==1){
+    echo $this->partial('js/new_event/init_map.phtml', array('mapDiv_ID'=>$this->name.'_map', 'ac_input_ID'=>$this->name, 'lat_input_ID'=>$this->name.'_lat', 'lng_input_ID'=>$this->name.'_lng', 'geo_locate_ID'=>$this->name.'_geo_locate'));
+} ?>

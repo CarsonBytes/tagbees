@@ -1,8 +1,13 @@
 <script type="text/javascript">
 var ns_new_event_map ={
+  markers : {},
+  maps : {},
+  home_icon : '<?php echo $this->baseUrl('images/map/home.png')?>',
+  autocompletes : {},
   initMap: function(mapDiv_ID, ac_input_ID, lat_input_ID, lng_input_ID) {
+    var self = this;
     var mapDiv = document.getElementById(mapDiv_ID);
-        maps[mapDiv_ID] = new google.maps.Map(mapDiv, {
+        self.maps[mapDiv_ID] = new google.maps.Map(mapDiv, {
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           zoomControl:true,
           scrollwheel: false
@@ -10,10 +15,15 @@ var ns_new_event_map ={
         
     // autocomplete init + customization when hitting enter, the first result should be queried
     var ac_input = document.getElementById(ac_input_ID);
-    autocompletes[mapDiv_ID] = new google.maps.places.Autocomplete(ac_input);
-    autocompletes[mapDiv_ID].bindTo('bounds', maps[mapDiv_ID]);
-    google.maps.event.addListener(autocompletes[mapDiv_ID], 'place_changed', function() {
-        updateMapByPlace(autocompletes[mapDiv_ID].getPlace(), mapDiv_ID, lat_input_ID, lng_input_ID);
+    self.autocompletes[mapDiv_ID] = new google.maps.places.Autocomplete(ac_input);
+    self.autocompletes[mapDiv_ID].bindTo('bounds', self.maps[mapDiv_ID]);
+    google.maps.event.addListener(self.autocompletes[mapDiv_ID], 'place_changed', function()  
+    {
+      var place = self.autocompletes[mapDiv_ID].getPlace();
+      if (!place.geometry) {
+        return;
+      }
+        self.updateMapByPlace(self.autocompletes[mapDiv_ID].getPlace(), mapDiv_ID, lat_input_ID, lng_input_ID);
     });
     
     var position;
@@ -22,37 +32,50 @@ var ns_new_event_map ={
     if (ns_common_foot.isNumber(jQuery('#'+lat_input_ID).val()) && ns_common_foot.isNumber(jQuery('#'+lng_input_ID).val())){
       position = new google.maps.LatLng(jQuery('#'+lat_input_ID).val(), jQuery('#'+lng_input_ID).val());  
       
-      maps[mapDiv_ID].setCenter(position);
-      maps[mapDiv_ID].setZoom(17);  
+      self.maps[mapDiv_ID].setCenter(position);
+      self.maps[mapDiv_ID].setZoom(17);  
       
-      markers[mapDiv_ID] = new google.maps.Marker({
+      self.markers[mapDiv_ID] = new google.maps.Marker({
         position: position,
-        map: maps[mapDiv_ID]
+        map: self.maps[mapDiv_ID]
       });
     } else {
       position = new google.maps.LatLng('22.3964280', '114.1094970');
-      maps[mapDiv_ID].setZoom(9);  
-      maps[mapDiv_ID].setCenter(position);
+      self.maps[mapDiv_ID].setZoom(9);  
+      self.maps[mapDiv_ID].setCenter(position);
     }
-  }
-}
-
-
-var markers = {};
-var maps = {};
-var home_icon='<?php echo $this->baseUrl('images/map/home.png')?>';
-var autocompletes = {};
-
-function updateMapByPlace(place, mapDiv_ID, lat_input_ID, lng_input_ID){
-    if(typeof markers[mapDiv_ID] == 'undefined'){
-      markers[mapDiv_ID] = new google.maps.Marker({
-        map: maps[mapDiv_ID]
+  },
+  selectFirstResult: function(mapDiv_ID, lat_input_ID, lng_input_ID, ac_input_ID) {
+    var self = this;
+    $(".pac-container").hide();
+    var firstResult = $(".pac-container .pac-item:first").text();
+    
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({"address":firstResult }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        //if (results[1]) {
+          
+          self.updateMapByPlace(results[0], mapDiv_ID, lat_input_ID, lng_input_ID);
+          
+          //$('#'+ac_input_ID).val(results[1].formatted_address);
+          // use this for most accurate geo location
+          $('#'+ac_input_ID).val(results[0].formatted_address);
+          
+        //}
+      }
+    });
+  },
+  updateMapByPlace: function(place, mapDiv_ID, lat_input_ID, lng_input_ID){
+    var self = this;
+    if(typeof self.markers[mapDiv_ID] == 'undefined'){
+      self.markers[mapDiv_ID] = new google.maps.Marker({
+        map: self.maps[mapDiv_ID]
       });
     }
   
-    markers[mapDiv_ID].setVisible(false);
-    
-    if (!place.geometry) {
+    self.markers[mapDiv_ID].setVisible(false);
+    console.log(place);
+    if (typeof place.geometry == 'undefined') {
         //var content = [{'error' : 'Your input place was not found. please correct the input.'}] ;
         //ns_common_foot.showFlashMessages(content);
         // Inform the user that a place was not found and return.
@@ -61,22 +84,34 @@ function updateMapByPlace(place, mapDiv_ID, lat_input_ID, lng_input_ID){
     }
         // If the place has a geometry, then present it on a map.
     if (place.geometry.viewport) {
-      maps[mapDiv_ID].fitBounds(place.geometry.viewport);
+      self.maps[mapDiv_ID].fitBounds(place.geometry.viewport);
     } else {
-      maps[mapDiv_ID].setCenter(place.geometry.location);
-      maps[mapDiv_ID].setZoom(17);  
+      self.maps[mapDiv_ID].setCenter(place.geometry.location);
+      self.maps[mapDiv_ID].setZoom(17);  
     }
 
-    markers[mapDiv_ID].setPosition(place.geometry.location);
-    markers[mapDiv_ID].setVisible(true);
+    self.markers[mapDiv_ID].setPosition(place.geometry.location);
+    self.markers[mapDiv_ID].setVisible(true);
      
     jQuery('#'+lat_input_ID).val(place.geometry.location.lat());
     jQuery('#'+lng_input_ID).val(place.geometry.location.lng());
+  },
+  updateMapFromLatLng: function(mapDiv_ID, lat, lng){
+    var self = this;
+    var pos = new google.maps.LatLng(lat,lng);
+    if(typeof self.markers[mapDiv_ID] == 'undefined'){
+      self.markers[mapDiv_ID] = new google.maps.Marker({
+        map: self.maps[mapDiv_ID]
+      });
+    }
+    self.maps[mapDiv_ID].setCenter(pos);
+    self.maps[mapDiv_ID].setZoom(17); 
 
-}
-
-// trigger from the geolocate image button
-function handleGeolocation(mapDiv_ID, ac_input_ID, lat_input_ID, lng_input_ID){
+    self.markers[mapDiv_ID].setPosition(pos);
+    self.markers[mapDiv_ID].setVisible(true); 
+  },
+  handleGeolocation: function(mapDiv_ID, ac_input_ID, lat_input_ID, lng_input_ID){
+    var self = this;
     // Try HTML5 geolocation
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -88,7 +123,7 @@ function handleGeolocation(mapDiv_ID, ac_input_ID, lat_input_ID, lng_input_ID){
           if (status == google.maps.GeocoderStatus.OK) {
             //if (results[1]) {
               
-              updateMapByPlace(results[0], mapDiv_ID, lat_input_ID, lng_input_ID);
+              self.updateMapByPlace(results[0], mapDiv_ID, lat_input_ID, lng_input_ID);
               
               //$('#'+ac_input_ID).val(results[1].formatted_address);
               // use this for most accurate geo location
@@ -97,15 +132,13 @@ function handleGeolocation(mapDiv_ID, ac_input_ID, lat_input_ID, lng_input_ID){
             //}
           }
         });
-      }, handleGeolocationErrors);
+      }, self.handleGeolocationErrors);
     } else {
       // Browser doesn't support Geolocation
       alert('Your browser doesn\'t support Geolocation!');
     }
-  
-}
-function handleGeolocationErrors(error)
-{
+  },
+  handleGeolocationErrors: function(error){
     $('#feed-settings-page .location_settings').toggle();
     switch(error.code)
     {
@@ -121,27 +154,7 @@ function handleGeolocationErrors(error)
         default: alert("Unknown error.");
         break;
     }
-}
-
-
-function selectFirstResult(mapDiv_ID, lat_input_ID, lng_input_ID, ac_input_ID) {
-    $(".pac-container").hide();
-    var firstResult = $(".pac-container .pac-item:first").text();
-    
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({"address":firstResult }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            //if (results[1]) {
-              
-              updateMapByPlace(results[0], mapDiv_ID, lat_input_ID, lng_input_ID);
-              
-              //$('#'+ac_input_ID).val(results[1].formatted_address);
-              // use this for most accurate geo location
-              $('#'+ac_input_ID).val(results[0].formatted_address);
-              
-            //}
-        }
-    });
+  }
 }
 
 </script>

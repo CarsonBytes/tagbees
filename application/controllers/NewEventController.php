@@ -79,6 +79,8 @@ class NewEventController extends Zend_Controller_Action {
           //'new_event_more_detail'   => array(),
           'new_event_application_note'   => array(),
           'new_event_application_place'   => array(),
+          'new_event_application_place_lat'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_application_place_lng'   => array(new Zend_Validate_Float('en_US')),
           'new_event_organiser_name'   => array(),
           'new_event_organiser_note'   => array(),
           'new_event_submit'   => array(),
