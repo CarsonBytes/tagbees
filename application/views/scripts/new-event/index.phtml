@@ -65,18 +65,18 @@
                 <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_price_note')); ?>
               </div>
             </div>
-
             
             <div class="new_event_application">
-              <div class="new_event_application_datetime_note more">
-                <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_datetime_note')); ?>
+              <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_application_place')); ?> 
+              <div class="new_event_application_note more">
+                <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_application_note')); ?>
               </div>
             </div>
             
             <div class="new_event_organiser">
-              <div class="new_event_organiser_detail more">
+              <div class="new_event_organiser_note more">
                 <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_name')); ?> 
-                <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_detail')); ?>
+                <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_note')); ?>
               </div>
             </div>
             
@@ -89,7 +89,7 @@
             
             <?php echo $this->partial('partials/new-event/input/text.phtml', array('name'=>'new_event_organiser_website'));?>
             
-            <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_detail')); */?>
+            <?php echo $this->partial('partials/new-event/input/textarea.phtml', array('name'=>'new_event_organiser_note')); */?>
           </div>
 
         </div>

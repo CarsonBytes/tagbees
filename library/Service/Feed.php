@@ -171,9 +171,9 @@ class Service_Feed{
 				$terms_select=$this->db->select();
 				$terms_select->where("f.name LIKE ?", '%'.$user_para['q'].'%')
 					->orWhere("f.description LIKE ?", '%'.$user_para['q'].'%')
-					->orWhere("f.place LIKE ?", '%'.$user_para['q'].'%')
-					->orWhere("f.organiser_email LIKE ?", '%'.$user_para['q'].'%')
-					->orWhere("f.organiser_website LIKE ?", '%'.$user_para['q'].'%');
+					->orWhere("f.place LIKE ?", '%'.$user_para['q'].'%');
+					//->orWhere("f.organiser_email LIKE ?", '%'.$user_para['q'].'%')
+					//->orWhere("f.organiser_website LIKE ?", '%'.$user_para['q'].'%');
 
 				//including related items with similar tag name
 				$tagId_nestedQuery=
@@ -373,8 +373,8 @@ class Service_Feed{
       $item->description = urlencode($item->description);
       $item->datetime_note = urlencode($item->datetime_note);
       $item->price_note = urlencode($item->price_note);
-      $item->application_datetime_note = urlencode($item->application_datetime_note);
-      $item->organiser_detail = urlencode($item->organiser_detail);
+      $item->application_note = urlencode($item->application_note);
+      $item->organiser_note = urlencode($item->organiser_note);
       $item->traffic_note = urlencode($item->traffic_note);
       /*$item->reminder_title = urlencode($item->reminder_title);
       $item->reminder_description = urlencode($item->reminder_description);*/

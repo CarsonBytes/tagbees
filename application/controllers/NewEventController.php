@@ -50,6 +50,7 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_place'   => array(),
           'new_event_place_lat'   => array(new Zend_Validate_Float('en_US')),
           'new_event_place_lng'   => array(new Zend_Validate_Float('en_US')),
+          'new_event_traffic_note'   => array(),
           'new_event_is_any_time' => array('default' => 0),
           'new_event_is_all_day' => array('default' => 0),
           'new_event_begin_date' => array(
@@ -64,6 +65,7 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_end_time' => array(
             new Zend_Validate_Date(array('format' => 'HH:mm'))
           ),
+          'new_event_datetime_note'   => array(),
           //'new_event_is_description_editor_toggled'=> array(),
           'new_event_timezone_id'   => array(),
           'new_event_tree_ids'   => array(),
@@ -73,9 +75,14 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_is_free' => array('default' => 0),
           'new_event_price_min' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
           'new_event_price_max' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
+          'new_event_price_note'   => array(),
+          //'new_event_more_detail'   => array(),
+          'new_event_application_note'   => array(),
+          'new_event_application_place'   => array(),
+          'new_event_organiser_name'   => array(),
+          'new_event_organiser_note'   => array(),
           'new_event_submit'   => array(),
           'new_event_save'   => array(),
-          'new_event_more_detail'   => array()
       );
       $options = array(
           'missingMessage' => "'%field%' is required",
@@ -170,7 +177,7 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_datetime_note'   => array(),
           'new_event_price_note'   => array(),
           'new_event_traffic_note'   => array(),
-          'new_event_application_datetime_note'   => array(),
+          'new_event_application_note'   => array(),
           'new_event_is_free' => array('default' => 0),
           'new_event_min_price' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
           'new_event_max_price' => array(new Zend_Validate_Float('en_US'), 'default' => 0),
@@ -178,7 +185,7 @@ class NewEventController extends Zend_Controller_Action {
           'new_event_organiser_email'   => array(),
           'new_event_organiser_tel'   => array(),
           'new_event_organiser_website'   => array(),
-          'new_event_organiser_detail'   => array(),
+          'new_event_organiser_note'   => array(),
           'new_event_submit'   => array()
       );
       $options = array(

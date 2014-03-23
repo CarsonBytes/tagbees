@@ -1,11 +1,11 @@
 <script type="text/javascript">
 jQuery(function($){
   tinymce_ns.init('#new_event_description');
-  tinymce_ns.init('#new_event_application_datetime_note');
   tinymce_ns.init('#new_event_datetime_note');
   tinymce_ns.init('#new_event_price_note');
   tinymce_ns.init('#new_event_traffic_note');
-  tinymce_ns.init('#new_event_organiser_detail');
+  tinymce_ns.init('#new_event_application_note');
+  tinymce_ns.init('#new_event_organiser_note');
   $.validator.addMethod("pageRequired", function(value, element) {
     return jQuery.validator.methods.required.call(this, value, element);
   }, $.validator.messages.required);

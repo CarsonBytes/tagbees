@@ -160,14 +160,14 @@ jQuery(function($){
         text: '<?php echo $this->translate('new_event_price_note');?>'
       },
       'new_event_application':{
-        name:'new_event_application_datetime_note',
-        height:0,
-        text: '<?php echo $this->translate('new_event_application_datetime_note');?>'
+        name:'new_event_application_note',
+        height:30,
+        text: '<?php echo $this->translate('new_event_application_note');?>'
       },
       'new_event_organiser':{
-        name:'new_event_organiser_detail',
+        name:'new_event_organiser_note',
         height:0,
-        text: '<?php echo $this->translate('new_event_organiser_detail');?>'
+        text: '<?php echo $this->translate('new_event_organiser_note');?>'
       }
     },
     event_dates: null,
@@ -281,7 +281,7 @@ jQuery(function($){
                     return false;
                   }
                   var event_template_name=$('.dialog input.save_event_template_name').val();
-                  if ($('.user_saved_event_template_list [data-value='+event_template_name+']').length>0 && ! is_confirm_add){
+                  if ($('.user_saved_event_template_list [data-value="'+event_template_name+'"]').length>0 && ! is_confirm_add){
                     $('.dialog').prepend('<p><?php echo $this->translate('same name exists in your saved event templates, do you still want to override?')?></p>');
                     is_confirm_add = true;
                     return false;
@@ -298,7 +298,7 @@ jQuery(function($){
                       success: function(msg){
                         if (msg['result']==1){
                           self.saved_event_templates[event_template_name]=form_data;
-                          if ($('.user_saved_event_template_list [data-value='+event_template_name+']').length==0){
+                          if ($('.user_saved_event_template_list [data-value="'+event_template_name+'"]').length==0){
                             $(".user_saved_event_template_list .opt_insert").append("<option data-value=\""+event_template_name+"\"  value=\"[insert]"+event_template_name+"\">"+event_template_name+"</option>")
                             $(".user_saved_event_template_list .opt_delete").append("<option data-value=\""+event_template_name+"\"  value=\"[delete]"+event_template_name+"\">"+event_template_name+"</option>")
                           }
@@ -326,12 +326,19 @@ jQuery(function($){
          var value = element.data('value');
          if(element.parent('optgroup').hasClass('opt_insert')){
             $(self.form_css_selector).find('input, textarea').each(function(){
-            var template = self.saved_event_templates[value];
+              if($(this).is(':submit')) return;
+              var template = self.saved_event_templates[value];
+              if ($(this).is(':checkbox')){
+                $(this).prop('checked',false);
+              }else{
+                $(this).val('');
+              }
+             console.log($(this))
             if ($(this).prop('name').length && $(this).prop('name') in template){
               console.log($(this))
               console.log(template[$(this).prop('name')])
               if ($(this).is(':checkbox')){
-                console.log($(this).prop('name'))
+                //console.log($(this).prop('name'))
                 if (template[$(this).prop('name')]==1)$(this).prop('checked',true);
                 else $(this).prop('checked',false)
               }else{

@@ -58,12 +58,12 @@ return array(
 			),
 			'additional'=>array(
 				'organiser_name',
-				'organiser_email',
-				'organiser_website',
-				'organiser_tel',
+				//'organiser_email',
+				//'organiser_website',
+				//'organiser_tel',
 				'application_place',
-				'application_begin_datetime',
-				'application_end_datetime'
+				//'application_begin_datetime',
+				//'application_end_datetime'
 			)
 		)
 	),/*

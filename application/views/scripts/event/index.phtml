@@ -47,9 +47,9 @@
                       <div class="event_datetime">
                       <?php echo $this->item->application_begin_datetime==null ? '?' : $this->item->application_begin_datetime ?> - <?php echo $this->item->application_end_datetime==null ? '?' : $this->item->application_end_datetime ?> 
                       
-                       <?php if ($this->item->application_datetime_note!=null){ ?>
-                         <div class="event_application_datetime_note">
-                           <?php echo $this->item->application_datetime_note ?>
+                       <?php if ($this->item->application_note!=null){ ?>
+                         <div class="event_application_note">
+                           <?php echo $this->item->application_note ?>
                          </div>
                        <?php } ?>
                       </div>
@@ -114,10 +114,10 @@
                         <td class="content shortened"><?php echo $this -> item -> organiser_name; ?></td>
                     </tr>
                 <?php } ?>
-                <?php if ($this->item->organiser_detail!=null){?>
+                <?php if ($this->item->organiser_note!=null){?>
                     <tr>
                         <td class="title"><strong><?php echo $this -> translate('Organiser Detail: '); ?></strong></td>
-                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_detail; ?>"><?php echo $this -> item -> organiser_detail; ?></a></td>
+                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_note; ?>"><?php echo $this -> item -> organiser_note; ?></a></td>
                     </tr>
                 <?php } ?>
                 <?php /*if ($this->item->organiser_website!=null){?>
