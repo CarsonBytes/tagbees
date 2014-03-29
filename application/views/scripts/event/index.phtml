@@ -1,5 +1,5 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
-<?php //echo '<pre>';var_dump($this->item);echo '</pre>';?>
+<?php echo '<pre>';var_dump($this->item);echo '</pre>';?>
 <div class="main shadow">
     <div class="event_detail">
         <article data-id="<?php echo $this->item->id; ?>" class="detail_div clearfix <?php if (isset($this->item->is_like) && $this->item->is_like==1){ ?>bookmarked<?php } ?>">
@@ -13,7 +13,7 @@
                   </div>
                   <a href="#" class="upload_link ui-state-default ui-corner-all">Upload More Images</a>
               </div>
-              <h3 class="head4"><?php echo $this->item->name; ?></h3>
+              <h3 class="head4"><?php echo $this->item->name; ?> (<?php echo $this->item->event_type ?>)</h3>
           </header>
         <div class="main_details clearfix">
           <iframe class="img_gallery" height="<?php echo $this->item->img_filenames=='' ? 0 : 380?>" width="100%" src="<?php echo $this->gallery_url ?>"></iframe>
@@ -29,30 +29,12 @@
                       <div class="event_datetime">
                         <?php echo $this->item->begin_datetime==null ? '?' : date($date_format,strtotime($this->item->begin_datetime)) ?> - <?php echo $this->item->end_datetime==null ? '?' : date($date_format,strtotime($this->item->end_datetime)) ?> 
                        <?php if ($this->item->datetime_note!=null && $this->item->datetime_note!=''){ ?>
-                       <div class="event_datetime_note">
+                       <div class="event_datetime_note more">
                          <?php echo $this->item->datetime_note ?>
                        </div>
                        <?php } ?>
                        </div>
                      <?php // <a href="#" data-link="more_details.php">...</a>?>
-                    </td>
-                </tr>
-                <?php } ?>
-                
-                <?php //application datetime ?>
-                <?php if (($this->item->application_begin_datetime!=null)||($this->item->application_end_datetime!=null)){ ?>
-                <tr>
-                    <td class="title"><strong><?php echo $this -> translate('Application Time: '); ?></strong></td>
-                    <td class="content">
-                      <div class="event_datetime">
-                      <?php echo $this->item->application_begin_datetime==null ? '?' : $this->item->application_begin_datetime ?> - <?php echo $this->item->application_end_datetime==null ? '?' : $this->item->application_end_datetime ?> 
-                      
-                       <?php if ($this->item->application_note!=null){ ?>
-                         <div class="event_application_note">
-                           <?php echo $this->item->application_note ?>
-                         </div>
-                       <?php } ?>
-                      </div>
                     </td>
                 </tr>
                 <?php } ?>
@@ -66,7 +48,7 @@
                          <?php echo $this->item->place?>
                           
                          <?php if ($this->item->traffic_note!=null && $this->item->traffic_note!=''){ ?>
-                         <div class="event_traffic_note">
+                         <div class="event_traffic_note more">
                            <?php echo $this->item->traffic_note ?>
                          </div>
                          <?php } ?>
@@ -74,6 +56,8 @@
                     </td>
                 </tr>
                 <?php } ?>
+                
+                <?php //price ?>
                 <tr>
                     <td class="title"><strong><?php echo $this -> translate('Price: '); ?></strong></td>
                     <td class="content">
@@ -99,7 +83,7 @@
                             }
                      ?>
                      <?php if ($this->item->price_note!=null && $this->item->datetime_note!=''){ ?>
-                     <div class="event_price_note">
+                     <div class="event_price_note more">
                        <?php echo $this->item->price_note ?>
                      </div>
                      <?php } ?>
