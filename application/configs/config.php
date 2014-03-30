@@ -145,7 +145,7 @@ return array(
         'tag'=>array(
             'default'=> APPLICATION_PATH ."/../public/images/tag.jpg"
         )
-     ),
+     ),/*
      'upload_paths'=>array(
         'user'=>array(
             'profile_pic'=> APPLICATION_PATH ."/../public/uploads/user_profile_pics/"
@@ -153,6 +153,6 @@ return array(
         'event'=>array(
             'pic'=> APPLICATION_PATH ."/../public/uploads/events/"
         )
-     )
+     )*/
 );
 ?>

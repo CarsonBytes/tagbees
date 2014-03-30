@@ -44,7 +44,7 @@ jQuery(function($){
   if (files.length!=0){
     // Initialize the Gallery as image carousel:
     var carouselLinks = [];
-    var uplaodsUrl = '<?php echo Common::getSession()->baseUrl ?>/uploads/';
+    var uplaodsUrl = '<?php echo Common::changePathToURL(Zend_Registry::get('config_ini') ->upload->imagePath)?>';
     var i;
     for (i in files){
       var link = {
