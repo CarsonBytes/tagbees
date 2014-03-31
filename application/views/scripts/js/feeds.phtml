@@ -27,10 +27,10 @@ var ns_feeds = {
     return files;
   },
   <?php // render any kinds of feed and/or more html based on javascript template ?>
-  render: function(data_arr, more_flag, template_id){
+  render: function(data_arr, more_flag, template_id, custom_functions){
     if (typeof more_flag == 'undefined') var more_flag=false;
     if (typeof template_id == 'undefined') var template_id = 'feed_index_item';
-      var feeds_html = this.getHTML(data_arr, template_id);
+      var feeds_html = this.getHTML(data_arr, template_id, custom_functions);
       
       if (more_flag) feeds_html.appendTo( ".feeds_and_more .feeds");
       else $(".feeds_and_more .feeds").html(feeds_html);
@@ -106,8 +106,13 @@ var ns_feeds = {
           else return '';
         },
         formatMysqlDate: function() { 
+            if (typeof arguments[1] == 'undefined'){
+              format = 'dd M yy';
+            } else{
+              format = arguments[1];
+            }
             if (typeof arguments[0] == 'string') 
-              return $.datepicker.formatDate('dd M yy', ns_common_foot.mysqlTimeStampToDate(arguments[0]));
+              return $.datepicker.formatDate(format, ns_common_foot.mysqlTimeStampToDate(arguments[0]));
         },
         tagHTML: function() {
           return self.getTagHTML(this.data.tag_slug_names.split(','), this.data.tag_names.split(','), this.data.tag_types.split(','));

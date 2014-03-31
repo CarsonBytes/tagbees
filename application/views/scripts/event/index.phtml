@@ -1,176 +1,23 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
-<?php echo '<pre>';var_dump($this->item);echo '</pre>';?>
-<div class="main shadow">
-    <div class="event_detail">
-        <article data-id="<?php echo $this->item->id; ?>" class="detail_div clearfix <?php if (isset($this->item->is_like) && $this->item->is_like==1){ ?>bookmarked<?php } ?>">
-          <header>
-              <div class="bookmark_area">
-                  <div class="w1">
-                      <div data-id="<?php echo $this->item->id; ?>" class="star">
-                          <div class="star_inner"></div>
-                      </div>
-                      <span class="w_con">Watched: <?php echo $this->item->like_count; ?></span>
-                  </div>
-                  <a href="#" class="upload_link ui-state-default ui-corner-all">Upload More Images</a>
-              </div>
-              <h3 class="head4"><?php echo $this->item->name; ?> (<?php echo $this->item->event_type ?>)</h3>
-          </header>
-        <div class="main_details clearfix">
-          <iframe class="img_gallery" height="<?php echo $this->item->img_filenames=='' ? 0 : 380?>" width="100%" src="<?php echo $this->gallery_url ?>"></iframe>
-          <div class="d_l">
-            <table class="d_table">
-                <?php //time ?>
-                <?php if ($this->item->is_any_time == 0){
-                    $date_format = ($this->item->is_all_day == 1) ? "Y-m-d (D)" : "Y-m-d (D) H:i";
-                ?>
-                <tr>
-                    <td class="title"><strong><?php echo $this -> translate('Time: '); ?></strong></td>
-                    <td class="content">
-                      <div class="event_datetime">
-                        <?php echo $this->item->begin_datetime==null ? '?' : date($date_format,strtotime($this->item->begin_datetime)) ?> - <?php echo $this->item->end_datetime==null ? '?' : date($date_format,strtotime($this->item->end_datetime)) ?> 
-                       <?php if ($this->item->datetime_note!=null && $this->item->datetime_note!=''){ ?>
-                       <div class="event_datetime_note more">
-                         <?php echo $this->item->datetime_note ?>
-                       </div>
-                       <?php } ?>
-                       </div>
-                     <?php // <a href="#" data-link="more_details.php">...</a>?>
-                    </td>
-                </tr>
-                <?php } ?>
-                
-                <?php //place ?>
-                <?php if ($this->item->place!=null){ ?>
-                <tr>
-                    <td class="title"><strong><?php echo $this -> translate('Place: '); ?></strong></td>
-                    <td class="content">
-                       <div class="event_place">
-                         <?php echo $this->item->place?>
-                          
-                         <?php if ($this->item->traffic_note!=null && $this->item->traffic_note!=''){ ?>
-                         <div class="event_traffic_note more">
-                           <?php echo $this->item->traffic_note ?>
-                         </div>
-                         <?php } ?>
-                       </div>
-                    </td>
-                </tr>
-                <?php } ?>
-                
-                <?php //price ?>
-                <tr>
-                    <td class="title"><strong><?php echo $this -> translate('Price: '); ?></strong></td>
-                    <td class="content">
-                      
-                       <div class="event_price">
-                         <?php if ($this->item->is_free  == 0){?>
-                            
-                        <?php
-                                if ($this -> item -> price_min != '0.00') {
-                                    echo '$' . $this -> item -> price_min;
-                                } else {
-                                    echo '?';
-                                }
-                                echo ' - ';
-                                if ($this -> item -> price_max != '0.00') {
-                                    echo '$' . $this -> item -> price_max;
-                                } else {
-                                    echo '?';
-                                }
-                            ?>
-                     <?php }else{
-                              echo $this->translate('Free!');
-                            }
-                     ?>
-                     <?php if ($this->item->price_note!=null && $this->item->datetime_note!=''){ ?>
-                     <div class="event_price_note more">
-                       <?php echo $this->item->price_note ?>
-                     </div>
-                     <?php } ?>
-                    </div>
-                  </td>
-                </tr>
-                
-                <?php //organiser ?>
-                <?php if ($this->item->organiser_name!=null){?>
-                    <tr>
-                        <td class="title"><strong><?php echo $this -> translate('Organiser Name: '); ?></strong></td>
-                        <td class="content shortened"><?php echo $this -> item -> organiser_name; ?></td>
-                    </tr>
-                <?php } ?>
-                <?php if ($this->item->organiser_note!=null){?>
-                    <tr>
-                        <td class="title"><strong><?php echo $this -> translate('Organiser Detail: '); ?></strong></td>
-                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_note; ?>"><?php echo $this -> item -> organiser_note; ?></a></td>
-                    </tr>
-                <?php } ?>
-                <?php /*if ($this->item->organiser_website!=null){?>
-                    <tr>
-                        <td class="title"><strong><?php echo $this -> translate('Organiser Website: '); ?></strong></td>
-                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_website; ?>"><?php echo $this -> item -> organiser_website; ?></a></td>
-                    </tr>
-                <?php } ?>
-                <?php if ($this->item->organiser_email!=null){?>
-                    <tr>
-                        <td class="title"><strong><?php echo $this -> translate('Organiser Email: '); ?></strong></td>
-                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_email; ?>"><?php echo $this -> item -> organiser_email; ?></a></td>
-                    </tr>
-                <?php } ?>
-                <?php if ($this->item->organiser_tel!=null){?>
-                    <tr>
-                        <td class="title"><strong><?php echo $this -> translate('Organiser Tel: '); ?></strong></td>
-                        <td class="content shortened"><a target="_blank" style="display:inline-block;overflow: hidden" href="<?php echo $this -> item -> organiser_tel; ?>"><?php echo $this -> item -> organiser_tel; ?></a></td>
-                    </tr>
-                <?php }*/ ?>
-                
-                <?php //tags ?>
-                <?php /*if ($this->item->tags_html!=''){?>
-                    <tr>
-                        <td><strong><?php echo $this -> translate('Tag: '); ?></strong></td>
-                        <td><?php echo $this->item->tags_html?></a></td>
-                    </tr>
-                <?php }*/ ?>
-            </table>
-          </div>
-          <div class="d_middle">
-              <div class="qr_code">
-                  <div class="qrcode" id="qr1"></div>
-              </div>
-          </div>
-          <?php if ($this->item->place_lat!=null && $this->item->place_lng!=null && Zend_Registry::get('config_ini')->server->online){?>
-              <div id="event-map" style="float:right;width:220px;height:220px;"></div>
-          <?php } ?>
-        </div>
-        <div class="social_media clearfix">
-            <div class="share">
-                <!-- AddThis Button BEGIN -->
-                <div class="addthis_toolbox addthis_default_style ">
-                    <a class="addthis_counter addthis_pill_style"></a>
-                </div>
-                <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-504d9e426d8fd861"></script>
-                <!-- AddThis Button END -->
-            </div>
-        </div>
-        <div class="description">
-          <?php echo htmlspecialchars_decode(urldecode($this->item->description)) ?>
-        </div>
-        <footer>
-          <div class="tag_l left">
-              <strong>Tags:</strong><span class="tag_html"></span>
-          </div>
-          <div class="tag_r">
-              by <a target="_blank" href="<?php echo $this->baseUrl('user').'/'.$this->item->submitter_slug_name ;?>"><?php echo $this->item->submitter_name ?></a>| <abbr class="timeago" title="<?php echo $this->item->create_time ?>">
-          </div>
-        </footer>
-      </article>
-        <div class="fb-comments" data-href="<?php echo Common::getSession()->currentUrl ?>" data-numposts="5" data-colorscheme="light"></div>
+<?php //echo '<pre>';var_dump($this->item);echo '</pre>';?>
 
+<div class="main shadow">
+  <div class="feeds_and_more">
+    <div class="feeds event_detail"></div>
+  </div>
+</div>
+<?php /*
+<div class="social_media clearfix">
+    <div class="share">
+        <!-- AddThis Button BEGIN -->
+        <div class="addthis_toolbox addthis_default_style ">
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+        <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-504d9e426d8fd861"></script>
+        <!-- AddThis Button END -->
     </div>
 </div>
-
-<div id="dialog" title="Upload Images">
-  <iframe height="100%" width="100%" src=""></iframe>
-</div>
+ */?>
 <?php echo $this -> partial('js/event.phtml', array('item'=>$this->item)) ?>
 <script type="text/javascript">
 jQuery(function($){
@@ -178,8 +25,11 @@ jQuery(function($){
   var tag_names ='<?php echo $this->item->tag_names?>'.split(',');
   var tag_types ='<?php echo $this->item->tag_types?>'.split(',');
   $('.tag_html').html(ns_feeds.getTagHTML(tag_slug_names, tag_names, tag_types));
-  var popup_content = ns_feeds.getHTML(<?php echo json_encode($this->array_result) ?>, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
-  $('body').append(popup_content);
+  //console.log(<?php echo json_encode($this->array_result) ?>)
+  //console.log(<?php echo json_encode($this->item) ?>)
+  ns_feeds.render(<?php echo json_encode($this->array_result) ?>, false, 'tmpl_event_detail', ns_event_detail.tmpl_functions);
+  /*var popup_content = ns_feeds.getHTML(<?php echo json_encode($this->array_result) ?>, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
+  $('body').append(popup_content);*/
   ns_event_detail.init();
 })
 </script>

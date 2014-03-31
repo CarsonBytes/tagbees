@@ -10,7 +10,7 @@ class EventController extends Zend_Controller_Action
     {      
       if ($this->_request->getParam('slug_name')==""){
       }else{
-        $itemService=new Service_Item();
+        //$itemService=new Service_Item();
         if ($this->_request->getParam('tree_ref') != NULL) {
           Zend_Registry::set('tree_ref', explode(',', $this->_request->getParam('tree_ref')));
         }
@@ -39,7 +39,9 @@ class EventController extends Zend_Controller_Action
           
           $this->view->headTitle($this->view->item->name);
           
-          $this->view->gallery_url = Common::getSession()->baseUrl . '/iframe/event/img_gallery?event_id='.$this->view->item->id ;
+          $this->view->item->gallery_url = Common::getSession()->baseUrl . '/iframe/event/img_gallery?event_id='.$this->view->item->id ;
+          
+          $this->view->item->description = htmlspecialchars_decode(urldecode($this->view->item->description));
           
           Common::getSession()->nav=array(
               'Home' => '/',

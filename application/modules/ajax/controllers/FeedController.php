@@ -24,13 +24,13 @@ class Ajax_FeedController extends Zend_Controller_Action
     public function refreshAction()
     {
         $array = array();
-        if ($this->params['type'] == 'index' || $this->params['type'] == 'tag_events'){
+        if ($this->params['type'] == 'index' || $this->params['type'] == 'tag_events' || $this->params['type'] == 'event_detail'){
             $feedService=new Service_Feed();
             $this->_helper->json($feedService->getFeed($this->params));
         } else if ($this->params['type'] == 'user_log'){
             $actionService = new Service_Action();
             $this->_helper->json($actionService->getActions($this->params['user_id'], $this->params['last_id']));
-        }else if ($this->params['type'] == 'tree_feeds'){
+        } else if ($this->params['type'] == 'tree_feeds'){
             $string='';
             $tagService=new Service_Tag();
             $cats=array();

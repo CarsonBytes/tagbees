@@ -57,6 +57,7 @@
             </header>
             {{if place_lat && place_lng}}<div class="gmap" data-lat="${place_lat}" data-lng="${place_lng}" ></div>{{/if}}
             <div class="content">
+              ${$item.getDescription()}
                 <!--{{html $item.urldecode($data.teaser)}}-->
                 ${teaser}
             </div>
