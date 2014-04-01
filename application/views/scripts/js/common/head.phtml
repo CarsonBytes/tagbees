@@ -153,8 +153,11 @@ jQuery(function($){
     success: "valid"
   });
   
-$("abbr.timeago").timeago();
-
+  moment.lang('<?php echo Common::getSiteDisplayLang() ?>');
+  $('.timeago').each(function(){
+    $(this).text(moment($(this).prop('title')).fromNow());
+    console.log(moment($(this).prop('title')).fromNow());
+  })
 });    
 </script>
 <?php echo $this->partial('js/feeds.phtml'); ?>

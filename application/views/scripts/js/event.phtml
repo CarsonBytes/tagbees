@@ -1,11 +1,12 @@
 <script type="text/javascript">
 var ns_event_detail = {
   tmpl_functions : {
-    getDateTimeFormat: function() {
+    getDateTime: function() {
+      var localLang = moment(arguments[0]);
       if (this.data.is_all_day==1){
-        return 'yy-mm-dd (ddd)'
+        return localLang.format('ll')
       } else {
-        return 'yy-mm-dd (ddd) h:mm p'
+        return localLang.format('llll')
       }
     }
   },
@@ -14,12 +15,8 @@ var ns_event_detail = {
     'event_application_datetime':'event_application_note',
     'event_place_datetime':'event_place_datetime_note',
     'event_price':'event_price_note',
-    'event_place':'event_traffic_note'
-    <?php /*'event_organiser':'event_organiser_name',
-    'event_organiser':'event_organiser_tel',
-    'event_organiser':'event_organiser_email',
-    'event_organiser':'event_organiser_website',
-    'event_organiser':'event_organiser_note'*/?>
+    'event_place':'event_traffic_note',
+    'event_organiser_name':'event_organiser_note'
   },
   init: function(){
     // Dialog Link

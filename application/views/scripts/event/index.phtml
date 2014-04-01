@@ -21,15 +21,7 @@
 <?php echo $this -> partial('js/event.phtml', array('item'=>$this->item)) ?>
 <script type="text/javascript">
 jQuery(function($){
-  var tag_slug_names ='<?php echo $this->item->tag_slug_names?>'.split(',');
-  var tag_names ='<?php echo $this->item->tag_names?>'.split(',');
-  var tag_types ='<?php echo $this->item->tag_types?>'.split(',');
-  $('.tag_html').html(ns_feeds.getTagHTML(tag_slug_names, tag_names, tag_types));
-  //console.log(<?php echo json_encode($this->array_result) ?>)
-  //console.log(<?php echo json_encode($this->item) ?>)
   ns_feeds.render(<?php echo json_encode($this->array_result) ?>, false, 'tmpl_event_detail', ns_event_detail.tmpl_functions);
-  /*var popup_content = ns_feeds.getHTML(<?php echo json_encode($this->array_result) ?>, 'bookmark_popup', ns_common_bookmark_popup.tmpl_functions);
-  $('body').append(popup_content);*/
   ns_event_detail.init();
 })
 </script>

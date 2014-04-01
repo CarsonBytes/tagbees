@@ -452,11 +452,11 @@ class Common{
         
         // to be revamped, currently we just support chinese and english....
         if (isset(Common::getSession()->user->display_lang) && strncmp(Common::getSession()->user->display_lang, 'zh', 2) == 0) {
-            $display_lang = 'zh-hk'; // for loginned users choosing chinese before
+            $display_lang = 'zh-HK'; // for loginned users choosing chinese before
         } else if (isset(Common::getSession()->display_lang) && strncmp(Common::getSession()->display_lang, 'zh', 2) == 0) {
-            $display_lang = 'zh-hk'; // for not loginned users choosing chinese before
+            $display_lang = 'zh-HK'; // for not loginned users choosing chinese before
         } else{
-            $display_lang = 'en'; // default language
+            $display_lang = 'en-GB'; // default language
         }
         return $display_lang;
     }

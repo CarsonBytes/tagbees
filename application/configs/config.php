@@ -126,8 +126,8 @@ return array(
         )
     ),
     'languages'=>array(
-        'zh-hk'=>'繁體中文',
-        'en'=>'English'
+        'zh-HK'=>'繁體中文',
+        'en-GB'=>'English'
      ),
      'pics'=>array(
         'sys'=>array(

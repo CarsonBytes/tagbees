@@ -51,7 +51,6 @@ var ns_feeds = {
   getHTML: function(data_arr, template_id, custom_functions){
     if (typeof template_id == 'undefined') var template_id = 'feed_index_item';
     if (typeof custom_functions == 'undefined') var custom_functions = {};
-    console.log(data_arr);
     var self = this;
     var functions = $.extend(true, {}, {
         getMainPicTitle: function(){
@@ -132,7 +131,9 @@ var ns_feeds = {
   },
   attachEvents: function(){
     
-    $("abbr.timeago").timeago();
+    $('.timeago').each(function(){
+      $(this).text(moment($(this).prop('title')).fromNow());
+    })
     
     $(".post_right div.content").dotdotdot({
             wrap : 'letter',

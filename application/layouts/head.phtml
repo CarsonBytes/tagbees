@@ -43,9 +43,12 @@
         ->appendFile('date.js')
         ->appendFile('jquery.editinplace.js')
         ->appendFile('readmore.min.js')
-        ->appendFile('chosen.jquery.min.js');
+        ->appendFile('chosen.jquery.min.js')
+        ->appendFile('moment/moment.min.js')
+        ->appendFile('moment/en-GB.js')
+        ->appendFile('moment/zh-HK.js');
     
-        if (Common::getSiteDisplayLang() == 'zh-hk'){
+        if (Common::getSiteDisplayLang() == 'zh-HK'){
           $this->minifyHeadScript()->appendFile('jquery.validate.messages_zh_TW.js');
         }
         if (Zend_Registry::get('config_ini')->server->online==1){

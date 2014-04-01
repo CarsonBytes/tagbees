@@ -186,7 +186,7 @@ class AuthController extends Zend_Controller_Action
                      $input->email,
                      $input->gender,
                     $input->display_name,
-                    (isset(Common::getSession()->display_lang)) ? Common::getSession()->display_lang : 'zh-hk',
+                    (isset(Common::getSession()->display_lang)) ? Common::getSession()->display_lang : 'zh-HK',
                     (isset(Common::getSession()->user_signup->provider)) ? Common::getSession()->user_signup->provider : null,
                      (isset($data['relateds'])) ? $data['relateds'] : array(),
                     (isset($data['related_types'])) ? $data['related_types'] : array()

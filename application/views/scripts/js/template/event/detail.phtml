@@ -33,13 +33,13 @@
                 <td class="content">
                   <div class="event_datetime">
                   {{if begin_datetime }}
-                    ${$item.formatMysqlDate($data.begin_datetime, $item.getDateTimeFormat())}
+                    ${$item.getDateTime($data.begin_datetime)}
                   {{else}}
                     ?
-                  {{/if}} 
+                  {{/if}} <br />
                   - 
                   {{if end_datetime }}
-                    ${$item.formatMysqlDate($data.end_datetime, $item.getDateTimeFormat())}
+                    ${$item.getDateTime($data.end_datetime)}
                   {{else}}
                     ?
                   {{/if}}
@@ -132,8 +132,6 @@
     </div>
     <div class="description">
       {{html $data.description}}
-      
-      <?php //echo htmlspecialchars_decode(urldecode($this->item->description)) ?>
     </div>
     <footer>
       <div class="tag_l left">
