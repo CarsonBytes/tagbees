@@ -9,7 +9,6 @@
                   </div>
                     <span class="w_con">Watched: ${like_count}</span>
               </div>
-              <a href="#" class="upload_link ui-state-default ui-corner-all">Upload More Images</a>
           </div>
           <h3 class="head4">${name} (${event_type})</h3>
       </header>
@@ -45,7 +44,7 @@
                   {{/if}}
                   {{if datetime_note }}
                      <div class="event_datetime_note more">
-                       ${datetime_note}
+                        {{html $data.datetime_note}}
                      </div>
                   {{/if}}
                    </div>
@@ -63,7 +62,7 @@
                       
                     {{if traffic_note }}
                        <div class="event_traffic_note more">
-                         ${traffic_note}
+                        {{html $data.traffic_note}}
                        </div>
                     {{/if}}
                    </div>
@@ -95,7 +94,7 @@
                     {{/if}}
                   {{if price_note }}
                      <div class="event_price_note more">
-                       ${price_note}
+                      {{html $data.price_note}}
                      </div>
                   {{/if}}
                 </div>
@@ -111,8 +110,8 @@
                        ${organiser_name}
                       
                     {{if organiser_note }}
-                       <div class="event_traffic_note more">
-                         ${organiser_note}
+                       <div class="event_organiser_note more">
+                        {{html $data.organiser_note}}
                        </div>
                     {{/if}}
                    </div>
@@ -121,18 +120,26 @@
             {{/if}}
         </table>
       </div>
-      <div class="d_middle">
-          <div class="qr_code">
-              <div class="qrcode" id="qr1"></div>
-          </div>
-      </div>
       {{if place_lat && place_lng && <?php echo Zend_Registry::get('config_ini')->server->online ?>}}
           <div id="event-map" style="float:right;width:220px;height:220px;"></div>
       {{/if}}
     </div>
-    <div class="description">
-      {{html $data.description}}
-    </div>
+      <div class="d_middle">
+          <a href="#" class="upload_link ui-state-default ui-corner-all">Upload More Images</a>
+          <div class="qr_code">
+              <div class="qrcode" id="qr1"></div>
+          </div>
+      </div>
+      <h2>Description</h2>
+      <div class="description">
+        {{html $data.description}}
+        <div class="clearfix"></div>
+      </div>
+      <h2>Application</h2>
+      <div class="application">
+        {{html $data.application_note}}
+        <div class="clearfix"></div>
+      </div>
     <footer>
       <div class="tag_l left">
           <strong>Tags:</strong>{{html $item.tagHTML()}}

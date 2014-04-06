@@ -370,12 +370,13 @@ class Service_Feed{
       $cat_ids = array_merge($cat_ids, $item->cat_ids);
       
       // encode all html related content to avoid annoying json parse error
-      $item->description = urlencode($item->description);
-      $item->datetime_note = urlencode($item->datetime_note);
-      $item->price_note = urlencode($item->price_note);
-      $item->application_note = urlencode($item->application_note);
-      $item->organiser_note = urlencode($item->organiser_note);
-      $item->traffic_note = urlencode($item->traffic_note);
+      
+      $item->description = htmlspecialchars_decode($item->description);
+      $item->datetime_note = htmlspecialchars_decode($item->datetime_note);
+      $item->price_note = htmlspecialchars_decode($item->price_note);
+      $item->application_note = htmlspecialchars_decode($item->application_note);
+      $item->organiser_note = htmlspecialchars_decode($item->organiser_note);
+      $item->traffic_note = htmlspecialchars_decode($item->traffic_note);
       /*$item->reminder_title = urlencode($item->reminder_title);
       $item->reminder_description = urlencode($item->reminder_description);*/
       

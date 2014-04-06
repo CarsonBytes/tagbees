@@ -41,8 +41,6 @@ class EventController extends Zend_Controller_Action
           
           $this->view->item->gallery_url = Common::getSession()->baseUrl . '/iframe/event/img_gallery?event_id='.$this->view->item->id ;
           
-          $this->view->item->description = htmlspecialchars_decode(urldecode($this->view->item->description));
-          
           Common::getSession()->nav=array(
               'Home' => '/',
               'Event '.$this->view->item->name => null

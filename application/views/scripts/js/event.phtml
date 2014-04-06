@@ -22,7 +22,9 @@ var ns_event_detail = {
     // Dialog Link
     jQuery('.upload_link').click(function() {
     <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
-        jQuery( '#dialog iframe' ).attr( 'src', '<?php echo Common::getSession()->baseUrl ?>/iframe/event/img_upload_form?event_id=<?php echo $this->item->id?>')
+      console.log(jQuery( '#dialog iframe' ));
+        jQuery( '#dialog iframe' ).attr( 'src', '<?php echo Common::getSession()->baseUrl ?>/iframe/event/img_upload_form?event_id=<?php echo $this->item->id?>');
+      console.log(jQuery( '#dialog' ));
         jQuery('#dialog')
           .dialog({
             modal: true,
