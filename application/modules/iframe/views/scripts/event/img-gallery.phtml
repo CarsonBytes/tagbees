@@ -46,14 +46,16 @@ jQuery(function($){
     var carouselLinks = [];
     var uplaodsUrl = '<?php echo Common::changePathToURL(Zend_Registry::get('config_ini') ->upload->imagePath)?>';
     var i;
+    console.log(files);
     for (i in files){
       var link = {
           href: uplaodsUrl + files[i]['filename'],
           thumbnail: uplaodsUrl + 'thumbnail/'+ files[i]['filename']
       };
-      if (typeof files[i]['captions'] == 'undefined') link['title'] = '';
-      else link['title'] = files[i]['captions'];
+      if (typeof files[i]['caption'] == 'undefined') link['title'] = '';
+      else link['title'] = files[i]['caption'];
       
+    console.log(link)
       carouselLinks.push(link);
     };
     blueimp.Gallery(carouselLinks, {

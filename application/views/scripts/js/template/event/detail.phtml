@@ -125,7 +125,9 @@
       {{/if}}
     </div>
       <div class="d_middle">
+        <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
           <a href="#" class="upload_link ui-state-default ui-corner-all">Upload More Images</a>
+        <?php } ?>
           <div class="qr_code">
               <div class="qrcode" id="qr1"></div>
           </div>
