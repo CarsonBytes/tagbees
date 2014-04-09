@@ -285,7 +285,7 @@ class Service_Bookmark{
 			->joinLeft(
 				array('item'),
 				'item.id=user_bookmark.item_id',
-				array('name', 'slug_name', 'type', 'submitter_id', 'score', 'item_status' =>'status')
+				array('name', 'slug_name', 'type', 'submitter_id', 'score', 'mode')
 			)
 			->joinLeft(
 				array('item2'=>'item'),

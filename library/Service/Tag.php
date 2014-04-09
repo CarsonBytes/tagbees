@@ -113,7 +113,7 @@ class Service_Tag{
     	$hottags_parameter['likedWeight']=$ini["para.hotTag.likedWeight"];
 			$select=$this->db->select()
 	        			->from(array('i'=>'item'),array('id','name','slug_name','score'=>$hottags_parameter['likedWeight'].'*count(ul.user_id)+'.$hottags_parameter['taggedWeight'].'*count(ri.item_id)'))
-	        			->where('i.status=1')
+	        			->where("i.mode = 'publish'")
 	        			->where('i.type<>"promotion"')
 	        			->joinLeft(
 	        				array('ul'=>'user_bookmark'),
@@ -142,7 +142,7 @@ class Service_Tag{
     	if($result==null){*/
     	$select=$this->db->select()
         			->from(array('i'=>'item'),array('name','slug_name','create_time'=>'DATE(create_time)'))
-        			->where('i.status=1')
+        			->where("i.mode = 'publish'")
         			->group('i.id')
         			->limit(10)
         			->order("i.create_time desc");
@@ -334,7 +334,7 @@ class Service_Tag{
           'name'=>$name,
           'slug_name'=>$commonService->slugUnique($name),
           'type'=>'tag',
-          'status'=>-1, //awaiting approval
+          //'status'=>-1, //awaiting approval
           'submitter_id'=>$userId,
           'create_time'=>date('Y-m-d H:i:s')
         );

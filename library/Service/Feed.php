@@ -162,9 +162,9 @@ class Service_Feed{
 
 			// display also disabled item of the loginned user
 			if (Zend_Auth::getInstance()->hasIdentity()){
-				$this->feed_query->where("f.status = 1 or f.submitter_id = ?",$this->identity->item_id);
+				$this->feed_query->where("f.mode = 'publish' or f.submitter_id = ?",$this->identity->item_id);
 			}else{
-				$this->feed_query->where("f.status = 1");
+				$this->feed_query->where("f.mode = 'publish'");
 			}
 			// keyword filtering
 			if (isset($user_para['q']) && trim($user_para['q']!='')){
@@ -181,7 +181,7 @@ class Service_Feed{
 					->from(array('item_tag'),array('item_id'))
 					->joinLeft(array('item'),'item.id=item_tag.tag_id',array(''))
 					->where('item.name LIKE ?','%'.$user_para['q'].'%')
-					->where('item.status = 1')
+					->where("item.mode = 'publish'")
 					->where('item_tag.status = 1')
 					->where('type != ?','event');
 				$terms_select->orWhere("f.id in ?", $tagId_nestedQuery);
@@ -191,7 +191,7 @@ class Service_Feed{
 					$this->db->select()
 					->from(array('item'),array('id'))
 					->where('item.name LIKE ?','%'.$user_para['q'].'%')
-					->where('item.status = 1')
+					->where("item.mode = 'publish'")
 					->where('type != ?','event');
 				$result=$this->db->fetchCol($catId_nestedQuery);
 				foreach($result as $cat){
@@ -204,7 +204,7 @@ class Service_Feed{
 					$this->db->select()
 					->from(array('item'),array('id'))
 					->where('item.name LIKE ? or item.slug_name LIKE ? ','%'.$user_para['q'].'%','%'.$user_para['q'].'%')
-					->where('item.status = 1')
+					->where("item.mode = 'publish'")
 					->where('type != ?','event');
 				$result=$this->db->fetchCol($username_nestedQuery);
 				foreach($result as $id){

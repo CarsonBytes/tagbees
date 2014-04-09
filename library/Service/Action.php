@@ -54,7 +54,7 @@ class Service_Action{
                     ->joinLeft('item','item.id=log_action.user_id',array('user_name' => 'name','username' => 'slug_name'))
                     ->joinLeft(array('item2' => 'item'),'item2.id=log_action.object_id',array('object_name' => 'name','object_slug_name' => 'slug_name'))
                     ->where('log_action.status = 1')
-                    ->where('item2.status = 1')
+                    ->where("item2.mode = 'publish'")
                     ->order(array('log_action.update_time desc','log_action.create_time desc'));
         
         if ($isShownActiveOnly == true) {

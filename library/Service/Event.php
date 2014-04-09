@@ -98,7 +98,7 @@ class Service_Event{
             'item_id'=>$post_id,
             'tag_id'=>$tag_id,
             //'type'=>$relatedItem['type'],
-            'status'=>1,
+            //status'=>1, mode publish by default
             'submitter_id'=>$this->identity->item_id,
             'create_time'=>date('Y-m-d H:i:s'),
             'update_time'=>date('Y-m-d H:i:s')
@@ -279,8 +279,8 @@ class Service_Event{
 		}
 	}
 
-	public function activate($id,$flag=1){
-		$var=array('status'=>$flag);
+	public function activate($id,$flag='publish'){
+		$var=array('mode'=>$flag);
 		$this->db->update(
     		'item',
     		$var,
