@@ -174,5 +174,53 @@ jQuery(function($) {
   });
 }); 
 </script>
+
+<script type="text/javascript">
+// auto complete search
+$.widget( "custom.catcomplete", $.ui.autocomplete, {
+  _renderMenu: function( ul, items ) {
+    var that = this,
+      currentCategory = "";
+    $.each( items, function( index, item ) {
+      if ( item.category != currentCategory ) {
+        ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+        currentCategory = item.category;
+      }
+      that._renderItemData( ul, item );
+    });
+  }
+});
+$(function() {
+  <?php /*var data = [
+    { label: "anders", category: "" },
+    { label: "andreas", category: "" },
+    { label: "antal", category: "" },
+    { label: "annhhx10", category: "Products" },
+    { label: "annk K12", category: "Products" },
+    { label: "annttop C13", category: "Products" },
+    { label: "anders andersson", category: "People" },
+    { label: "andreas andersson", category: "People" },
+    { label: "andreas johnson", category: "People" }
+    ];
+ */ ?>
+    $( ".keyword_text" ).catcomplete({
+      delay: 0,
+      //source: data,
+      source: function( request, response ) {
+        $.ajax({
+          type: "GET",
+          url: "<?php echo $this->baseUrl('ajax/search/autocomplete') ?>",
+          dataType: "json",
+          data: {
+            q: $('.keyword_text').val()
+          },
+          success: function( data ) {
+            response( data);
+          }
+        });
+      },
+  });
+});
+</script>
 <?php echo $this->partial('js/template/sidebar/highlight_list_item.phtml')?>
 <?php echo $this->partial('js/template/sidebar/bookmark_list_item.phtml')?>
