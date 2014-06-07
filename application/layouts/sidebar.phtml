@@ -7,13 +7,13 @@
         </section>
         <section class="date_search clearfix">
             <?php $is_all_time = ((isset($_GET['is_all_time']) && ($_GET['is_all_time']==1))||(!isset($_GET['is_all_time']))) ? 1 : 0; ?>
-            <input class="feed_filter_input" type="checkbox" <?php if ($is_all_time){?>checked="checked"<?php } ?> name="is_all_time" id="feed_is_all_time" /> <label for="feed_is_all_time" class="checkbox ">All Time</label>
+            <input class="feed_filter_input" type="checkbox" <?php if ($is_all_time){?>checked="checked"<?php } ?> name="is_all_time" id="feed_is_all_time" /> <label for="feed_is_all_time" class="checkbox "><?php echo $this->translate('all time')?></label>
             <div class="text from">
-                From
+                <?php echo $this->translate('from')?>
             </div>
             <input type="text" name="begin_date" class="feed_filter_input" value="<?php echo isset($_GET['begin_date']) ? $_GET['begin_date'] : ''; ?>" <?php if ($is_all_time){?>disabled="disabled"<?php } ?>/>
             <div class="text to">
-                To
+                <?php echo $this->translate('to')?>
             </div>
             <input type="text" name="end_date" class="feed_filter_input" value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>" <?php if ($is_all_time){?>disabled="disabled"<?php } ?>/>
         </section>

@@ -14,18 +14,18 @@
         <nav class="sort_by">
             <div class="title">Sort by :</div>
             <ul>
-                <li class="<?php if ($sort_by==0){ ?>current<?php } ?>" data-value="0">New</li>
-                <li class="<?php if ($sort_by==1){ ?>current<?php } ?>" data-value="1">Hot</li>
-                <li class="last <?php if ($sort_by==2){ ?>current<?php } ?>" data-value="2">Ending Soon</li>
+                <li class="<?php if ($sort_by==0){ ?>current<?php } ?>" data-value="0"><?php echo $this->translate('new')?></li>
+                <li class="<?php if ($sort_by==1){ ?>current<?php } ?>" data-value="1"><?php echo $this->translate('hot')?></li>
+                <li class="last <?php if ($sort_by==2){ ?>current<?php } ?>" data-value="2"><?php echo $this->translate('ending soon')?></li>
             </ul>
         </nav>
         <input type="hidden" class="feed_filter_input" name="sort_by" value="<?php echo $sort_by ?>"/>
         
-        <input class="feed_filter_input" type="checkbox" <?php if (Zend_Auth::getInstance()->hasIdentity() && isset($_GET['is_match_interest']) && $_GET['is_match_interest']==1) {?>checked="checked" <?php } ?> name="is_match_interest" id="feed_is_match_interest" <?php if (!Zend_Auth::getInstance()->hasIdentity()) { ?> disabled="disabled"<?php } ?>/> <label for="feed_is_match_interest">Match Interest</label>
-        <input class="feed_filter_input" type="checkbox" <?php if (isset($_GET['is_match_location']) && $_GET['is_match_location']==1) {?>checked="checked" <?php } ?> name="is_match_location" id="feed_is_match_location" /> <label for="feed_is_match_location">Match Location</label>
-        <a href="#" class="showMap"><strong><?php echo ($is_show_map != 1) ? 'Show Map' : 'Hide Map' ?></strong></a>
+        <input class="feed_filter_input" type="checkbox" <?php if (Zend_Auth::getInstance()->hasIdentity() && isset($_GET['is_match_interest']) && $_GET['is_match_interest']==1) {?>checked="checked" <?php } ?> name="is_match_interest" id="feed_is_match_interest" <?php if (!Zend_Auth::getInstance()->hasIdentity()) { ?> disabled="disabled"<?php } ?>/> <label for="feed_is_match_interest"><?php echo $this->translate('match interest')?></label>
+        <input class="feed_filter_input" type="checkbox" <?php if (isset($_GET['is_match_location']) && $_GET['is_match_location']==1) {?>checked="checked" <?php } ?> name="is_match_location" id="feed_is_match_location" /> <label for="feed_is_match_location"><?php echo $this->translate('match location')?></label>
+        <a href="#" class="showMap"><strong><?php echo ($is_show_map != 1) ? $this->translate('show map') : $this->translate('hide map') ?></strong></a>
         <input type="hidden" class="feed_filter_input" name="is_show_map" value="<?php echo $is_show_map ?>"/>
-        <a id="refresh_feed" href="#"><strong>Refresh</strong></a>
+        <a id="refresh_feed" href="#"><strong><?php echo $this->translate('refresh')?></strong></a>
         <img alt="loading..." class="loading feed" src="<?php echo $this->baseUrl('images/loading.gif') ?>" />
     </section>
     <section style="display:none;" class="match_location_set clearfix" style="display:none;">

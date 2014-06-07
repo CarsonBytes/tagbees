@@ -1,3 +1,5 @@
+<?php $isLogined = (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) ?true:false;  
+$controller = Zend_Registry::get('request') -> getControllerName(); ?>
 <div id="wrapper">
   <div class="container">
     <header id="header" class="clearfix">
@@ -36,7 +38,7 @@
           <div class="date">Thursday, July 05, 2012</div>
         </div>
         <div class="header_bottom">
-          <?php if (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) { ?>
+          <?php if ($isLogined) { ?>
           <div class="login_info">
                 <strong>Hello, <a href="<?php echo $this->baseUrl('user/'.Common::getSession()->user->username)?>"><?php echo Common::getSession()->user->name ?></a></strong> <img class="grid_icon" width="14" src="<?php echo $this->baseUrl('images/setting.jpg') ?>" />
           </div>
@@ -72,10 +74,13 @@
           
           <nav id="menu">
             <ul>
-              <li <?php
-                if (Zend_Registry::get('request') -> getControllerName() == 'new-event') { echo "class='current'";
-                }
-            ?>><a href="<?php echo $this -> baseUrl('new-event'); ?>">Post</a></li>
+              <li class="<?php echo $controller=='new-event' ? 'current' : ''; ?>"><a href="<?php echo $this -> baseUrl('new-event'); ?>"><?php echo $this->translate('post')?></a></li>
+            
+            <?php if ($isLogined){ ?>
+              <li class="<?php echo $controller=='user' ? 'current' : ''; ?>"><a href="<?php echo $this->baseUrl('user/'.Common::getSession()->user->username)?>"><?php echo $this->translate("profile")?></a></li>
+            <?php } ?>
+            
+            <li class="<?php echo $controller=='editors_pick' ? 'current' : ''; ?>"><a href="#"><?php echo $this->translate("editor's pick")?></a></li>
               <?php /*<li><a href="#">Latest</a></li>
               <li><a href="#">Hot</a></li>
               <li><a href="#">Red Dots</a></li>

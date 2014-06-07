@@ -333,10 +333,10 @@ jQuery(function($){
   }).on('click', 'a', function(e){
     if( $(this).attr('href') === '#' ) e.preventDefault(); 
   });;
-  $('input.username').watermark("<?php echo $this->translate('Username') ?>");
-  $('input.password').watermark("<?php echo $this->translate('Password') ?>");
-  $('input.keyword_text').watermark("<?php echo $this->translate('Enter keyword...') ?>");
-  $('.loc_right input').watermark("<?php echo $this->translate('Enter a location...') ?>");
+  $('input.username').watermark("<?php echo $this->translate('username') ?>");
+  $('input.password').watermark("<?php echo $this->translate('password') ?>");
+  $('input.keyword_text').watermark("<?php echo $this->translate('enter keyword') ?>...");
+  $('.loc_right input').watermark("<?php echo $this->translate('enter location') ?>...");
   
   //defining daterange below search bar...
   //$.datepicker.setDefaults($.datepicker.regional['zh-HK']);

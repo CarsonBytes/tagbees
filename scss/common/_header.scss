@@ -209,23 +209,20 @@
                 li{ 
                     float:left; 
                     padding-right:8px;
-                }
-                li:last-child { 
-                    padding-left:25px;
-                }
-                a{
-                    font-size:13px; 
-                    padding:3px 10px; 
-                    @include bordered; 
-                    @include border-radius(4px); 
-                    text-decoration:none; 
-                    display:inline-block;
-                }
-                a:hover,   li.current a,  li:last-child a{ 
-                    @include yellow-gradient; 
-                    color:$color; 
-                    border:none; 
-                    padding:4px 11px;
+                    a{
+                        font-size:13px; 
+                        padding:3px 10px; 
+                        @include bordered; 
+                        @include border-radius(4px); 
+                        text-decoration:none; 
+                        display:inline-block;
+                    }
+                    &.current a, a:hover{
+                      @include yellow-gradient; 
+                      color:$color; 
+                      border:none; 
+                      padding:4px 11px;
+                    }
                 }
             }
          }
