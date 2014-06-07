@@ -159,7 +159,7 @@ jQuery(function($){
           }
       }
   });
-  $('body').on('click','.language ul ul li',function(){
+  $('body').on('click','.language a',function(){
       $.ajax({
         type: "POST",
         url: "<?php echo $this->baseUrl('ajax/language/switch') ?>",

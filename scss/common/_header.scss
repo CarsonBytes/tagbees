@@ -25,25 +25,10 @@
                     padding-bottom:5px;
                 }
                 a{  
-                    text-decoration:none;
-                }
-                ul ul{ 
-                    display:none; 
-                    position:absolute; 
-                    top:15px; right:0px; 
-                    background:#fff; @include border-radius(4px); 
-                    z-index:10; 
-                    width:100px;
-                }
-                li:hover ul{ display:block; }
-                ul ul li{ padding:5px;}
-                ul ul li a{ color:$color;}
-                .country_flag{ 
-                    @include background_img; 
-                    width:16px; 
-                    height:11px; 
-                    float:left; 
-                    margin-right:9px;
+                  text-decoration:none;
+                  &.active{
+                    font-weight: bold;
+                  }
                 }
             }
             .date{ 

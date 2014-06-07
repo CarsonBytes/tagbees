@@ -228,11 +228,7 @@ $pie-base-class: pie-element;*/
 #header .header_right .header_top .language { float: right; font-size: 12px; line-height: 11px; }
 #header .header_right .header_top .language li { position: relative; z-index: 1000; padding-bottom: 5px; }
 #header .header_right .header_top .language a { text-decoration: none; }
-#header .header_right .header_top .language ul ul { display: none; position: absolute; top: 15px; right: 0px; background: #fff; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; z-index: 10; width: 100px; }
-#header .header_right .header_top .language li:hover ul { display: block; }
-#header .header_right .header_top .language ul ul li { padding: 5px; }
-#header .header_right .header_top .language ul ul li a { color: #333333; }
-#header .header_right .header_top .language .country_flag { background-image: url(../images/sprites.png); background-repeat: no-repeat; width: 16px; height: 11px; float: left; margin-right: 9px; }
+#header .header_right .header_top .language a.active { font-weight: bold; }
 #header .header_right .header_top .date { float: left; color: #333333; font-size: 11px; cursor: pointer; /*&:visited {color:$color;} */ }
 #header .header_right .header_top .date:link { color: #333333; }
 #header .header_right .header_top .date:hover { color: #F0BC05; }

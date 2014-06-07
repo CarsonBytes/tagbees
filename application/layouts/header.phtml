@@ -9,6 +9,16 @@
             $active_language_code = Common::getSiteDisplayLang();
             ?>
             <nav class="language">
+            <?php $i=0;
+              foreach($languages as $key => $value){
+                ?>
+                <a href="#" class="<?php echo $key?> <?php echo $key == $active_language_code ?  'active' : ''; ?>"><?php echo $value; ?><input type="hidden" name="languageCode" value="<?php echo $key ?>" /></a>
+                <?php if ($i < 1) echo '<span>/</span>'; ?> 
+            <?php $i++;  } ?>
+            </nav>
+            <?php 
+             /*
+            <nav class="language">
                 <ul>
                     <li><a href="#" ><span class="country_flag <?php echo $active_language_code?>"></span><?php echo $languages[$active_language_code]; ?></a>
                         <ul class="shadow">
@@ -21,7 +31,8 @@
                         </ul>
                     </li>
                 </ul>
-            </nav>
+            </nav>*/ ?>
+            
           <div class="date">Thursday, July 05, 2012</div>
         </div>
         <div class="header_bottom">
