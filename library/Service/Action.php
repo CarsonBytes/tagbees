@@ -59,9 +59,9 @@ class Service_Action{
         
         if ($isShownActiveOnly == true) {
             $select->where('log_action.status = 1');
-            if (Zend_Auth::getInstance()->hasIdentity()){
+            /*if (Zend_Auth::getInstance()->hasIdentity()){
                 $select->where("log_action.user_id = ?",$this->identity->item_id);
-            }
+            }*/
         }
         if ($last_id != NULL){
             // load more feeds after last_id

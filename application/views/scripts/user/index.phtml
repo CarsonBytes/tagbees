@@ -17,9 +17,8 @@
 </div>
 
 <script type="text/javascript">
-var user_logs = <?php echo json_encode($this->logs) ?>;
 jQuery(function($){
-    renderUserLogs(user_logs, false);
+    ns_user_activities.render(<?php echo json_encode($this->logs) ?>, false);
 });
 </script>
 <?php echo $this -> partial('js/feeds/user_activities.phtml'); ?>

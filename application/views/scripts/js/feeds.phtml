@@ -249,7 +249,7 @@ var ns_feeds = {
                 <?php } ?>
                 self.render(response, more_flag);
               } else if (type == 'user_log'){
-                renderUserLogs(response, more_flag);
+                ns_user_activities.render(response, more_flag);
               } else if ((type == 'tree_feeds')|| (type == 'tag_events')){
                   //renderTreeFeeds(response, more_flag);
                 self.render(response, more_flag);

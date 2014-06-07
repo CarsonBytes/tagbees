@@ -46,7 +46,6 @@ jQuery(function($){
     var carouselLinks = [];
     var uplaodsUrl = '<?php echo Common::changePathToURL(Zend_Registry::get('config_ini') ->upload->imagePath)?>';
     var i;
-    console.log(files);
     for (i in files){
       var link = {
           href: uplaodsUrl + files[i]['filename'],
@@ -55,7 +54,6 @@ jQuery(function($){
       if (typeof files[i]['caption'] == 'undefined') link['title'] = '';
       else link['title'] = files[i]['caption'];
       
-    console.log(link)
       carouselLinks.push(link);
     };
     blueimp.Gallery(carouselLinks, {

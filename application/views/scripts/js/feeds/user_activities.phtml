@@ -1,50 +1,51 @@
 <script type="text/javascript">
-    function renderUserLogs(user_logs, more_flag){
-        if (typeof more_flag == 'undefined') var more_flag=false;
-        if (typeof data == 'undefined') var user_logs = user_logs;
-        
-        var user_logs = generateUserLogs(user_logs);
-        
-        if (more_flag) user_logs.appendTo( ".feeds_and_more .feeds.user_logs");
-        else $(".feeds_and_more .feeds.user_logs").html(user_logs);
-        
-        //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
-        if (user_logs.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
-            ns_common_foot.hideMoreButton(more_flag);
-        }else{
-            $('.load_more_feeds .loading').hide();
-            $('.load_more_feeds .more').show();
-        }
-        
-        //attachIndexFeedEvents();
-        
+var ns_user_activities = {
+    user_logs:{},
+    user_logs_json:{},
+    render: function(user_logs, more_flag){
+      if (typeof more_flag == 'undefined') var more_flag=false;
+      this.user_logs_json = user_logs;
+      this.user_logs = this.getHTML(user_logs);
+      if (more_flag) this.user_logs.appendTo( ".feeds_and_more .feeds.user_logs");
+      else $(".feeds_and_more .feeds.user_logs").html(this.user_logs);
+      
+      //decide if number of feeds is less than expected plus it's not a 'more' action, then the more button is not needed
+      if (this.user_logs.length == 0 <?php //echo Zend_Registry::get('config')->filter->user_para->rpp ?>){
+          ns_common_foot.hideMoreButton(more_flag);
+      }else{
+          $('.load_more_feeds .loading').hide();
+          $('.load_more_feeds .more').show();
+      }
+      
+      //attachIndexFeedEvents();
+      
+    },
+    getHTML: function(user_logs){
+      return $( "#feed_user_item" ).tmpl(user_logs.data,
+        {
+          getPastTense: function(){
+              return user_logs.action_types[this.data.action_type]['past']
+          },
+          getFeedItem: function(){
+              var subfeeds = [];
+              subfeeds.data = user_logs.feeds.data;
+              subfeeds.tree_tags = user_logs.feeds.tree_tags;
+              return ns_feeds.getHTML(subfeeds).wrap('<p>').parent().html();
+          }
+        } 
+      );
     }
-    function generateUserLogs(user_logs){
-        return $( "#feed_user_item" ).tmpl(user_logs.data,
-              {
-                  getPastTense: function(){
-                      return user_logs.action_types[this.data.action_type]['past']
-                  },
-                  getFeedItem: function(){
-                      var subfeeds = [];
-                      subfeeds.data = user_logs.feeds.data;
-                      subfeeds.tree_tags = user_logs.feeds.tree_tags;
-                      return generateIndexFeeds(subfeeds).clone().wrap('<p>').parent().html();
-                  }
-              } 
-        );
-    }
-    jQuery(function($){
-        //when user clicks load more
-        $('body').on("click",'#user_activities .load_more_feeds',function() {
-            var para = {};
-            para['last_id'] = $('.feeds > div:last').data("id");
-            para['user_id'] = user_logs.user_id;
-            
-            ns_feeds.refresh('user_log', true, para);
-            return false;
-        });
-    })
+}
+jQuery(function($){
+    //when user clicks load more
+    $('body').on("click",'#user_activities .load_more_feeds',function() {
+        var para = {};
+        para['last_id'] = $('.feeds > div:last').data("id");
+        para['user_id'] = ns_user_activities.user_logs_json.user_id;
+        ns_feeds.refresh('user_log', true, para);
+        return false;
+    });
+})
 </script>
 <?php echo $this->partial('js/template/feeds/user_activities_item.phtml') ?>
 <?php echo $this -> partial('js/feeds/index_events.phtml'); ?>
