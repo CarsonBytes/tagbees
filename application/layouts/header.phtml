@@ -1,6 +1,6 @@
 <?php $isLogined = (Zend_Auth::getInstance()->hasIdentity() && Common::getSession()->user != null) ?true:false;  
 $controller = Zend_Registry::get('request') -> getControllerName(); ?>
-<div id="wrapper">
+<div id="head_wrapper">
   <div class="container">
     <header id="header" class="clearfix">
       <h1 class="logo"><a href="<?php echo $this -> baseUrl(''); ?>"><img src="<?php echo $this->baseUrl('images/logo.jpg')?>" alt="Tagbees" title="Tagbees" /></a></h1>
@@ -74,6 +74,8 @@ $controller = Zend_Registry::get('request') -> getControllerName(); ?>
           
           <nav id="menu">
             <ul>
+              <li class="<?php echo $controller=='search' ? 'current' : ''; ?>"><a href="<?php echo $this -> baseUrl('search'); ?>"><?php echo $this->translate('search')?></a></li>
+              
               <li class="<?php echo $controller=='new-event' ? 'current' : ''; ?>"><a href="<?php echo $this -> baseUrl('new-event'); ?>"><?php echo $this->translate('post')?></a></li>
             
             <?php if ($isLogined){ ?>

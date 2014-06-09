@@ -15,8 +15,10 @@
     <div id="main_wrapper">
       <div class="container">
         <section id="main" class="clearfix">
-          <?php echo $this->render('sidebar.phtml')
-          ?>
+          <aside id="sidebar" class="left">
+            <?php echo $this->render('sidebar.phtml')
+            ?>
+          </aside>
           <section id="content" class="right">
             <?php echo $this->layout()->content
             ?>

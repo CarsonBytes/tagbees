@@ -208,9 +208,10 @@ var ns_feeds = {
     if(typeof more_flag == 'undefined') var more_flag = false;
     if(typeof para == 'undefined') var para = [];
     
-    if (type == 'index'){
+    if (type == 'index' || type == 'search'){
         if ( !more_flag ){
-            $.address.update();
+            //$.address.path(type);
+            //$.address.update(); why we need to do update??
             this.feed_para.last_id = null;
         }
         if (para != []) para = this.feed_para;
@@ -241,7 +242,7 @@ var ns_feeds = {
                 else ns_filter_map.removeMarkers();
               }
             } else {
-              if (type == 'index') {
+              if (type == 'index' || type == 'search') {
                 <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
                     self.map_markers_data = response.data;
                     if (more_flag) ns_filter_map.addMarkers();

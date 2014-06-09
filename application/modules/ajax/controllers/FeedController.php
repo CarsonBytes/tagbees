@@ -24,7 +24,7 @@ class Ajax_FeedController extends Zend_Controller_Action
     public function refreshAction()
     {
         $array = array();
-        if ($this->params['type'] == 'index' || $this->params['type'] == 'tag_events' || $this->params['type'] == 'event_detail'){
+        if ($this->params['type'] == 'index' || $this->params['type'] == 'search' || $this->params['type'] == 'tag_events' || $this->params['type'] == 'event_detail'){
             $feedService=new Service_Feed();
             $this->_helper->json($feedService->getFeed($this->params));
         } else if ($this->params['type'] == 'user_log'){

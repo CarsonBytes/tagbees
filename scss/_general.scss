@@ -133,76 +133,85 @@ input:disabled{ background:#EBEBE4;}
 /************************************ general end *******************************************************/
 
 /************************************ body start *******************************************************/
-
-body { 
-    line-height:normal; 
-    font:normal 13px 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif; 
-    color:$color; 
-    background-color:white; 
-    #wrapper, #main_wrapper, #footer{
+html{
+  height: 100%;
+  body { 
+      height: 100%;
+      position:relative; 
+      line-height:normal; 
+      font:normal 13px 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif; 
+      color:$color; 
+      background-color:white;
+      #head_wrapper, #main_wrapper, #footer_wrapper{
+        width:100%;
         .container{ 
             width:1012px; 
             margin:0 auto;
         }
-    }
-    #wrapper{ 
+      }
+      #head_wrapper{ 
         background:url(../images/main_bg.jpg) repeat-x bottom center white; 
-        position:relative; 
         z-index:5;
         .container{
-            @extend .container;
+          @extend .container;
         }
-    }
-    #main_wrapper{ 
-        background:/*url(../images/body_bg.jpg) no-repeat top center white;*/#F4F4F4; 
-        padding-top:6px;
+      }
+      #main_wrapper{
+        background:/*url(../images/body_bg.jpg) no-repeat top center white;*/#F4F4F4;
         #main{ 
-            background-color:white;
-            padding:6px 6px 30px;
-            #content{
-                width:688px;
-                .breadcrumb{
-                  @include black-gradient; 
-                  @include border-radius (4px); 
-                  color:white; 
-                  padding:8px 0 8px 17px; 
-                  margin-bottom:10px;
-                  
-                  .nav_content, .nav_title, .nav_content li{
-                    float:left;
+          background-color:white;
+          padding:6px 6px 30px;
+          #content{
+              width:688px;
+              .breadcrumb{
+                @include black-gradient; 
+                @include border-radius (4px); 
+                color:white; 
+                padding:8px 0 8px 17px; 
+                margin-bottom:10px;
+                
+                .nav_content, .nav_title, .nav_content li{
+                  float:left;
+                }
+                
+                .nav_content{
+                  margin-left:10px;
+                  a{ color:white; text-decoration:none;
+                    &:hover{color:#ff1d38;}
+                    &:active {color:$color;}
                   }
-                  
-                  .nav_content{
-                    margin-left:10px;
-                    a{ color:white; text-decoration:none;
-                      &:hover{color:#ff1d38;}
-                      &:active {color:$color;}
-                    }
-                    .separator{
-                      margin: 0 10px;
-                      display: inline-block;
-                    }
+                  .separator{
+                    margin: 0 10px;
+                    display: inline-block;
                   }
                 }
-                .main{
-                    padding:15px 14px 18px 17px;
-                }
-                .main_inner, .tag_con{
-                    h1{
-                      @include yellow-gradient; 
-                      color:#2f3031; 
-                      font-size:22px; 
-                      font-weight:normal; 
-                      padding:3px 0 5px 17px; 
-                      @include border-radius(4px);
-                   }
-                }
-            }
-        }
+              }
+              .main{
+                  padding:15px 14px 18px 17px;
+              }
+              .main_inner, .tag_con{
+                  h1{
+                    @include yellow-gradient; 
+                    color:#2f3031; 
+                    font-size:22px; 
+                    font-weight:normal; 
+                    padding:3px 0 5px 17px; 
+                    @include border-radius(4px);
+                 }
+              }
+          }
+      }
+      &.no_column{
         .container{
-            @extend .container;
+          #main{
+            #content{
+              width:100%;
+            }
+          }
         }
+      }
     }
+  }
 }
 
 /* bookmark popup */

@@ -53,7 +53,7 @@ class EventController extends Zend_Controller_Action
     }
     public function uploadFormAction()
     {
-      $this->_helper->layout->setLayout('empty');
+      $this->_helper->layout->setLayout('no-col');
       
     }
 }

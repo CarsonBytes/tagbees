@@ -1,0 +1,126 @@
+@import "../_init.scss";
+@import "_general.scss";
+
+#index.index {
+  #main_wrapper{
+    background-color:#7CCEFF;
+    #main{
+      background:none !important;
+      .search_filter{
+        background: white;
+        width: 850px;
+        height:400px;
+        margin: 20px auto 0 auto;
+        position:relative;
+        @include border-radius(94px, 94px);
+        .search_filter_inner{
+          padding:20px 75px;
+          a{
+            text-decoration: none;
+            color: grey;
+          }
+          .interest_title{
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+          a.find_tag{
+            margin: 5px 0;
+            display: inline-block;
+          }
+          input{
+            padding:0;
+          }
+          input.text{
+            background: #CAC3CB;
+            width:100%;
+          }
+          .graphic_inputs{
+            .calendar{
+              width: 295px;
+              float:left;
+            }
+            .map{
+              width: 295px;
+              float:right;
+              height:auto;
+              border:0;
+              #map{
+                width:100%;
+                height:209px;
+              }
+            }
+            div.text{
+              margin-top:5px;
+            }
+          }
+          a.search{
+            position: absolute;
+            right: 75px;
+            bottom: 20px;
+            display: block;
+            border: 1px solid black;
+            width: 80px;
+            height: 30px;
+            color: white;
+            text-transform: uppercase;
+            background: #7783AE;
+            text-align: center;
+            line-height: 30px;
+          }
+        }
+      }
+      .editor_picks{
+        width: 850px;
+        margin: 50px auto;
+        .editor_pick{
+          @include box-shadow(grey 2px 2px 10px);
+          @include border-radius(4px, 4px);
+          width: 250px;
+          height: 250px;
+          background:white;
+          float: left;
+          margin-left:50px;
+          margin-bottom: 50px;
+          &.left{
+            margin-left:0;
+          }
+          .editor_pick_inner{
+           .pic{
+            width: 240px;
+            margin: 5px;
+            background: grey;
+            height: 110px;
+           } 
+           a{
+             margin: 0 5px;
+             color: #8992B7;
+             font-size: 17px;
+             text-decoration: none;
+           }
+           .content{
+             border-top: #C1C8DA 1px solid;
+             .content_inner{
+               margin:0 5px;
+               .by{
+                 color:#C2C7CD;
+                 float:left;
+               }
+               .date{
+                color: #C2C7CD;
+                float: right;
+                margin-right: 5px;
+               }
+               .description{
+                clear:both;
+                color:#C2C7CD;
+                height: 87px;
+                overflow-y: hidden;
+               }
+             }
+           }
+          }
+        }
+      }
+    }
+  }
+}
