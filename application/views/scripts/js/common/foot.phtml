@@ -23,9 +23,9 @@ var ns_common_foot = {
     <?php //if (jQuery(".flash_message").is(':visible'))
     //  jQuery(".flash_message").hide(); ?>
     jQuery( "#flash_message_tmpl" ).tmpl( content ).appendTo( ".flash_messages" );
-    jQuery(".flash_messages").fadeIn(300).delay(5000).fadeOut(300, function(){
-       jQuery(this).empty();
-    });
+    
+    jQuery(".flash_messages").fadeIn(300);
+
   },
   getFlashMessageType: function(data){
       if (typeof data == 'object'){
@@ -179,7 +179,9 @@ jQuery(function($){
       return false;
   })
   .on('click','.flash_message .close',function(){
-      $(this).parents('.flash_message').fadeOut(400);
+      $(this).parents(".flash_messages").fadeOut(300, function(){
+         $(this).empty();
+      });
       return false;
   })
   .on('click','#login-trigger',function(e){

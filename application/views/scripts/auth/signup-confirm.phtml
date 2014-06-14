@@ -1,0 +1,11 @@
+<?php echo $this -> partial('breadcrumbs.phtml'); ?>
+<article class="main shadow">
+  <section class="main_inner">
+    <h1>Signup Confirmed!</h1>
+    <div class="pop_form signup_form">
+
+<?php echo $this->translate("The confirmation email was sent to %1\$s. Please confirm your account by clicking the activation link in email."
+    ,'<strong>'.$this->to_confirm_email.'</strong>'); ?>
+    </div>
+  </section>
+</article>

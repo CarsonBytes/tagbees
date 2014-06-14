@@ -44,7 +44,7 @@ class Service_User{
             $email_template_data->gender = $gender;
             $email_template_data->email = $email;
             $email_template_data->code = md5($email.$username.$password);
-            Common::getSession()->user_signup_confirmation->email_template_vars = $email_template_data;
+            Common::getSession()->auth_signup_confirmation->email_template_vars = $email_template_data;
 
 			$packed_data = array (
 				'type'=>'user',

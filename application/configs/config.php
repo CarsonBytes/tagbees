@@ -115,13 +115,13 @@ return array(
 		)
 	),*/
     'email_templates'=>array(
-        'user_signup_confirmation' =>array(
+        'auth_signup_confirmation' =>array(
             'subject' => $translate->translate('Account confirmation from Tagbees')
         ),
-        'user_signup_welcome' =>array(
+        'auth_signup_welcome' =>array(
             'subject' => $translate->translate('Welcome to Tagbees!')
         ),
-        'user_to_reset_password' =>array(
+        'auth_to_reset_password' =>array(
             'subject' => $translate->translate('Reset password on Tagbees')
         )
     ),

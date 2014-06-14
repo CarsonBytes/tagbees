@@ -74,5 +74,14 @@ class Service_Auth{
     
     return $this->db->delete('user_account',$where);
   }
+  
+  public function validateLogin($username,$password){
+    $select = 
+      $this->db->select()
+          ->from('user')
+          ->where('username = ?',$username)
+          ->where('password = ?',MD5($password));
+   return $this->db->fetchOne($select);
+  }
     
 }

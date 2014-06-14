@@ -4,12 +4,12 @@
         <h1>Login</h1>
         <div class="login_form">
             <div class="col_left">
-                <form method="post" action="<?php echo $this->baseUrl('auth/login')?>">
+                <form method="post" action="<?php echo $this->baseUrl('auth/login')?>" id="user_login">
                 <div class="p_field">
-                    <input class="required username"  type="text" name="username" value="" />
+                    <input class="required username" type="text" id="username" name="username" placeholder="Username" value="" />
                 </div>
                 <div class="p_field">
-                    <input type="password" class="required password" type="text" name="password" value="" />
+                    <input type="password" id="password" class="required password" placeholder="Password" type="text" name="password" value="" />
                 </div>
                 
                 <div>
@@ -33,3 +33,4 @@
         </div>
     </section>
 </article>
+<?php echo $this -> partial('js/auth.phtml'); ?>

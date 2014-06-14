@@ -166,7 +166,12 @@
 }
 .pop_form{ padding:10px;
     p{ color:$color; padding-bottom:10px;}
-    label{ width:120px; padding:4px 8px 0 0; display:inline-block;}
+    label{ 
+      width:120px; padding:4px 8px 0 0; display:inline-block;
+      &.valid{
+        display:none;
+      }
+    }
     input, textarea, select{ border:1px solid #c0c0c0; display:inline-block; padding:2px 5px; font-size:12px; /*color:$color;*/ @include border-radius(5px);}
     input{  background:white; width:200px; height:20px;}
     .p_month{ width:80px;}

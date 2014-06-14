@@ -1,0 +1,111 @@
+<script type="text/javascript">
+jQuery(function($){
+  $("input.username").watermark("Username");
+  $("input.password").watermark("Password");
+  $("input.name").watermark("Name");
+  $("input.email").watermark("Email");
+  $("#user_login").validate({
+    onsubmit: true,
+    onkeyup: false,
+    onfocusout: false,
+    rules:{
+      username: {
+        required: true,
+        alphanumeric: true
+      },
+      password: {
+        required: true,
+        remote:{
+          url: "<?php echo $this->baseUrl('ajax/auth/validate_login')?>",
+          type: "POST",
+          data: {
+              'username':  function() {
+                return $( "#username" ).val();
+              },
+              'password': function() {
+                return $( "#password" ).val();
+              },
+          },
+        }
+      }
+    },
+    submitHandler: function(form) {
+      form.submit(); // Don't use a JQuery selector here, just "form"
+    }
+  });
+  $("#user_signup").validate({
+      onkeyup: false,
+      onclick: false,
+       //onfocusout: false,
+      rules: {
+        username: {
+          required: true,
+          minlength: 4,
+          remote:{
+            url: "<?php echo $this->baseUrl('ajax/auth/username_validate')?>",
+                type: "POST"
+          },
+          alphanumeric: true
+        },
+        gender: {
+          required: true,
+        },
+        name: {
+        },
+        email: {
+          required: true,
+          email: true,
+          remote:{
+            url: "<?php echo $this->baseUrl('ajax/auth/user_email_validate')?>",
+                type: "POST"
+          }
+        },
+        password: {
+          required: true,
+          minlength: 6
+        },
+        confirm_password: {
+          equalTo: "#password"
+        }
+      },
+      messages: {
+        signupConfirmPassword :"請確認兩組密碼相同"
+      },
+       submitHandler: function(form) {
+         form.submit(); // Don't use a JQuery selector here, just "form"
+       }
+    });
+    $("#forgot_password").validate({
+        onkeyup: false,
+        onclick: false,
+        rules: {
+            forgot_password_email: {
+                required: true,
+                email: true
+            }
+        },
+       submitHandler: function(form) {
+         form.submit(); // Don't use a JQuery selector here, just "form"
+       }
+    });
+    $("#reset_password").validate({
+       onkeyup: false,
+       onclick: false,
+        rules: {
+            password: {
+                required: true,
+                minlength: 6
+            },
+            confirm_password: {
+                equalTo: "#password"
+            }
+        },
+        messages: {
+          confirmed_reset_password :"請確認兩組密碼相同"
+        },
+       submitHandler: function(form) {
+         form.submit(); // Don't use a JQuery selector here, just "form"
+       }
+    });
+})
+</script>
