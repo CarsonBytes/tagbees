@@ -30,7 +30,8 @@ class AuthController extends Zend_Controller_Action
       $action = $this->getRequest()->getActionName();
       
       if (Zend_Auth::getInstance()->hasIdentity()){
-          if ($action == 'reset_password'){
+          if ($action == 'reset_password' || 
+              $action == 'forgot_password'){
               $this->signUserOut();
           } else if ($action != 'logout'){
               $this->_redirect('');
