@@ -206,13 +206,17 @@ class Service_User{
 	}
     
     public function getUsernameByProvider($provider, $identifier){
+        $where = $this->db->select()
+                ->where('user_account.provider = ?',$provider)
+                ->where('user.item_id = ?',$this->identity->item_id)
+                ->getPart( Zend_Db_Select::WHERE);
+      
         $select = 
             $this->db->select()
                 ->from('user','username')
                 ->joinLeft('user_account', "user.item_id = user_account.user_id")
                 ->where('user_account.identifier = ?',$identifier)
-                ->where('user_account.provider = ?',$provider)
-                ->where('user.item_id = ?',$this->identity->item_id);
+                ->orWhere(implode(' ',$where));
         return $this->db->fetchOne($select);
     }
     

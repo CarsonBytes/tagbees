@@ -29,16 +29,20 @@ class SettingsController extends Zend_Controller_Action {
             case "google":
                 if ($this->_hasParam('code')) {
                   $id = $providerService->getGoogleProfileInfo(
-                    'settings?provider=google',$this->_getParam('code')
+                    'settings?provider=google', false, $this->_getParam('code')
                     )->id;
                 }
                 break;
         }
-        $result = $providerService->addProviderAccount($this->_getParam('provider'), $id);
-        if ($result){
-          $this->_helper->FlashMessenger(array('success'=>"The account is successfully associated!"));
-        } else {
-          $this->_helper->FlashMessenger(array('error'=>"Someone is already using this credential in another account!"));
+        if ($id!=null){
+          $result = $providerService->addProviderAccount($this->_getParam('provider'), $id);
+          if ($result){
+            $this->_helper->FlashMessenger(array('success'=>"The account is successfully associated!"));
+          } else {
+            $this->_helper->FlashMessenger(array('error'=>"Someone is already using this credential in another account!"));
+          }
+        }else{
+            $this->_helper->FlashMessenger(array('error'=>"Cannot login! Please try again later!"));
         }
         $this->_redirect('settings');
     } else if ($this->getRequest()->isPost()){

@@ -30,9 +30,10 @@ class Service_Provider{
   }
   
   public function getGoogleProfileInfo($relative_redirect = '', $is_authenticated, $code_or_token){
-    if (!$is_authenticated){
+    if (!$is_authenticated || !isset(Common::getSession('Provider_Google')->access_token)){
       $client=$this->getGoogleClient($relative_redirect);
       
+      //then this is the code to get token..
       $client->authenticate($code_or_token);
       
       Common::getSession('Provider_Google')->access_token = 
