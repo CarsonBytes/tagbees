@@ -211,7 +211,8 @@ class Service_User{
                 ->from('user','username')
                 ->joinLeft('user_account', "user.item_id = user_account.user_id")
                 ->where('user_account.identifier = ?',$identifier)
-                ->where('user_account.provider = ?',$provider);
+                ->where('user_account.provider = ?',$provider)
+                ->where('user.item_id = ?',$this->identity->item_id);
         return $this->db->fetchOne($select);
     }
     

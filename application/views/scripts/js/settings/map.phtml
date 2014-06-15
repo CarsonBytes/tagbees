@@ -12,7 +12,7 @@ var lat_input_selector = 'input[name="place_lat"]';
 var lng_input_selector = 'input[name="place_lng"]';
 var geo_locate_selector = '#geo_locate';
 
-function ns_filter_map.initMap() {
+function initMap() {
   
   var mapDiv = document.getElementById(mapDiv_ID);
       map = new google.maps.Map(mapDiv, {
@@ -144,7 +144,7 @@ function handleGeolocationErrors(error)
  }
 
 jQuery(function($){
-    ns_filter_map.initMap();
+    initMap();
     $('body')
       .on('click', geo_locate_selector, function(){
         handleGeolocation();

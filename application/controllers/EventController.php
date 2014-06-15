@@ -39,7 +39,7 @@ class EventController extends Zend_Controller_Action
           
           $this->view->headTitle($this->view->item->name);
           
-          $this->view->item->gallery_url = Common::getSession()->baseUrl . '/iframe/event/img_gallery?event_id='.$this->view->item->id ;
+          $this->view->item->gallery_url = Common::getSession()->baseAbsUrl . 'iframe/event/img_gallery?event_id='.$this->view->item->id ;
           
           Common::getSession()->nav=array(
               'Home' => '/',
