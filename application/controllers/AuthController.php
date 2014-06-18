@@ -114,7 +114,7 @@ class AuthController extends Zend_Controller_Action
       
       // delete all possible credentials like previous oauth provider connections
       $this->signUserOut();
-      unset(Common::getSession()->auth_signup_confirmation->email_template_vars);
+      //unset(Common::getSession()->auth_signup_confirmation->email_template_vars);
       unset($_COOKIE['user_signup']);
       unset($_COOKIE['is_email_confirmed']);
       unset($_COOKIE['to_confirm_email']);
@@ -180,7 +180,7 @@ class AuthController extends Zend_Controller_Action
           if (isset(Common::getSession('Providers')->$provider_name->info)){
             $provider_info = Common::getSession('Providers')->$provider_name->info;
             $provider_info->provider_name = $provider_name;
-            $provider_info->is_email_verified = $this->isProviderEmailVerified($provider_info, $provider_name);
+            //$provider_info->is_email_verified = $this->isProviderEmailVerified($provider_info, $provider_name);
             $has_provider_info = true;
           }
             $user = new Service_User();
@@ -195,21 +195,24 @@ class AuthController extends Zend_Controller_Action
                (isset($data['relateds'])) ? $data['relateds'] : array(),
                (isset($data['related_types'])) ? $data['related_types'] : array()
              );
-            if ($has_provider_info){
+            /*if ($has_provider_info){
               unset($_COOKIE['is_email_confirmed']);
               unset($_COOKIE['to_confirm_email']);
               
               $this->_helper->FlashMessenger(array('success'=>'Welcome! you have created your account! Please sign in.'));
               $this->_redirect('auth/login');
-            }
+            }*/
             Common::setCookie('to_confirm_email', $input->email);
             Common::setCookie('is_email_confirmed', 0);
-            $this->_redirect('auth/signup/confirm');
+            
+            //let them play around first
+            $this->signUserIn($input->username);
+            $this->_redirect('');
         }
     }
     
     $this->view->has_provider = false;
-    $this->view->is_email_verified = false;
+    //$this->view->is_email_verified = false;
     if ($this->_hasParam('no_provider')){
       $this->_redirect('auth/signup');
     } else if ($this->_hasParam('provider')){
@@ -219,25 +222,23 @@ class AuthController extends Zend_Controller_Action
       if (isset($session_provider->info)){
         $this->view->has_provider = true;
         $session_provider_info = $session_provider->info;
-        if ($this->view->provider_name == 'google'){
+        //if ($this->view->provider_name == 'google'){
             $this->view->email = isset ($session_provider_info->email) ? $session_provider_info->email : '';
-            $this->view->is_email_verified = $this->isProviderEmailVerified($session_provider_info, 'google');
-            $this->view->provider_id = isset ($session_provider_info->id) ? $session_provider_info->id : '';
-            $this->view->gender = (isset ($session_provider_info->gender) && $session_provider_info->gender == 'female') ? 'f' : 'm';
+            //$this->view->is_email_verified = $this->isProviderEmailVerified($session_provider_info, 'google');
+            $this->view->gender = (isset ($session_provider_info->gender) && $session_provider_info->gender == 'female') ? 'F' : 'M';
             $this->view->name = isset ($session_provider_info->name) ? $session_provider_info->name : '';
             
             if (isset ($session_provider_info->locale))
              Common::getSession()->display_lang = $session_provider_info->locale;
                                       
-        }else if ($this->view->provider_name == 'facebook'){
-            $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
-            $cookie['username'] = isset ($profile['screen_name']) ? $profile['screen_name'] : '';
-            $cookie['email'] = isset ($profile['email']) ? $profile['email'] : '';
-            $cookie['gender'] = (isset ($profile['gender']) && $profile['gender'] == 'female') ? 'f' : 'm';
+        /*}else if ($this->view->provider_name == 'facebook'){
+            $this->view->email = isset ($session_provider_info->email) ? $session_provider_info->email : '';
+          $this->view->gender = (isset ($session_provider_info->gender) && $session_provider_info->gender == 'female') ? 'F' : 'M';
+            $this->view->name = isset ($session_provider_info->name) ? $session_provider_info->name : '';
             
-            if (isset ($profile['locale']))
-                Common::getSession()->display_lang = $profile['locale'];
-        }
+            if (isset ($session_provider_info->locale))
+             Common::getSession()->display_lang = $session_provider_info->locale;
+        }*/
       }
     }
   }
@@ -251,7 +252,7 @@ class AuthController extends Zend_Controller_Action
       $providerService = new Service_Provider();
       // redirection from clicking 1 of the add provider link
       if ( $this->getRequest()->isGet() && $this->_hasParam('provider')) {
-  
+          $provider_name = $this->_getParam('provider');
           switch ($this->_getParam('provider')) {
               case "facebook":
                   if ($this->_hasParam('code')) {
@@ -267,9 +268,10 @@ class AuthController extends Zend_Controller_Action
           }
           if ($id!=null){
             $username = $providerService->getUsernameByProvider($this->_getParam('provider'), $id);
+            //echo '<pre>';var_dump($username);echo '</pre>';die();
             if ($username == null){
-              $this->_helper->FlashMessenger(array('error'=>"Cannot login! Please try again later!"));
-              $this->_redirect('auth/login');
+              // redirect user to create new account
+              $this->_redirect('auth/signup?provider='.$provider_name);
             }else{
                $this->signUserIn($username);
             }
@@ -387,34 +389,6 @@ class AuthController extends Zend_Controller_Action
       }
       
   }
-  private function getSignupFormCookieFromProvider($provider){
-      $profile = $provider->getApi()->getProfile(); 
-      $provider_name = $provider->getName();
-      
-      /*
-       * Common::getSession()->user_signup is other datas (e.g. display_lang)
-       * to be stored in db after the account is created successfully
-       */
-      Common::getSession()->user_signup->provider = $provider;
-      
-      if ($provider_name == 'google'){
-          $cookie['email'] = isset ($profile['email']) ? $profile['email'] : '';
-          $cookie['gender'] = (isset ($profile['gender']) && $profile['gender'] == 'female') ? 'f' : 'm';
-          $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
-          
-          if (isset ($profile['locale']))
-              Common::getSession()->display_lang = $profile['locale'];
-                      
-      }else if ($provider_name == 'facebook'){
-          $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
-          $cookie['username'] = isset ($profile['screen_name']) ? $profile['screen_name'] : '';
-          $cookie['email'] = isset ($profile['email']) ? $profile['email'] : '';
-          $cookie['gender'] = (isset ($profile['gender']) && $profile['gender'] == 'female') ? 'f' : 'm';
-          
-          if (isset ($profile['locale']))
-              Common::getSession()->display_lang = $profile['locale'];
-      }
-  }
 
   protected function signUserIn($username, $objAuth = NULL){
       if ($objAuth == NULL) $objAuth = Zend_Auth::getInstance();
@@ -442,16 +416,16 @@ class AuthController extends Zend_Controller_Action
       if (Zend_Auth::getInstance()->hasIdentity()) {
           Zend_Auth::getInstance()->clearIdentity();
           //unset(Common::getSession()->user);
-      }
       Zend_Session::destroy();
+      }
   }
   
-  private function isProviderEmailVerified($provider_info, $provider_name){
+/*  private function isProviderEmailVerified($provider_info, $provider_name){
     if ($provider_name == 'google' && $provider_info->verified_email != false){
       return true;
     } else if ($provider_name == 'facebook' && isset($provider_info['email'])){
       return true;
     }
     return false;
-  }
+  }*/
 }

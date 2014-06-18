@@ -56,12 +56,15 @@ class Service_Provider{
   
   public function getFacebookAuthUrl($relative_redirect=''){
     if ($relative_redirect==''){
-      $redirect_uri = Common::getSession()->currentUrlNoGet.'/?provider=facebook';
+      $redirect_uri = Common::getSession()->currentUrlNoGet.'?provider=facebook';
     } else {
       $redirect_uri = Common::getSession()->baseAbsUrl. $relative_redirect;
     }
     return $this->getFacebookClient()->getLoginUrl(
-      array('redirect_uri'=>$redirect_uri)
+      array(
+        'redirect_uri'=>$redirect_uri,
+        'scope'=>'email,user_likes'
+      )
     );
   }
   
@@ -72,7 +75,12 @@ class Service_Provider{
     $user_profile = null;
     try {
       $user_profile = $client->api('/me');
-      Common::getSession('Providers')->facebook->info = $user_profile;
+      $user_profile_obj = new stdClass();
+      foreach ($user_profile as $key => $value)
+      {
+          $user_profile_obj->$key = $value;
+      }
+      Common::getSession('Providers')->facebook->info = $user_profile_obj;
     } catch (FacebookApiException $e) {
       echo '<pre>'.htmlspecialchars(print_r($e, true)).'</pre>';
     }

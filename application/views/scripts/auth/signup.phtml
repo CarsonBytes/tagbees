@@ -18,8 +18,8 @@
                 <label for="gender" >Gender</label><br />
                 <select name="gender">
                     <option></option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
+                    <option <?php if ($this->gender=='M'){ ?>selected="selected"<?php } ?> value="M">Male</option>
+                    <option <?php if ($this->gender=='F'){ ?>selected="selected"<?php } ?> value="F">Female</option>
                 </select>
             </div>
             <div class="p_field">
@@ -28,10 +28,10 @@
             </div>
             <div class="p_field">
                 <label>* Email</label>
-                <input type="text" name="email" value="<?php echo $this->email ?>" <?php if ($this->has_provider && $this->is_email_verified){ ?> readonly="readonly"<?php } ?>/>
-                <?php if ($this->has_provider && $this->is_email_verified){ ?>
+                <input type="text" name="email" value="<?php echo $this->email ?>" <?php /*if ($this->has_provider && $this->is_email_verified){ ?> readonly="readonly"<?php }*/ ?>/>
+                <?php /*if ($this->has_provider && $this->is_email_verified){ ?>
                 <p class="red">If you do not want to receive updates from this verfied email address associated with <?php echo ucfirst($this->provider_name); ?>. You could choose to <a href="<?php echo $this->baseUrl('auth/signup?no_provider=1'); ?>">sign up with another email address</a>. You may then be required to confirm your new email address.</p>
-                <?php } ?>
+                <?php }*/ ?>
             </div>
             <div class="p_field">
                 <label>* New Password</label>

@@ -12,7 +12,7 @@ class SearchController extends Zend_Controller_Action
             //'Latest, 3km from Hong Kong, within 60 days' => null
         );
         
-        if (Zend_Auth::getInstance()->hasIdentity()){
+        if (Zend_Auth::getInstance()->hasIdentity()&& Zend_Auth::getInstance()->getIdentity()){
             $locationService=new Service_UserSavedLocation();
             Common::getSession()->user_saved_locations=$locationService->getSavedLocations();
         }

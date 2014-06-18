@@ -39,19 +39,20 @@ class Service_User{
 		$has_provider = false;
 		if ($provider_info!=''){
 		  $has_provider = true;
-      $is_confirmed = ($provider_info->is_email_verified) ? 1 : 0;
+      //To-DO not confirmed by default
+      //$is_confirmed = ($provider_info->is_email_verified) ? 1 : 0;
     }
 		
 		try {
 			//$commonService=new Common();
 			//$slug_username=$commonService->slugUnique($username); // there should not be any duplicate as checked upon submission
-      if (!$is_confirmed){
+      //if (!$is_confirmed){
         $email_template_data->display_name = $display_name;
         $email_template_data->gender = $gender;
         $email_template_data->email = $email;
         $email_template_data->code = md5($email.$username.$password);
         Common::getSession()->auth_signup_confirmation->email_template_vars = $email_template_data;
-      }
+      //}
 
 			$packed_data = array (
 				'type'=>'user',
@@ -72,7 +73,7 @@ class Service_User{
 				'ip'=>$_SERVER['REMOTE_ADDR'],
 				'agent'=>$_SERVER['HTTP_USER_AGENT'],
 				'create_time'=>date('Y-m-d H:i:s'),
-        'is_confirmed'=> $is_confirmed
+        'is_confirmed'=> 0//$is_confirmed
 			);
             
       if ($display_lang) $packed_data['display_lang'] = $display_lang;
@@ -80,16 +81,17 @@ class Service_User{
 			$this->db->insert('user',$packed_data);
 
       //add oauth provider connection
-      if ($provider_info!=''){
+      if ($has_provider){
           
-          $serviceAuth = new Service_Auth();
-          $packed_data = array(
-              'user_id' => $userId,
-              'provider' => $provider_info->provider_name,
-              'identifier' => $provider_info->id,
-              'create_time'=>date('Y-m-d H:i:s')
-          );
-          $this->db->insert('user_account',$packed_data);
+        $serviceAuth = new Service_Auth();
+        $packed_data = array(
+            'user_id' => $userId,
+            'provider' => $provider_info->provider_name,
+            'identifier' => $provider_info->id,
+            'create_time'=>date('Y-m-d H:i:s')
+        );
+        $this->db->insert('user_account',$packed_data);
+        
       }
 
 			//add new item
