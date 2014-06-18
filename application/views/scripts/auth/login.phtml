@@ -1,4 +1,4 @@
-\<?php echo $this->partial('breadcrumbs.phtml'); ?>
+<?php echo $this->partial('breadcrumbs.phtml'); ?>
 <article class="main shadow">
     <section class="main_inner">
         <h1>Login</h1>
@@ -25,9 +25,8 @@
                 <p>Or</p>
             </div>
             <div class="col_right">
-                    <a href="<?php echo $this->googleAuthUrl ?>" class="button google"></a><br />
-                    <a href="<?php echo $this->facebookAuthUrl ?>" class="button facebook"></a><br />
-                    <a href="<?php echo $this->twitterAuthUrl ?>" class="button twitter"></a>
+                    <a href="<?php echo $this->auth_link->google ?>" class="button google"></a><br />
+                    <a href="<?php echo $this->auth_link->facebook ?>" class="button facebook"></a>
             </div>
             <div class="clr"></div>
         </div>

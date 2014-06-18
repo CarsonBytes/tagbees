@@ -1312,6 +1312,7 @@ li.ui-timepicker-selected .ui-timepicker-duration, .ui-timepicker-list li:hover 
 .signup_form { padding: 10px 208px 10px 185px; }
 .signup_form input { width: 229px; height: 26px; }
 .signup_form input.submit_btn { float: right; }
+.signup_form .red { color: red; font-size: 11px; }
 
 .clr { clear: both; }
 

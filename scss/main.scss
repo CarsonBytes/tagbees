@@ -333,8 +333,16 @@
 }
 .signup_form{
   padding: 10px 208px 10px 185px;
-  input{width:229px; height:26px; }
-  input.submit_btn{float:right;}
+  input{
+    width:229px; height:26px; 
+  }
+  input.submit_btn{
+    float:right;
+  }
+  .red{
+    color:red;
+    font-size:11px;
+  }
 }
 .clr{clear:both;}
 .other_options{

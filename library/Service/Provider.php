@@ -11,7 +11,7 @@ class Service_Provider{
   
   private function getGoogleClient($relative_redirect = ''){
     if ($relative_redirect==''){
-      $redirect_uri = Common::getSession()->currentUrl;
+      $redirect_uri = Common::getSession()->currentUrlNoGet.'?provider=google';
     } else {
       $redirect_uri = Common::getSession()->baseAbsUrl. $relative_redirect;
     }
@@ -30,18 +30,20 @@ class Service_Provider{
   }
   
   public function getGoogleProfileInfo($relative_redirect = '', $is_authenticated, $code_or_token){
-    if (!$is_authenticated || !isset(Common::getSession('Provider_Google')->access_token)){
+    if (!$is_authenticated || !isset(Common::getSession('Providers')->google->access_token)){
+      
+      if (!isset($code_or_token)) return false;
       $client=$this->getGoogleClient($relative_redirect);
       
       //then this is the code to get token..
       $client->authenticate($code_or_token);
       
-      Common::getSession('Provider_Google')->access_token = 
+      Common::getSession('Providers')->google->access_token = 
       json_decode($client->getAccessToken())->access_token;
     }
-    $json = file_get_contents('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token='.Common::getSession('Provider_Google')->access_token );
+    $json = file_get_contents('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token='.Common::getSession('Providers')->google->access_token );
     
-    return json_decode($json);
+    return Common::getSession('Providers')->google->info = json_decode($json);
   }
   
   
@@ -54,7 +56,7 @@ class Service_Provider{
   
   public function getFacebookAuthUrl($relative_redirect=''){
     if ($relative_redirect==''){
-      $redirect_uri = Common::getSession()->currentUrl;
+      $redirect_uri = Common::getSession()->currentUrlNoGet.'/?provider=facebook';
     } else {
       $redirect_uri = Common::getSession()->baseAbsUrl. $relative_redirect;
     }
@@ -65,16 +67,14 @@ class Service_Provider{
   
   public function getFacebookProfileInfo($code){
     $client = $this->getFacebookClient();
-    //$token = $client->getAccessToken();
-    //echo '<pre>';var_dump($token);echo '</pre>';die();
-    //$client->setAccessToken($token);
+    Common::getSession('Providers')->facebook->token = $client->getAccessToken();
     
     $user_profile = null;
     try {
       $user_profile = $client->api('/me');
+      Common::getSession('Providers')->facebook->info = $user_profile;
     } catch (FacebookApiException $e) {
       echo '<pre>'.htmlspecialchars(print_r($e, true)).'</pre>';
-      $user = null;
     }
     return $user_profile;
   }
@@ -90,12 +90,11 @@ class Service_Provider{
   
   public function addProviderAccount($provider, $id){
     // check if others have link their account using duplicate credential
-    
-    $userService = new Service_User();            
-    $username = $userService->getUsernameByProvider($provider, $id);
+    // if duplicated, return that username
+    $username = $this->getUsernameByProvider($provider, $id);
     
     if ($username == false){
-      // no one is using this account credential so the provider should be added
+      // no users is using this account credential so the provider should be added
       $identity=Zend_Auth::getInstance()->getIdentity();
       $data = array(
           'user_id' => $identity->item_id,
@@ -107,7 +106,7 @@ class Service_Provider{
         
       return true;
     }else{
-      return false;
+      return $username;
     }
   }
 
@@ -123,5 +122,33 @@ class Service_Provider{
     $auth->clearIdentity($provider);
     
     return $this->db->delete('user_account',$where);
+  }
+    
+  public function getUsernameByProvider($provider, $identifier){
+    $select = 
+        $this->db->select()
+            ->from('user','username')
+            ->joinLeft('user_account', "user.item_id = user_account.user_id")
+            ->where('user_account.provider = ?',$provider)
+            ->where('user_account.identifier = ?',$identifier);
+    return $this->db->fetchOne($select);
+  }
+
+  public function getSessionProvider($target_provider=''){
+    if ($target_provider != ''){
+      if (isset(Common::getSession('Providers')->$target_provider)){
+        return Common::getSession('Providers')->$target_provider;
+      } else {
+        return false;
+      }
+    }
+    
+    $providers = array('google','facebook');
+    foreach($providers as $provider){
+      if (isset(Common::getSession('Providers')->$provider)){
+        return Common::getSession('Providers')->$provider;
+      }
+    }
+    return false;
   }
 }

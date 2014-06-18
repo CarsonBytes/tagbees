@@ -36,7 +36,7 @@ class SettingsController extends Zend_Controller_Action {
         }
         if ($id!=null){
           $result = $providerService->addProviderAccount($this->_getParam('provider'), $id);
-          if ($result){
+          if ($result == true){
             $this->_helper->FlashMessenger(array('success'=>"The account is successfully associated!"));
           } else {
             $this->_helper->FlashMessenger(array('error'=>"Someone is already using this credential in another account!"));
@@ -52,8 +52,6 @@ class SettingsController extends Zend_Controller_Action {
     
     $user_provider_names = $providerService->getUserProvidersByUserId();
     $this->view->auth_link = array();
-    $this->view->user_name = array();
-    $this->view->user_pic = array();
     if (!in_array('google', $user_provider_names)){
       $this->view->auth_link['google'] = $providerService->getGoogleAuthUrl('settings?provider=google');
     }

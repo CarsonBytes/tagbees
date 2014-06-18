@@ -34,17 +34,24 @@ class Service_User{
 
         return $this->db->fetchRow($select, array(),$fetch_mode);
     }
-	public function add($username,$password,$email,$gender, $display_name, $display_lang, $provider, $relateds=array(),$related_types=array()){
+	public function add($username,$password,$email,$gender, $display_name, $display_lang, $provider_info, $relateds=array(),$related_types=array()){
 		//add user item (item -> user)
+		$has_provider = false;
+		if ($provider_info!=''){
+		  $has_provider = true;
+      $is_confirmed = ($provider_info->is_email_verified) ? 1 : 0;
+    }
+		
 		try {
 			//$commonService=new Common();
 			//$slug_username=$commonService->slugUnique($username); // there should not be any duplicate as checked upon submission
-            
-            $email_template_data->display_name = $display_name;
-            $email_template_data->gender = $gender;
-            $email_template_data->email = $email;
-            $email_template_data->code = md5($email.$username.$password);
-            Common::getSession()->auth_signup_confirmation->email_template_vars = $email_template_data;
+      if (!$is_confirmed){
+        $email_template_data->display_name = $display_name;
+        $email_template_data->gender = $gender;
+        $email_template_data->email = $email;
+        $email_template_data->code = md5($email.$username.$password);
+        Common::getSession()->auth_signup_confirmation->email_template_vars = $email_template_data;
+      }
 
 			$packed_data = array (
 				'type'=>'user',
@@ -57,34 +64,33 @@ class Service_User{
             
 			$packed_data = array (
 				'item_id' => $userId,
-                'username' => $username,
+        'username' => $username,
 				'email' => $email,
 				'gender' => $gender,
-                'password' => md5($password),
-                'confirm_code' => $email_template_data->code,
+        'password' => md5($password),
+        'confirm_code' => $email_template_data->code,
 				'ip'=>$_SERVER['REMOTE_ADDR'],
 				'agent'=>$_SERVER['HTTP_USER_AGENT'],
-				'create_time'=>date('Y-m-d H:i:s')
+				'create_time'=>date('Y-m-d H:i:s'),
+        'is_confirmed'=> $is_confirmed
 			);
             
-            if ($display_lang) $packed_data['display_lang'] = $display_lang;
+      if ($display_lang) $packed_data['display_lang'] = $display_lang;
             
 			$this->db->insert('user',$packed_data);
 
-            //add oauth provider connection
-            if ($provider){
-                $provider_name = $provider->getName();
-                $user_identifier = $provider->getId();
-                
-                $serviceAuth = new Service_Auth();
-                $packed_data = array(
-                    'user_id' => $userId,
-                    'provider' => $provider_name,
-                    'identifier' => $user_identifier,
-                    'create_time'=>date('Y-m-d H:i:s')
-                );
-                $this->db->insert('user_account',$packed_data);
-            }
+      //add oauth provider connection
+      if ($provider_info!=''){
+          
+          $serviceAuth = new Service_Auth();
+          $packed_data = array(
+              'user_id' => $userId,
+              'provider' => $provider_info->provider_name,
+              'identifier' => $provider_info->id,
+              'create_time'=>date('Y-m-d H:i:s')
+          );
+          $this->db->insert('user_account',$packed_data);
+      }
 
 			//add new item
 			if (!empty($relateds)){
@@ -204,21 +210,6 @@ class Service_User{
 			'item_id='.$id
 		);
 	}
-    
-    public function getUsernameByProvider($provider, $identifier){
-        $where = $this->db->select()
-                ->where('user_account.provider = ?',$provider)
-                ->where('user.item_id = ?',$this->identity->item_id)
-                ->getPart( Zend_Db_Select::WHERE);
-      
-        $select = 
-            $this->db->select()
-                ->from('user','username')
-                ->joinLeft('user_account', "user.item_id = user_account.user_id")
-                ->where('user_account.identifier = ?',$identifier)
-                ->orWhere(implode(' ',$where));
-        return $this->db->fetchOne($select);
-    }
     
     public function getUserByConfirmCode($confirm_code = ''){
         $this->db->setFetchMode(Zend_Db::FETCH_OBJ);

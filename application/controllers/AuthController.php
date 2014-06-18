@@ -78,7 +78,6 @@ class AuthController extends Zend_Controller_Action
           $this->_redirect('auth/login');
           
       }else if (!isset($_COOKIE['to_confirm_email']) || !isset($_COOKIE['is_email_confirmed'])){
-          die();
           $this->_redirect('');
       }else{
           $validator = new Zend_Validate_EmailAddress();
@@ -122,91 +121,125 @@ class AuthController extends Zend_Controller_Action
   }
   public function signupAction(){
       
-      Common::getSession()->nav=array(
-          'Home' => '/',
-          'Signup' => null
-      );
-      
-      $auth = TBS\Auth::getInstance();
+    Common::getSession()->nav=array(
+        'Home' => '/',
+        'Signup' => null
+    );
+        
+    if( $this->getRequest()->isPost() ){
 
-      if( $this->getRequest()->isPost() ){
+        $data = $this->_request->getParams();
 
-          $data = $this->_request->getParams();
-
-          $filters=array(
-              //'username'   => 'StringTrim'
-          );
-          $validators = array(
-              'username'   => array(
-                  new Zend_Validate_Db_NoRecordExists(
-                      array(
-                          'table' => 'user',
-                          'field' => 'username'
-                      )
-                  )
-                  ,new Validate_Username(),
-                  /*,
-                  new Zend_Validate_Alnum(
-                      array('allowWhiteSpace' => false)
-                  ),*/
-                  //'messages' => array(1=>"the username contains characters which are non alphabetic and no digits")
-              ),
-              'password'   => array(
-                  new Zend_Validate_StringLength(
-                      array('min' => 6)
-                  ),
-                  'messages' => 'the password should contain at least 6 characters'
-              ),
-              'email'   => array(
-                  new Zend_Validate_EmailAddress(
-                  ),
-                  'messages' => 'the email is not valid'
-              ),
-              'gender'   => array(
-              ),
-              'display_name'   => array(
-              )/*,
-              '*'   => array('allowEmpty'=>false)*/
-          )
-          ;
-          $options= array(
-              'missingMessage' => "'%field%' is required"
-          );
-          $input = new Zend_Filter_Input($filters, $validators,$data,$options);
+        $filters=array(
+            //'username'   => 'StringTrim'
+        );
+        $validators = array(
+            'username'   => array(
+                new Zend_Validate_Db_NoRecordExists(
+                    array(
+                        'table' => 'user',
+                        'field' => 'username'
+                    )
+                )
+                ,new Validate_Username(),
+                /*,
+                new Zend_Validate_Alnum(
+                    array('allowWhiteSpace' => false)
+                ),*/
+                //'messages' => array(1=>"the username contains characters which are non alphabetic and no digits")
+            ),
+            'password'   => array(
+                new Zend_Validate_StringLength(
+                    array('min' => 6)
+                ),
+                'messages' => 'the password should contain at least 6 characters'
+            ),
+            'email'   => array(
+                new Zend_Validate_EmailAddress(
+                ),
+                'messages' => 'the email is not valid'
+            ),
+            'gender'   => array(
+            ),
+            'display_name'   => array(
+            )/*,
+            '*'   => array('allowEmpty'=>false)*/
+        )
+        ;
+        $options= array(
+            'missingMessage' => "'%field%' is required"
+        );
+        $input = new Zend_Filter_Input($filters, $validators,$data,$options);
 
 
-          if ($input->hasInvalid() || $input->hasMissing()) {
-            $this->view->result=$input->getMessages();
-          }else{
+        if ($input->hasInvalid() || $input->hasMissing()) {
+          $this->view->result=$input->getMessages();
+        }else{
+          $provider_name = $data['provider_name'];
+          $has_provider_info = false;
+          if (isset(Common::getSession('Providers')->$provider_name->info)){
+            $provider_info = Common::getSession('Providers')->$provider_name->info;
+            $provider_info->provider_name = $provider_name;
+            $provider_info->is_email_verified = $this->isProviderEmailVerified($provider_info, $provider_name);
+            $has_provider_info = true;
+          }
+            $user = new Service_User();
+             $this->view->result = $user->add(
+               $input->username,
+               $input->password,
+               $input->email,
+               $input->gender,
+               $input->display_name,
+               (isset(Common::getSession()->display_lang)) ? Common::getSession()->display_lang : 'zh-HK',
+               ($has_provider_info) ? $provider_info : '',
+               (isset($data['relateds'])) ? $data['relateds'] : array(),
+               (isset($data['related_types'])) ? $data['related_types'] : array()
+             );
+            if ($has_provider_info){
+              unset($_COOKIE['is_email_confirmed']);
+              unset($_COOKIE['to_confirm_email']);
               
-              $user = new Service_User();
-               $this->view->result = $user->add(
-                   $input->username,
-                   $input->password,
-                   $input->email,
-                   $input->gender,
-                  $input->display_name,
-                  (isset(Common::getSession()->display_lang)) ? Common::getSession()->display_lang : 'zh-HK',
-                  (isset(Common::getSession()->user_signup->provider)) ? Common::getSession()->user_signup->provider : null,
-                   (isset($data['relateds'])) ? $data['relateds'] : array(),
-                  (isset($data['related_types'])) ? $data['related_types'] : array()
-               );
-              Common::setCookie('to_confirm_email', $input->email);
-              Common::setCookie('is_email_confirmed', 0);
-              $this->_redirect('auth/signup/confirm');
-          }
+              $this->_helper->FlashMessenger(array('success'=>'Welcome! you have created your account! Please sign in.'));
+              $this->_redirect('auth/login');
+            }
+            Common::setCookie('to_confirm_email', $input->email);
+            Common::setCookie('is_email_confirmed', 0);
+            $this->_redirect('auth/signup/confirm');
+        }
+    }
+    
+    $this->view->has_provider = false;
+    $this->view->is_email_verified = false;
+    if ($this->_hasParam('no_provider')){
+      $this->_redirect('auth/signup');
+    } else if ($this->_hasParam('provider')){
+      $this->view->provider_name = $this->_getParam('provider');
+      $providerService = new Service_Provider();
+      $session_provider = $providerService->getSessionProvider($this->view->provider_name);
+      if (isset($session_provider->info)){
+        $this->view->has_provider = true;
+        $session_provider_info = $session_provider->info;
+        if ($this->view->provider_name == 'google'){
+            $this->view->email = isset ($session_provider_info->email) ? $session_provider_info->email : '';
+            $this->view->is_email_verified = $this->isProviderEmailVerified($session_provider_info, 'google');
+            $this->view->provider_id = isset ($session_provider_info->id) ? $session_provider_info->id : '';
+            $this->view->gender = (isset ($session_provider_info->gender) && $session_provider_info->gender == 'female') ? 'f' : 'm';
+            $this->view->name = isset ($session_provider_info->name) ? $session_provider_info->name : '';
+            
+            if (isset ($session_provider_info->locale))
+             Common::getSession()->display_lang = $session_provider_info->locale;
+                                      
+        }else if ($this->view->provider_name == 'facebook'){
+            $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
+            $cookie['username'] = isset ($profile['screen_name']) ? $profile['screen_name'] : '';
+            $cookie['email'] = isset ($profile['email']) ? $profile['email'] : '';
+            $cookie['gender'] = (isset ($profile['gender']) && $profile['gender'] == 'female') ? 'f' : 'm';
+            
+            if (isset ($profile['locale']))
+                Common::getSession()->display_lang = $profile['locale'];
+        }
       }
-
-      if ($auth->hasIdentity()) {
-          $providers = $auth->getIdentity();
-          foreach ($providers as $provider){
-              // it is supposed to be logined with only 1 provider
-              if (isset(Common::getSession()->login_provider_name) && Common::getSession()->login_provider_name == $provider->getName()){
-                  // create new account with prefilled data from providers
-                  Common::setCookie("user_signup", json_encode($this->getSignupFormCookieFromProvider($provider)));
-              }
-          }
-      }
+    }
   }
 
   public function loginAction(){
@@ -215,70 +248,37 @@ class AuthController extends Zend_Controller_Action
           'Login' => null
       );
       
-      // redirection from clicking 1 of the providers button
+      $providerService = new Service_Provider();
+      // redirection from clicking 1 of the add provider link
       if ( $this->getRequest()->isGet() && $this->_hasParam('provider')) {
-          
-          $auth = TBS\Auth::getInstance();
-          
-          Common::getSession()->login_provider_name = $this->_getParam('provider');
-
-          switch (Common::getSession()->login_provider_name) {
+  
+          switch ($this->_getParam('provider')) {
               case "facebook":
                   if ($this->_hasParam('code')) {
-                      $adapter = new TBS\Auth\Adapter\Facebook(
-                              $this->_getParam('code'));
-                      $result = $auth->authenticate($adapter);
-                  }
-                  break;
-              case "twitter":
-                  if ($this->_hasParam('oauth_token')) {
-                      $adapter = new TBS\Auth\Adapter\Twitter($_GET);
-                      $result = $auth->authenticate($adapter);
+                    $result = $providerService->getFacebookProfileInfo($this->_getParam('code'));
+                    $id=$result['id'];
                   }
                   break;
               case "google":
                   if ($this->_hasParam('code')) {
-                      $adapter = new TBS\Auth\Adapter\Google(
-                              $this->_getParam('code'));
-                      $result = $auth->authenticate($adapter);
+                    $id = $providerService->getGoogleProfileInfo('', false, $this->_getParam('code'))->id;
                   }
                   break;
-
           }
-          
-          // What to do when invalid
-          if (!isset($result)){
-              $this->view->errorMessage="no such provider!";
-          }else if (!$result->isValid()) {
-              $auth->clearIdentity(Common::getSession()->login_provider_name);
-              $this->view->errorMessage=Common::getSession()->login_provider_name." login failed! Please try other method !";
-              //throw new Exception('Error!!'); // should return to failed page with error
-          } else {
-              $auth = TBS\Auth::getInstance();
-              $providers = $auth->getIdentity();
-              $identifier = '';
-              foreach ($providers as $provider){
-                  if (Common::getSession()->login_provider_name == $provider->getName()){
-                      $identifier = $provider->getId();
-                      break;
-                  }
-              }
-              
-              $serviceAuth = new Service_Auth();
-              
-              $userService = new Service_User ();
-              
-              $username = $userService->getUsernameByProvider(Common::getSession()->login_provider_name, $identifier);
-              if ($username == false){
-                 // direct user to create a new account
-                 $this->_redirect('auth/signup');
-              }else{
-                 $this->signUserIn($username);
-              }
+          if ($id!=null){
+            $username = $providerService->getUsernameByProvider($this->_getParam('provider'), $id);
+            if ($username == null){
+              $this->_helper->FlashMessenger(array('error'=>"Cannot login! Please try again later!"));
+              $this->_redirect('auth/login');
+            }else{
+               $this->signUserIn($username);
+            }
+          }else{
+              $this->_helper->FlashMessenger(array('error'=>"Cannot login! Please try again later!"));
+              $this->_redirect('auth/login');
           }
-
-      //login form submission..
       } else if( $this->getRequest()->isPost() ) {
+        //login form submission..
           $data=$this->getRequest()->getPost();
   
           $authAdapter= new Zend_Auth_Adapter_DbTable(Zend_Db_Table::getDefaultAdapter());
@@ -301,10 +301,11 @@ class AuthController extends Zend_Controller_Action
           }
       }
       
+      $this->view->auth_link=new stdClass();
       // Normal login page
-      $this->view->googleAuthUrl = urldecode(TBS\Auth\Adapter\Google::getAuthorizationUrl());
-      $this->view->facebookAuthUrl = urldecode(TBS\Auth\Adapter\Facebook::getAuthorizationUrl());
-      $this->view->twitterAuthUrl = urldecode(TBS\Auth\Adapter\Twitter::getAuthorizationUrl());
+      $this->view->auth_link->google = $providerService->getGoogleAuthUrl();
+    
+      $this->view->auth_link->facebook = $providerService->getFacebookAuthUrl();
       
   }
 
@@ -387,8 +388,6 @@ class AuthController extends Zend_Controller_Action
       
   }
   private function getSignupFormCookieFromProvider($provider){
-      //$cookie is the signup form values to be sent to users as prefilled form data
-      $cookie = array();
       $profile = $provider->getApi()->getProfile(); 
       $provider_name = $provider->getName();
       
@@ -406,13 +405,6 @@ class AuthController extends Zend_Controller_Action
           if (isset ($profile['locale']))
               Common::getSession()->display_lang = $profile['locale'];
                       
-      }else if ($provider_name == 'twitter'){
-          $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
-          $cookie['username'] = isset ($profile['screen_name']) ? $profile['screen_name'] : '';
-          
-          if (isset ($profile['lang']))
-              Common::getSession()->display_lang = $profile['lang'];
-          
       }else if ($provider_name == 'facebook'){
           $cookie['display_name'] = isset ($profile['name']) ? str_replace('+', ' ', $profile['name']) : '';
           $cookie['username'] = isset ($profile['screen_name']) ? $profile['screen_name'] : '';
@@ -422,7 +414,6 @@ class AuthController extends Zend_Controller_Action
           if (isset ($profile['locale']))
               Common::getSession()->display_lang = $profile['locale'];
       }
-      return $cookie;
   }
 
   protected function signUserIn($username, $objAuth = NULL){
@@ -450,8 +441,17 @@ class AuthController extends Zend_Controller_Action
   protected function signUserOut(){
       if (Zend_Auth::getInstance()->hasIdentity()) {
           Zend_Auth::getInstance()->clearIdentity();
-          Zend_Session::destroy();
           //unset(Common::getSession()->user);
       }
+      Zend_Session::destroy();
+  }
+  
+  private function isProviderEmailVerified($provider_info, $provider_name){
+    if ($provider_name == 'google' && $provider_info->verified_email != false){
+      return true;
+    } else if ($provider_name == 'facebook' && isset($provider_info['email'])){
+      return true;
+    }
+    return false;
   }
 }

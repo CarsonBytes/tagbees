@@ -1,13 +1,18 @@
-<?php echo $this -> partial('breadcrumbs.phtml'); ?>
+<?php echo $this -> partial('breadcrumbs.phtml'); 
+?>
 
 <article class="main shadow">
     <section class="main_inner">
         <h1>Signup</h1>
         <div class="signup_form">
           <form method="post" action="<?php echo $this->baseUrl('auth/signup')?>" id="user_signup">
+          <?php if ($this->has_provider){ ?>
+            <p class="red">You are currently signing up associated with <?php echo $this->provider_name ?> Account.</p>
+            <input type="hidden" name="provider_name" value="<?php echo $this->provider_name; ?>" />
+          <?php } ?>
             <div class="p_field">
                 <label>Name</label>
-                <input type="text" name="display_name"/>
+                <input type="text" name="display_name" value="<?php echo $this->name ?>"/>
             </div>
             <div class="p_field">
                 <label for="gender" >Gender</label><br />
@@ -19,19 +24,22 @@
             </div>
             <div class="p_field">
                 <label>* login username</label>
-                <input type="text" name="username"/>
+                <input type="text" name="username" value="<?php echo $this->username ?>"/>
             </div>
             <div class="p_field">
                 <label>* Email</label>
-                <input type="text" name="email"/>
+                <input type="text" name="email" value="<?php echo $this->email ?>" <?php if ($this->has_provider && $this->is_email_verified){ ?> readonly="readonly"<?php } ?>/>
+                <?php if ($this->has_provider && $this->is_email_verified){ ?>
+                <p class="red">If you do not want to receive updates from this verfied email address associated with <?php echo ucfirst($this->provider_name); ?>. You could choose to <a href="<?php echo $this->baseUrl('auth/signup?no_provider=1'); ?>">sign up with another email address</a>. You may then be required to confirm your new email address.</p>
+                <?php } ?>
             </div>
             <div class="p_field">
                 <label>* New Password</label>
-                <input type="password" id="password" name="password"/>
+                <input type="password" id="password" name="password" value=""/>
             </div>
             <div class="p_field">
                 <label>* Confirm Password</label>
-                <input type="password" name="confirm_password"/>
+                <input type="password" name="confirm_password" value=""/>
             </div>
             <div>
             <p><?php echo $this->translate("By clicking 'Sign Up', you confirm that you agree to our privacy policy and terms and conditions.")?></p>
