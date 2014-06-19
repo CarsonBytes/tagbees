@@ -52,8 +52,8 @@ class AuthController extends Zend_Controller_Action
   
   public function signupConfirmAction(){
       $params=$this->_request->getParams();
+      $userService = new Service_User();
       if (isset($params['code']) && $params['code']!=''){
-          $userService = new Service_User();
           $user = $userService->getUserByConfirmCode($params['code']);
           
           if ($user->is_confirmed != 0 && $user->is_confirmed != 1) $this->_redirect('');
@@ -83,8 +83,8 @@ class AuthController extends Zend_Controller_Action
           $validator = new Zend_Validate_EmailAddress();
           if ($validator->isValid($_COOKIE['to_confirm_email']) && $_COOKIE['is_email_confirmed'] == 1) { 
             // email is confirmed  
-            $this->_helper->FlashMessenger(array('notice'=>'This email is already confirmed. You may login.'));
-            $this->_redirect('auth/login');
+            $this->_helper->FlashMessenger(array('notice'=>'This email is already confirmed.'));
+            $this->signUserIn($input->username);
           
           } else if ($validator->isValid($_COOKIE['to_confirm_email']) == false){
             // email is not valid
@@ -103,6 +103,7 @@ class AuthController extends Zend_Controller_Action
        * and Common::getSession()->auth_signup_confirmation->email_template_vars was set
        * So we are sure the user was redirected right after account creation
       */
+      
       $this->view->to_confirm_email = $_COOKIE['to_confirm_email'];
       
       $mailService = new Service_Mail();
@@ -112,8 +113,11 @@ class AuthController extends Zend_Controller_Action
       $mailService->setTemplateVars(Common::getSession()->auth_signup_confirmation->email_template_vars);
       $mailService->send();
       
+      $user = $userService->getUserByEmail($_COOKIE['to_confirm_email']);
+      $this->signUserIn($user->username,null,false);
+            
       // delete all possible credentials like previous oauth provider connections
-      $this->signUserOut();
+      //$this->signUserOut();
       //unset(Common::getSession()->auth_signup_confirmation->email_template_vars);
       unset($_COOKIE['user_signup']);
       unset($_COOKIE['is_email_confirmed']);
@@ -183,42 +187,34 @@ class AuthController extends Zend_Controller_Action
         }else{
           $provider_name = $data['provider_name'];
           $has_provider_info = false;
-          if (isset(Common::getSession('Providers')->$provider_name->info)){
-            $provider_info = Common::getSession('Providers')->$provider_name->info;
-            $provider_info->provider_name = $provider_name;
-            //$provider_info->is_email_verified = $this->isProviderEmailVerified($provider_info, $provider_name);
-            $has_provider_info = true;
+          if ($provider_name!=''){
+            if (isset(Common::getSession('Providers')->$provider_name->info)){
+              $provider_info = Common::getSession('Providers')->$provider_name->info;
+              $provider_info->provider_name = $provider_name;
+              //$provider_info->is_email_verified = $this->isProviderEmailVerified($provider_info, $provider_name);
+              $has_provider_info = true;
+            }
           }
-            $user = new Service_User();
-             $this->view->result = $user->add(
-               $input->username,
-               $input->password,
-               $input->email,
-               $input->gender,
-               $input->display_name,
-               (isset(Common::getSession()->display_lang)) ? Common::getSession()->display_lang : 'zh-HK',
-               ($has_provider_info) ? $provider_info : '',
-               (isset($data['relateds'])) ? $data['relateds'] : array(),
-               (isset($data['related_types'])) ? $data['related_types'] : array()
-             );
-            /*if ($has_provider_info){
-              unset($_COOKIE['is_email_confirmed']);
-              unset($_COOKIE['to_confirm_email']);
-              
-              $this->_helper->FlashMessenger(array('success'=>'Welcome! you have created your account! Please sign in.'));
-              $this->_redirect('auth/login');
-            }*/
+          $user = new Service_User();
+           $this->view->result = $user->add(
+             $input->username,
+             $input->password,
+             $input->email,
+             $input->gender,
+             $input->display_name,
+             (isset(Common::getSession()->display_lang)) ? Common::getSession()->display_lang : 'zh-HK',
+             ($has_provider_info) ? $provider_info : '',
+             (isset($data['relateds'])) ? $data['relateds'] : array(),
+             (isset($data['related_types'])) ? $data['related_types'] : array()
+           );
             Common::setCookie('to_confirm_email', $input->email);
             Common::setCookie('is_email_confirmed', 0);
-            
             //let them play around first
-            $this->signUserIn($input->username);
-            $this->_redirect('');
+            $this->_redirect('auth/signup/confirm');
         }
     }
     
     $this->view->has_provider = false;
-    //$this->view->is_email_verified = false;
     if ($this->_hasParam('no_provider')){
       $this->_redirect('auth/signup');
     } else if ($this->_hasParam('provider')){
@@ -227,23 +223,13 @@ class AuthController extends Zend_Controller_Action
       if (isset($session_provider->info)){
         $this->view->has_provider = true;
         $session_provider_info = $session_provider->info;
-        //if ($this->view->provider_name == 'google'){
             $this->view->email = isset ($session_provider_info->email) ? $session_provider_info->email : '';
-            //$this->view->is_email_verified = $this->isProviderEmailVerified($session_provider_info, 'google');
             $this->view->gender = (isset ($session_provider_info->gender) && $session_provider_info->gender == 'female') ? 'F' : 'M';
             $this->view->name = isset ($session_provider_info->name) ? $session_provider_info->name : '';
             
             if (isset ($session_provider_info->locale))
              Common::getSession()->display_lang = $session_provider_info->locale;
                                       
-        /*}else if ($this->view->provider_name == 'facebook'){
-            $this->view->email = isset ($session_provider_info->email) ? $session_provider_info->email : '';
-          $this->view->gender = (isset ($session_provider_info->gender) && $session_provider_info->gender == 'female') ? 'F' : 'M';
-            $this->view->name = isset ($session_provider_info->name) ? $session_provider_info->name : '';
-            
-            if (isset ($session_provider_info->locale))
-             Common::getSession()->display_lang = $session_provider_info->locale;
-        }*/
       }
     }
   }
@@ -395,7 +381,7 @@ class AuthController extends Zend_Controller_Action
       
   }
 
-  protected function signUserIn($username, $objAuth = NULL){
+  protected function signUserIn($username, $objAuth = NULL, $is_redirect = true, $redirect_url=''){
       if ($objAuth == NULL) $objAuth = Zend_Auth::getInstance();
       
       $userService = new Service_User();
@@ -409,11 +395,14 @@ class AuthController extends Zend_Controller_Action
       $objAuth->getStorage()->write( $userData );
       Common::getSession()->user = $userData;
       
-      
-      if (Common::getSession()->redirect!='' && isset(Common::getSession()->redirect)){
-          $this->_redirect(Common::getSession()->redirect,array('prependBase'=>false));
-      }else{
-          $this->_redirect('');
+      if ($is_redirect){
+        if ($redirect_url != '') {
+            $this->_redirect($redirect_url);
+        }else if (Common::getSession()->redirect!='' && isset(Common::getSession()->redirect)){
+            $this->_redirect(Common::getSession()->redirect,array('prependBase'=>false));
+        }else{
+            $this->_redirect('');
+        }
       }
   }
   
@@ -421,7 +410,7 @@ class AuthController extends Zend_Controller_Action
       if (Zend_Auth::getInstance()->hasIdentity()) {
           Zend_Auth::getInstance()->clearIdentity();
           //unset(Common::getSession()->user);
-      Zend_Session::destroy();
+          Zend_Session::destroy();
       }
   }
   
