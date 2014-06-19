@@ -125,10 +125,6 @@ class Service_Provider{
         'provider  = ?' => $provider
     );
     
-    $serviceAuth = new Service_Auth();
-    $auth = TBS\Auth::getInstance();
-    $auth->clearIdentity($provider);
-    
     return $this->db->delete('user_account',$where);
   }
     

@@ -16,23 +16,6 @@ class Ajax_AuthController extends Zend_Controller_Action
     $this->db = Zend_Db_Table::getDefaultAdapter();
   }
     
-  public function openLoginBoxAction(){
-        $array = array();
-        if (Zend_Auth::getInstance()->hasIdentity()){
-            $array['result'] = false;
-        } else{
-            // Normal login page
-            $array['result'] = true;
-            $array['data'] = array(
-                'googleAuthUrl'=> TBS\Auth\Adapter\Google::getAuthorizationUrl(),
-                'facebookAuthUrl'=> TBS\Auth\Adapter\Facebook::getAuthorizationUrl(),
-                'twitterAuthUrl'=> TBS\Auth\Adapter\Twitter::getAuthorizationUrl()
-            );
-        }
-        
-        $this->_helper->json($array);
-    }
-
   public function validateLoginAction()
   {
     $authService = new Service_Auth();
