@@ -1,0 +1,101 @@
+@import "../_init.scss";
+@import "_general.scss";
+
+a.button {
+    width: 251px;
+    height: 42px;
+    display: inline-block;
+    cursor:pointer;
+    clear:both;
+}
+a.button.facebook {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -1px;
+}
+a.button.facebook:hover {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -44px;
+}
+a.button.facebook:active {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -87px;
+}
+a.button.twitter {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -130px;
+}
+a.button.twitter:hover {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -173px;
+}
+a.button.twitter:active {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -216px;
+}
+a.button.google {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -259px;
+}
+a.button.google:hover {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -302px;
+}
+a.button.google:active {
+    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -345px;
+}
+
+.signup_form, .login_form{ 
+  background:#F2F2F2;
+  label{ 
+    line-height:2; font-weight:bold;
+  }
+  input{ 
+    background:white;
+  }
+  input.submit_btn{ 
+    @include yellow-gradient; 
+    padding:3px 8px; 
+    color:black; 
+    font-size:12px; 
+    font-weight:bold; 
+    width:auto; 
+    height:auto; 
+    border:none; 
+    cursor:pointer;
+  }
+}
+
+
+
+.signup_form{
+  padding: 10px 208px 10px 185px;
+  input{
+    width:229px; height:26px; 
+  }
+  input.submit_btn{
+    float:right;
+  }
+  .red{
+    color:red;
+    font-size:11px;
+  }
+  .or{
+    text-align:center;
+    p{padding:10px 5px;}
+  }
+  a.button{
+      margin-bottom:10px;
+  }
+}
+.login_form{
+  padding:0;
+  .col_left{float:left;padding: 22px 0 15px 20px;width: 270px;}
+  .col_right{
+    float:right;padding: 20px 15px;width: 270px;
+    a{
+      margin-bottom:10px;
+    }
+  }
+  .or{
+    float:left;
+    p{padding:60px 5px;}
+  }
+  .submit_btn{margin-right:57px;float:right;}
+  input{ border:1px solid #c0c0c0; display:inline-block; padding:2px 5px; font-size:12px; @include border-radius(5px);  background:white; width:200px; height:20px;}
+
+}
+.login_dialog{
+  width:700px;
+}

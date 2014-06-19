@@ -344,41 +344,6 @@ html{
 
 /************************************ body end *******************************************************/
 
-a.button {
-    width: 251px;
-    height: 42px;
-    display: inline-block;
-    cursor:pointer;
-    clear:both;
-}
-a.button.facebook {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -1px;
-}
-a.button.facebook:hover {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -44px;
-}
-a.button.facebook:active {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -87px;
-}
-a.button.twitter {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -130px;
-}
-a.button.twitter:hover {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -173px;
-}
-a.button.twitter:active {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -216px;
-}
-a.button.google {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -259px;
-}
-a.button.google:hover {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -302px;
-}
-a.button.google:active {
-    background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -345px;
-}
-
 /* map autocomplete */
 .geo_locate{
   cursor:pointer;
@@ -464,4 +429,38 @@ li.ui-timepicker-selected .ui-timepicker-duration,
 
 #colorbox #cboxLoadedContent{
   overflow-x: hidden !important;
+}
+
+
+/* message */
+.flash_messages {
+  left: 0;
+  margin: 0;
+  opacity: 0.9;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10000;
+  display:none;
+    .flash_message{
+      padding: 10px;
+      background: yellow;
+      border:1px solid grey;
+      text-align: center;
+      position: relative;
+      a.close {
+        color: blue;
+        font-weight: bold;
+        :hover {
+          text-decoration: underline;
+        }
+      }
+      img.close {
+          position: absolute;
+          width: 20px;
+          cursor: pointer;
+          right: 0;
+          top: 7px;
+      }
+  }
 }

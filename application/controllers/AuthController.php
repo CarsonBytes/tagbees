@@ -125,6 +125,12 @@ class AuthController extends Zend_Controller_Action
         'Home' => '/',
         'Signup' => null
     );
+    $providerService = new Service_Provider();
+
+    $this->view->auth_link=new stdClass();
+    $this->view->auth_link->google = $providerService->getGoogleAuthUrl('auth/login?provider=google');
+  
+    $this->view->auth_link->facebook = $providerService->getFacebookAuthUrl('auth/login?provider=facebook');
         
     if( $this->getRequest()->isPost() ){
 
@@ -217,7 +223,6 @@ class AuthController extends Zend_Controller_Action
       $this->_redirect('auth/signup');
     } else if ($this->_hasParam('provider')){
       $this->view->provider_name = $this->_getParam('provider');
-      $providerService = new Service_Provider();
       $session_provider = $providerService->getSessionProvider($this->view->provider_name);
       if (isset($session_provider->info)){
         $this->view->has_provider = true;
@@ -250,6 +255,12 @@ class AuthController extends Zend_Controller_Action
       );
       
       $providerService = new Service_Provider();
+      
+      $this->view->auth_link=new stdClass();
+      $this->view->auth_link->google = $providerService->getGoogleAuthUrl();
+    
+      $this->view->auth_link->facebook = $providerService->getFacebookAuthUrl();
+      
       // redirection from clicking 1 of the add provider link
       if ( $this->getRequest()->isGet() && $this->_hasParam('provider')) {
           $provider_name = $this->_getParam('provider');
@@ -302,12 +313,6 @@ class AuthController extends Zend_Controller_Action
             $this->_redirect('auth/login');
           }
       }
-      
-      $this->view->auth_link=new stdClass();
-      // Normal login page
-      $this->view->auth_link->google = $providerService->getGoogleAuthUrl();
-    
-      $this->view->auth_link->facebook = $providerService->getFacebookAuthUrl();
       
   }
 

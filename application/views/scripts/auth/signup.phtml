@@ -5,6 +5,11 @@
     <section class="main_inner">
         <h1>Signup</h1>
         <div class="signup_form">
+          <a href="<?php echo $this->auth_link->google ?>" class="button google"></a><br />
+          <a href="<?php echo $this->auth_link->facebook ?>" class="button facebook"></a>
+          <div class="or">
+              <p>Or</p>
+          </div>
           <form method="post" action="<?php echo $this->baseUrl('auth/signup')?>" id="user_signup">
           <?php if ($this->has_provider){ ?>
             <p class="red">You are currently signing up associated with <?php echo $this->provider_name ?> Account.</p>

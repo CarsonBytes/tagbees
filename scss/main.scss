@@ -8,10 +8,11 @@
 @import "snippets/_filter.scss";
 @import "snippets/_feeds.scss";
 @import "snippets/_bookmark.scss";
-@import "page/_event.scss";
 @import "page/_apps.scss";
-@import "page/_settings.scss";
+@import "page/_auth.scss";
+@import "page/_event.scss";
 @import "page/_new-event.scss";
+@import "page/_settings.scss";
 @import "page/_splash.scss";
 
 .myprofile{ background:#f2f2f2; @include border-radius(4px); padding:21px 19px 30px;
@@ -186,17 +187,6 @@
     h2{ font-size:16px; font-weight:normal; padding:15px 0;}
     p{ padding:15px 0 0 15px;}
 }
-.examplecontainer { list-style-type: none; clear: both;}
-.examplebox { background-color: #F5BD0F; float: left; width: 150px; padding:50px 0; margin: 10px; @include border-radius(5px);
-    a{ text-decoration:none; color:white;}
-}
-
-.exampletitle { letter-spacing: -1px; color: white; font-weight: bold; font-size: 18px;}
-.form_more{ color:$color; float:left; padding-top:10px; text-decoration:none;
-        &:link {color:$color;}
-        &:hover{color:#F0BC05;}
-        &:active {color:#096DB9;}
-}
 .button { width:138px; height:33px; font-size:13px; font-weight:bold; line-height:33px; text-decoration:none; color:white; text-shadow:0px 1px 0px rgba(0,0,0,.2);
    @include border-radius(3px) ; 
    @include box-shadow(inset 0px 1px 0px rgba(255,255,255,0.5), 0px 1px 2px rgba(0,0,0,0.3));
@@ -268,82 +258,6 @@
 }
 /*******************************************************************************/
 
-.signup_form, .login_form{ background:#F2F2F2;
-    label{ line-height:2; font-weight:bold;}
-    input{ background:white;}
-    input.submit_btn{ @include yellow-gradient; padding:3px 8px; color:black; font-size:12px; font-weight:bold; width:auto; height:auto; border:none; cursor:pointer;}
-}
-
-.login_dialog{
-  width:700px;
-}
-
-.login_form{
-  padding:0;
-  .col_left{float:left;padding: 22px 0 15px 20px;width: 270px;}
-  .col_right{
-    float:right;padding: 20px 15px;width: 270px;
-    a{
-      margin-bottom:10px;
-    }
-  }
-  .or{
-    float:left;
-    p{padding:60px 5px;}
-  }
-  .submit_btn{margin-right:57px;float:right;}
-  input{ border:1px solid #c0c0c0; display:inline-block; padding:2px 5px; font-size:12px; @include border-radius(5px);  background:white; width:200px; height:20px;}
-
-}
-.login_form, .settings_form{
-  a.button {
-      width: 251px;
-      height: 42px;
-      display: inline-block;
-      cursor:pointer;
-      clear:both;
-  }
-  a.button.facebook {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -1px;
-  }
-  a.button.facebook:hover {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -44px;
-  }
-  a.button.facebook:active {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -87px;
-  }
-  a.button.twitter {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -130px;
-  }
-  a.button.twitter:hover {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -173px;
-  }
-  a.button.twitter:active {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -216px;
-  }
-  a.button.google {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -259px;
-  }
-  a.button.google:hover {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -302px;
-  }
-  a.button.google:active {
-      background: url('http://blog.christianstrang.de/wp-content/uploads/2011/10/login-btns.png') no-repeat -2px -345px;
-  }
-}
-.signup_form{
-  padding: 10px 208px 10px 185px;
-  input{
-    width:229px; height:26px; 
-  }
-  input.submit_btn{
-    float:right;
-  }
-  .red{
-    color:red;
-    font-size:11px;
-  }
-}
 .clr{clear:both;}
 .other_options{
   clear:both;
@@ -394,40 +308,6 @@
 }
 .td_th_align_center{text-align:center;
     *{margin-left:auto;margin-right:auto;}
-}
-
-
-/* message */
-.flash_messages {
-  left: 0;
-  margin: 0;
-  opacity: 0.9;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 10000;
-  display:none;
-    .flash_message{
-      padding: 10px;
-      background: yellow;
-      border:1px solid grey;
-      text-align: center;
-      position: relative;
-      a.close {
-        color: blue;
-        font-weight: bold;
-        :hover {
-          text-decoration: underline;
-        }
-      }
-      img.close {
-          position: absolute;
-          width: 20px;
-          cursor: pointer;
-          right: 0;
-          top: 7px;
-      }
-  }
 }
 
 /* my styles */
