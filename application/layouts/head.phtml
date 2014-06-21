@@ -20,10 +20,10 @@
         <script src="http://maps.googleapis.com/maps/api/js?key=<?php echo Zend_Registry::get('config_ini')->google->api_key ?>&sensor=false&amp;libraries=places&amp;region=hk&amp;language=<?php echo Common::getSiteDisplayLang();?>" type="text/javascript"></script>
     <?php } ?>
     <?php $this->minifyHeadScript()
-        ->prependFile('jquery-ui-1.10.3.custom.js')
         ->prependFile('jquery-migrate-1.2.1.min.js')
         //->prependFile('jquery-1.8.3.min.js')
         ->prependFile('jquery-1.11.1.js')
+        ->appendFile('jquery-ui-1.10.3.custom.js')
         ->appendFile('jquery.tmpl.min.js')
         ->appendFile('jquery.qtip.min.js')
         ->appendFile('jquery.watermark.js')

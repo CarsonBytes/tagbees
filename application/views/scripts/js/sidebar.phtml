@@ -5,6 +5,20 @@ var ns_sidebar = {
   activeTab: "#category_tab",
   isFirstLoadHighlight: true,
   isFirstLoadBookmark: true,
+  is_saved_filter_overrided: 0,
+  elem_saved_filter_list_txt: '.saved_filter .user_saved_filter_list',
+  init: function(){
+    $.ajax({
+      type: "POST",
+      url: "<?php echo $this->baseUrl('ajax/filter/get') ?>",
+      success: function(msg){
+        jQuery.each( msg.result, function( i, val ) {
+          $(ns_sidebar.elem_saved_filter_list_txt).prepend('<div class="filter_line" data-value="'+val.name+'"><a class="delete_this_filter" href="#">D</a> <a class="filter_name" href="#">'+val.name+'</a></div>');
+        })
+      },
+      dataType:'json'
+    });
+  },
   loadTab: function(isRefreshList){
     if (typeof isRefreshList == "undefined") var isRefreshList = false;
       if (ns_sidebar.activeTab == "#highlight_tab" ){
@@ -33,6 +47,7 @@ var ns_sidebar = {
 }
 var feed_search_form;
 jQuery(function($) {
+  ns_sidebar.init();
   ns_sidebar.loadTab();
   //form date validation
   feed_search_form = $("#feed_search").validate({
@@ -157,7 +172,7 @@ jQuery(function($) {
         $('.shown_categories .accordion_button').each(accordion_init_expand_handler);
     }
   }) //show/hide toggle
-  .on('click', '.hide_toggle', function(e) { 
+  .on('click', '.hide_toggle', function(e) {
     e.preventDefault();
     var element = $(this).parents('.accordion');
     if ($(this).data('flag') == 1) {
@@ -171,7 +186,112 @@ jQuery(function($) {
         $(this).text('Hide');
         $(this).data('flag', 1);
     }
-  });
+  })
+  .on('click','.saved_filter .save_filter',function(){
+        ns_common_head.jQDialog(
+            '<?php echo $this->translate('save this filter') ?>',
+            '<?php echo $this->baseUrl('ajax/dialog/save_filter')?>',
+            {
+                'title':'enter filter name...'
+            },
+            {
+                Save: function() {
+                    var dialog=$(this);
+                    var location_name=$('.dialog input.save_filter_name').val();
+                    $.ajax({
+                          type: "POST",
+                          url: "<?php echo $this->baseUrl('ajax/filter/save') ?>",
+                            data: {
+                              name:location_name,
+                              is_match_interest: ns_feeds.feed_para['is_match_interest'],
+                              is_match_location: ns_feeds.feed_para['is_match_location'],
+                              place_lat:ns_feeds.feed_para['place_lat'],
+                              place_lng:ns_feeds.feed_para['place_lng'],
+                              radius:ns_feeds.feed_para['radius'],
+                              sort_by:ns_feeds.feed_para['sort_by'],
+                              q:ns_feeds.feed_para['q'],
+                              begin_date:ns_feeds.feed_para['begin_date'],
+                              end_date:ns_feeds.feed_para['end_date'],
+                              override:ns_sidebar.is_saved_filter_overrided
+                            },
+                          success: function(msg){
+                                if (msg['result']==1){
+                                    
+                                    if (!ns_sidebar.is_saved_filter_overrided){
+                                      $(ns_sidebar.elem_saved_filter_list_txt).prepend('<div class="filter_line" data-value="'+location_name+'"><a class="delete_this_filter" href="#">D</a> <a class="filter_name" href="#">'+location_name+'</a></div>');
+                                      
+                                    }else{
+                                      ns_sidebar.is_saved_filter_overrided = false;
+                                    }
+                                    dialog.dialog( "close" );
+                                }else if (msg['result']==1062){
+                                  
+                                    $('.dialog').prepend('<p><?php echo $this->translate('same name exists in your saved locations, do you still want to override?')?></p>');
+                                    ns_sidebar.is_saved_filter_overrided = true;
+                                }else{
+                                    $('.dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
+                                }
+                            },
+                        dataType:'json'
+                    });
+
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                    ns_sidebar.is_saved_filter_overrided=false;
+                }
+            }
+         );
+      return false;
+   }).on('click', '.delete_this_filter', function(){
+        var filter_line =$(this).parents('.filter_line');
+        var filter_value =filter_line.data('value');
+        $.ajax({
+          type: "POST",
+          url: "<?php echo $this->baseUrl('ajax/filter/delete') ?>",
+            data: {
+                'name':filter_value,
+            },
+          success: function(msg){
+            if (msg['result']==1){
+                filter_line.remove();
+            }else{
+                $('#dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
+            }
+            },
+            dataType:'json'
+        });
+        return false;
+    }).on('click','.filter_name',function(){
+        var elem_filter_line =$(this).parents('.filter_line');
+        var filter_value =elem_filter_line.data('value');
+        $.ajax({
+          type: "POST",
+          url: "<?php echo $this->baseUrl('ajax/filter/get') ?>",
+            data: {
+                'name':filter_value,
+            },
+          success: function(msg){
+            $('.filter_line').removeClass('selected');
+            elem_filter_line.addClass('selected');
+            jQuery.each(msg.result[0],function(i,val){
+              if (typeof val != 'undefined'){
+                ns_feeds.updateUrlParam(i, val);
+              }else {
+                ns_feeds.updateUrlParam(i, false);
+              }
+            })
+            $.address.update();
+            ns_common_foot.updateVariablesFromUrlParams();
+            console.log(this.feed_para);
+            ns_feeds.updateFeedInputsFromVariables();
+            ns_filter_map.initMap();
+            
+            ns_feeds.refresh('index');
+          },
+          dataType:'json'
+        });
+    });
 }); 
 </script>
 

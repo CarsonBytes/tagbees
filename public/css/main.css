@@ -297,7 +297,7 @@ $pie-base-class: pie-element;*/
 #sidebar .search_field { margin-bottom: 1px; position: relative; }
 #sidebar .search_field input.keyword_text { padding-left: 10px; padding-right: 10px; width: 240px; height: 26px; }
 #sidebar .search_field input.keyword_submit { position: absolute; right: 0; top: 0; float: none; background-image: url(../images/sprites.png); background-repeat: no-repeat; background-position: left -13px; width: 38px; height: 32px; border: none; padding: 0; cursor: pointer; -webkit-border-radius: 0 4px 4px 0; -moz-border-radius: 0 4px 4px 0; -ms-border-radius: 0 4px 4px 0; -o-border-radius: 0 4px 4px 0; border-radius: 0 4px 4px 0; }
-#sidebar .date_search { background: #e6e6e6; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; font-size: 11px; height: 29px; }
+#sidebar .date_search { background: #e6e6e6; /*@include border-radius(4px);*/ font-size: 11px; height: 29px; }
 #sidebar .date_search > * { float: left; }
 #sidebar .date_search .text { float: left; color: #333333; margin-top: 8px; }
 #sidebar .date_search .text { float: left; margin-right: 5px; }
@@ -305,6 +305,7 @@ $pie-base-class: pie-element;*/
 #sidebar .date_search .text.to { font-weight: bold; margin-left: 3px; }
 #sidebar .date_search input[type="text"] { margin-top: 4px; font-size: 11px; border: 1px solid #c6c6c6; width: 62px; height: 17px; padding: 0 5px 0 5px; text-align: center; }
 #sidebar .date_search input[type="checkbox"] + label { margin-top: 4px; margin-left: 7px; margin-right: 3px; }
+#sidebar .saved_filter { background: #e6e6e6; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; }
 #sidebar .tab_div { position: relative; padding: 5px; margin-top: 11px; clear: both; display: block; }
 #sidebar .tab_div .tab_link { border-bottom: 1px solid #3f3f40; margin-bottom: 8px; }
 #sidebar .tab_div .tab_link li { float: left; -webkit-border-radius: 4px 4px 0 0; -moz-border-radius: 4px 4px 0 0; -ms-border-radius: 4px 4px 0 0; -o-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0; margin-right: 4px; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzcxNzE3NCIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjNjU2NjY4Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNDc0NzQ4Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #717174), color-stop(50%, #656668), color-stop(100%, #474748)); background-image: -webkit-linear-gradient(#717174, #656668, #474748); background-image: -moz-linear-gradient(#717174, #656668, #474748); background-image: -o-linear-gradient(#717174, #656668, #474748); background-image: linear-gradient(#717174, #656668, #474748); }

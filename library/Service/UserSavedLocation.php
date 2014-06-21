@@ -16,9 +16,9 @@ class Service_UserSavedLocation{
 		return $this->db->fetchAll($select);
 	}
   // TODO override option may not be necessary
-	public function save($name,$lat,$lng,$radius,$override=0){
+	public function save($name,$lat,$lng,$radius,$override=false){
 		try {
-			if ($override==0){
+			if ($override==false){
 				$vars=array(
 					'user_id'=>$this->identity->item_id,
 					'name'=>$name,

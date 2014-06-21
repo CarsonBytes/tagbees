@@ -45,7 +45,7 @@ jQuery(function($){
     jQuery.address
         .crawlable(1)
         <?php if ($this->baseUrl()!='/'){?>
-      .state('<?php echo $this->baseUrl()?>')
+      .state('<?php echo $this->baseUrl('search')?>')
       <?php }?>
       .init(function(event) {
       });

@@ -98,7 +98,7 @@ var ns_common_foot = {
         var value = ns_common_foot.getURLParameterValue(key);
         if (ns_feeds.isFeedParameterValid(key, value) && value != ""){
             ns_feeds.feed_para[key] = value;
-            ns_feeds.updateUrlParam(key, value);
+            //ns_feeds.updateUrlParam(key, value);
         } else {
             ns_feeds.feed_para[key] = ns_feeds.default_feed_para[key];
         }

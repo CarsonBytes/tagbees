@@ -14,7 +14,21 @@
             <div class="text to">
                 <?php echo $this->translate('to')?>
             </div>
-            <input type="text" name="end_date" class="feed_filter_input" value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>" <?php if ($is_all_time){?>disabled="disabled"<?php } ?>/>
+            <input type="text" name="end_date" class="feed_filter_input" value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>" <?php if ($is_all_time){?>disabled="disabled"<?php } ?>/>            
+        </section>
+        <section class="saved_filter clearfix">
+           <h2>Filter</h2>
+           <div class="user_saved_filter_list">
+            <?php /*<div class="filter_line" data-value="default_filter_1">
+              <a class="delete_this_filter" href="#">D</a> 
+              <a class="filter_name" href="#"><?php echo $this->translate('default filter 1') ?></a>
+            </div>
+            <div class="filter_line" data-value="default_filter_2" >
+              <a class="delete_this_filter" href="#">D</a>
+              <a class="filter_name" href="#"><?php echo $this->translate('default filter 2') ?></a>
+            </div>*/ ?>
+           </div>
+           <a href="#" class="save_filter"><img src="<?php echo $this->baseUrl('images/save.gif')?>" alt=" " /></a>
         </section>
     </form>
     <section class="tab_div shadow gap">

@@ -5,6 +5,7 @@ var maxDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->max
 var minDistance = <?php echo Zend_Registry::get('config')->filter->sys_para->min_distance ?>;
 var ns_filter = {
   saved_locations : [],
+  elem_saved_location_list_txt: '.match_location_set .user_saved_location_list',
   is_saved_location_overrided : false,
   init: function(){
     <?php if ($isLogined){ ?>
@@ -12,7 +13,7 @@ var ns_filter = {
         this.saved_locations['<?php echo $value['name']?>']=[<?php echo $value['lat']?>,<?php echo $value['lng']?>,<?php echo $value['radius']?>];
       <?php } ?>
     <?php } ?>
-    $('.user_saved_location_list').chosen({display_disabled_options: false});
+    $(ns_filter.elem_saved_location_list_txt).chosen({display_disabled_options: false});
   }
 };
 
@@ -57,16 +58,17 @@ jQuery(function($){
                                 if (msg['result']==1){
                                     ns_filter.saved_locations[location_name]=[ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng'],ns_feeds.feed_para['radius']];
                                     if (!ns_filter.is_saved_location_overrided){
-                                      $(".user_saved_location_list").append("<option value=\""+location_name+"\">"+location_name+"</option>")
-                                      $(".user_saved_location_list").val(location_name);
-                                      $('.user_saved_location_list').trigger('chosen:updated');
+                                      jQuery(ns_filter.elem_saved_location_list_txt).append("<option value=\""+location_name+"\">"+location_name+"</option>")
+                                      jQuery(ns_filter.elem_saved_location_list_txt).val(location_name);
+                                      jQuery(ns_filter.elem_saved_location_list_txt).trigger('chosen:updated');
                                     }else{
-                                        ns_filter.is_saved_location_overrided=false;
+                                        ns_filter.is_saved_location_overrided = false;
                                     }
                                     dialog.dialog( "close" );
                                 }else if (msg['result']==1062){
+                                  
                                     $('.dialog').prepend('<p><?php echo $this->translate('same name exists in your saved locations, do you still want to override?')?></p>');
-                                    ns_filter.is_saved_location_overrided=true;
+                                    ns_filter.is_saved_location_overrided = true;
                                 }else{
                                     $('.dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
                                 }
@@ -94,11 +96,11 @@ jQuery(function($){
               success: function(msg){
                 if (msg['result']==1){
                     tr.remove();
-                    if ($(".user_saved_location_list").val()==name){
-                      $(".user_saved_location_list").val("last");
+                    if (jQuery(ns_filter.elem_saved_location_list_txt).val()==name){
+                      jQuery(ns_filter.elem_saved_location_list_txt).val("last");
                     }
-                    $(".user_saved_location_list option[value='"+name+"']").remove();
-                    $('.user_saved_location_list').trigger('chosen:updated');
+                    jQuery(ns_filter.elem_saved_location_list_txt).find("option[value='"+name+"']").remove();
+                    jQuery(ns_filter.elem_saved_location_list_txt).trigger('chosen:updated');
                 }else{
                     $('#dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
                 }
@@ -106,8 +108,8 @@ jQuery(function($){
             dataType:'json'
         });
         return false;
-    }).on('change','.user_saved_location_list',function(){
-        var name=$(".user_saved_location_list").val();
+    }).on('change',ns_filter.elem_saved_location_list_txt,function(){
+        var name=jQuery(ns_filter.elem_saved_location_list_txt).val();
         console.log(ns_filter.saved_locations);
         if (name!='last'){
             ns_feeds.feed_para['place_lat']=ns_filter.saved_locations[name][0];
@@ -142,64 +144,6 @@ jQuery(function($){
         }
     });
     <?php } ?>
-    <?php /*$('.confirm_location_remove').qtip({
-        content: {
-            text: '<p style="text-align:center;"><img class="throbber" src="<?php echo $this->baseUrl('images/throbber.gif')?>" alt="Loading..." /></p>',
-            ajax: {
-                url: '<?php echo $this->baseUrl('ajax/filter/open_confirm_location_remove')?>',
-                success: function(data, status) {
-                    if (data.result == 'false'){
-                        this.set('content.text', 'Error occured! Please try again later.');
-                    } else {
-                        this.set('content.text', $( "#confirm_location_remove" ).tmpl());
-                    }
-                }
-            },
-            title: {
-                text: 'Confirm Location Deletion?'
-            }
-        },
-        show: {
-            event: 'click',
-            modal: {
-                on: true,
-                effect: false
-            }
-        },
-        position: {
-            my: 'center',
-            at: 'center',
-            target: $(window)
-        },
-        style: {
-            def:false,
-            classes: 'qtip-light qtip-rounded'
-        }
-    }); <?php */ ?>
-    
-    $( "#radius_slider" ).slider({
-        range: "min",
-        //value:ns_feeds.feed_para['radius'],
-        step: 0.01,
-        min: minDistance,
-        max: maxDistance,
-        slide: function( event, ui ) {
-            $( ".radius_amt span#filter_radius" ).text( ui.value );
-        },
-        change: function( event, ui ) {
-            $( ".radius_amt span#filter_radius" ).text( ui.value );
-            if ($("#feed_filter_map").is(":visible")){
-                distanceWidget.set('distance',ui.value);
-                radiusWidget.bindTo('center', distanceWidget, 'position');
-                map.fitBounds(radiusWidget.get('bounds'));
-            }
-          ns_feeds.feed_para['radius'] = ui.value;
-          ns_feeds.updateUrlParam('radius', ns_feeds.feed_para['radius']);
-          ns_feeds.updateUrlParam('place_lat', ns_feeds.feed_para['place_lat']);
-          ns_feeds.updateUrlParam('place_lng', ns_feeds.feed_para['place_lng']);
-          ns_feeds.refresh();
-        }
-    });
     
     //show after all events are attached esp. pretty checkable takes effect...
     

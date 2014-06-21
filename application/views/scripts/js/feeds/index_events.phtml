@@ -7,7 +7,7 @@ var ns_feeds_index_events = {
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
         ns_filter_map.initMap();
     <?php } ?>
-    
+    /*
     $( "#radius_slider" ).slider({
         range: "min",
         value:ns_feeds.feed_para['radius'],
@@ -28,7 +28,7 @@ var ns_feeds_index_events = {
           ns_feeds.feed_para['radius'] = ui.value;
           ns_feeds.updateUrlParam('radius', ui.value);
         }
-    });
+    });*/
   }
 }
 jQuery(function($){
@@ -41,7 +41,7 @@ jQuery(function($){
   //when user clicks load more
   $('body#index').on("click",'.load_more_feeds',function() {
       ns_feeds.feed_para.last_id = $('.feeds > article:last').data("id");
-      ns_feeds.refresh('index', true, [], false);
+      ns_feeds.refresh('index', true, []);
       return false;
   });
 })

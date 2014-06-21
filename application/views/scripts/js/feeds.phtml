@@ -265,7 +265,7 @@ var ns_feeds = {
   },
   <?php // update url parameters from ns_feeds.feed_para ?>
   updateUrlParam: function(key,value, to_be_updated){
-    if (!to_be_updated) var to_be_updated = false;
+    if (typeof to_be_updated == 'undefined') var to_be_updated = false;
     if (value === false){
         $.address.parameter(key, false);
     } else {
@@ -299,9 +299,10 @@ var ns_feeds = {
         this.updateUrlParam(element.prop('name'), element.val());
     } else if (element.is('.feed_filter_input[name="is_show_map"]')){ // this doesn't load the feed again so url needs to update instantly
         this.feed_para[element.prop('name')] = element.val();
-        this.updateUrlParam(element.prop('name'), element.val(), true);
+        this.updateUrlParam(element.prop('name'), element.val());
         
     }
+    $.address.update();
   },
   updateSortByInput: function(value){
     $('nav.sort_by ul li').removeClass('current');
@@ -313,17 +314,21 @@ var ns_feeds = {
     for (key in this.feed_para){
         if (key == 'is_match_interest' || key == 'is_match_location' || key == 'is_all_time' || key == 'is_show_map'){
             if (this.feed_para[key] == 1) {
-                jQuery('.feed_filter_input[name="'+key+'"]').prop('checked','checked');
+            console.log(key)
+              console.log(this.feed_para[key])
+              console.log(jQuery('.feed_filter_input[name="'+key+'"]'))
+              jQuery('.feed_filter_input[name="'+key+'"]').prop('checked',true);
+            console.log(jQuery('.feed_filter_input[name="'+key+'"]').is(':checked'))
             } else {
-                jQuery('.feed_filter_input[name="'+key+'"]').removeProp('checked','checked');
+              jQuery('.feed_filter_input[name="'+key+'"]').removeProp('checked');
             }
             if (key == 'is_show_map'){
-                if (this.feed_para[key] == 1){
-                   $('#map_wrapper').show();
-                    <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                        ns_filter_map.initMap();
-                    <?php } ?>
-                }
+              if (this.feed_para[key] == 1){
+                $('#map_wrapper').show();
+                <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+                  ns_filter_map.initMap();
+                <?php } ?>
+              }
             }
         } else if (key == 'sort_by'){
             this.updateSortByInput(this.feed_para[key]);

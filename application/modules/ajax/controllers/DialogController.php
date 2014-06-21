@@ -2,6 +2,7 @@
 
 class Ajax_DialogController extends Zend_Controller_Action
 {
+  private $params;
 	public function init()
     {
 		//$this->identity=Zend_Auth::getInstance()->getIdentity();
@@ -13,8 +14,11 @@ class Ajax_DialogController extends Zend_Controller_Action
       $this->view->title=$this->params['title'];
     }
     public function manageLocationAction(){
-		$locationService=new Service_UserSavedLocation();
-    	$this->view->user_saved_location=$locationService->getSavedLocations();
+    $locationService=new Service_UserSavedLocation();
+      $this->view->user_saved_location=$locationService->getSavedLocations();
+    }
+    public function saveFilterAction(){
+      $this->view->title=$this->params['title'];
     }
     public function saveEventTemplateAction(){
       $this->view->title=$this->params['title'];
