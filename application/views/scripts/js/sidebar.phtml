@@ -58,6 +58,14 @@ jQuery(function($) {
       end_date: {
         date: true
       }
+    },
+    submitHandler: function(form) {
+      ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="is_all_time"]'));
+      ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="q"]'));
+      ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="begin_time"]'));
+      ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="end_time"]'));
+      
+      ns_feeds.refresh('index');
     }
   });
   
