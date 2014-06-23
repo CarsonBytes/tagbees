@@ -14,9 +14,8 @@ AddOutputFilterByType DEFLATE application/x-javascript
 
 Options +FollowSymLinks
 RewriteEngine On
-RewriteCond %{HTTP_HOST} ^tagbees\.com$
-RewriteRule (.*) http://www.tagbees.com/$1 [R=301,L]
-
+RewriteCond %{HTTP_HOST} ^tagees\.com$
+RewriteRule (.*) http://www.tagees.com/$1 [R=301,L]
 RewriteRule ^(.*)$ public/$1 [L]
 
 FileETag none
