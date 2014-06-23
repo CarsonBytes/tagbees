@@ -5,7 +5,15 @@
  * 
  * @package Minify
  */
-//if ($baseUrl == '/') $baseUrl = '';
+set_include_path(
+    implode(PATH_SEPARATOR, array(
+    get_include_path(),
+    realpath(dirname(__FILE__) . '/../../library'),
+    realpath(dirname(__FILE__) . '/../../../lib')
+)));
+require_once 'Zend/Config/Ini.php';
+$config = new Zend_Config_Ini(realpath(dirname(__FILE__)) . "/../../application/configs/application.ini",getenv('APPLICATION_ENV'));
+$baseUrl = $config->resources->frontController->BaseUrl;
 
 /**
  * Allow use of the Minify URI Builder app. Only set this to true while you need it.
@@ -51,8 +59,8 @@ $min_cachePath = realpath(dirname(__FILE__)) . "/../../tmp";
  * To use APC/Memcache/ZendPlatform for cache storage, require the class and
  * set $min_cachePath to an instance. Example below:
  */
-//require dirname(__FILE__) . '/lib/Minify/Cache/APC.php';
-//$min_cachePath = new Minify_Cache_APC();
+require dirname(__FILE__) . '/lib/Minify/Cache/APC.php';
+$min_cachePath = new Minify_Cache_APC();
 
 
 /**
