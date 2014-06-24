@@ -1,10 +1,13 @@
 <?php echo $this -> partial('breadcrumbs.phtml'); ?>
-
+<style>
+  
+</style>
 <div class="main shadow">
   <div class="feeds_and_more">
     <div class="feeds event_detail"></div>
-    <div style="text-align:center">
-      <div class="fb-comments" data-href="<?php echo Common::getSession()->currentUrl; ?>" data-width="600" data-numposts="5" data-colorscheme="light"></div>
+    <div style="text-align:center;height:300px; padding-bottom:20px; overflow-y: auto; ">
+      <div class="fb-comments" data-href="<?php echo Common::getSession()->currentUrl; ?>" data-width="600" data-width="200" data-numposts="5" data-colorscheme="light"></div>
+
     </div>
   </div>
 </div>
