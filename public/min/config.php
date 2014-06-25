@@ -59,8 +59,8 @@ $min_cachePath = realpath(dirname(__FILE__)) . "/../../tmp";
  * To use APC/Memcache/ZendPlatform for cache storage, require the class and
  * set $min_cachePath to an instance. Example below:
  */
-require dirname(__FILE__) . '/lib/Minify/Cache/APC.php';
-$min_cachePath = new Minify_Cache_APC();
+//require dirname(__FILE__) . '/lib/Minify/Cache/APC.php';
+//$min_cachePath = new Minify_Cache_APC();
 
 
 /**
