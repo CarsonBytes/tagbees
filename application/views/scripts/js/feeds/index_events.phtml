@@ -1,5 +1,7 @@
 <script type="text/javascript">
 var ns_feeds_index_events = {
+  autoLoadMoreIndex:0,
+  autoLoadMoreLimit:2,
   initIndexFeed: function(){ 
     ns_common_foot.updateVariablesFromUrlParams();
     ns_feeds.updateFeedInputsFromVariables();
@@ -7,28 +9,11 @@ var ns_feeds_index_events = {
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
         ns_filter_map.initMap();
     <?php } ?>
-    /*
-    $( "#radius_slider" ).slider({
-        range: "min",
-        value:ns_feeds.feed_para['radius'],
-        step: 0.01,
-        min: minDistance,
-        max: maxDistance,
-        slide: function( event, ui ) {
-            $( ".radius_amt span#filter_radius" ).text( ui.value );
-            
-        },
-        change: function( event, ui ) {
-            $( ".radius_amt span#filter_radius" ).text( ui.value );
-            if ($("#map").is(":visible")){
-                distanceWidget.set('distance',ui.value);
-                radiusWidget.bindTo('center', distanceWidget, 'position');
-                map.fitBounds(radiusWidget.get('bounds'));
-            }
-          ns_feeds.feed_para['radius'] = ui.value;
-          ns_feeds.updateUrlParam('radius', ui.value);
-        }
-    });*/
+  },
+  loadMoreFeed: function(){
+    ns_feeds.feed_para.last_id = $('.feeds > article:last').data("id");
+    ns_feeds.refresh('index', true, []);
+    return false;
   }
 }
 jQuery(function($){
@@ -38,12 +23,22 @@ jQuery(function($){
         ns_filter_map.refreshMarkers();
       }
   <?php } ?>
+  
+  $('.load_more_feeds').appear();
   //when user clicks load more
-  $('body#index').on("click",'.load_more_feeds',function() {
-      ns_feeds.feed_para.last_id = $('.feeds > article:last').data("id");
-      ns_feeds.refresh('index', true, []);
-      return false;
-  });
+  $('body#search')
+    .on("click",'.load_more_feeds',function() {
+      ns_feeds_index_events.loadMoreFeed();
+    })
+    .on('appear', '.load_more_feeds', function(e, $affected) {
+      
+      if(ns_feeds_index_events.autoLoadMoreIndex <= ns_feeds_index_events.autoLoadMoreLimit)
+        ns_feeds_index_events.loadMoreFeed();
+        
+      ns_feeds_index_events.autoLoadMoreIndex++;
+    })
+  
 })
+
 </script>
 <?php echo $this->partial('js/template/feeds/index_events_item.phtml') ?>

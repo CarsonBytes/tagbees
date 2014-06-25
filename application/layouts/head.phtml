@@ -48,7 +48,8 @@
         ->appendFile('chosen.jquery.min.js')
         ->appendFile('moment/moment.min.js')
         ->appendFile('moment/en-GB.js')
-        ->appendFile('moment/zh-HK.js');
+        ->appendFile('moment/zh-HK.js')
+        ->appendFile('jquery.appear.js');
     
         if (Common::getSiteDisplayLang() == 'zh-HK'){
           $this->minifyHeadScript()->appendFile('jquery.validate.messages_zh_TW.js');
@@ -59,6 +60,7 @@
             echo $this->minifyHeadScript();
         }
     ?>
+    
     <script type="text/javascript" src="<?php echo $this->baseUrl('js/tinymce/tiny_mce.js'); ?>"></script>
     <!-- Internet Explorer HTML5 enabling code: -->
     <!--[if IE]>
