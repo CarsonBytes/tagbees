@@ -8,17 +8,16 @@
 set_include_path(
     implode(PATH_SEPARATOR, array(
     get_include_path(),
-    realpath(dirname(__FILE__) . '/../../library'),
-    realpath(dirname(__FILE__) . '/../../../lib')
+    realpath(dirname(__FILE__) . '/../../library')
 )));
+$environment = getenv('APPLICATION_ENV');
 require_once 'Zend/Config/Ini.php';
-$config = new Zend_Config_Ini(realpath(dirname(__FILE__)) . "/../../application/configs/application.ini",getenv('APPLICATION_ENV'));
+$config = new Zend_Config_Ini(realpath(dirname(__FILE__)) . "/../../application/configs/application.ini",$environment);
 $baseUrl = $config->resources->frontController->BaseUrl;
-
 /**
  * Allow use of the Minify URI Builder app. Only set this to true while you need it.
  **/
-$min_enableBuilder = true;
+$min_enableBuilder = false;
 
 
 /**
@@ -53,15 +52,17 @@ $min_allowDebugFlag = false;
  */
 //$min_cachePath = 'c:\\WINDOWS\\Temp';
 //$min_cachePath = $baseUrl.'/tmp';
-$min_cachePath = realpath(dirname(__FILE__)) . "/../../tmp";
+if ($environment =='staging'|| $environment =='production'){
+  $min_cachePath = realpath(dirname(__FILE__)) . "/../../tmp";
 //$min_cachePath = preg_replace('/^\\d+;/', '', session_save_path());
 /**
  * To use APC/Memcache/ZendPlatform for cache storage, require the class and
  * set $min_cachePath to an instance. Example below:
  */
-//require dirname(__FILE__) . '/lib/Minify/Cache/APC.php';
-//$min_cachePath = new Minify_Cache_APC();
-
+} else {
+  require dirname(__FILE__) . '/lib/Minify/Cache/APC.php';
+  $min_cachePath = new Minify_Cache_APC();
+}
 
 /**
  * Leave an empty string to use PHP's $_SERVER['DOCUMENT_ROOT'].
