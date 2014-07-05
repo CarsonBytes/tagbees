@@ -49,7 +49,8 @@
         ->appendFile('moment/moment.min.js')
         ->appendFile('moment/en-GB.js')
         ->appendFile('moment/zh-HK.js')
-        ->appendFile('jquery.appear.js');
+        ->appendFile('jquery.appear.js')
+        ->appendFile('markerclusterer.js');
     
         if (Common::getSiteDisplayLang() == 'zh-HK'){
           $this->minifyHeadScript()->appendFile('jquery.validate.messages_zh_TW.js');
