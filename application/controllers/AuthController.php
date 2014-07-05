@@ -1,24 +1,6 @@
 <?php
 class AuthController extends Zend_Controller_Action
 {
-  private $session_table_config=array(
-      'name'=>'sessions',
-      'primary' => array(
-          'session_id',   //the sessionID given by PHP
-          'save_path',    //session.save_path
-          'name',         //session name
-      ),
-      'primaryAssignment' => array(
-          'sessionId', 'savePath', 'name',
-      ),
-      /*'user_idColumn'    => 'id',
-      'create_timeColumn' =>'create_time',
-      'ipColumn' =>'ip',
-      'http_user_agentColumn' =>'http_user_agent',*/
-      'modifiedColumn'    => 'modified',
-      'dataColumn'        => 'session_data',
-      'lifetimeColumn'    => 'lifetime',
-  );
   public function preDispatch()
   {
       if (!$this->_request->isXmlHttpRequest()){
@@ -244,7 +226,6 @@ class AuthController extends Zend_Controller_Action
       
       $this->view->auth_link=new stdClass();
       $this->view->auth_link->google = $providerService->getGoogleAuthUrl();
-    
       $this->view->auth_link->facebook = $providerService->getFacebookAuthUrl();
       
       // redirection from clicking 1 of the add provider link
@@ -292,7 +273,14 @@ class AuthController extends Zend_Controller_Action
           $result = $objAuth->authenticate($authAdapter);
   
           if ( $result->isValid() ) {
-              $this->signUserIn($data['username'], $objAuth);
+            if (isset($data['remember_me'])){
+              //on
+              Zend_Session::rememberMe();
+            } else{
+              // no submitted value
+              Zend_Session::forgetMe();
+            }
+            $this->signUserIn($data['username'], $objAuth);
           }else {
               //$this->view->errorMessage="Username or password is not correct!";
             $this->_helper->FlashMessenger(array('error'=>'Username or password is not correct!'));
@@ -388,7 +376,6 @@ class AuthController extends Zend_Controller_Action
       $userService->updateLastSeenTime($username);
       
       //session management
-      Zend_Session::setSaveHandler(new Zend_Session_SaveHandler_DbTable($this->session_table_config));
       Zend_Session::start();
       
       $userData = $userService->getUserDataByUsername($username,Zend_Db::FETCH_OBJ);

@@ -124,6 +124,7 @@ var ns_filter_map = {
           markersArray.push(marker);
       }
     }
+    markerCluster = new MarkerClusterer(map, markersArray);
   },
   addMarkers: function() {
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>

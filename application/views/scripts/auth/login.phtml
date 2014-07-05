@@ -6,10 +6,13 @@
             <div class="col_left">
                 <form method="post" action="<?php echo $this->baseUrl('auth/login')?>" id="user_login">
                 <div class="p_field">
-                    <input class="required username" type="text" id="username" name="username" placeholder="Username" value="" />
+                    <input class="required username" type="text" name="username" placeholder="Username" value="" />
                 </div>
                 <div class="p_field">
-                    <input type="password" id="password" class="required password" placeholder="Password" type="password" name="password" value="" />
+                    <input type="password" class="required password" placeholder="Password" name="password" value="" />
+                </div>
+                <div class="p_field checkbox">
+                    <input type="checkbox" style="width:auto;" id="remember_me" name="remember_me"/> <label for="remember_me">Keep me signed in</label>
                 </div>
                 
                 <div>

@@ -57,7 +57,7 @@ $controller = Zend_Registry::get('request') -> getControllerName(); ?>
                       </fieldset>
                       <fieldset id="actions">
                         <input type="submit" id="submit" value="Log in">
-                        <label><input type="checkbox" checked="checked"> Keep me signed in</label>
+                        <input type="checkbox" checked="checked" id="header_remember_me" name="remember_me" /> <label for="header_remember_me">Keep me signed in</label>
                         <label><a href="<?php echo $this->baseUrl('auth/forgot_password'); ?>">Forgot your password?</a></label>
                         <label><a href="<?php echo $this->baseUrl('auth/login')?>">Login with other platforms</a></label>
                       </fieldset>

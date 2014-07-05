@@ -272,7 +272,6 @@ background-image: linear-gradient(top, #d14545, #e97171);*/ }
 -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
 box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;*/ }
 #header .header_right .header_bottom .auth ul li#login #login-content #actions #submit::-moz-focus-inner { border: none; }
-#header .header_right .header_bottom .auth ul li#login #login-content input { opacity: 1; }
 #header .header_right .header_bottom .auth ul li#signup a { -webkit-border-radius: 0 3px 3px 0; -moz-border-radius: 0 3px 3px 0; -ms-border-radius: 0 3px 3px 0; -o-border-radius: 0 3px 3px 0; border-radius: 0 3px 3px 0; }
 #header .header_right .header_bottom .auth ul #login-trigger, #header .header_right .header_bottom .auth ul #signup a { display: inline-block; /*display: inline;
 zoom: 1;*/ height: 25px; line-height: 25px; font-weight: bold; padding: 0 8px; text-decoration: none; color: #444; text-shadow: white 0 1px 0 0px 1px #aaaaaa; }
@@ -823,6 +822,7 @@ a.button.google:active { background: url("http://blog.christianstrang.de/wp-cont
 .login_form .or p { padding: 60px 5px; }
 .login_form .submit_btn { margin-right: 57px; float: right; }
 .login_form input { border: 1px solid silver; display: inline-block; padding: 2px 5px; font-size: 12px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; background: white; width: 200px; height: 20px; }
+.login_form .p_field.checkbox { text-align: right; width: 210px; }
 
 .login_dialog { width: 700px; }
 

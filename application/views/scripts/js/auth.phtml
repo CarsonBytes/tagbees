@@ -20,10 +20,10 @@ jQuery(function($){
           type: "POST",
           data: {
               'username':  function() {
-                return $( "#username" ).val();
+                return $( "#user_login [name='username']" ).val();
               },
               'password': function() {
-                return $( "#password" ).val();
+                return $( "#user_login [name='password']" ).val();
               },
           },
         }

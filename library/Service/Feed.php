@@ -248,7 +248,7 @@ class Service_Feed{
                 $this->feed_query->where('f.order_by_hot is not NULL');
                 
                 if (isset($user_para['last_id']) && is_numeric($user_para['last_id'])){
-                    // load more feeds after last_id
+                    // load more feeds after last_id 
                     $last_feed_sub_select = $this->db->select()
                         ->from('item',array('order_by_hot'))
                         ->where('id = ?', $user_para['last_id']);

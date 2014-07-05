@@ -16,7 +16,7 @@ class Service_UserSavedFilter{
 	  if($name == ''){
       $select->from($this->table_name,array('name'));
 	  } else {
-      $select->from($this->table_name,array('name', 'q','sort_by','is_match_location','is_match_interest','place_lat','place_lng','radius','begin_date','end_date'));
+      $select->from($this->table_name,array('name', 'q',/*'sort_by',*/'is_match_location','is_match_interest','place_lat','place_lng','radius','begin_date','end_date'));
 	    $select->where('name = ?',$name);
 	  }
 		return $this->db->fetchAll($select);
