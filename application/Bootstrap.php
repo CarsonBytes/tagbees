@@ -48,6 +48,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
        //Zend_Registry::set('feed_input_prefix', Zend_Registry::get('config_ini')->html->feed_inputs->prefix);
        
     }
+    protected function _initCache(){
+      $cache = Zend_Cache::factory(
+          'Core',
+          'File',
+          array(
+              'lifetime' => 3600 * 24, //cache is cleaned once a day
+              'automatic_serialization' => true
+          ),
+          array('cache_dir' => APPLICATION_PATH.'/cache')
+      );
+      Zend_Db_Table_Abstract::setDefaultMetadataCache($cache); //cache database table schemata metadata for faster SQL queries
+      Zend_Registry::set('cache', $cache);
+    }
+    
     
     protected function _initRouter(){
         $router  = Zend_Controller_Front::getInstance()->getRouter();

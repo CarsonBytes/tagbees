@@ -7,11 +7,11 @@ class Service_UserSavedFilter{
 		  $this->identity=Zend_Auth::getInstance()->getIdentity();
 	    $this->db = Zend_Db_Table::getDefaultAdapter();
       //$this->db->getProfiler()->setEnabled(true);
-  		if (!Zend_Auth::getInstance()->hasIdentity()){
-  			return -1;
-  		}
 	}
 	public function get($name=''){
+    if (!Zend_Auth::getInstance()->hasIdentity()){
+      return array();
+    }
    $select=$this->db->select()->where('user_id = ?',$this->identity->item_id);
 	  if($name == ''){
       $select->from($this->table_name,array('name'));

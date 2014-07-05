@@ -28,29 +28,31 @@ class Service_Feed{
 	/*
 	 * set $rpp as 0 for unlimited!
      * @params $user_para
-     *  $sort_by=0,
-     *  $is_match_interest=0,
-     *  $is_match_location=0,
-     *  $place_lat=22.2,$place_lng=114.2,$radius=5,
-     *  $user_id='',
-     *  $tag_id='',
-     *  $tag_range = '',
-     *  $tree=array(),
-     *  $q='',
-     *  $begin_date='',
-     *  $end_date='',
-     *  $is_all_time=1,
-     *  $rpp=20,
-     *  $last_id=''
-     *  $select_slug_name
-     *  $used_ids,
-     *  $is_random=false
-     *  $is_bookmarked (true is only bookmarked, false is to only not bookmarked, undefined is both of them)
+     *  sort_by=0,
+     *  is_match_interest=0,
+     *  is_match_location=0,
+     *  place_lat=22.2,place_lng=114.2,radius=5,
+     *  user_id='',
+     *  tag_id='',
+     *  tag_range = '',
+     *  tree=array(),
+     *  q='',
+     *  begin_date='',
+     *  end_date='',
+     *  is_all_time=1,
+     *  rpp=20,
+     *  last_id=''
+     *  select_slug_name
+     *  used_ids,
+     *  is_random=false,
+     *  is_bookmarked (true is only bookmarked, false is to only not bookmarked, undefined is both of them),
+     *  related_ids 
      * @params $sys_para
      *  max_distance = 50, 
      *  min_distance = 0.5, 
 	 */
     public function getFeed($user_para = array(), $sys_para = array()){
+      //init variables
         if ($sys_para == array()){
             $sys_para = Zend_Registry::get('config')->filter->sys_para->toArray();
         }
@@ -66,12 +68,12 @@ class Service_Feed{
                 if (!isset($user_para['place_lng'])) $user_para['place_lng'] =  Zend_Registry::get('config')->filter->user_para->place_lng;
             }
         }
-        //get general feed sql query and feed interest ids of the logined user
+      //get general feed sql query and feed interest ids of the logined user
 			$is_load_feed = true;	
 			// get user interest
 			// + check if $user_para['is_match_interest'] but no interest at all
 			// 			then return array immediately
-			$related_ids=array();
+			$user_para['related_ids']=array();
 			if (Zend_Auth::getInstance()->hasIdentity() 
 			 && isset($user_para['is_match_interest']) && $user_para['is_match_interest'] == 1){
 				//get user followings and its tags
@@ -81,228 +83,250 @@ class Service_Feed{
 					if (!isset($user_para['user_id'])  && !isset($user_para['tag_id'])) { // only in frontpage when match_interest
 						$tagService=new Service_Tag();
                         if (!isset($user_para['tag_range'])) $user_para['tag_range'] = '';
-						$related_ids=$tagService->getUserTagIds($this->identity->item_id,1,$user_para['tag_range']);
-						if (empty($related_ids)){
+						$user_para['related_ids']=$tagService->getUserTagIds($this->identity->item_id,1,$user_para['tag_range']);
+						if (empty($user_para['related_ids'])){
 							$is_load_feed = false;
 						}
 					}
 				//}
 			}
-             
-		if ($is_load_feed){
-			$select_cols=array('*');
-			
-			// is match location
-			if (isset($user_para['is_match_location']) && $user_para['is_match_location']==1){
-				$select_cols['distance']='( 6371 * acos( cos( radians('.$user_para['place_lat'].') ) * cos( radians( f.place_lat ) ) * cos( radians( f.place_lng ) - radians('.$user_para['place_lng'].') ) + sin( radians('.$user_para['place_lat'].') ) * sin( radians( f.place_lat ) ) ) )';
-			}
-	
-	
-			$this->feed_query=$this->db->select()
-				->from(
-					array('f'=>'item'),
-					$select_cols
-				)
-				->joinLeft(array('i'=>'item'),
-		                    'f.submitter_id = i.id',
-							array(
-				            	'submitter_name'=>'i.name',
-				            	'submitter_slug_name'=>'i.slug_name'
-							)
-				);
-	
-      // get item tags
-      $tagService=new Service_Tag();
-      $this->feed_query = $tagService->getJoinQuery($this->feed_query, 'f.id');
-      
-      // get item images
-      $imageService=new Service_Image();
-      $this->feed_query = $imageService->getJoinQuery($this->feed_query, 'f.id');
-  
-      // get user event reminders
-      $eventService=new Service_Event();
-      $this->feed_query = $eventService->getJoinQuery($this->feed_query, 'f.id');
-  
-			$bookmarkService=new Service_Bookmark();
-			$this->feed_query=$bookmarkService->getBookmarkCountQuery($this->feed_query,'f');
-	
-			if (Zend_Auth::getInstance()->hasIdentity()){
-				$this->feed_query=$bookmarkService->getSelfIsBookmarkQuery($this->feed_query,'f');
-			}
-	
-            //limit radius
-			if (
-			     isset($user_para['is_match_location']) && $user_para['is_match_location'] == 1 
-			     && isset($user_para['radius']) && is_numeric($user_para['radius'])
-             ){
-				$this->feed_query->having('distance < '.$user_para['radius']);
-			}
-	           
-            //match interest
-			if (isset($user_para['is_match_interest']) && is_numeric($user_para['is_match_interest']) && $related_ids != array()){
-				$this->feed_query->where('i.id in (?)',$related_ids);
-			}
-			
-      // get by ids
-      if (isset($user_para['item_ids']) && !empty($user_para['item_ids'])){
-        $this->feed_query->where("f.id in (?)", $user_para['item_ids']);
-      }
-
-      if (isset($user_para['select_slug_name']) && !empty($user_para['select_slug_name'])){
-        $this->feed_query->where("f.slug_name = ? ", $user_para['select_slug_name']);
-      }
-
-      
-      if (isset($user_para['used_ids']) && !empty($user_para['used_ids'])){
-        $this->feed_query->where('f.id not in (?)', $user_para['used_ids']);
-      }
-        			
-			// general type(s) for feed
-			$this->feed_query->where("f.type = 'event'");
-
-			// display also disabled item of the loginned user
-			if (Zend_Auth::getInstance()->hasIdentity()){
-				$this->feed_query->where("f.mode = 'publish' or f.submitter_id = ?",$this->identity->item_id);
-			}else{
-				$this->feed_query->where("f.mode = 'publish'");
-			}
-			// keyword filtering
-			if (isset($user_para['q']) && trim($user_para['q']!='')){
-        $this->feed_query->where($this->getWhereClauseofFilterByKeyword($user_para['q']));
-			}
-      
-      // get user bookmarks
-      if (isset($user_para['is_bookmarked'])){
-        $this->feed_query
-          ->joinLeft(
-              array('ub'=>'user_bookmark'),
-              'ub.item_id=f.id',
-              array(
-                  'ub_create_time' => 'create_time',
-                  'ub_update_time' => 'update_time',
-              )
-          )
-          ->where('ub.user_id = ?',$this->identity->item_id);
-        if ($user_para['is_bookmarked']){
-          $this->feed_query->where('ub.status > 0');
-        } else{
-          $this->feed_query->where('ub.status = 0');
-        }
-        if (($user_para['sort_by']) && $user_para['sort_by']=='event_time'){
-          $this->feed_query->order('f.begin_datetime'. (isset ($user_para['order']) ? ' '.$user_para['order'] : ''));
-        } else {
-          $this->feed_query->order('ub.update_time'. (isset ($user_para['order']) ? ' '.$user_para['order'] : ''));
-        }
-      }
-
-			//date range
-			if (isset($user_para['is_all_time']) && $user_para['is_all_time']!=1){
-				$date_select=$this->db->select();
-				$i=0;
-                $is_begin_date_specified = isset($user_para['begin_date']) && trim($user_para['begin_date']) !='';
-                $is_end_date_specified = isset($user_para['end_date']) && trim($user_para['end_date']) !='';
-                
-                if($is_begin_date_specified){
-                    $i++;
-                    $date_select->where("DATEDIFF((f.end_datetime),?)>=0", $user_para['begin_date']);
-                }
-                if($is_end_date_specified){
-                    $i++;
-                    $date_select->where("DATEDIFF((f.begin_datetime),?)<=0",  $user_para['end_date']);
-                }
-				if($i>0)$this->feed_query->where(join(" ",$date_select->getPart(Zend_Db_Select::WHERE)));
-			}
-
-			//in case it is user / tag profile feed
-			if (isset($user_para['user_id']) && $user_para['user_id'] !=''){
-					//user profile!
-					$this->feed_query->where("f.submitter_id = ?", intval($user_id));
-			}else if (isset($user_para['tag_id']) && $user_para['tag_id'] !=''){
-					//tag profile!
-					$tagService=new Service_Tag();
-					$this->feed_query=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', $user_para['tag_id']);
-
-			}else if (isset($user_para['tree']) && is_array($user_para['tree']) && !empty($user_para['tree'])){
-
-				$tree_select=$this->db->select();
-				$tree_select->where("f.tree_ids LIKE ?", '%|'.implode('|',$user_para['tree']).'|%');
-
-				$serviceCat = new Service_Tree();
-				$other_trees = $serviceCat->getSlaveCategoriesFromTree($user_para['tree']); //master sees slaves' feed
-				if (isset($other_trees['related_cats'])){
-					foreach($other_trees['related_cats'] as $value){
-						$tree_select->orWhere("f.tree_ids LIKE ?", '%|'.implode('|',$value).'|%');
-					}
-				}
-                
-        // last tree tags related items
+    
+    // check cache mapping id from $user_para
+      $cache = Zend_Cache::factory(
+          'Core',
+          'File',
+          array(
+              'lifetime' => 3600 * 24, //cache is cleaned once a day
+              'automatic_serialization' => true
+          ),
+          array('cache_dir' => APPLICATION_PATH.'/cache')
+      );
+    //$cache = Zend_Registry::get('cache');
+    $cache_name = md5("getFeeds".json_encode($user_para));
+    if($result = $cache->load($cache_name)) {
+      return $result;
+    } else {
+    
+  		if ($is_load_feed){
+  			$select_cols=array('*');
+  			
+  			// is match location
+  			if (isset($user_para['is_match_location']) && $user_para['is_match_location']==1){
+  				$select_cols['distance']='( 6371 * acos( cos( radians('.$user_para['place_lat'].') ) * cos( radians( f.place_lat ) ) * cos( radians( f.place_lng ) - radians('.$user_para['place_lng'].') ) + sin( radians('.$user_para['place_lat'].') ) * sin( radians( f.place_lat ) ) ) )';
+  			}
+  	
+  	
+  			$this->feed_query=$this->db->select()
+  				->from(
+  					array('f'=>'item'),
+  					$select_cols
+  				)
+  				->joinLeft(array('i'=>'item'),
+  		                    'f.submitter_id = i.id',
+  							array(
+  				            	'submitter_name'=>'i.name',
+  				            	'submitter_slug_name'=>'i.slug_name'
+  							)
+  				);
+  	
+        // get item tags
         $tagService=new Service_Tag();
-        $tree_select=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', end($user_para['tree']));
-
-        $this->feed_query->where(join(" ",$tree_select->getPart(Zend_Db_Select::WHERE)));			
-      }
-      
-      // feed type ordering and where clause preparation
-      if (isset($user_para['sort_by']) && $user_para['sort_by']==1){
-        //hot
-                $this->feed_query->where('f.order_by_hot is not NULL');
-                
-                if (isset($user_para['last_id']) && is_numeric($user_para['last_id'])){
-                    // load more feeds after last_id 
-                    $last_feed_sub_select = $this->db->select()
-                        ->from('item',array('order_by_hot'))
-                        ->where('id = ?', $user_para['last_id']);
-                    $this->feed_query->where('f.order_by_hot > ?', $last_feed_sub_select);
-                }
-                
-                $this->feed_query->order('f.order_by_hot asc');
-                //$this->feed_query->order('like_count desc');
-                $this->feed_query->order('f.id asc');
-      }else if ( isset($user_para['sort_by']) && $user_para['sort_by']==2){
-        //ending soon
-                $this->feed_query->where('f.end_datetime >= NOW()');
-                if (isset($user_para['last_id']) && $user_para['last_id']!=''){
-                    // load more feeds after last_id
-                    $last_feed_sub_select = $this->db->select()
-                        ->from('item',array('end_datetime'))
-                        ->where('id = ?', $user_para['last_id']);
-                    $this->feed_query->where('f.end_datetime > ?', $last_feed_sub_select);
-                }
-        $this->feed_query->order('f.end_datetime asc');
-                $this->feed_query->order('f.id asc');
-      }else if ( isset($user_para['sort_by']) && $user_para['sort_by']=='random'){
-        $this->feed_query->order("rand()"); // order randomly, may cause problem when it comes to MSSQL adapter
-      } else /*if ( isset($user_para['sort_by']) && $user_para['sort_by']==3)*/{
-        //new
-        if (isset($user_para['last_id']) && $user_para['last_id']!=''){
-            // load more feeds after last_id
-            $last_feed_sub_select = $this->db->select()
-                ->from('item',array('create_time'))
-                ->where('id = ?', $user_para['last_id']);
-            $this->feed_query->where('f.create_time < ?', $last_feed_sub_select);
+        $this->feed_query = $tagService->getJoinQuery($this->feed_query, 'f.id');
+        
+        // get item images
+        $imageService=new Service_Image();
+        $this->feed_query = $imageService->getJoinQuery($this->feed_query, 'f.id');
+    
+        // get user event reminders
+        $eventService=new Service_Event();
+        $this->feed_query = $eventService->getJoinQuery($this->feed_query, 'f.id');
+    
+  			$bookmarkService=new Service_Bookmark();
+  			$this->feed_query=$bookmarkService->getBookmarkCountQuery($this->feed_query,'f');
+  	
+  			if (Zend_Auth::getInstance()->hasIdentity()){
+  				$this->feed_query=$bookmarkService->getSelfIsBookmarkQuery($this->feed_query,'f');
+  			}
+  	
+              //limit radius
+  			if (
+  			     isset($user_para['is_match_location']) && $user_para['is_match_location'] == 1 
+  			     && isset($user_para['radius']) && is_numeric($user_para['radius'])
+               ){
+  				$this->feed_query->having('distance < '.$user_para['radius']);
+  			}
+  	           
+              //match interest
+  			if (isset($user_para['is_match_interest']) && is_numeric($user_para['is_match_interest']) && $user_para['related_ids'] != array()){
+  				$this->feed_query->where('i.id in (?)',$user_para['related_ids']);
+  			}
+  			
+        // get by ids
+        if (isset($user_para['item_ids']) && !empty($user_para['item_ids'])){
+          $this->feed_query->where("f.id in (?)", $user_para['item_ids']);
         }
-        $this->feed_query->order('f.create_time desc');
-        $this->feed_query->order('f.id desc');
-      } 
-
-      // limit rpp
-      if (isset($user_para['rpp']) && $user_para['rpp']!=0){
-        $this->feed_query->limit($user_para['rpp']);
-      }
-
-			//fetch and pack result
-      return $this->packFeeds($this->db->fetchAll($this->feed_query, array(),Zend_Db::FETCH_OBJ));
-      
-		}else{
-			return array(
-				'data'=>array(),
-				//'comment'=>array(),
-				//'image'=>array(),
-				//'tags'=>array(),
-				'tree_tags'=>array(),
-				//'debug'=>$this->debug
-			);
-		}
+  
+        if (isset($user_para['select_slug_name']) && !empty($user_para['select_slug_name'])){
+          $this->feed_query->where("f.slug_name = ? ", $user_para['select_slug_name']);
+        }
+  
+        
+        if (isset($user_para['used_ids']) && !empty($user_para['used_ids'])){
+          $this->feed_query->where('f.id not in (?)', $user_para['used_ids']);
+        }
+          			
+  			// general type(s) for feed
+  			$this->feed_query->where("f.type = 'event'");
+  
+  			// display also disabled item of the loginned user
+  			if (Zend_Auth::getInstance()->hasIdentity()){
+  				$this->feed_query->where("f.mode = 'publish' or f.submitter_id = ?",$this->identity->item_id);
+  			}else{
+  				$this->feed_query->where("f.mode = 'publish'");
+  			}
+  			// keyword filtering
+  			if (isset($user_para['q']) && trim($user_para['q']!='')){
+          $this->feed_query->where($this->getWhereClauseofFilterByKeyword($user_para['q']));
+  			}
+        
+        // get user bookmarks
+        if (isset($user_para['is_bookmarked'])){
+          $this->feed_query
+            ->joinLeft(
+                array('ub'=>'user_bookmark'),
+                'ub.item_id=f.id',
+                array(
+                    'ub_create_time' => 'create_time',
+                    'ub_update_time' => 'update_time',
+                )
+            )
+            ->where('ub.user_id = ?',$this->identity->item_id);
+          if ($user_para['is_bookmarked']){
+            $this->feed_query->where('ub.status > 0');
+          } else{
+            $this->feed_query->where('ub.status = 0');
+          }
+          if (($user_para['sort_by']) && $user_para['sort_by']=='event_time'){
+            $this->feed_query->order('f.begin_datetime'. (isset ($user_para['order']) ? ' '.$user_para['order'] : ''));
+          } else {
+            $this->feed_query->order('ub.update_time'. (isset ($user_para['order']) ? ' '.$user_para['order'] : ''));
+          }
+        }
+  
+  			//date range
+  			if (isset($user_para['is_all_time']) && $user_para['is_all_time']!=1){
+  				$date_select=$this->db->select();
+  				$i=0;
+                  $is_begin_date_specified = isset($user_para['begin_date']) && trim($user_para['begin_date']) !='';
+                  $is_end_date_specified = isset($user_para['end_date']) && trim($user_para['end_date']) !='';
+                  
+                  if($is_begin_date_specified){
+                      $i++;
+                      $date_select->where("DATEDIFF((f.end_datetime),?)>=0", $user_para['begin_date']);
+                  }
+                  if($is_end_date_specified){
+                      $i++;
+                      $date_select->where("DATEDIFF((f.begin_datetime),?)<=0",  $user_para['end_date']);
+                  }
+  				if($i>0)$this->feed_query->where(join(" ",$date_select->getPart(Zend_Db_Select::WHERE)));
+  			}
+  
+  			//in case it is user / tag profile feed
+  			if (isset($user_para['user_id']) && $user_para['user_id'] !=''){
+  					//user profile!
+  					$this->feed_query->where("f.submitter_id = ?", intval($user_id));
+  			}else if (isset($user_para['tag_id']) && $user_para['tag_id'] !=''){
+  					//tag profile!
+  					$tagService=new Service_Tag();
+  					$this->feed_query=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', $user_para['tag_id']);
+  
+  			}else if (isset($user_para['tree']) && is_array($user_para['tree']) && !empty($user_para['tree'])){
+  
+  				$tree_select=$this->db->select();
+  				$tree_select->where("f.tree_ids LIKE ?", '%|'.implode('|',$user_para['tree']).'|%');
+  
+  				$serviceCat = new Service_Tree();
+  				$other_trees = $serviceCat->getSlaveCategoriesFromTree($user_para['tree']); //master sees slaves' feed
+  				if (isset($other_trees['related_cats'])){
+  					foreach($other_trees['related_cats'] as $value){
+  						$tree_select->orWhere("f.tree_ids LIKE ?", '%|'.implode('|',$value).'|%');
+  					}
+  				}
+                  
+          // last tree tags related items
+          $tagService=new Service_Tag();
+          $tree_select=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', end($user_para['tree']));
+  
+          $this->feed_query->where(join(" ",$tree_select->getPart(Zend_Db_Select::WHERE)));			
+        }
+        
+        // feed type ordering and where clause preparation
+        if (isset($user_para['sort_by']) && $user_para['sort_by']==1){
+          //hot
+                  $this->feed_query->where('f.order_by_hot is not NULL');
+                  
+                  if (isset($user_para['last_id']) && is_numeric($user_para['last_id'])){
+                      // load more feeds after last_id 
+                      $last_feed_sub_select = $this->db->select()
+                          ->from('item',array('order_by_hot'))
+                          ->where('id = ?', $user_para['last_id']);
+                      $this->feed_query->where('f.order_by_hot > ?', $last_feed_sub_select);
+                  }
+                  
+                  $this->feed_query->order('f.order_by_hot asc');
+                  //$this->feed_query->order('like_count desc');
+                  $this->feed_query->order('f.id asc');
+        }else if ( isset($user_para['sort_by']) && $user_para['sort_by']==2){
+          //ending soon
+                  $this->feed_query->where('f.end_datetime >= NOW()');
+                  if (isset($user_para['last_id']) && $user_para['last_id']!=''){
+                      // load more feeds after last_id
+                      $last_feed_sub_select = $this->db->select()
+                          ->from('item',array('end_datetime'))
+                          ->where('id = ?', $user_para['last_id']);
+                      $this->feed_query->where('f.end_datetime > ?', $last_feed_sub_select);
+                  }
+          $this->feed_query->order('f.end_datetime asc');
+                  $this->feed_query->order('f.id asc');
+        }else if ( isset($user_para['sort_by']) && $user_para['sort_by']=='random'){
+          $this->feed_query->order("rand()"); // order randomly, may cause problem when it comes to MSSQL adapter
+        } else /*if ( isset($user_para['sort_by']) && $user_para['sort_by']==3)*/{
+          //new
+          if (isset($user_para['last_id']) && $user_para['last_id']!=''){
+              // load more feeds after last_id
+              $last_feed_sub_select = $this->db->select()
+                  ->from('item',array('create_time'))
+                  ->where('id = ?', $user_para['last_id']);
+              $this->feed_query->where('f.create_time < ?', $last_feed_sub_select);
+          }
+          $this->feed_query->order('f.create_time desc');
+          $this->feed_query->order('f.id desc');
+        } 
+  
+        // limit rpp
+        if (isset($user_para['rpp']) && $user_para['rpp']!=0){
+          $this->feed_query->limit($user_para['rpp']);
+        }
+  
+  			//fetch and pack result
+        
+        //echo 'caching the data…..';
+        $data = $this->packFeeds($this->db->fetchAll($this->feed_query, array(),Zend_Db::FETCH_OBJ));
+        $cache->save($data, $cache_name);
+  		}else{
+        //echo 'caching empty data…..';
+        $data = array(
+          'data'=>array(),
+          //'comment'=>array(),
+          //'image'=>array(),
+          //'tags'=>array(),
+          'tree_tags'=>array(),
+          //'debug'=>$this->debug
+        );
+        $cache->save($data, $cache_name);
+  		}
+      return $data;
+  	}
 	}
 
   public function packFeeds($feed_result){
