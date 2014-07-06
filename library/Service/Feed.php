@@ -92,16 +92,7 @@ class Service_Feed{
 			}
     
     // check cache mapping id from $user_para
-      $cache = Zend_Cache::factory(
-          'Core',
-          'File',
-          array(
-              'lifetime' => 3600 * 24, //cache is cleaned once a day
-              'automatic_serialization' => true
-          ),
-          array('cache_dir' => APPLICATION_PATH.'/cache')
-      );
-    //$cache = Zend_Registry::get('cache');
+    $cache = Zend_Registry::get('cache');
     $cache_name = md5("getFeeds".json_encode($user_para));
     if($result = $cache->load($cache_name)) {
       Zend_Registry::get('logger')->log('loading cache!', Zend_Log::INFO);
