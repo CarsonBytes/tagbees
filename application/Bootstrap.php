@@ -62,6 +62,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
       Zend_Registry::set('cache', $cache);
     }
     
+    protected function _initLog(){
+      $writer = new Zend_Log_Writer_Firebug();
+      $logger = new Zend_Log($writer);
+      
+      Zend_Registry::set('logger', $logger);
+    }
+    
     
     protected function _initRouter(){
         $router  = Zend_Controller_Front::getInstance()->getRouter();

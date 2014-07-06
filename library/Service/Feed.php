@@ -104,8 +104,10 @@ class Service_Feed{
     //$cache = Zend_Registry::get('cache');
     $cache_name = md5("getFeeds".json_encode($user_para));
     if($result = $cache->load($cache_name)) {
+      Zend_Registry::get('logger')->log('loading cache!', Zend_Log::INFO);
       return $result;
     } else {
+      Zend_Registry::get('logger')->log('saving cache!', Zend_Log::INFO);
     
   		if ($is_load_feed){
   			$select_cols=array('*');
