@@ -4,4 +4,4 @@
 *.sql
 *.bak
 public/uploads
-application/cache/
+application/cache
