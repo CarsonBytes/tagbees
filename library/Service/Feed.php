@@ -10,7 +10,7 @@ class Service_Feed{
 	function __construct(){
 		$this->identity=Zend_Auth::getInstance()->getIdentity();
 	    $this->db = Zend_Db_Table::getDefaultAdapter();
-		//$this->db->getProfiler()->setEnabled(true);
+		$this->db->getProfiler()->setEnabled(true);
 	}
 	/*
 	 *
@@ -95,10 +95,10 @@ class Service_Feed{
     $cache = Zend_Registry::get('cache');
     $cache_name = md5("getFeeds".json_encode($user_para));
     if($result = $cache->load($cache_name)) {
-      Zend_Registry::get('logger')->log('loading cache!', Zend_Log::INFO);
+      Common::log('cache loaded!');
       return $result;
     } else {
-      Zend_Registry::get('logger')->log('saving cache!', Zend_Log::INFO);
+      Common::log('querying db and saving cache...');
     
   		if ($is_load_feed){
   			$select_cols=array('*');
@@ -252,7 +252,15 @@ class Service_Feed{
   
           $this->feed_query->where(join(" ",$tree_select->getPart(Zend_Db_Select::WHERE)));			
         }
-        
+        /*$this->feed_query1 = $this->feed_query
+  				->columns(array('ob' => new Zend_Db_Expr(1)));
+        $this->feed_query2 = $this->feed_query
+  				->columns(array('ob' => new Zend_Db_Expr(2)));
+		$this->feed_query = $this->db->select()
+				->union(array($this->feed_query1,$this->feed_query2));
+		print_r(
+			$this->feed_query->__toString());die();*/
+			
         // feed type ordering and where clause preparation
         if (isset($user_para['sort_by']) && $user_para['sort_by']==1){
           //hot
@@ -300,12 +308,14 @@ class Service_Feed{
         if (isset($user_para['rpp']) && $user_para['rpp']!=0){
           $this->feed_query->limit($user_para['rpp']);
         }
+		//print_r($this->feed_query->__toString());die();
   
   			//fetch and pack result
         
         //echo 'caching the data…..';
         $data = $this->packFeeds($this->db->fetchAll($this->feed_query, array(),Zend_Db::FETCH_OBJ));
         $cache->save($data, $cache_name);
+        
   		}else{
         //echo 'caching empty data…..';
         $data = array(
@@ -313,17 +323,17 @@ class Service_Feed{
           //'comment'=>array(),
           //'image'=>array(),
           //'tags'=>array(),
-          'tree_tags'=>array(),
-          //'debug'=>$this->debug
+          'tree_tags'=>array()
         );
         $cache->save($data, $cache_name);
   		}
+      $data['debug'] = $this->debug;
       return $data;
   	}
 	}
 
   public function packFeeds($feed_result){
-  //$this->debug=$this->db->getProfiler()->getLastQueryProfile()->getQuery();
+  $this->debug=$this->db->getProfiler()->getLastQueryProfile()->getQuery();
     // get involved cat ids
     $cat_ids=array();
     //$trees_ids['main'] = array();

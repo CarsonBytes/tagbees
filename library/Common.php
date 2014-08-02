@@ -1,6 +1,8 @@
 <?php
 class Common{
-	protected $identity;
+  protected $identity;
+  protected $db;
+  
 	function __construct(){
 		$this->identity=Zend_Auth::getInstance()->getIdentity();
 		$this->db = Zend_Db_Table::getDefaultAdapter();
@@ -48,6 +50,27 @@ class Common{
 	    }
 	    return $all;
 	}
+
+  public static function log($message, $type = Zend_Log::INFO, $target="firefox"){
+    if (Zend_Registry::get('config_ini')->useLog == 1){
+      $request = new Zend_Controller_Request_Http();
+      $response = new Zend_Controller_Response_Http();
+      $channel = Zend_Wildfire_Channel_HttpHeaders::getInstance();
+      $channel->setRequest($request);
+      $channel->setResponse($response);
+       
+      // Start output buffering
+      ob_start();
+       
+      // Now you can make calls to the logger
+       
+      Zend_Registry::get('logger')->log($message, $type);
+       
+      // Flush log data to browser
+      $channel->flush();
+      $response->sendHeaders();
+    }
+  }
 
   public static function generateRandomString($length = 10) {
       $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
