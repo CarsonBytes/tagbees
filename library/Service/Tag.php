@@ -151,6 +151,13 @@ class Service_Tag{
 		}*/
         return $result;
     }
+    public function getTagIdsByKeywords($keyword){
+      $select=$this->db->select()
+              ->from(array('i'=>'item'),array('id','name','slug_name'))
+              ->where('name like ?','%'.$keyword.'%')
+              ->Where('type in (?)',array('tag','tree_tag'));
+      return $this->db->fetchCol($select);
+    }
 
     public function getUserTotalPreferenceScore($userid){
     	$select=$this->db->select()

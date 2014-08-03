@@ -114,7 +114,7 @@ class Ajax_FeedController extends Zend_Controller_Action
             $feedService=new Service_Feed();
             
             $feed_para = array('tag_id'=>$tag['item']->id);
-            if (isset($this->params['last_id'])) $feed_para['last_id'] = $this->params['last_id'];
+            if (isset($this->params['last_id'])) $feed_para['last_id'] = $this->params['last_id']; 
             $feed = $feedService->getFeed($feed_para);
             
             $this->view->feed=$feed['final_feed_result'];

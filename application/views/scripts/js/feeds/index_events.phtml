@@ -11,6 +11,7 @@ var ns_feeds_index_events = {
     <?php } ?>
   },
   loadMoreFeed: function(){
+    ns_feeds.feed_para.page = this.autoLoadMoreIndex+2; // +1 is the current page
     ns_feeds.feed_para.last_id = $('.feeds > article:last').data("id");
     ns_feeds.refresh('index', true, []);
     return false;

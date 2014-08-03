@@ -15,6 +15,7 @@ return array(
             'place_lng' =>114.1,
             'radius' =>18,
             'rpp' => 5,
+            'page' => 1,
             'q'=>null,
             'user_id'=>null,
             'tag_id'=>null,
@@ -27,7 +28,7 @@ return array(
         )
     ),
 	'feed'=>array(
-		'sort_by'=>array('new','hot','ending')
+		'sort_by'=>array('new','hot','ending','relevancy')
 	),
 	'user_feed'=>array(
         'rpp' => 3

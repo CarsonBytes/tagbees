@@ -2,7 +2,7 @@
 class Service_Feed{
 	protected $identity;
 	protected $db;
-	public $feed_query;
+  public $feed_query;
 	public $debug='';
     
     private $default_feed_para;
@@ -41,6 +41,7 @@ class Service_Feed{
      *  end_date='',
      *  is_all_time=1,
      *  rpp=20,
+     *  page=''
      *  last_id=''
      *  select_slug_name
      *  used_ids,
@@ -63,29 +64,34 @@ class Service_Feed{
             
         } else {
             if (!isset($user_para['rpp'])) $user_para['rpp'] =  Zend_Registry::get('config')->filter->user_para->rpp;
+            if (!isset($user_para['page'])) $user_para['page'] =  Zend_Registry::get('config')->filter->user_para->page;
             if (isset($user_para['is_match_location'])) {
                 if (!isset($user_para['place_lat'])) $user_para['place_lat'] =  Zend_Registry::get('config')->filter->user_para->place_lat;
                 if (!isset($user_para['place_lng'])) $user_para['place_lng'] =  Zend_Registry::get('config')->filter->user_para->place_lng;
             }
         }
+        
       //get general feed sql query and feed interest ids of the logined user
 			$is_load_feed = true;	
-			// get user interest
 			// + check if $user_para['is_match_interest'] but no interest at all
 			// 			then return array immediately
 			$user_para['related_ids']=array();
+      $cacheName = "getFeed";
 			if (Zend_Auth::getInstance()->hasIdentity() 
 			 && isset($user_para['is_match_interest']) && $user_para['is_match_interest'] == 1){
 				//get user followings and its tags
 				//if ($user_para['sort_by']=="feed"){
-					$user_group=$tag_group=array();
-					$followings=array();
+					//$user_group=$tag_group=array();
+					//$followings=array();
+        // get user interest
 					if (!isset($user_para['user_id'])  && !isset($user_para['tag_id'])) { // only in frontpage when match_interest
 						$tagService=new Service_Tag();
                         if (!isset($user_para['tag_range'])) $user_para['tag_range'] = '';
 						$user_para['related_ids']=$tagService->getUserTagIds($this->identity->item_id,1,$user_para['tag_range']);
 						if (empty($user_para['related_ids'])){
 							$is_load_feed = false;
+						} else {
+              $cacheName.=$this->identity->item_id;
 						}
 					}
 				//}
@@ -93,8 +99,8 @@ class Service_Feed{
     
     // check cache mapping id from $user_para
     $cache = Zend_Registry::get('cache');
-    $cache_name = md5("getFeeds".json_encode($user_para));
-    if($result = $cache->load($cache_name)) {
+    $cache_name = md5($cacheName.json_encode($user_para));
+    if(Zend_Registry::get('config_ini')->useCache==1 && $result = $cache->load($cache_name)) {
       Common::log('cache loaded!');
       return $result;
     } else {
@@ -177,10 +183,6 @@ class Service_Feed{
   			}else{
   				$this->feed_query->where("f.mode = 'publish'");
   			}
-  			// keyword filtering
-  			if (isset($user_para['q']) && trim($user_para['q']!='')){
-          $this->feed_query->where($this->getWhereClauseofFilterByKeyword($user_para['q']));
-  			}
         
         // get user bookmarks
         if (isset($user_para['is_bookmarked'])){
@@ -223,12 +225,15 @@ class Service_Feed{
                   }
   				if($i>0)$this->feed_query->where(join(" ",$date_select->getPart(Zend_Db_Select::WHERE)));
   			}
-  
-  			//in case it is user / tag profile feed
-  			if (isset($user_para['user_id']) && $user_para['user_id'] !=''){
-  					//user profile!
-  					$this->feed_query->where("f.submitter_id = ?", intval($user_id));
-  			}else if (isset($user_para['tag_id']) && $user_para['tag_id'] !=''){
+  			//in case it is keyword index search / user / tag / tree profile feed
+  			if (isset($user_para['q']) && $user_para['q'] !=''){
+            //keyword index search!
+          $this->feed_query = $this->getQueryBySearchRelevancy($user_para['q']);
+          $user_para['sort_by'] = 3; // relevancy
+        }else if (isset($user_para['user_id']) && $user_para['user_id'] !=''){
+            //user profile!
+            $this->feed_query->where("f.submitter_id = ?", intval($user_id));
+        }else if (isset($user_para['tag_id']) && $user_para['tag_id'] !=''){
   					//tag profile!
   					$tagService=new Service_Tag();
   					$this->feed_query=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', $user_para['tag_id']);
@@ -245,21 +250,12 @@ class Service_Feed{
   						$tree_select->orWhere("f.tree_ids LIKE ?", '%|'.implode('|',$value).'|%');
   					}
   				}
-                  
           // last tree tags related items
-          $tagService=new Service_Tag();
-          $tree_select=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', end($user_para['tree']));
-  
-          $this->feed_query->where(join(" ",$tree_select->getPart(Zend_Db_Select::WHERE)));			
-        }
-        /*$this->feed_query1 = $this->feed_query
-  				->columns(array('ob' => new Zend_Db_Expr(1)));
-        $this->feed_query2 = $this->feed_query
-  				->columns(array('ob' => new Zend_Db_Expr(2)));
-		$this->feed_query = $this->db->select()
-				->union(array($this->feed_query1,$this->feed_query2));
-		print_r(
-			$this->feed_query->__toString());die();*/
+            $tagService=new Service_Tag();
+            $tree_select=$tagService->getTaggedItemsNestedQuery($this->feed_query, 'f', end($user_para['tree']));
+    
+            $this->feed_query->where(join(" ",$tree_select->getPart(Zend_Db_Select::WHERE)));     
+          }
 			
         // feed type ordering and where clause preparation
         if (isset($user_para['sort_by']) && $user_para['sort_by']==1){
@@ -279,7 +275,7 @@ class Service_Feed{
                   $this->feed_query->order('f.id asc');
         }else if ( isset($user_para['sort_by']) && $user_para['sort_by']==2){
           //ending soon
-                  $this->feed_query->where('f.end_datetime >= NOW()');
+                  $this->feed_query->where('end_datetime >= NOW()');
                   if (isset($user_para['last_id']) && $user_para['last_id']!=''){
                       // load more feeds after last_id
                       $last_feed_sub_select = $this->db->select()
@@ -289,6 +285,11 @@ class Service_Feed{
                   }
           $this->feed_query->order('f.end_datetime asc');
                   $this->feed_query->order('f.id asc');
+        }else if ( isset($user_para['sort_by']) && $user_para['sort_by']==3){
+          //relevancy
+          $this->feed_query->group('id')
+                            ->order('f.ob')
+                            ->order('f.create_time desc');
         }else if ( isset($user_para['sort_by']) && $user_para['sort_by']=='random'){
           $this->feed_query->order("rand()"); // order randomly, may cause problem when it comes to MSSQL adapter
         } else /*if ( isset($user_para['sort_by']) && $user_para['sort_by']==3)*/{
@@ -303,13 +304,15 @@ class Service_Feed{
           $this->feed_query->order('f.create_time desc');
           $this->feed_query->order('f.id desc');
         } 
-  
+
         // limit rpp
         if (isset($user_para['rpp']) && $user_para['rpp']!=0){
-          $this->feed_query->limit($user_para['rpp']);
+          if (isset($user_para['sort_by']) && $user_para['sort_by']==3){
+            $this->feed_query->limitPage($user_para['page'],$user_para['rpp']); // for relevancy result
+          } else {
+            $this->feed_query->limit($user_para['rpp']); // for non-relevancy result
+          }
         }
-		//print_r($this->feed_query->__toString());die();
-  
   			//fetch and pack result
         
         //echo 'caching the data…..';
@@ -325,12 +328,11 @@ class Service_Feed{
           //'tags'=>array(),
           'tree_tags'=>array()
         );
-        $cache->save($data, $cache_name);
   		}
-      $data['debug'] = $this->debug;
-      return $data;
-  	}
-	}
+    }
+    $data['debug'] = $this->debug;
+    return $data;
+  }
 
   public function packFeeds($feed_result){
   $this->debug=$this->db->getProfiler()->getLastQueryProfile()->getQuery();
@@ -489,7 +491,8 @@ class Service_Feed{
 		}
 	}
   
-  public function getWhereClauseofFilterByKeyword($q){
+  // deprecated
+  /*public function getWhereClauseofFilterByKeyword($q){
     $terms_select=$this->db->select();
     $terms_select->where("f.name LIKE ?", '%'.$q.'%')
       ->orWhere("f.description LIKE ?", '%'.$q.'%')
@@ -534,5 +537,46 @@ class Service_Feed{
     }
 
     return join(" ",$terms_select->getPart(Zend_Db_Select::WHERE));
+  }
+  */
+
+  private function getQueryBySearchRelevancy($keyword){
+      
+      // 1st priority:　get by matched tree
+      $tagService=new Service_Tag();
+      $tags = $tagService->getTagIdsByKeywords($keyword);
+      
+      $feed_query1 = clone $this->feed_query;
+      $feed_query1->columns(array('ob' => new Zend_Db_Expr(1)));
+      $i = 0;
+      foreach($tags as $tag){
+        if ($i==0){
+          $feed_query1->where("f.tree_ids LIKE '%|?|%'", $tag);
+        } else{
+          $feed_query1->orWhere("f.tree_ids LIKE '%|?|%'", $tag);
+        }
+        $i++;
+      }
+      
+      // 2nd priority:　get by matched tags
+      $feed_query2 = clone $this->feed_query;
+      $feed_query2->columns(array('ob' => new Zend_Db_Expr(2)))
+                  ->having('tag_names like ?','%'.$keyword.'%');
+      
+      // 3rd priority:　get by matched content, e.g. name, teaser, etc.
+      $feed_query3 = clone $this->feed_query;
+      $feed_query3->columns(array('ob' => new Zend_Db_Expr(3)))
+                  ->where("f.name LIKE ?", '%'.$keyword.'%')
+                  ->orWhere("f.teaser LIKE ?", '%'.$keyword.'%')
+                  ->orWhere("f.place LIKE ?", '%'.$keyword.'%')
+                  ->orWhere("f.organiser_name LIKE ?", '%'.$keyword.'%')
+                  ->orWhere("f.organiser_note LIKE ?", '%'.$keyword.'%');
+      
+      $union = $this->db->select()
+        ->union(array($feed_query1,$feed_query2,$feed_query3));
+        
+      $query = $this->db->select()
+          ->from(array('f'=>$union));
+      return $query;
   }
 }
