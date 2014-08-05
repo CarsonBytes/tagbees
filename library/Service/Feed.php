@@ -490,55 +490,6 @@ class Service_Feed{
 			return $e->getMessage();
 		}
 	}
-  
-  // deprecated
-  /*public function getWhereClauseofFilterByKeyword($q){
-    $terms_select=$this->db->select();
-    $terms_select->where("f.name LIKE ?", '%'.$q.'%')
-      ->orWhere("f.description LIKE ?", '%'.$q.'%')
-      ->orWhere("f.place LIKE ?", '%'.$q.'%');
-      //->orWhere("f.organiser_email LIKE ?", '%'.$q.'%')
-      //->orWhere("f.organiser_website LIKE ?", '%'.$q.'%');
-
-    //including related items with similar tag name
-    $tagId_nestedQuery=
-      $this->db->select()
-      ->from(array('item_tag'),array('item_id'))
-      ->joinLeft(array('item'),'item.id=item_tag.tag_id',array(''))
-      ->where('item.name LIKE ?','%'.$q.'%')
-      ->where("item.mode = 'publish'")
-      ->where('item_tag.status = 1')
-      ->where('type != ?','event');
-    $terms_select->orWhere("f.id in ?", $tagId_nestedQuery);
-
-    //including related item with category name
-    $catId_nestedQuery=
-      $this->db->select()
-      ->from(array('item'),array('id'))
-      ->where('item.name LIKE ?','%'.$q.'%')
-      ->where("item.mode = 'publish'")
-      ->where('type != ?','event');
-    $result=$this->db->fetchCol($catId_nestedQuery);
-    foreach($result as $cat){
-      $terms_select->orWhere("f.tree_ids LIKE '%|?|%'", $cat);
-    }
-
-
-    //including item with matched submitter name / username
-    $username_nestedQuery=
-      $this->db->select()
-      ->from(array('item'),array('id'))
-      ->where('item.name LIKE ? or item.slug_name LIKE ? ','%'.$q.'%','%'.$q.'%')
-      ->where("item.mode = 'publish'")
-      ->where('type != ?','event');
-    $result=$this->db->fetchCol($username_nestedQuery);
-    foreach($result as $id){
-      $terms_select->orWhere("f.submitter_id = ?", $id);
-    }
-
-    return join(" ",$terms_select->getPart(Zend_Db_Select::WHERE));
-  }
-  */
 
   private function getQueryBySearchRelevancy($keyword){
       

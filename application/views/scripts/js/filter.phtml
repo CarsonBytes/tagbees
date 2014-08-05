@@ -19,7 +19,6 @@ var ns_filter = {
 
 jQuery(function($){
   ns_filter.init();
-  ns_feeds.updateFeedInputsFromVariables();
   <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
    $('body').on('click', '.match_location_set .manage_location', function(){
         ns_common_head.jQDialog(
@@ -152,7 +151,7 @@ jQuery(function($){
         ns_feeds.addChangedFeedInputName($('.feed_filter_input[name="sort_by"]'));
         if (ns_feeds.validateSidebarSearchInputs()){
             for( key in ns_feeds.changed_feed_input_names){
-                ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
+                ns_feeds.updateFeedOptionsFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
             }
             ns_feeds.refresh('index');
         }
@@ -161,7 +160,7 @@ jQuery(function($){
             ns_feeds.addChangedFeedInputName($('.feed_filter_input[name="is_match_interest"]'));
             if (ns_feeds.validateSidebarSearchInputs()){
                 for( key in ns_feeds.changed_feed_input_names){
-                    ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
+                    ns_feeds.updateFeedOptionsFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
                 }
                 ns_feeds.refresh('index');
             }
@@ -185,7 +184,7 @@ jQuery(function($){
         ns_feeds.addChangedFeedInputName($('.feed_filter_input[name="is_match_location"]'));
         if (ns_feeds.validateSidebarSearchInputs()){
             for( key in ns_feeds.changed_feed_input_names){
-                ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
+                ns_feeds.updateFeedOptionsFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
             }
             ns_feeds.refresh('index');
         }
@@ -203,7 +202,7 @@ jQuery(function($){
                 ns_filter_map.initMap();
                 input.val(1);
             }
-            ns_feeds.updateVariableAndUrlParamFromFeedInput(input);
+            ns_feeds.updateFeedOptionsFromFeedInput(input);
         <?php } else { ?>
             var content = [{'debug' : '<?php echo $this->translate('Online mode is off. Please check application.ini to make sure server.online = 1') ?>'}] ;
             ns_common_foot.showFlashMessages(content);

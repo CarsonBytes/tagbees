@@ -92,18 +92,6 @@ var ns_common_foot = {
       return jQuery.extend(true, {}, source);
     }
   },
-  <?php //update variables from url parameters ?>
-  updateVariablesFromUrlParams: function(){
-    for (key in ns_feeds.default_feed_para){
-        var value = ns_common_foot.getURLParameterValue(key);
-        if (ns_feeds.isFeedParameterValid(key, value) && value != ""){
-            ns_feeds.feed_para[key] = value;
-            //ns_feeds.updateUrlParam(key, value);
-        } else {
-            ns_feeds.feed_para[key] = ns_feeds.default_feed_para[key];
-        }
-    }
-  },
   getFormDataJson: function(form_css_selector){
     return JSON.stringify($(form_css_selector).serializeObject())
   }<?php /*
@@ -349,7 +337,7 @@ jQuery(function($){
     hideEffect: "fadeOut",
     hideEffectSpeed: 100
  });*/
-  ns_common_foot.updateVariablesFromUrlParams();
+  //ns_feeds.updateFeedOptionsFromUrlParams();
 });
 </script>
 <?php echo $this->partial('js/template/auth/login.phtml')?>

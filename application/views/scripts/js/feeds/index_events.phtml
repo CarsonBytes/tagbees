@@ -3,8 +3,7 @@ var ns_feeds_index_events = {
   autoLoadMoreIndex:0,
   autoLoadMoreLimit:2,
   initIndexFeed: function(){ 
-    ns_common_foot.updateVariablesFromUrlParams();
-    ns_feeds.updateFeedInputsFromVariables();
+    ns_feeds.updateFeedOptionsFromUrlParams();
     
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
         ns_filter_map.initMap();

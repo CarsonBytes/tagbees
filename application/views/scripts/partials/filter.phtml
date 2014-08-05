@@ -16,7 +16,8 @@
             <ul>
                 <li class="<?php if ($sort_by==0){ ?>current<?php } ?>" data-value="0"><?php echo $this->translate('new')?></li>
                 <li class="<?php if ($sort_by==1){ ?>current<?php } ?>" data-value="1"><?php echo $this->translate('hot')?></li>
-                <li class="last <?php if ($sort_by==2){ ?>current<?php } ?>" data-value="2"><?php echo $this->translate('ending soon')?></li>
+                <li class="<?php if ($sort_by==2){ ?>current<?php } ?>" data-value="2"><?php echo $this->translate('ending soon')?></li>
+                <li class="last <?php if ($sort_by==3){ ?>current<?php } ?>" data-value="3"><?php echo $this->translate('relevancy')?></li>
             </ul>
         </nav>
         <input type="hidden" class="feed_filter_input" name="sort_by" value="<?php echo $sort_by ?>"/>

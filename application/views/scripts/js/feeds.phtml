@@ -276,7 +276,22 @@ var ns_feeds = {
         $.address.update();
     }
   },
-  updateVariableAndUrlParamFromFeedInput: function(element){
+  <?php //update variables from url parameters ?>
+  updateFeedOptionsFromUrlParams: function(){
+    for (key in this.default_feed_para){
+        var value = ns_common_foot.getURLParameterValue(key);
+        if (this.isFeedParameterValid(key, value) && value != ""){
+            this.feed_para[key] = value;
+        } else {
+            this.feed_para[key] = this.default_feed_para[key];
+        }
+        this.updateFeedInputFromVariable(key);
+    }
+    if (this.feed_para['q']=='' && this.feed_para['sort_by']==3){
+      this.feed_para['sort_by']=0;
+    }
+  },
+  updateFeedOptionsFromFeedInput: function(element){
     if (element.is('.feed_filter_input[name="is_match_interest"]') || element.is('.feed_filter_input[name="is_match_location"]') || element.is('.feed_filter_input[name="is_all_time"]')){
         var value = element.is(':checked') ? 1 : 0;
         this.feed_para[element.prop('name')] = value;
@@ -305,61 +320,72 @@ var ns_feeds = {
     }
     $.address.update();
   },
+  updateFeedOptionsFromVariables: function(){
+    for (key in this.feed_para){
+      this.updateFeedInputFromVariable(key);
+      
+      // only update non default value and put to url
+      if (this.feed_para[key] != this.default_feed_para[key]){
+        this.updateUrlParam(key,this.feed_para[key]);
+      };
+    }
+    $.address.update();
+  },
+  updateFeedInputFromVariable: function(variable_name){
+    if (variable_name == 'is_match_interest' || variable_name == 'is_match_location' || variable_name == 'is_all_time' || variable_name == 'is_show_map'){
+      if (this.feed_para[variable_name] == 1) {
+        jQuery('.feed_filter_input[name="'+variable_name+'"]').prop('checked',true);
+      } else {
+        jQuery('.feed_filter_input[name="'+variable_name+'"]').removeProp('checked');
+      }
+      switch (variable_name) {
+        case 'is_match_location':
+          if (this.feed_para[variable_name] == 1){
+            jQuery('.match_location_set').show();
+          } else {
+            jQuery('.match_location_set').hide();
+          }
+        break;
+        
+        case 'is_show_map':
+          if (this.feed_para[variable_name] == 1){
+            $('#map_wrapper').show();
+            <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
+              ns_filter_map.initMap();
+            <?php } ?>
+          }
+        break;
+        
+        case 'is_all_time':
+          if (this.feed_para[variable_name] == 1){
+              $('.feed_filter_input[name="begin_date"]').prop('disabled',true);
+              $('.feed_filter_input[name="end_date"]').prop('disabled',true);
+          } else {
+              $('.feed_filter_input[name="begin_date"]').prop('disabled',false);
+              $('.feed_filter_input[name="end_date"]').prop('disabled',false);
+          }
+        break;
+      }
+    } else if (variable_name == 'sort_by'){
+        this.updateSortByInput(this.feed_para[variable_name]);
+    } else if (variable_name == 'q') {
+    } else if (variable_name == 'radius') {
+      $('.feed_filter_input[name="'+variable_name+'"]').val(this.feed_para[variable_name]);
+      $('#filter_radius').text(this.feed_para[variable_name]);
+    } else if (variable_name == 'begin_date' || variable_name == 'end_date') {
+      $('.feed_filter_input[name="'+variable_name+'"]').datepicker("setDate", this.feed_para[variable_name] );
+    }
+  },
   updateSortByInput: function(value){
     $('nav.sort_by ul li').removeClass('current');
     $('nav.sort_by ul li[data-value="'+value+'"]').addClass('current');
     $('.feed_filter_input[name="sort_by"]').val(value);
   },
-  <?php //update feed option inputs from ns_feeds.feed_para ?>
-  updateFeedInputsFromVariables: function(){
-    for (key in this.feed_para){
-        if (key == 'is_match_interest' || key == 'is_match_location' || key == 'is_all_time' || key == 'is_show_map'){
-            if (this.feed_para[key] == 1) {
-              //console.log(key)
-              //console.log(this.feed_para[key])
-              //console.log(jQuery('.feed_filter_input[name="'+key+'"]'))
-              jQuery('.feed_filter_input[name="'+key+'"]').prop('checked',true);
-              //console.log(jQuery('.feed_filter_input[name="'+key+'"]').is(':checked'))
-            } else {
-              jQuery('.feed_filter_input[name="'+key+'"]').removeProp('checked');
-            }
-            if (key == 'is_show_map'){
-              if (this.feed_para[key] == 1){
-                $('#map_wrapper').show();
-                <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
-                  ns_filter_map.initMap();
-                <?php } ?>
-              }
-            }
-        } else if (key == 'sort_by'){
-            this.updateSortByInput(this.feed_para[key]);
-        } else if (key == 'q') { 
-        } else if (key == 'radius') {
-            $('.feed_filter_input[name="'+key+'"]').val(this.feed_para[key]);
-            $('#filter_radius').text(this.feed_para[key]);
-        } else if (key == 'begin_date' || key == 'end_date') {
-            $('.feed_filter_input[name="'+key+'"]').datepicker("setDate", this.feed_para[key] );
-        }
-    }
-    if (this.feed_para['is_match_location']==1){
-        jQuery('.match_location_set').show();
-    } else {
-        jQuery('.match_location_set').hide();
-    }
-
-    if ( !("is_all_time" in this.feed_para) ||  this.feed_para['is_all_time']==1){
-        jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').prop('disabled','disabled');
-    } else {
-        jQuery('.feed_filter_input[name="begin_date"],.feed_filter_input[name="end_date"]').removeProp('disabled');
-    }
-  },
   isFeedParameterValid: function(key, value){
     if (key == 'is_match_interest' || key == 'is_match_location' || key == 'is_all_time' || key == 'is_show_map'){
-        if (value == "") return false;
             if (value == 1 || value == 0) return true;
     } else if (key == 'sort_by'){
-        if (value == "") return false;
-        if (value == 2 || value == 1 || value == 0) return true;
+        if (value == 3 || value == 2 || value == 1 || value == 0) return true;
     } else if (key == 'q') {
          return true;
     } else if (key == 'radius' || key == 'place_lat' || key == 'place_lng') {
@@ -398,7 +424,7 @@ jQuery(function($){
           if (ns_feeds.is_refreshing) return false;
           if (ns_feeds.validateSidebarSearchInputs()){
               for( key in ns_feeds.changed_feed_input_names){
-                  ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
+                  ns_feeds.updateFeedOptionsFromFeedInput($('*[name="'+ns_feeds.changed_feed_input_names[key]+'"]'));
               }
           }
           ns_feeds.refresh('index');
@@ -407,7 +433,7 @@ jQuery(function($){
     $('body').on('click','.tag_top a.place',function(e){
       e.preventDefault();
       var gmap = $(this).parents('article.post_content').find('.gmap');
-      console.log(gmap);
+      //console.log(gmap);
       if (!gmap.is(':visible') ){
         gmap.show();
         ns_feeds.initMap(gmap);

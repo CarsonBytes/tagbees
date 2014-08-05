@@ -60,10 +60,10 @@ jQuery(function($) {
       }
     },
     submitHandler: function(form) {
-      ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="is_all_time"]'));
-      ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="q"]'));
-      ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="begin_time"]'));
-      ns_feeds.updateVariableAndUrlParamFromFeedInput($('*[name="end_time"]'));
+      ns_feeds.updateFeedOptionsFromFeedInput($('*[name="is_all_time"]'));
+      ns_feeds.updateFeedOptionsFromFeedInput($('*[name="q"]'));
+      ns_feeds.updateFeedOptionsFromFeedInput($('*[name="begin_time"]'));
+      ns_feeds.updateFeedOptionsFromFeedInput($('*[name="end_time"]'));
       
       ns_feeds.refresh('index');
     }
@@ -290,9 +290,7 @@ jQuery(function($) {
               }
             })
             $.address.update();
-            ns_common_foot.updateVariablesFromUrlParams();
-            console.log(this.feed_para);
-            ns_feeds.updateFeedInputsFromVariables();
+            ns_feeds.updateFeedOptionsFromUrlParams();
             ns_filter_map.initMap();
             
             ns_feeds.refresh('index');
