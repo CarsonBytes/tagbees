@@ -62,7 +62,7 @@ var ns_filter_map = {
           zoomControl:true,
           scrollwheel: false
         });
-    
+            
       if (ns_feeds.feed_para['is_match_location'] == 1) {
         ns_filter_map.initDistanceWidget();
         ns_filter_map.loadPosition(ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng']);
@@ -84,6 +84,44 @@ var ns_filter_map = {
   <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
     ns_filter_map.refreshMarkers();
   <?php } ?>
+  },
+  fixInfoWindow: function() {
+      //Here we redefine set() method.
+      //If it is called for map option, we hide InfoWindow, if "noSupress" option isnt true.
+      //As Google doesn't know about this option, its InfoWindows will not be opened.
+      var set = google.maps.InfoWindow.prototype.set;
+      google.maps.InfoWindow.prototype.set = function (key, val) {
+          if (key === 'map') {
+              if (!this.get('noSupress')) {
+                  console.log('This InfoWindow is supressed. To enable it, set "noSupress" option to true');
+                  return;
+              }
+          }
+          set.apply(this, arguments);
+      }
+  },
+  multiChoice: function(clickedCluster){
+    if (clickedCluster.getMarkers().length > 1)
+    {
+      var markerArray =clickedCluster.getMarkers();
+      ;
+      console.log(markerArray);
+      this.fixInfoWindow();
+      infoWindow = new google.maps.InfoWindow({
+        maxWidth: 300,
+        noSupress: true
+      });
+      
+      jQuery( "#group-info-window-tmpl" ).tmpl( markerArray ).appendTo('#info-window');
+      jQuery( "#info-window" ).prepend('<a href="#" class="previous">previous</a> <a href="#" class="next">next</a>');
+      infoWindow.setContent(jQuery( "#info-window" ).html());
+      infoWindow.setPosition(clickedCluster.getCenter());
+      infoWindow.open(map);
+      // var markers = clickedCluster.getMarkers();
+      // do something creative!
+      return false;
+    }
+    return true;
   },
   refreshMarkers: function() {
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
@@ -111,7 +149,8 @@ var ns_filter_map = {
           marker = new google.maps.Marker({
               position: location,
               map: map,
-              html: jQuery( "#info-window" ).html()
+              html: jQuery( "#info-window" ).html(),
+              id: json[x].id
           });
           jQuery( "#info-window" ).empty();
           
@@ -125,6 +164,10 @@ var ns_filter_map = {
       }
     }
     markerCluster = new MarkerClusterer(map, markersArray);
+    // onClickZoom OVERRIDE
+    markerCluster.onClick = function(clickedClusterIcon) { 
+      return ns_filter_map.multiChoice(clickedClusterIcon.cluster_); 
+    }
   },
   addMarkers: function() {
     <?php if (Zend_Registry::get('config_ini')->server->online==1){ ?>
@@ -318,5 +361,8 @@ function getEventThumbnailUrl(data){
         <h1>${name}</h1>
         <p>${teaser}</p>
         <button onclick="jQuery('.Post').css('background','none');jQuery('#item_${id}').css('background','#E8FFF7');ns_common_foot.goToByScroll('article[data-id=\'${id}\']');">go to the feed</button>
+</script>
+<script id="group-info-window-tmpl" type="text/x-jquery-tmpl">
+    <div class="content">{{html html}}</div>
 </script>
 <div id="info-window" style="display:none;"></div>

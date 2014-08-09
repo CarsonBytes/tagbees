@@ -1017,10 +1017,6 @@ Cluster.prototype.updateIcon = function() {
 };
 
 
-Cluster.prototype.onClick = function() { 
-    return true; 
-};
-
 /**
  * A cluster icon
  *
@@ -1060,35 +1056,13 @@ function ClusterIcon(cluster, styles, opt_padding) {
 ClusterIcon.prototype.triggerClusterClick = function() {
   var markerClusterer = this.cluster_.getMarkerClusterer();
 
-  google.maps.event.trigger(markerClusterer, "click", this.cluster_);
-  google.maps.event.trigger(markerClusterer, "clusterclick", this.cluster_); // deprecated name
-  
-  // BEGIN MODIFICATION
-  var zoom = markerClusterer.getMap().getZoom();
-  // Trying to pull this dynamically made the more zoomed in clusters not render
-  // when then kind of made this useless. -NNC @ BNB
-   //var maxZoom = markerClusterer.getMaxZoom();
-  var maxZoom = 15;
-  console.log(zoom)
-  console.log(maxZoom)
-  /*// Trigger the clusterclick event.
+  // Trigger the clusterclick event.
   google.maps.event.trigger(markerClusterer, 'clusterclick', this.cluster_);
-*/
-  // if we have reached the maxZoom and there is more than 1 marker in this cluster
-  // use our onClick method to popup a list of options
-  if (zoom >= maxZoom && this.cluster_.markers_.length > 1) {
-    console.log('onclick')
-    return markerClusterer.onClick(this);
-  }
+
   if (markerClusterer.isZoomOnClick()) {
-    console.log('iszoomonclick')
     // Zoom into the cluster.
     this.map_.fitBounds(this.cluster_.getBounds());
-    return true;
   }
-  // END MODIFICATION
-  
-  
 };
 
 
