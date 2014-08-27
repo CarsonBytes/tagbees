@@ -1,0 +1,122 @@
+<div class="multi_form">
+  <div class="error_container" style="display:none;">
+    <?php echo $this -> translate('Please correct the errors and submit the form again'); ?>
+  </div>
+  <form class="form0 form" action="" name="new_event_popup_0" method="post">
+    <div class="e_type_div">
+      <label>Type</label>
+      <div class="new_event_event_types">
+        <div class="inner clearfix">
+          <ul>
+            <li>
+              <a href="#" class="profile_pic allgap" data-value="1"> <img src="http://atticho.no-ip.biz/tagbees_refactored/images/public_event.gif" alt="Public Event">
+              <div class="caption">
+                Public Event
+              </div> </a>
+            </li>
+            <li>
+              <a href="#" class="profile_pic allgap" data-value="2"> <img src="http://atticho.no-ip.biz/tagbees_refactored/images/private_event.gif" alt="Private Event">
+              <div class="caption">
+                Private Event
+              </div> </a>
+            </li>
+            <li>
+              <a href="#" class="profile_pic" data-value="3"> <img src="http://atticho.no-ip.biz/tagbees_refactored/images/attraction.gif" alt="Attraction">
+              <div class="caption">
+                Attraction
+              </div> </a>
+            </li>
+          </ul>
+          <input type="hidden" id="new_event_event_type" name="new_event_event_type" value="">
+        </div>
+        <div class="new_event_type_caption">
+          <div id="new_event_type_caption_1" style="display:none">
+            <p>
+              For events either you are the representative of the organizer or the information supplier of an event organized for the public.
+            </p>
+          </div>
+
+          <div id="new_event_type_caption_2" style="display:none">
+            <p>
+              For events either you are the representative of the organizer or the information supplier of an event organized for the Private.
+            </p>
+          </div>
+
+          <div id="new_event_type_caption_3" style="display:none">
+            <p>
+              For events either you are the representative of the organizer or the information supplier of an event organized for the Attraction.
+            </p>
+          </div>
+        </div>
+        <div class="new_event_type_caption">
+          <div id="new_event_type_caption_1" style="">
+            <p>
+              For events either you are the representative of the organizer or the information supplier of an event organized for the public.
+            </p>
+          </div>
+
+          <div id="new_event_type_caption_2" style="display: none;">
+            <p>
+              For events either you are the representative of the organizer or the information supplier of an event organized for the Private.
+            </p>
+          </div>
+
+          <div id="new_event_type_caption_3" style="display: none;">
+            <p>
+              For events either you are the representative of the organizer or the information supplier of an event organized for the Attraction.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form class="form1 form" action="" name="new_event_popup_1" method="post">
+    <div class="f_div">
+      <label>Name</label>
+      <input type="text" id="new_event_name" name="new_event_name" class="full" />
+    </div>
+    <div class="f_div">
+      <label for="new_event_place">Place
+        <input id="new_event_place" class="place_ac full" type="text" name="new_event_place" value="" placeholder="Enter a location" autocomplete="off">
+      </label>
+      <img id="new_event_place_geo_locate" class="geo_locate" src="http://atticho.no-ip.biz/tagbees_refactored/images/location_icon.png" alt="geo locate..." />
+      <br />
+      <label>
+        <input type="checkbox" name="is_place_not_decided" id="is_place_not_decided"/>
+        <label class="l-a" for="is_place_not_decided">Not yet decided?</label>
+    </div>
+  </form>
+  <form class="form2 form" action="" name="new_event_popup_2" method="post">
+    <div class="f_div">
+      <label>Time</label>
+      <div class="f_div1">
+        <input type="checkbox" id="new_event_is_any_time" name="new_event_is_any_time">
+        <label class="l-a" for="new_event_is_any_time">Any time</label>
+      </div>
+      <div class="f_div1 f_div2">
+        <input type="checkbox" id="new_event_is_all_day" name="new_event_is_all_day">
+        <label class="l-a" for="new_event_is_all_day">All day</label>
+      </div>
+    </div>
+    <div class="f_div">
+      <label>&nbsp;</label>
+      <input type="text" class="date_input hasDatepicker" id="new_event_begin_date" name="new_event_begin_date" pagerequired="" readonly="true">
+      <label class="l-a1"><strong>-</strong></label>
+      <input type="text" class="date_input hasDatepicker" id="new_event_end_date" name="new_event_end_date" pagerequired="" readonly="true">
+      &nbsp;
+      <input id="new_event_begin_time" name="new_event_begin_time" type="text" class="timepicker ui-timepicker-input" pagerequired="" autocomplete="off">
+      <label class="l-a1"><strong>-</strong></label>
+      <input id="new_event_end_time" name="new_event_end_time" type="text" class="timepicker ui-timepicker-input" pagerequired="" autocomplete="off">
+      <br />
+      <label>
+        <input type="checkbox" name="is_place_not_decided" id="is_place_not_decided"/>
+        <label class="l-a" for="is_place_not_decided">Not yet decided?</label>
+    </div>
+  </form>
+  <form class="form3 form" action="" name="new_event_popup_3" method="post">
+    type4:<div></div>
+  </form>
+  <form class="form4 form" action="" name="new_event_popup_4" method="post">
+    type5:<div></div>
+  </form>
+</div>

@@ -1,38 +1,15 @@
 <script type="text/javascript">
+  var dialog;
   var ns_common_head = {
     today: null,
     flash_messages: <?php echo json_encode(Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->getMessages()) ?>,
-    jQDialog: function(title, contentUrl, params, buttons) {
-      <?php //if (!width) var width='500';
-      //if (!height) var height='500';
-      
-      //close previous dialog if existed...
-      //jQuery(".dialog").dialog('close'); ?>
-      
-      var dialog = jQuery(".dialog").dialog(
-        {
-            title: title,
-            buttons: buttons,
-            closeOnEscape: true,
-            position: "center",
-            width: "auto",
-            height: "auto",
-            resizable: false,
-            autoOpen: false,
-            minHeight: false,
-            maxHeight: false,
-            draggable: false,
-            modal: true,
-            open: function(event, ui) { 
-              $('.ui-widget-overlay').bind('click', function(){ dialog.dialog('close'); }); 
-            },
-            close:  function (e, ui){
-              $(this).html('<p class="loading"><?php echo $this->translate('loading')?>...</p>')
-            }
-        }).load(contentUrl, params, function() {
+    jQDialog: function(contentUrl, dialogOptions, params) {
+      dialog = jQuery(".dialog").dialog(dialogOptions)
+          .load(contentUrl, params, function() {
             //TODO to fix the dialog with variable height to be middle aligned 
-            dialog.dialog('open').dialog("option", "position", "center");;
-        });
+            dialog.dialog('open').dialog("option", "position", "center");
+          });
+        return dialog;
      },
   }
 

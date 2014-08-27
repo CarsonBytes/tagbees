@@ -1,4 +1,5 @@
 <?php echo $this->partial('js/common/functions.phtml')?>
+<?php echo $this->partial('js/common/config.phtml')?>
 <?php echo $this->partial('js/common/lightboxes.phtml')?>
 <?php echo $this->partial('js/common/bookmark/popup.phtml')?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('js/tinymce/tiny_mce.js'); ?>"></script>
@@ -95,7 +96,7 @@ var ns_common_foot = {
   },
   getFormDataJson: function(form_css_selector){
     return JSON.stringify($(form_css_selector).serializeObject())
-  }<?php /*
+  }/*,
   saveFormToCookie: function(form_id, data){
     console.log('saveFormCookie')    
     if (typeof data == 'undefined'){
@@ -131,7 +132,7 @@ var ns_common_foot = {
           }
       });
     }
-  } */?>
+  } */
 }
 
 jQuery(function($){

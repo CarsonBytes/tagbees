@@ -1,0 +1,131 @@
+<script type="text/javascript">
+var dialog, form;
+var ns_news_event_popup = {
+  validator: null,
+  current_step: 0, //init index is 0
+  is_back: false,
+  rule: [
+    {
+      new_event_event_type: "required"
+    },
+    {
+      new_event_name: {required: true, minlength: 4, maxlength: 20}
+    },
+    {
+    },
+    {
+    },
+    {
+    }
+  ],
+  new_event_basic_validate_options : {
+    ignore: [],
+    errorContainer: $(".error_container"),
+    wrapper: "li",
+    errorPlacement: function(error, element) { 
+    },
+    highlight: function(element){
+      $(element).css("border","2px red solid"); // TODO temp style
+      if ( $(element).prop( 'name' ) == "new_event_event_type"){
+        $('.new_event_event_types .inner').css('border','1px solid red')
+      }
+    },
+    unhighlight: function(element) {
+      $(element).css("border","1px solid black")
+      if ( $(element).prop( 'name' ) == "new_event_event_type"){
+        $('.new_event_event_types .inner').css('border','0');
+      }
+    },
+    submitHandler: function(form) {
+      form.submit();
+    },
+    invalidHandler: function(event, validator) {
+      $(".error_container").show();
+    }
+  },
+  showform: function(step){    
+    var isShowForm = true;
+    if (step == 0){ //first step
+      dialog.dialog( "option", "buttons", {
+          "Next": function() {
+            ns_news_event_popup.is_back = false;
+            ns_news_event_popup.showform(ns_news_event_popup.current_step+1);
+          },
+          Cancel: function() {
+            dialog.dialog( "close" );
+          }
+      });
+      ns_news_event_popup.current_step = step;
+    }else if (step==4){ //5th step
+      dialog.dialog( "option", "buttons", {
+        "Back": function() {
+          ns_news_event_popup.is_back = true;
+          ns_news_event_popup.showform(ns_news_event_popup.current_step-1);
+        },
+        Finish: function() {
+          dialog.dialog( "close" );
+        }
+      });
+      ns_news_event_popup.current_step = step;
+    }else{
+      if (!ns_news_event_popup.is_back){
+        ns_news_event_popup.new_event_basic_validate_options.rules = ns_news_event_popup.rule[Number(step)-1];
+        ns_news_event_popup.validator = $("[name='new_event_popup_"+(Number(step)-1)+"']").validate(ns_news_event_popup.new_event_basic_validate_options);
+        if (!ns_news_event_popup.validator.form()) {
+          isShowForm = false;
+        }
+      }
+      if (isShowForm){
+        dialog.dialog( "option", "buttons", {
+          "Back": function() {
+            ns_news_event_popup.is_back = true;
+            ns_news_event_popup.showform(ns_news_event_popup.current_step-1);
+          },
+          "Next": function() {
+            ns_news_event_popup.is_back = false;
+            ns_news_event_popup.showform(ns_news_event_popup.current_step+1);
+          },
+          Cancel: function() {
+            dialog.dialog( "close" );
+          }
+        });
+        ns_news_event_popup.current_step = step;
+      }
+    }
+    if (isShowForm){
+      $( ".form" ).hide();
+      $( ".form"+step ).show();
+      $(".error_container").hide();
+      dialog.dialog("option", "position", "center");
+    }
+  }
+};
+jQuery(function($) {
+  $('body')
+    .on('click','.new_event_event_types a', function(){
+      var value= $(this).data('value');
+      $('.new_event_type_caption div').hide();
+      $("#new_event_type_caption_"+value).show();
+      if( ! $(this).hasClass('active') ) {
+          $( ".new_event_event_types a" ).removeClass( "active" );
+          $(this).addClass( "active" );
+          $("#new_event_event_type").val($(this).data('value'));
+      }
+      $('#new_event_event_type').valid();
+      return false;
+  });
+  
+  $.validator.addMethod("custom_numeric", function(value, element) {
+    return ns_common_foot.isNumber(value);
+  }, "Value should be numeric");
+  
+  $.validator.addMethod("endate_greater_startdate", function(value, element) {
+    return $('[name="new_event_begin_date"]').val() <= $('[name="new_event_end_date"]').val()
+  }, "Enddate should be greater than Startdate");
+
+  $.validator.addMethod("price_greater", function(value, element) {
+    return $('[name="new_event_price_min"]').val() <= $('[name="new_event_price_max"]').val()
+  }, "Max. price should be greater than min. price");
+
+});
+</script>

@@ -1,0 +1,51 @@
+@import "../../_init.scss";
+#new_event_popup{
+  .form{
+    display:none;
+    &.form1{
+      .new_event_event_types{ 
+        display:inline-block;
+        .inner{
+          border: 1px solid red;
+          li{
+            list-style:none;
+            float:left;
+            padding: 5px;
+            a{
+              float:left;
+              &.allgap{
+                margin-right: 40px;
+              }
+              &.active {
+                background:#f5f5f5;
+              }
+              div.caption{
+                padding: 7px 0 3px 0;
+                text-align: center;
+              }
+      
+            } 
+          }
+          li a.active { background:#f5f5f5;}
+          p{ padding:0 0 0 7px;}
+        }
+        .new_event_type_caption{
+          clear:both;
+          padding-top:10px;
+        }
+      }
+    }
+    &.form2{
+      
+    }
+    &.form3{
+      
+    }
+    &.form4{
+      
+    }
+    &.form5{
+      
+    }
+  }
+}

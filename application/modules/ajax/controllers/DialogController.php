@@ -41,6 +41,8 @@ class Ajax_DialogController extends Zend_Controller_Action
     }
     public function eventReminderAction(){
     }
+    public function newEventAction(){
+    }
     public function uploadUserThumbnailAction(){
     }
     public function uploadEventPicsAction(){

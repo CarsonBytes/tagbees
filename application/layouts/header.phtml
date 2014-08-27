@@ -77,7 +77,7 @@ $controller = Zend_Registry::get('request') -> getControllerName(); ?>
             <ul>
               <li class="<?php echo $controller=='search' ? 'current' : ''; ?>"><a href="<?php echo $this -> baseUrl('search'); ?>"><?php echo $this->translate('search')?></a></li>
               
-              <li class="<?php echo $controller=='new-event' ? 'current' : ''; ?>"><a href="<?php echo $this -> baseUrl('new-event'); ?>"><?php echo $this->translate('post')?></a></li>
+              <li class="new_event <?php echo $controller=='new-event' ? 'current' : ''; ?>"><a href="<?php echo $this -> baseUrl('new-event'); ?>"><?php echo $this->translate('post')?></a></li>
             
             <?php if ($isLogined){ ?>
               <li class="<?php echo $controller=='user' ? 'current' : ''; ?>"><a href="<?php echo $this->baseUrl('user/'.Common::getSession()->user->username)?>"><?php echo $this->translate("profile")?></a></li>

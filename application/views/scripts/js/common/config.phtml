@@ -1,0 +1,23 @@
+<script type="text/javascript">
+jQuery(function($){
+  //init jquery ui dialog
+  $.extend($.ui.dialog.prototype.options, {
+      closeOnEscape: true,
+      width: "auto",
+      height: "auto",
+      resizable: false,
+      autoOpen: false,
+      minHeight: false,
+      maxHeight: false,
+      draggable: false,
+      modal: true,
+      open: function(event, ui) { 
+        $('.ui-widget-overlay').bind('click', function(){ dialog.dialog('close'); }); 
+      },
+      close:  function (e, ui){
+        $(this).html('<p class="loading"><?php echo $this->translate('loading')?>...</p>')
+      }
+    }
+  );
+})
+</script>

@@ -21,7 +21,21 @@ jQuery(function($) {
       }
     });
     return false;
-  });
+  })
+  .on('click','#menu .new_event', function(e){
+    e.preventDefault();
+    ns_common_head.jQDialog(
+      '<?php echo $this->baseUrl('ajax/dialog/new_event')?>',
+      {
+          title: '<?php echo $this->translate('New Event') ?>',
+          open: function( event, ui ) {ns_news_event_popup.showform(0)}
+
+      },
+      {}
+      );
+      return false;
+    });
 });
 </script>
 <?php echo $this->partial('js/event/reminder_form.phtml'); ?>
+<?php echo $this->partial('js/new_event/popup.phtml')?>
