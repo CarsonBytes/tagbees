@@ -4,6 +4,7 @@
     today: null,
     flash_messages: <?php echo json_encode(Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->getMessages()) ?>,
     jQDialog: function(contentUrl, dialogOptions, params) {
+      if (typeof params == "undefined") params={}
       dialog = jQuery(".dialog").dialog(dialogOptions)
           .load(contentUrl, params, function() {
             //TODO to fix the dialog with variable height to be middle aligned 

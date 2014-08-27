@@ -21,67 +21,68 @@ jQuery(function($){
   ns_filter.init();
   <?php if (Zend_Auth::getInstance()->hasIdentity()){ ?>
    $('body').on('click', '.match_location_set .manage_location', function(){
-        ns_common_head.jQDialog(
-            '<?php echo $this->translate('save this location') ?>',
-            '<?php echo $this->baseUrl('ajax/dialog/manage_location')?>',
-            {},
-            {
+     ns_common_head.jQDialog(
+      '<?php echo $this->baseUrl('ajax/dialog/manage_location')?>',
+      {
+          title: '<?php echo $this->translate('manage location') ?>',
+          buttons: {
                 Close: function() {
                     $( this ).dialog( "close" );
                 }
-            }
-         );
-      return false;
+          }
+      }
+    );
+    return false;
    }).on('click','.match_location_set .save_location',function(){
-        ns_common_head.jQDialog(
-            '<?php echo $this->translate('save this location') ?>',
-            '<?php echo $this->baseUrl('ajax/dialog/save_location')?>',
-            {
-                'title':$('.radius_amt #of').text()
-            },
-            {
-                Save: function() {
-                    var dialog=$(this);
-                    var location_name=$('.dialog input.save_location_name').val();
-                    $.ajax({
-                          type: "POST",
-                          url: "<?php echo $this->baseUrl('ajax/location/save') ?>",
-                            data: {
-                                name:location_name,
-                                place_lat:ns_feeds.feed_para['place_lat'],
-                                place_lng:ns_feeds.feed_para['place_lng'],
-                                radius:ns_feeds.feed_para['radius'],
-                                override:ns_filter.is_saved_location_overrided
-                            },
-                          success: function(msg){
-                                if (msg['result']==1){
-                                    ns_filter.saved_locations[location_name]=[ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng'],ns_feeds.feed_para['radius']];
-                                    if (!ns_filter.is_saved_location_overrided){
-                                      jQuery(ns_filter.elem_saved_location_list_txt).append("<option value=\""+location_name+"\">"+location_name+"</option>")
-                                      jQuery(ns_filter.elem_saved_location_list_txt).val(location_name);
-                                      jQuery(ns_filter.elem_saved_location_list_txt).trigger('chosen:updated');
-                                    }else{
-                                        ns_filter.is_saved_location_overrided = false;
-                                    }
-                                    dialog.dialog( "close" );
-                                }else if (msg['result']==1062){
-                                  
-                                    $('.dialog').prepend('<p><?php echo $this->translate('same name exists in your saved locations, do you still want to override?')?></p>');
-                                    ns_filter.is_saved_location_overrided = true;
+       ns_common_head.jQDialog(
+        '<?php echo $this->baseUrl('ajax/dialog/save_location')?>',
+        {
+          title: '<?php echo $this->translate('save location') ?>',
+          buttons: 
+          {
+            Save: function() {
+                var dialog=$(this);
+                var location_name=$('.dialog input.save_location_name').val();
+                $.ajax({
+                      type: "POST",
+                      url: "<?php echo $this->baseUrl('ajax/location/save') ?>",
+                        data: {
+                            name:location_name,
+                            place_lat:ns_feeds.feed_para['place_lat'],
+                            place_lng:ns_feeds.feed_para['place_lng'],
+                            radius:ns_feeds.feed_para['radius'],
+                            override:ns_filter.is_saved_location_overrided
+                        },
+                      success: function(msg){
+                            if (msg['result']==1){
+                                ns_filter.saved_locations[location_name]=[ns_feeds.feed_para['place_lat'],ns_feeds.feed_para['place_lng'],ns_feeds.feed_para['radius']];
+                                if (!ns_filter.is_saved_location_overrided){
+                                  jQuery(ns_filter.elem_saved_location_list_txt).append("<option value=\""+location_name+"\">"+location_name+"</option>")
+                                  jQuery(ns_filter.elem_saved_location_list_txt).val(location_name);
+                                  jQuery(ns_filter.elem_saved_location_list_txt).trigger('chosen:updated');
                                 }else{
-                                    $('.dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
+                                    ns_filter.is_saved_location_overrided = false;
                                 }
-                            },
-                        dataType:'json'
-                    });
-
-                },
-                Cancel: function() {
-                    $( this ).dialog( "close" );
-                    ns_filter.is_saved_location_overrided=false;
-                }
+                                dialog.dialog( "close" );
+                            }else if (msg['result']==1062){
+                              
+                                $('.dialog').prepend('<p><?php echo $this->translate('same name exists in your saved locations, do you still want to override?')?></p>');
+                                ns_filter.is_saved_location_overrided = true;
+                            }else{
+                                $('.dialog').prepend('<p><?php echo $this->translate('unknown error occured, please try again.')?></p>')
+                            }
+                        },
+                    dataType:'json'
+                });
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+                ns_filter.is_saved_location_overrided=false;
             }
-         );
+          }
+        },
+        {title: $('.radius_amt #of').text()}
+      );
       return false;
    }).on('click', '.delete_user_saved_location', function(){
         var tr =$(this).parents('tr');

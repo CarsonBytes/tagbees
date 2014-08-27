@@ -56,11 +56,12 @@
     }
     
     $('body').on('click',".add_tags",function(){
+      
       ns_common_head.jQDialog(
-        '<?php echo $this->translate('Add tags') ?>',
         '<?php echo $this->baseUrl('ajax/dialog/add_tags')?>',
-        {},
         {
+          title: '<?php echo $this->translate('Add tags') ?>',
+          buttons: {
             Confirm: function() {
               $('.item_ids_div').text('');
               $("#new_event_added_tags_display").text('');
@@ -103,8 +104,9 @@
               $( this ).dialog( "close" );
             }
            }
-           );
-          return false;
+        }
+      );
+      return false;
     });
 
     //in the add-tags.phtml dialog...

@@ -269,13 +269,11 @@ jQuery(function($){
         
       }).on('click','.save_event_template',function(){
         var is_confirm_add = false;
-        ns_common_head.jQDialog(
-            '<?php echo $this->translate('save this location') ?>',
-            '<?php echo $this->baseUrl('ajax/dialog/save_event_template')?>',
-            {
-                'title':$('#new_event_name').val()
-            },
-            {
+         ns_common_head.jQDialog(
+          '<?php echo $this->baseUrl('ajax/dialog/save_event_template')?>',
+          {
+              title: '<?php echo $this->translate('save this template') ?>',
+              buttons: {
                 Save: function() {
                   if ($.trim($('.save_event_template_name').val())==''){
                     $('.dialog').prepend('<p><?php echo $this->translate('Please specify the name before saving.')?></p>');
@@ -319,6 +317,10 @@ jQuery(function($){
                     $( this ).dialog( "close" );
                 }
               }
+          },
+          {
+              'title':$('#new_event_name').val()
+          }
           );
           return false;
        }).on('change','.user_saved_event_template_list',function(){

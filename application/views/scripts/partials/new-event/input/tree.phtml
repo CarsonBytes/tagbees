@@ -12,37 +12,39 @@
 		$('.tree_text').text($('#tree_text').val());
 		
 		$('body').on('click',".tree_popup",function(){
-			ns_common_head.jQDialog(
-				'<?php echo $this->translate('Add Tree') ?>',
-				'<?php echo $this->baseUrl('ajax/dialog/add_tree')?>',
-				{},
-				{
-  				Confirm: function() {
-            if ($("#new_event_add_tree").valid()){
-              var value='|'+$('#cat1 :selected').val()+'|';
-              var text=$('#cat1 :selected').text();
-              if($('#cat2 :selected').length!=0){
-                value += $('#cat2 :selected').val()+'|';
-                text += ' > ' + $('#cat2 :selected').text();
-                if ($('#cat3 :selected').length!=0){
-                  value += $('#cat3 :selected').val()+'|';
-                  text += ' > ' + $('#cat3 :selected').text();
+		  
+      ns_common_head.jQDialog(
+        '<?php echo $this->baseUrl('ajax/dialog/add_tree')?>',
+        {
+            title: '<?php echo $this->translate('Add Tree') ?>',
+            buttons: {
+              Confirm: function() {
+                if ($("#new_event_add_tree").valid()){
+                  var value='|'+$('#cat1 :selected').val()+'|';
+                  var text=$('#cat1 :selected').text();
+                  if($('#cat2 :selected').length!=0){
+                    value += $('#cat2 :selected').val()+'|';
+                    text += ' > ' + $('#cat2 :selected').text();
+                    if ($('#cat3 :selected').length!=0){
+                      value += $('#cat3 :selected').val()+'|';
+                      text += ' > ' + $('#cat3 :selected').text();
+                    }
+                  }
+                  $('#<?php echo $this->name ?>').val(value);
+                  $('.tree_text').text(text);
+                  $('#tree_text').val(text);
+                  $('.tree_line_hidden').show();
+                  $('label.tree_line_hidden').css('display','inline-block');
+                  $('p.tree_line_hidden').css('display','inline-block');
+                  $( this ).dialog( "close" );
                 }
-              }
-              $('#<?php echo $this->name ?>').val(value);
-              $('.tree_text').text(text);
-              $('#tree_text').val(text);
-              $('.tree_line_hidden').show();
-              $('label.tree_line_hidden').css('display','inline-block');
-              $('p.tree_line_hidden').css('display','inline-block');
-              $( this ).dialog( "close" );
+              },
+              Cancel: function() {
+                  $( this ).dialog( "close" );
+                }
             }
-  				},
-  				Cancel: function() {
-  						$( this ).dialog( "close" );
-  					}
-	    	 	}
-	    	 );
+        }
+      );
 	   	 	return false;
 		})
 	});
