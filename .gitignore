@@ -5,3 +5,5 @@
 *.bak
 public/uploads
 application/cache
+application/configs/application.ini
+application/configs/config.php
